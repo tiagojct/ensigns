@@ -1,0 +1,39 @@
+{
+  "name": "glauca-color-theme",
+  "displayName": "Glauca",
+  "description": "Glauca, a Moby-Dick palette for code. Dark (Profundum) and light (Pruina), tuned for R and Python. Works in VS Code and Positron.",
+  "version": "1.0.0",
+  "publisher": "tiagojct",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiagojct/glauca"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Glauca",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Glauca-Dark-color-theme.json"
+      },
+      {
+        "label": "Glauca Cold (Pruina)",
+        "uiTheme": "vs",
+        "path": "./themes/Glauca-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "glauca-icons",
+        "label": "Glauca Icons",
+        "path": "./icons/glauca-icon-theme.json"
+      }
+    ]
+  }
+}

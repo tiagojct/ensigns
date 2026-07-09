@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use Glauca, please cite it."
+title: "Glauca: a glaucous design system"
+authors:
+  - family-names: Jacinto
+    given-names: Tiago
+version: 0.1.0
+date-released: 2026-07-10
+license: "MIT AND CC-BY-4.0"
+repository-code: "https://github.com/tiagojct/glauca"
+url: "https://tiagojct.eu"
+keywords:
+  - design system
+  - design tokens
+  - colour
+  - typography

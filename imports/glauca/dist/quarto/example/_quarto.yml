@@ -1,0 +1,18 @@
+# Example Quarto config using the Glauca theme.
+# Copy glauca.scss, glauca-dark.scss, glauca.theme, and typst-brand.typ
+# next to this file (or adjust the paths).
+project:
+  type: default
+format:
+  html:
+    theme:
+      light: glauca.scss
+      dark: glauca-dark.scss
+    highlight-style: glauca.theme
+    toc: true
+  typst:
+    include-in-header: typst-brand.typ
+    fontsize: 11pt
+    margin:
+      x: 2.5cm
+      y: 2.5cm

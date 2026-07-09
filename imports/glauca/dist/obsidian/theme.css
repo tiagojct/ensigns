@@ -1,0 +1,862 @@
+/* @settings
+name: Glauca
+id: glauca
+settings:
+  - id: gl-typography
+    title: Typography
+    type: heading
+    level: 1
+    collapsed: false
+  - id: text-accent
+    title: Accent color
+    description: The one warm mark. Defaults follow Profundum/Pruina.
+    type: variable-themed-color
+    format: hex
+    default-light: "#0b62cf"
+    default-dark: "#3d97ff"
+  - id: gl-body-scale
+    title: Body text size
+    description: Multiplier on editor/reading font size (theme default 1.2x).
+    type: variable-number-slider
+    default: 1.2
+    min: 0.9
+    max: 1.4
+    step: 0.02
+  - id: line-height-normal
+    title: Line height
+    description: Paragraph line spacing (theme default 1.7).
+    type: variable-number-slider
+    default: 1.7
+    min: 1.4
+    max: 2.0
+    step: 0.05
+  - id: gl-headings-sans
+    title: Sans headings (match body)
+    description: Off (default) keeps Glauca' serif (IBM Plex Serif) headings.
+    type: class-toggle
+    default: false
+  - id: gl-body-serif
+    title: Serif body text (IBM Plex Serif)
+    description: Off (default) keeps Glauca' sans (IBM Plex Sans) note body.
+    type: class-toggle
+    default: false
+  - id: gl-interface
+    title: Interface
+    type: heading
+    level: 1
+    collapsed: false
+  - id: gl-focus
+    title: Focus mode
+    description: Dim tabs, ribbon, header and status bar until hovered.
+    type: class-toggle
+    default: false
+  - id: gl-embed-frames
+    title: Framed embeds (Obsidian default)
+    description: Off (default) keeps Glauca' seamless transclusions.
+    type: class-toggle
+    default: false
+  - id: gl-nav-plain
+    title: Plain file list (no icons)
+    description: Off (default) keeps folder and file icons in the explorer.
+    type: class-toggle
+    default: false
+  - id: gl-explorer-truncate
+    title: Truncate file names (Obsidian default)
+    description: Off (default) keeps Glauca' wrapped file-explorer labels.
+    type: class-toggle
+    default: false
+*/
+/* Glauca for Obsidian. Generated from glauca.json. */
+/* Popover (Components/Popover): Obsidian exposes no colour variables here (verified docs.obsidian.md); nothing to set. */
+body {
+  --gl-font-serif: "IBM Plex Serif", Georgia, serif;
+  --gl-font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --gl-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* Literal stacks here, not var(--gl-font-*): these three are Obsidian's own theme-level
+     font hooks, unlike every other font-family reference below which is an ordinary CSS
+     property on a selector we wrote. Keeping them literal matches the one arrangement
+     already proven to work this session (the original Georgia-fallback diagnosis). */
+  --font-text-theme: "IBM Plex Sans", system-ui, sans-serif;
+  --font-interface-theme: "IBM Plex Sans", system-ui, sans-serif;
+  --font-monospace-theme: "IBM Plex Mono", ui-monospace, monospace;
+  --nav-item-white-space: normal;
+  --line-height-normal: 1.7;
+  --p-spacing: 1.35em;
+  /* Air after a heading in live preview: --p-spacing-empty is core's one hook for the first
+     line that follows a heading line (verified single consumer in app.css 1.12; 0 by
+     default). Reading view gets its match from the margin-block-end rule further down.
+     List items breathe a touch more than stock (0.075em). */
+  --p-spacing-empty: 0.6em;
+  --list-spacing: 0.1em;
+  /* Tighter than stock (0.5625em x 4 = 2.25em): lists sit closer to the text margin. Room
+     still clears the hanging dash (offset -0.95em, drawn in the list rules below). */
+  --list-indent: 1.5em;
+  /* Pull the dash left, clear of the text: the ::after mark anchors at the bullet span's
+     static position, so a mark wider than stock's dot otherwise grows toward the text.
+     Official knob; applies in reading view and editor alike. */
+  --list-bullet-transform: translateX(-0.3em);
+  /* IBM Plex Mono's tall x-height reads a step larger than IBM Plex Sans at equal em (same
+     reasoning as the Properties panel's 0.75em); one notch under stock font-smaller. */
+  --code-size: 0.85em;
+  /* Interface icons one stroke-step lighter than stock (m/l 1.75 -> 1.5px, s/xs 2 ->
+     1.75px): hairline icons sit with the type instead of against it. Official
+     Foundations/Icons vars; xl already ships at 1.25px and stays. */
+  --icon-m-stroke-width: 1.5px;
+  --icon-l-stroke-width: 1.5px;
+  --icon-s-stroke-width: 1.75px;
+  --icon-xs-stroke-width: 1.75px;
+}
+
+.theme-dark {
+  --accent-h: 212; --accent-s: 100%; --accent-l: 62%;
+  --color-base-00: #10161c;
+  --color-base-05: #141a21;
+  --color-base-10: #171f26;
+  --color-base-20: #1f2932;
+  --color-base-25: #242f39;
+  --color-base-30: #2a3540;
+  --color-base-35: #364b5c;
+  --color-base-40: #3f5a71;
+  --color-base-50: #697e8f;
+  --color-base-60: #8c8c8c;
+  --color-base-70: #b1b3b5;
+  --color-base-100: #e8eef2;
+  --color-red: #c96a6a;
+  --color-red-rgb: 201, 106, 106;
+  --color-orange: #d18c5a;
+  --color-orange-rgb: 209, 140, 90;
+  --color-yellow: #d9ae4a;
+  --color-yellow-rgb: 217, 174, 74;
+  --color-green: #62ba46;
+  --color-green-rgb: 98, 186, 70;
+  --color-cyan: #45a3ad;
+  --color-cyan-rgb: 69, 163, 173;
+  --color-blue: #4a9edb;
+  --color-blue-rgb: 74, 158, 219;
+  --color-purple: #b184db;
+  --color-purple-rgb: 177, 132, 219;
+  --color-pink: #bd77a2;
+  --color-pink-rgb: 189, 119, 162;
+  --color-mark: #007aff;
+  --color-mark-rgb: 0, 122, 255;
+  --background-primary: #10161c;
+  --background-primary-alt: #171f26;
+  --background-secondary: #10161c;
+  --background-secondary-alt: #1f2932;
+  --background-modifier-border: #2a3540;
+  --background-modifier-border-hover: #474f57;
+  --background-modifier-border-focus: #3d97ff;
+  --background-modifier-hover: #4d73911f;
+  --footnote-input-background: #10161c;
+  --footnote-input-background-active: #10161c;
+  --blockquote-background-color: #4d73911f;
+  --background-modifier-active-hover: #4d739133;
+  --background-modifier-form-field: #171f26;
+  --background-modifier-success: rgba(98, 186, 70, 0.15);
+  --text-normal: #e8eef2;
+  --text-muted: #8c8c8c;
+  --text-faint: #5a5d5f;
+  --gl-body-weight: 430;
+  --text-on-accent: #0b1218;
+  --text-on-accent-inverted: #e8eef2;
+  --text-accent: #3d97ff;
+  --text-accent-hover: #6cb2ff;
+  --text-error: #c96a6a;
+  --text-selection: #4d739144;
+  --text-highlight-bg: rgba(108, 178, 255, 0.4);
+  --text-highlight-bg-active: rgba(0, 122, 255, 0.6);
+  --interactive-normal: #171f26;
+  --interactive-hover: #1f2932;
+  --interactive-accent: var(--text-accent);
+  --interactive-accent-hover: #6cb2ff;
+  --link-color: var(--text-accent);
+  --link-color-hover: #6cb2ff;
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-decoration-thickness: 0.07em;
+  --link-unresolved-color: #8c8c8c;
+  --link-unresolved-opacity: 0.7;
+  --link-unresolved-decoration-style: dashed;
+  --link-unresolved-decoration-color: #8c8c8c;
+  --link-external-color: var(--text-accent);
+  --link-external-color-hover: #6cb2ff;
+  --link-external-decoration: underline;
+  --code-background: #171f26;
+  --code-white-space: pre-wrap;
+  --code-normal: #e8eef2;
+  --code-comment: #8c8c8c;
+  --code-keyword: #007aff;
+  --code-string: #62ba46;
+  --code-value: #b184db;
+  --code-function: #4a9edb;
+  --code-tag: #45a3ad;
+  --code-important: #c96a6a;
+  --code-property: #c8ccce;
+  --code-operator: #8c8c8c;
+  --code-punctuation: #8c8c8c;
+  --blockquote-border-color: var(--text-accent);
+  --blockquote-color: #8c8c8c;
+  --hr-color: #2a3540;
+  --divider-color: #2a3540;
+  --tag-color: var(--text-accent);
+  --tag-color-hover: #6cb2ff;
+  --tag-background: #3d97ff1f;
+  --tag-background-hover: #3d97ff33;
+  --tag-border-color: transparent;
+  --tag-border-color-hover: #3d97ff55;
+  --checkbox-color: var(--text-accent);
+  --checkbox-color-hover: #6cb2ff;
+  --checkbox-marker-color: #0b1218;
+  --checkbox-border-color: #2a3540;
+  --checkbox-border-color-hover: var(--text-accent);
+  --checklist-done-color: #8c8c8c;
+  --gl-task-progress: #4d7391;
+  --gl-task-fwd: #4a9edb;
+  --gl-task-sched: #45a3ad;
+  --gl-task-question: #b184db;
+  --gl-task-important: #d9ae4a;
+  --gl-task-star: #3d97ff;
+  --pill-color: #e8eef2;
+  --pill-color-hover: #e8eef2;
+  --pill-color-remove: #8c8c8c;
+  --pill-color-remove-hover: #c96a6a;
+  --pill-background: transparent;
+  --pill-background-hover: #4d739133;
+  --pill-border-color: transparent;
+  --pill-border-color-hover: var(--text-accent);
+  --list-marker-color: #8c8c8c;
+  --list-marker-color-hover: var(--text-accent);
+  --list-marker-color-collapsed: var(--text-accent);
+  --nav-item-color: #8c8c8c;
+  --nav-item-color-hover: #e8eef2;
+  --nav-item-color-active: #e8eef2;
+  --nav-item-background-hover: #4d73911f;
+  --nav-item-background-active: #4d739133;
+  --tab-background-active: #10161c;
+  --tab-text-color: #8c8c8c;
+  --tab-text-color-active: #e8eef2;
+  --tab-text-color-focused-active-current: #e8eef2;
+  --tab-container-background: #171f26;
+  --tab-divider-color: #2a3540;
+  --tab-outline-color: var(--text-accent);
+  --tab-outline-width: 2px;
+  --titlebar-background: #10161c;
+  --titlebar-background-focused: #171f26;
+  --titlebar-text-color: #8c8c8c;
+  --titlebar-text-color-focused: #e8eef2;
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: #4d739140;
+  --scrollbar-active-thumb-bg: #4d739166;
+  --table-background: #171f26;
+  --table-border-color: #2a3540;
+  --table-row-alt-background: #171f26;
+  --table-row-background-hover: #4d739114;
+  --table-selection: #3d97ff22;
+  --table-selection-border-color: var(--text-accent);
+  --table-header-background: #1f2932;
+  --table-header-background-hover: #4d739133;
+  --table-header-border-color: #2a3540;
+  --table-header-color: #e8eef2;
+  --table-header-weight: 600;
+  --table-text-color: #e8eef2;
+  --table-drag-handle-background: #1f2932;
+  --table-drag-handle-background-active: var(--text-accent);
+  --table-drag-handle-color: #8c8c8c;
+  --table-drag-handle-color-active: #0b1218;
+  --ribbon-background: #10161c;
+  --ribbon-background-collapsed: #10161c;
+  --status-bar-background: #171f26;
+  --status-bar-border-color: #2a3540;
+  --status-bar-text-color: #8c8c8c;
+  --status-bar-font-size: var(--font-smallest);
+  --vault-profile-color: #8c8c8c;
+  --vault-profile-color-hover: #e8eef2;
+  --vault-profile-font-weight: 400;
+  --vault-profile-font-size: var(--font-ui-smaller);
+  --modal-background: #171f26;
+  --modal-border-color: #2a3540;
+  --icon-color: #8c8c8c;
+  --icon-color-hover: #e8eef2;
+  --icon-color-active: var(--text-accent);
+  --icon-color-focused: var(--text-accent);
+  --search-clear-button-color: #8c8c8c;
+  --search-icon-color: #8c8c8c;
+  --search-result-background: #171f26;
+  --embed-background: #171f26;
+  --embed-border-start: 4px solid var(--text-accent);
+  --embed-block-shadow-hover: 0 2px 10px rgba(77, 115, 145, 0.25);
+  --inline-title-color: #e8eef2;
+  --inline-title-font: var(--gl-font-serif);
+  --divider-color-hover: var(--text-accent);
+  --divider-width-hover: 2px;
+  --callout-info: #4a9edb;
+  --callout-todo: #4a9edb;
+  --callout-tip: #45a3ad;
+  --callout-success: #62ba46;
+  --callout-question: #b184db;
+  --callout-example: #b184db;
+  --callout-error: #c96a6a;
+  --callout-fail: #c96a6a;
+  --callout-bug: #bd77a2;
+  --callout-warning: #d9ae4a;
+  --callout-summary: #007aff;
+  --callout-important: #007aff;
+  --callout-quote: var(--text-muted);
+  --callout-default: var(--text-muted);
+  --graph-line: #2a3540;
+  --graph-text: #8c8c8c;
+  --graph-node: #4d7391;
+  --graph-node-unresolved: #5a5d5f;
+  --graph-node-focused: #6cb2ff;
+  --graph-node-tag: #4a9edb;
+  --graph-node-attachment: #45a3ad;
+  --canvas-background: #10161c;
+  --canvas-card-label-color: #8c8c8c;
+  --canvas-dot-pattern: #2a3540;
+  --canvas-color-1: #c96a6a;
+  --canvas-color-2: #d18c5a;
+  --canvas-color-3: #d9ae4a;
+  --canvas-color-4: #62ba46;
+  --canvas-color-5: #45a3ad;
+  --canvas-color-6: #b184db;
+  --metadata-background: #10161c;
+  --metadata-border-color: #2a3540;
+  --metadata-divider-color: #2a3540;
+  --metadata-gap: 1px;
+  --metadata-input-height: calc(var(--font-text-size) * 1.4);
+  --metadata-label-text-color: #8c8c8c;
+  --metadata-label-text-color-hover: #e8eef2;
+  --metadata-label-font-size: 0.75em;
+  --metadata-input-font-size: 0.75em;
+  --metadata-sidebar-label-font-size: 0.75em;
+  --metadata-sidebar-input-font-size: 0.75em;
+  --metadata-input-text-color: #e8eef2;
+  --metadata-input-background: #10161c;
+  --metadata-input-background-hover: #171f26;
+  --metadata-property-background: #10161c;
+  --metadata-property-background-hover: #171f26;
+  --metadata-property-background-active: #4d739133;
+}
+
+.theme-light {
+  --accent-h: 213; --accent-s: 90%; --accent-l: 43%;
+  --color-base-00: #f0f4f6;
+  --color-base-05: #e7edf0;
+  --color-base-10: #dee6e9;
+  --color-base-20: #cdd7dc;
+  --color-base-25: #b5c0c6;
+  --color-base-30: #a3afb5;
+  --color-base-35: #919ea4;
+  --color-base-40: #7f8c94;
+  --color-base-50: #67757e;
+  --color-base-60: #55646d;
+  --color-base-70: #3c4a52;
+  --color-base-100: #16222a;
+  --color-red: #c96a6a;
+  --color-red-rgb: 201, 106, 106;
+  --color-orange: #d18c5a;
+  --color-orange-rgb: 209, 140, 90;
+  --color-yellow: #d9ae4a;
+  --color-yellow-rgb: 217, 174, 74;
+  --color-green: #62ba46;
+  --color-green-rgb: 98, 186, 70;
+  --color-cyan: #45a3ad;
+  --color-cyan-rgb: 69, 163, 173;
+  --color-blue: #4a9edb;
+  --color-blue-rgb: 74, 158, 219;
+  --color-purple: #b184db;
+  --color-purple-rgb: 177, 132, 219;
+  --color-pink: #bd77a2;
+  --color-pink-rgb: 189, 119, 162;
+  --color-mark: #007aff;
+  --color-mark-rgb: 0, 122, 255;
+  --background-primary: #f0f4f6;
+  --background-primary-alt: #f7fafb;
+  --background-secondary: #f0f4f6;
+  --background-secondary-alt: #ffffff;
+  --background-modifier-border: #cdd7dc;
+  --background-modifier-border-hover: #a9b4bb;
+  --background-modifier-border-focus: #0b62cf;
+  --background-modifier-hover: #3e6d841f;
+  --footnote-input-background: #f0f4f6;
+  --footnote-input-background-active: #f0f4f6;
+  --blockquote-background-color: #3e6d841f;
+  --background-modifier-active-hover: #3e6d8433;
+  --background-modifier-form-field: #f7fafb;
+  --background-modifier-success: rgba(98, 186, 70, 0.15);
+  --text-normal: #16222a;
+  --text-muted: #55646d;
+  --text-faint: #939ea4;
+  --gl-body-weight: 400;
+  --text-on-accent: #f2f7fb;
+  --text-on-accent-inverted: #16222a;
+  --text-accent: #0b62cf;
+  --text-accent-hover: #084b96;
+  --text-error: #c96a6a;
+  --text-selection: #3e6d8444;
+  --text-highlight-bg: rgba(108, 178, 255, 0.4);
+  --text-highlight-bg-active: rgba(0, 122, 255, 0.6);
+  --interactive-normal: #f7fafb;
+  --interactive-hover: #ffffff;
+  --interactive-accent: var(--text-accent);
+  --interactive-accent-hover: #084b96;
+  --link-color: var(--text-accent);
+  --link-color-hover: #084b96;
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-decoration-thickness: 0.07em;
+  --link-unresolved-color: #55646d;
+  --link-unresolved-opacity: 0.7;
+  --link-unresolved-decoration-style: dashed;
+  --link-unresolved-decoration-color: #55646d;
+  --link-external-color: var(--text-accent);
+  --link-external-color-hover: #084b96;
+  --link-external-decoration: underline;
+  --code-background: #f7fafb;
+  --code-white-space: pre-wrap;
+  --code-normal: #16222a;
+  --code-comment: #55646d;
+  --code-keyword: #0a529f;
+  --code-string: #407639;
+  --code-value: #6b588b;
+  --code-function: #33668b;
+  --code-tag: #306972;
+  --code-important: #784a4d;
+  --code-property: #2c3941;
+  --code-operator: #55646d;
+  --code-punctuation: #55646d;
+  --blockquote-border-color: var(--text-accent);
+  --blockquote-color: #55646d;
+  --hr-color: #cdd7dc;
+  --divider-color: #cdd7dc;
+  --tag-color: var(--text-accent);
+  --tag-color-hover: #084b96;
+  --tag-background: #0b62cf1f;
+  --tag-background-hover: #0b62cf33;
+  --tag-border-color: transparent;
+  --tag-border-color-hover: #0b62cf55;
+  --checkbox-color: var(--text-accent);
+  --checkbox-color-hover: #084b96;
+  --checkbox-marker-color: #f2f7fb;
+  --checkbox-border-color: #cdd7dc;
+  --checkbox-border-color-hover: var(--text-accent);
+  --checklist-done-color: #55646d;
+  --gl-task-progress: #3e6d84;
+  --gl-task-fwd: #33668b;
+  --gl-task-sched: #306972;
+  --gl-task-question: #6b588b;
+  --gl-task-important: #816f3c;
+  --gl-task-star: #0b62cf;
+  --pill-color: #16222a;
+  --pill-color-hover: #16222a;
+  --pill-color-remove: #55646d;
+  --pill-color-remove-hover: #c96a6a;
+  --pill-background: transparent;
+  --pill-background-hover: #3e6d8433;
+  --pill-border-color: transparent;
+  --pill-border-color-hover: var(--text-accent);
+  --list-marker-color: #55646d;
+  --list-marker-color-hover: var(--text-accent);
+  --list-marker-color-collapsed: var(--text-accent);
+  --nav-item-color: #55646d;
+  --nav-item-color-hover: #16222a;
+  --nav-item-color-active: #16222a;
+  --nav-item-background-hover: #3e6d841f;
+  --nav-item-background-active: #3e6d8433;
+  --tab-background-active: #f0f4f6;
+  --tab-text-color: #55646d;
+  --tab-text-color-active: #16222a;
+  --tab-text-color-focused-active-current: #16222a;
+  --tab-container-background: #f7fafb;
+  --tab-divider-color: #cdd7dc;
+  --tab-outline-color: var(--text-accent);
+  --tab-outline-width: 2px;
+  --titlebar-background: #f0f4f6;
+  --titlebar-background-focused: #f7fafb;
+  --titlebar-text-color: #55646d;
+  --titlebar-text-color-focused: #16222a;
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: #3e6d8440;
+  --scrollbar-active-thumb-bg: #3e6d8466;
+  --table-background: #f7fafb;
+  --table-border-color: #cdd7dc;
+  --table-row-alt-background: #f7fafb;
+  --table-row-background-hover: #3e6d8414;
+  --table-selection: #0b62cf22;
+  --table-selection-border-color: var(--text-accent);
+  --table-header-background: #ffffff;
+  --table-header-background-hover: #3e6d8433;
+  --table-header-border-color: #cdd7dc;
+  --table-header-color: #16222a;
+  --table-header-weight: 600;
+  --table-text-color: #16222a;
+  --table-drag-handle-background: #ffffff;
+  --table-drag-handle-background-active: var(--text-accent);
+  --table-drag-handle-color: #55646d;
+  --table-drag-handle-color-active: #f2f7fb;
+  --ribbon-background: #f0f4f6;
+  --ribbon-background-collapsed: #f0f4f6;
+  --status-bar-background: #f7fafb;
+  --status-bar-border-color: #cdd7dc;
+  --status-bar-text-color: #55646d;
+  --status-bar-font-size: var(--font-smallest);
+  --vault-profile-color: #55646d;
+  --vault-profile-color-hover: #16222a;
+  --vault-profile-font-weight: 400;
+  --vault-profile-font-size: var(--font-ui-smaller);
+  --modal-background: #f7fafb;
+  --modal-border-color: #cdd7dc;
+  --icon-color: #55646d;
+  --icon-color-hover: #16222a;
+  --icon-color-active: var(--text-accent);
+  --icon-color-focused: var(--text-accent);
+  --search-clear-button-color: #55646d;
+  --search-icon-color: #55646d;
+  --search-result-background: #f7fafb;
+  --embed-background: #f7fafb;
+  --embed-border-start: 4px solid var(--text-accent);
+  --embed-block-shadow-hover: 0 2px 10px rgba(62, 109, 132, 0.25);
+  --inline-title-color: #16222a;
+  --inline-title-font: var(--gl-font-serif);
+  --divider-color-hover: var(--text-accent);
+  --divider-width-hover: 2px;
+  --callout-info: #4a9edb;
+  --callout-todo: #4a9edb;
+  --callout-tip: #45a3ad;
+  --callout-success: #62ba46;
+  --callout-question: #b184db;
+  --callout-example: #b184db;
+  --callout-error: #c96a6a;
+  --callout-fail: #c96a6a;
+  --callout-bug: #bd77a2;
+  --callout-warning: #d9ae4a;
+  --callout-summary: #007aff;
+  --callout-important: #007aff;
+  --callout-quote: var(--text-muted);
+  --callout-default: var(--text-muted);
+  --graph-line: #cdd7dc;
+  --graph-text: #55646d;
+  --graph-node: #3e6d84;
+  --graph-node-unresolved: #939ea4;
+  --graph-node-focused: #007aff;
+  --graph-node-tag: #4a9edb;
+  --graph-node-attachment: #45a3ad;
+  --canvas-background: #f0f4f6;
+  --canvas-card-label-color: #55646d;
+  --canvas-dot-pattern: #cdd7dc;
+  --canvas-color-1: #c96a6a;
+  --canvas-color-2: #d18c5a;
+  --canvas-color-3: #d9ae4a;
+  --canvas-color-4: #62ba46;
+  --canvas-color-5: #45a3ad;
+  --canvas-color-6: #b184db;
+  --metadata-background: #f0f4f6;
+  --metadata-border-color: #cdd7dc;
+  --metadata-divider-color: #cdd7dc;
+  --metadata-gap: 1px;
+  --metadata-input-height: calc(var(--font-text-size) * 1.4);
+  --metadata-label-text-color: #55646d;
+  --metadata-label-text-color-hover: #16222a;
+  --metadata-label-font-size: 0.75em;
+  --metadata-input-font-size: 0.75em;
+  --metadata-sidebar-label-font-size: 0.75em;
+  --metadata-sidebar-input-font-size: 0.75em;
+  --metadata-input-text-color: #16222a;
+  --metadata-input-background: #f0f4f6;
+  --metadata-input-background-hover: #f7fafb;
+  --metadata-property-background: #f0f4f6;
+  --metadata-property-background-hover: #f7fafb;
+  --metadata-property-background-active: #3e6d8433;
+}
+
+/* Note body in IBM Plex Sans -- the working voice; headings answer in IBM Plex Serif, same
+   pairing as every other Glauca surface. A touch larger (relative em, so the font-size
+   slider still works), at the per-mode reading weight (halation-compensated in dark), with
+   the reading OpenType features already used on the web surface (old-style, proportional
+   figures; common ligatures). text-wrap: pretty improves rag and kills orphans; headings keep
+   balance below. font-weight lands on the container, so bold/headings still win by cascade. */
+.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content {
+  font-size: calc(1em * var(--gl-body-scale, 1.2));
+  font-weight: var(--gl-body-weight, 400);
+  text-wrap: pretty;
+  font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;
+}
+/* Headings set in IBM Plex Serif, matching every other Glauca surface; body text and UI
+   chrome stay IBM Plex Sans so the two read as distinct voices. Weights stay from Obsidian's
+   --h*-weight. The note title itself is --inline-title-font above, not this selector. */
+.markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+.markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
+  font-family: var(--gl-font-serif); font-variation-settings: normal; letter-spacing: -0.01em; text-wrap: balance;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+}
+/* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's
+   own em so larger headings carry proportionally more air. Core keeps 2.5x above (via
+   --heading-spacing), so the hierarchy still reads top-heavy, as it should. Live preview's
+   equivalent is --p-spacing-empty in the body block above. Headings inside list items are
+   untouched -- core's `li h*` margin-zero rule is more specific. */
+.markdown-rendered :is(h1, h2, h3, h4, h5, h6) { margin-block-end: calc(var(--p-spacing) * 1.4); }
+/* Blockquotes read as a quoted voice, distinct from body: serif, like headings, over the sea
+   tint (--blockquote-background-color, per mode above) and the accent border. */
+.markdown-rendered blockquote, .cm-s-obsidian .HyperMD-quote {
+  border-radius: 0 4px 4px 0; font-family: var(--gl-font-serif);
+}
+/* Explicit belt-and-suspenders: emphasis/italic text should read as sans body text like
+   everything else around it, not switch typeface. Written directly (not relying on
+   --font-text-theme alone) in case Obsidian has its own internal default for em/i independent
+   of the theme's text-font hook. Blockquotes are the one deliberate exception (serif, above),
+   so they're excluded here. */
+.markdown-rendered em:not(blockquote *), .markdown-rendered i:not(blockquote *),
+.cm-s-obsidian .cm-em {
+  font-family: var(--gl-font-sans);
+}
+.markdown-rendered pre code, .cm-s-obsidian { font-feature-settings: "liga" 1, "calt" 1; }
+/* Properties panel in mono, for the key: value read. Obsidian's CSS-variable API has no documented
+   font-family hook for Properties (only sizes/colours), so this targets the panel's actual DOM classes
+   directly -- best-effort/unofficial, inert if a future Obsidian version renames them; verify visually. */
+.metadata-property-key, .metadata-property-value { font-family: var(--gl-font-mono); }
+/* Footnotes panel: one background, the note's own. Root cause of the old two-tone seam,
+   found by reading app.css 1.12 directly: each footnote's content renders as a
+   .markdown-embed, whose background reads --embed-background -- the lifted surface tone set
+   above for real embeds -- while the row around it reads --footnote-input-background (the
+   note bg, set above). Row and content disagreeing is exactly the seam. The embed is
+   detinted here only inside the panel; hover-popover footnote previews keep the embed look.
+   The !important catch-all survives from earlier selector fights as a backstop against
+   internal rules this app.css no longer has -- redundant today, harmless, and it also keeps
+   the .is-editing row flat (the focus ring, not a background swap, signals editing). */
+.footnotes-view .markdown-embed { background-color: transparent; }
+.footnote, .footnote-list-item, .footnote-list {
+  background: var(--background-primary) !important;
+}
+/* Footnotes stay in the sans voice, upright: they're apparatus, not reading text. Clipped
+   sources love arriving as wall-to-wall italics, so emphasis inside a footnote flattens to
+   upright rather than rendering italic. Covers the footnotes panel, the reading-view footnote
+   section, and live preview's footnote definition lines. */
+.footnotes-view .footnote-content, .markdown-rendered .footnotes,
+.cm-s-obsidian .cm-line.HyperMD-footnote {
+  font-family: var(--gl-font-sans); font-style: normal;
+}
+.footnotes-view .footnote-content :is(em, i), .markdown-rendered .footnotes :is(em, i),
+.cm-s-obsidian .cm-line.HyperMD-footnote .cm-em {
+  font-style: normal;
+}
+
+.cm-s-obsidian .cm-comment, .markdown-rendered pre code .token.comment { font-style: italic; }
+.cm-s-obsidian .cm-keyword, .markdown-rendered pre code .token.keyword { font-weight: 700; }
+.cm-s-obsidian .cm-type, .markdown-rendered pre code .token.tag { font-style: italic; }
+.cm-s-obsidian .cm-number, .markdown-rendered pre code .token.number { font-style: italic; }
+
+/* Link underline offset: no official Obsidian variable for this, --link-decoration*
+   (colour, style, thickness) above covers the rest. */
+.markdown-rendered a, .cm-s-obsidian .cm-link, .cm-s-obsidian .cm-url, .cm-s-obsidian .cm-hmd-internal-link {
+  text-underline-offset: 0.16em;
+}
+.markdown-rendered a:hover { text-decoration-thickness: 0.1em; }
+/* External-link glyph: a clean up-right arrow that inherits the link colour. */
+.external-link { background-image: none; padding-right: 0; }
+.external-link::after {
+  content: ""; display: inline-block; width: 0.62em; height: 0.62em; margin-left: 0.12em; vertical-align: -0.05em;
+  background-color: currentColor;
+  -webkit-mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M7%207h10v10%27/%3E%3Cpath%20d%3D%27M7%2017%2017%207%27/%3E%3C/svg%3E) center / contain no-repeat;
+  mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M7%207h10v10%27/%3E%3Cpath%20d%3D%27M7%2017%2017%207%27/%3E%3C/svg%3E) center / contain no-repeat;
+}
+
+/* File-explorer icons (Style Settings: gl-nav-plain removes them). Folders swap closed/open
+   with their collapse state; the vault-root row is excluded; a small typed set covers pdf,
+   images, canvas and audio via data-path. See icon_uri() note: artwork is Obsidian's own
+   lucide set. */
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] :is(.nav-folder-title-content, .nav-file-title-content)::before {
+  content: ""; display: inline-block; width: 0.95em; height: 0.95em; margin-inline-end: 0.4em;
+  vertical-align: -0.12em; background-color: currentColor; opacity: 0.8;
+  -webkit-mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6%2022a2%202%200%200%201-2-2V4a2%202%200%200%201%202-2h8a2.4%202.4%200%200%201%201.704.706l3.588%203.588A2.4%202.4%200%200%201%2020%208v12a2%202%200%200%201-2%202z%27/%3E%3Cpath%20d%3D%27M14%202v5a1%201%200%200%200%201%201h5%27/%3E%3C/svg%3E) center / contain no-repeat;
+  mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6%2022a2%202%200%200%201-2-2V4a2%202%200%200%201%202-2h8a2.4%202.4%200%200%201%201.704.706l3.588%203.588A2.4%202.4%200%200%201%2020%208v12a2%202%200%200%201-2%202z%27/%3E%3Cpath%20d%3D%27M14%202v5a1%201%200%200%200%201%201h5%27/%3E%3C/svg%3E) center / contain no-repeat;
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-folder-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M20%2020a2%202%200%200%200%202-2V8a2%202%200%200%200-2-2h-7.9a2%202%200%200%201-1.69-.9L9.6%203.9A2%202%200%200%200%207.93%203H4a2%202%200%200%200-2%202v13a2%202%200%200%200%202%202Z%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M20%2020a2%202%200%200%200%202-2V8a2%202%200%200%200-2-2h-7.9a2%202%200%200%201-1.69-.9L9.6%203.9A2%202%200%200%200%207.93%203H4a2%202%200%200%200-2%202v13a2%202%200%200%200%202%202Z%27/%3E%3C/svg%3E);
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-folder:not(.is-collapsed) > .nav-folder-title .nav-folder-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27m6%2014%201.5-2.9A2%202%200%200%201%209.24%2010H20a2%202%200%200%201%201.94%202.5l-1.54%206a2%202%200%200%201-1.95%201.5H4a2%202%200%200%201-2-2V5a2%202%200%200%201%202-2h3.9a2%202%200%200%201%201.69.9l.81%201.2a2%202%200%200%200%201.67.9H18a2%202%200%200%201%202%202v2%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27m6%2014%201.5-2.9A2%202%200%200%201%209.24%2010H20a2%202%200%200%201%201.94%202.5l-1.54%206a2%202%200%200%201-1.95%201.5H4a2%202%200%200%201-2-2V5a2%202%200%200%201%202-2h3.9a2%202%200%200%201%201.69.9l.81%201.2a2%202%200%200%200%201.67.9H18a2%202%200%200%201%202%202v2%27/%3E%3C/svg%3E);
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-folder.mod-root > .nav-folder-title .nav-folder-title-content::before { display: none; }
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-file-title:is([data-path$=".pdf" i]) .nav-file-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6%2022a2%202%200%200%201-2-2V4a2%202%200%200%201%202-2h8a2.4%202.4%200%200%201%201.704.706l3.588%203.588A2.4%202.4%200%200%201%2020%208v12a2%202%200%200%201-2%202z%27/%3E%3Cpath%20d%3D%27M14%202v5a1%201%200%200%200%201%201h5%27/%3E%3Cpath%20d%3D%27M10%209H8%27/%3E%3Cpath%20d%3D%27M16%2013H8%27/%3E%3Cpath%20d%3D%27M16%2017H8%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6%2022a2%202%200%200%201-2-2V4a2%202%200%200%201%202-2h8a2.4%202.4%200%200%201%201.704.706l3.588%203.588A2.4%202.4%200%200%201%2020%208v12a2%202%200%200%201-2%202z%27/%3E%3Cpath%20d%3D%27M14%202v5a1%201%200%200%200%201%201h5%27/%3E%3Cpath%20d%3D%27M10%209H8%27/%3E%3Cpath%20d%3D%27M16%2013H8%27/%3E%3Cpath%20d%3D%27M16%2017H8%27/%3E%3C/svg%3E);
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-file-title:is([data-path$=".png" i], [data-path$=".jpg" i], [data-path$=".jpeg" i], [data-path$=".webp" i], [data-path$=".gif" i], [data-path$=".svg" i], [data-path$=".avif" i], [data-path$=".bmp" i]) .nav-file-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2718%27%20height%3D%2718%27%20rx%3D%272%27/%3E%3Ccircle%20cx%3D%279%27%20cy%3D%279%27%20r%3D%272%27/%3E%3Cpath%20d%3D%27m21%2015-3.086-3.086a2%202%200%200%200-2.828%200L6%2021%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%2718%27%20height%3D%2718%27%20rx%3D%272%27/%3E%3Ccircle%20cx%3D%279%27%20cy%3D%279%27%20r%3D%272%27/%3E%3Cpath%20d%3D%27m21%2015-3.086-3.086a2%202%200%200%200-2.828%200L6%2021%27/%3E%3C/svg%3E);
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-file-title:is([data-path$=".canvas" i]) .nav-file-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%277%27%20height%3D%279%27%20rx%3D%271%27/%3E%3Crect%20x%3D%2714%27%20y%3D%273%27%20width%3D%277%27%20height%3D%275%27%20rx%3D%271%27/%3E%3Crect%20x%3D%2714%27%20y%3D%2712%27%20width%3D%277%27%20height%3D%279%27%20rx%3D%271%27/%3E%3Crect%20x%3D%273%27%20y%3D%2716%27%20width%3D%277%27%20height%3D%275%27%20rx%3D%271%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%277%27%20height%3D%279%27%20rx%3D%271%27/%3E%3Crect%20x%3D%2714%27%20y%3D%273%27%20width%3D%277%27%20height%3D%275%27%20rx%3D%271%27/%3E%3Crect%20x%3D%2714%27%20y%3D%2712%27%20width%3D%277%27%20height%3D%279%27%20rx%3D%271%27/%3E%3Crect%20x%3D%273%27%20y%3D%2716%27%20width%3D%277%27%20height%3D%275%27%20rx%3D%271%27/%3E%3C/svg%3E);
+}
+body:not(.gl-nav-plain) .workspace-leaf-content[data-type="file-explorer"] .nav-file-title:is([data-path$=".mp3" i], [data-path$=".m4a" i], [data-path$=".wav" i], [data-path$=".ogg" i], [data-path$=".flac" i]) .nav-file-title-content::before {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M9%2018V5l12-2v13%27/%3E%3Ccircle%20cx%3D%276%27%20cy%3D%2718%27%20r%3D%273%27/%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2716%27%20r%3D%273%27/%3E%3C/svg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M9%2018V5l12-2v13%27/%3E%3Ccircle%20cx%3D%276%27%20cy%3D%2718%27%20r%3D%273%27/%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2716%27%20r%3D%273%27/%3E%3C/svg%3E);
+}
+
+/* Alternative task states -- see _task_rules() docstring. */
+.markdown-rendered li.task-list-item[data-task=">"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task=">"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-fwd);
+}
+.markdown-rendered li.task-list-item[data-task=">"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task=">"] .task-list-item-checkbox::after {
+  content: "→"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--gl-task-fwd); font-family: var(--gl-font-sans);
+  font-size: calc(var(--checkbox-size) * 0.72); font-weight: 700; line-height: 1;
+}
+.markdown-rendered li.task-list-item[data-task="<"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="<"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-sched);
+}
+.markdown-rendered li.task-list-item[data-task="<"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="<"] .task-list-item-checkbox::after {
+  content: "←"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--gl-task-sched); font-family: var(--gl-font-sans);
+  font-size: calc(var(--checkbox-size) * 0.72); font-weight: 700; line-height: 1;
+}
+.markdown-rendered li.task-list-item[data-task="?"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="?"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-question);
+}
+.markdown-rendered li.task-list-item[data-task="?"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="?"] .task-list-item-checkbox::after {
+  content: "?"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--gl-task-question); font-family: var(--gl-font-sans);
+  font-size: calc(var(--checkbox-size) * 0.72); font-weight: 700; line-height: 1;
+}
+.markdown-rendered li.task-list-item[data-task="!"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="!"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-important);
+}
+.markdown-rendered li.task-list-item[data-task="!"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="!"] .task-list-item-checkbox::after {
+  content: "!"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--gl-task-important); font-family: var(--gl-font-sans);
+  font-size: calc(var(--checkbox-size) * 0.72); font-weight: 700; line-height: 1;
+}
+.markdown-rendered li.task-list-item[data-task="*"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="*"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-star);
+}
+.markdown-rendered li.task-list-item[data-task="*"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="*"] .task-list-item-checkbox::after {
+  content: "★"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--gl-task-star); font-family: var(--gl-font-sans);
+  font-size: calc(var(--checkbox-size) * 0.72); font-weight: 700; line-height: 1;
+}
+.markdown-rendered li.task-list-item[data-task="/"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="/"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--gl-task-progress);
+}
+.markdown-rendered li.task-list-item[data-task="/"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="/"] .task-list-item-checkbox::after {
+  content: ""; position: static; display: block; width: 100%; height: 100%;
+  -webkit-mask-image: none; border-radius: inherit;
+  background: linear-gradient(90deg, var(--gl-task-progress) 50%, transparent 50%);
+}
+.markdown-rendered li.task-list-item[data-task="-"],
+.cm-s-obsidian .HyperMD-task-line[data-task="-"] {
+  color: var(--text-faint); text-decoration: line-through; text-decoration-color: var(--text-faint);
+}
+.markdown-rendered li.task-list-item[data-task="-"] > input.task-list-item-checkbox,
+.cm-s-obsidian .HyperMD-task-line[data-task="-"] .task-list-item-checkbox {
+  background-color: transparent; border-color: var(--text-faint);
+}
+.markdown-rendered li.task-list-item[data-task="-"] > input.task-list-item-checkbox::after,
+.cm-s-obsidian .HyperMD-task-line[data-task="-"] .task-list-item-checkbox::after {
+  content: "\2013"; position: static; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; background-color: transparent; -webkit-mask-image: none;
+  color: var(--text-faint); font-weight: 700; line-height: 1;
+}
+
+/* Focus mode (Style Settings: gl-focus). Chrome recedes until pointed at; the note stands alone.
+   Restores on hover or keyboard focus within. */
+body.gl-focus :is(.workspace-tab-header-container, .view-header, .workspace-ribbon, .status-bar) {
+  opacity: 0.25; transition: opacity 0.2s ease;
+}
+body.gl-focus :is(.workspace-tab-header-container, .view-header, .workspace-ribbon, .status-bar):is(:hover, :focus-within) {
+  opacity: 1;
+}
+/* Seamless embeds (default; Style Settings gl-embed-frames restores the framed look). Transclusions
+   read as part of the note: no tint, border or title; the open-link affordance appears on hover. */
+body:not(.gl-embed-frames) .markdown-rendered .markdown-embed,
+body:not(.gl-embed-frames) .markdown-source-view .markdown-embed {
+  background-color: transparent; border: none; padding: 0;
+}
+body:not(.gl-embed-frames) .markdown-embed-title { display: none; }
+body:not(.gl-embed-frames) .markdown-embed-link { opacity: 0; transition: opacity 0.15s ease; }
+body:not(.gl-embed-frames) .markdown-embed:hover .markdown-embed-link { opacity: 1; }
+/* Images: soft corners; a pipe caption (![[img.png|caption]]) renders as a quiet figcaption. Alt
+   texts that are just file names (Obsidian's fallback when no caption is given) are excluded. */
+.markdown-rendered .image-embed img { border-radius: 4px; }
+.markdown-rendered .image-embed[alt]:not([alt=""]):not([alt$=".png" i]):not([alt$=".jpg" i]):not([alt$=".jpeg" i]):not([alt$=".webp" i]):not([alt$=".gif" i]):not([alt$=".svg" i]):not([alt$=".bmp" i])::after {
+  content: attr(alt); display: block; font-family: var(--gl-font-sans); font-size: 0.82em;
+  color: var(--text-muted); text-align: center; margin-top: 0.35em;
+}
+/* Per-note gallery helper (Minimal's composable-cssclasses idea): add `cssclasses: img-grid` to a
+   note's frontmatter and consecutive images in one paragraph tile into a grid (reading view). */
+.markdown-preview-view.img-grid .markdown-preview-section p:has(> .image-embed) {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.markdown-preview-view.img-grid .markdown-preview-section p > .image-embed { flex: 1 1 240px; min-width: 0; }
+.markdown-preview-view.img-grid .markdown-preview-section p > .image-embed img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+/* Lists. Bullets are short accent dashes -- an explicit owner call to let the one warm mark walk
+   the margin; ordered numbers stay muted so it's the dash alone that carries it. Nested dashes
+   drop to the muted marker colour, so depth reads by temperature, and core's higher-specificity
+   is-collapsed rule still wins in reading view -- a folded marker signals accent + halo at any
+   depth. Hanging offset -0.95em (stock -0.8em) keeps air between dash and text; the editor depth
+   selector is best-effort against CM6's numbered line classes, inert if a future version drops
+   them. Ordered markers take muted tabular old-style figures so multi-digit lists column-align
+   quietly. */
+.markdown-rendered .list-bullet { margin-inline-start: -0.95em; }
+.list-bullet::after {
+  width: 0.55em; height: 0.12em; border-radius: 1px;
+  background-color: var(--text-accent);
+}
+.markdown-rendered li li .list-bullet::after,
+.cm-s-obsidian [class*="HyperMD-list-line-"]:not(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) .list-bullet::after {
+  background-color: var(--list-marker-color);
+}
+.markdown-rendered :is(ol, ul) > li::marker { color: var(--text-muted); }
+.markdown-rendered ol > li::marker { font-variant-numeric: tabular-nums oldstyle-nums; }
+/* Fenced code blocks get a hairline so they separate from same-tone chrome (reading view; the
+   editor draws code blocks per-line, where a border would fragment). */
+.markdown-rendered pre { border: 1px solid var(--background-modifier-border); }
+/* Phone: the desktop-tuned 0.75em Properties type is too small under a thumb; row heights are
+   already restored by core's own .is-phone metadata override. */
+body.is-phone {
+  --metadata-label-font-size: 0.9em; --metadata-input-font-size: 0.9em;
+}
+
+/* File explorer: slightly smaller labels that wrap to a second/third line instead of truncating. */
+.workspace-leaf-content[data-type="file-explorer"] .tree-item-self { height: auto; }
+.workspace-leaf-content[data-type="file-explorer"] .tree-item-inner {
+  font-size: 0.88em; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip; word-break: break-word;
+}
+
+/* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or
+   to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the
+   three theme font hooks above are literal. */
+body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }
+body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
+  font-family: var(--gl-font-sans); letter-spacing: -0.015em;
+  font-variant-ligatures: common-ligatures;
+}
+body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }
+body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {
+  font-optical-sizing: auto;
+}
+body.gl-explorer-truncate .workspace-leaf-content[data-type="file-explorer"] .tree-item-inner {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}

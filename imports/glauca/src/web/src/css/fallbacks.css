@@ -1,0 +1,25 @@
+/* Generated metric-matched fallbacks. local() fallback with overrides so the swap does not shift text. */
+@font-face {
+  font-family: "IBM Plex Serif fallback";
+  src: local("Georgia");
+  size-adjust: 100.0%;
+  ascent-override: 100.0%;
+  descent-override: 25.0%;
+  line-gap-override: 0.0%;
+}
+@font-face {
+  font-family: "IBM Plex Sans fallback";
+  src: local("Arial");
+  size-adjust: 100.0%;
+  ascent-override: 100.0%;
+  descent-override: 25.0%;
+  line-gap-override: 0.0%;
+}
+@font-face {
+  font-family: "IBM Plex Mono fallback";
+  src: local("Courier New");
+  size-adjust: 100.0%;
+  ascent-override: 100.0%;
+  descent-override: 25.0%;
+  line-gap-override: 0.0%;
+}

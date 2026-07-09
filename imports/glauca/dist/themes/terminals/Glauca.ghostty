@@ -1,0 +1,23 @@
+# Glauca (Pruina) — Ghostty theme (light). Generated from glauca.json.
+background = #f0f4f6
+foreground = #16222a
+cursor-color = #0b62cf
+cursor-text = #f2f7fb
+selection-background = #35576b
+selection-foreground = #f2f7fb
+palette = 0=#171f26
+palette = 1=#b85f5f
+palette = 2=#4f9e3f
+palette = 3=#c79a3d
+palette = 4=#2f6fbd
+palette = 5=#8a6fa8
+palette = 6=#3f93a0
+palette = 7=#c6ced4
+palette = 8=#3a4754
+palette = 9=#c96a6a
+palette = 10=#62ba46
+palette = 11=#d9ae4a
+palette = 12=#007aff
+palette = 13=#b184db
+palette = 14=#7fc4cf
+palette = 15=#e8eef2

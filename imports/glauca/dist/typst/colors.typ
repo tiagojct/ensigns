@@ -1,0 +1,11 @@
+// Glauca colours. Generated from glauca.json.
+#let pix = rgb("#10161c")
+#let umbra = rgb("#171f26")
+#let tint-deep = rgb("#142430")
+#let sea = rgb("#2b4356")
+#let tint-bright = rgb("#4d7391")
+#let tint-pale = rgb("#93b7c9")
+#let dies = rgb("#3d97ff")
+#let aer = rgb("#6cb2ff")
+#let pruina = rgb("#e8eef2")
+#let cinis = rgb("#8c8c8c")

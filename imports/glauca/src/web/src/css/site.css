@@ -1,0 +1,43 @@
+/* Font loading. font-display: swap; Latin + euro subset.
+   The range includes U+20AC after the i18n audit. Subset to this in production. */
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("/fonts/IBMPlexSerif.woff2") format("woff2");
+  font-weight: 100 700; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/fonts/IBMPlexSans.woff2") format("woff2");
+  font-weight: 100 700; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/IBMPlexMono.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--gl-bg); color: var(--gl-text);
+  font-family: var(--gl-font-reading); font-size: 1rem; line-height: var(--gl-leading-normal);
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+}
+/* European Portuguese: guillemets first, curly second. Requires lang="pt". */
+:lang(pt) { quotes: "\00AB" "\00BB" "\201C" "\201D"; }
+q::before { content: open-quote; } q::after { content: close-quote; }
+
+.wrap { max-inline-size: 60rem; margin-inline: auto; padding-inline: var(--gl-space-6); }
+.prose > * + * { margin-block-start: var(--gl-space-4); }
+section { padding-block: var(--gl-space-16); border-block-end: var(--gl-border) solid var(--gl-border); }
+/* Light-first hero: the frost field itself, with the one blue mark on the eyebrow
+   and a faint bloom of accent at the base. Colors ride the mode variables. */
+.hero { background: var(--gl-surface); border-block-end: var(--gl-border) solid var(--gl-border); padding-block: var(--gl-space-20) var(--gl-space-16); position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--gl-accent) 14%, transparent) 100%); pointer-events: none; }
+.hero .wrap { position: relative; }
+.hero .gl-eyebrow { color: var(--gl-accent); margin-block: 0 var(--gl-space-4); }
+.hero .gl-display { color: var(--gl-text); margin: 0; }
+.hero .gl-body-lg { color: var(--gl-text-muted); margin-block-start: var(--gl-space-5); }
+.btn { font-family: var(--gl-font-mono); font-size: var(--gl-text-sm); letter-spacing: 0.12em; text-transform: uppercase; background: var(--gl-accent); color: var(--gl-on-accent); border: 0; border-radius: var(--gl-radius-sm); padding-block: var(--gl-space-3); padding-inline: var(--gl-space-5); cursor: pointer; }
