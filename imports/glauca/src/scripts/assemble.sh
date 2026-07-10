@@ -42,4 +42,12 @@ cp src/themes/terminals/README.md src/themes/terminals/preview.svg dist/themes/t
 # oh-my-zsh prompt: generated .zsh-theme files already in dist/
 cp src/omz/README.md dist/omz/
 
-echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, obsidian, typst, quarto, themes/terminals, omz)"
+# miniflux custom css: generated glauca.css already in dist/
+cp src/miniflux/README.md dist/miniflux/
+
+# markedit theme: colours generated into src/; the bundle (dist/markedit/glauca.js) is built
+# by `make markedit`. Ship the README alongside it.
+mkdir -p dist/markedit
+cp src/markedit/README.md dist/markedit/
+
+echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, obsidian, typst, quarto, themes/terminals, omz, miniflux, markedit)"

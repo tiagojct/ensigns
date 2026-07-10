@@ -4,16 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Glauca is a single-source design system (palette, type, spacing, motion, data-viz, print) that compiles to many platform surfaces: CSS, Tailwind, Typst slides/posters, an 11ty starter, Obsidian, Ghostty/iTerm2 terminal presets, oh-my-zsh prompts, VS Code + Zed themes, Vivaldi, Quarto themes, and R/Python plot styles. Named for the glaucous bloom: a pale frost field is the ground, one vivid sky-blue (dies, #007AFF) is the rare load-bearing mark. Light-first — Pruina (light) is the default mode, Profundum (dark) the sibling. Anchors: #007AFF (dies), #62BA46 (folium), #8C8C8C (cinis). Light sibling of try-works; same machinery, poles reversed.
+Glauca is a single-source design system (palette, type, spacing, motion, data-viz, print) that compiles to many platform surfaces: CSS, Tailwind, Typst slides/posters, an 11ty starter, Obsidian, Ghostty/iTerm2 terminal presets, oh-my-zsh prompts, VS Code + Zed themes, Vivaldi, Quarto themes, R/Python plot styles, a Miniflux reader stylesheet, a MarkEdit theme, and PowerPoint templates. Named for the glaucous bloom: a pale frost field is the ground, one vivid sky-blue (dies, #007AFF) is the rare load-bearing mark. Light-first — Pruina (light) is the default mode, Profundum (dark) the sibling. Anchors: #007AFF (dies), #62BA46 (folium), #8C8C8C (cinis). Light sibling of try-works; same machinery, poles reversed.
 
 ## Repository layout
 
 ```
 src/                 authoring inputs — the only files you edit
   glauca.json     the single source of truth
-  scripts/           generator + checks (generate, validate, cvd, check_fonts, assemble, subset_fonts)
+  scripts/           generator + checks (generate, generate_obsidian, validate, cvd, check_fonts, assemble, subset_fonts)
   web/               the 11ty app (its generated CSS is embedded at src/web/src/css)
-  tailwind/ vscode/ zed/ vivaldi/ obsidian/ typst/ quarto/ themes/   hand-authored scaffolding per surface
+  tailwind/ vscode/ zed/ vivaldi/ obsidian/ typst/ quarto/ themes/ omz/ pptx/ miniflux/ markedit/   hand-authored scaffolding per surface
+  pptx/build_pptx.py   builds the PowerPoint templates (separate target: make pptx, needs python-pptx)
+  markedit/            MarkEdit-theming project; colors.generated.js from json, bundled by make markedit (needs npm)
   assets/ fonts/ specimen/                              brand assets, font docs, demo HTML
 docs/                README's siblings: FOUNDATIONS, PRODUCT, BRAND, PUBLISHING, RELEASING, CONTRIBUTING, CHANGELOG, CODE_OF_CONDUCT
 dist/                generated, committed, vendorable surfaces — the build output
@@ -25,7 +27,7 @@ README.md  CLAUDE.md  Makefile  LICENSE-*  CITATION.cff   (stay at root)
 `src/glauca.json` is the **only** file you edit. `make generate` rebuilds everything under `dist/` from it (and re-emits the web app's CSS in place at `src/web/src/css`). Hand-editing a generated file is wrong and CI rejects it: `generate.py --check` regenerates in memory and diffs against the committed files, failing on any drift.
 
 Two-step generation, both run by `make generate`:
-1. `src/scripts/generate.py` writes the **generated** files (the `artifacts()` map): everything under `dist/css/`, `dist/r/`, `dist/python/`, `dist/print/`, `dist/typst/{colors,poster}.typ`, `dist/quarto/*`, `dist/tailwind/colors.generated.js`, `dist/themes/terminals/Glauca{,-Dark}.{ghostty,itermcolors}`, `dist/omz/*.zsh-theme`, `dist/vscode/themes/*.json`, `dist/zed/themes/Glauca.json`, `dist/vivaldi/{lit,cold}/settings.json`, `dist/obsidian/theme.css`, the version-stamped `dist/{obsidian/manifest.json,vscode/package.json,tailwind/package.json}`, and the web app's CSS at `src/web/src/css/*`. Only these are drift-gated.
+1. `src/scripts/generate.py` writes the **generated** files (the `artifacts()` map): everything under `dist/css/`, `dist/r/`, `dist/python/`, `dist/print/`, `dist/typst/{colors,poster}.typ`, `dist/quarto/*`, `dist/tailwind/colors.generated.js`, `dist/themes/terminals/Glauca{,-Dark}.{ghostty,itermcolors}`, `dist/omz/*.zsh-theme`, `dist/vscode/themes/*.json`, `dist/zed/themes/Glauca.json`, `dist/vivaldi/{lit,cold}/settings.json`, `dist/miniflux/glauca.css`, `dist/obsidian/theme.css`, the version-stamped `dist/{obsidian/manifest.json,vscode/package.json,tailwind/package.json}`, the web app's CSS at `src/web/src/css/*`, and the MarkEdit colours at `src/markedit/colors.generated.js`. Only these are drift-gated.
 2. `src/scripts/assemble.sh` copies the hand-authored scaffolding (`index.js`, READMEs, previews, `demo.typ`, `quarto/example`, etc.) from `src/<surface>` into `dist/<surface>` so each `dist/<surface>` is a complete, vendorable unit. These copies are NOT drift-gated, so after editing scaffolding in `src/`, re-run `make generate`.
 
 ## Commands
@@ -49,6 +51,7 @@ The npm subprojects only consume generated output. `src/web/` is the 11ty app (`
 
 - **`src/glauca.json`** — the source of truth. Holds modes, palette tiers, code-token map, terminal ANSI, typography roles, spacing, a11y, motion, dataviz scales, print/CMYK, gamut (P3), i18n range, and product/brand metadata.
 - **`src/scripts/generate.py`** — one `build_*` function per surface, each returning file text; `artifacts(D)` maps output paths (relative to repo root) to builder results; `main()` either writes them (`REPO / rel`) or (`--check`) diffs them. Path constants: `SRC` = `src/`, `REPO` = repo root. CSS roles are emitted from `typography.roles` as `.gl-<role>` classes. Templates (`R_TEMPLATE`, `PY_TEMPLATE`, `POSTER_TEMPLATE`) use `@@TOKEN@@` placeholders filled from the json.
+- **`src/scripts/generate_obsidian.py`** — the Obsidian theme is large enough to live in its own module; `generate.py` imports `build_obsidian` (and helper `_mix`) from it and wires its output into `artifacts(D)` like any other surface. Everything else in this file is private to that one builder. Edit the Obsidian theme here, not in `generate.py`.
 - **`src/scripts/validate.py`** — makes the accessibility guarantee a test: required keys, lit/cold key parity, valid hex everywhere, typography-role sanity (opsz within the serif range when a role declares it, measure defined), dataviz hex, and WCAG ratios for the locked body/UI pairs.
 - **`src/scripts/cvd_check.py`** — simulates the code hues under protan/deutan/tritan (Machado-2009) and reports worst-case deltaE; close pairs are reinforced with weight/italics, not colour alone.
 - **`src/scripts/assemble.sh`** — copies scaffolding into `dist/`; **`subset_fonts.sh`** — woff2 subsetting; **`check_fonts.py`** — coverage check. validate.py / cvd_check.py / check_fonts.py read `src/glauca.json` via `parent.parent`, so they need no path constants.

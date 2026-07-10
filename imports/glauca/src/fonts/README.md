@@ -1,41 +1,61 @@
 # Fonts
 
-Three families, all under the SIL Open Font License: Fraunces (serif), Archivo
-(sans), JetBrains Mono (mono). Fetch the variable TTFs from the Google Fonts
-mirror:
+Three families, all under the SIL Open Font License: **IBM Plex Serif**
+(display), **IBM Plex Sans** (sans and the reading/body voice), **IBM Plex
+Mono** (code). The sans *is* the reading voice in Glauca; the serif is the
+display voice (headings). Families and axes are declared in
+`glauca.json -> typography.fonts`.
+
+These files are documented, not committed. Fetch them, then subset for the web
+starter with `make fonts` (needs `fonttools` + `brotli`).
+
+## Fetch the source TTFs
+
+Sans is a variable font (wght, wdth) on the Google Fonts mirror; Mono is static
+(no variable axis). Place all three in this directory as `IBMPlexSans.ttf`,
+`IBMPlexSerif.ttf`, `IBMPlexMono.ttf` — the names `subset_fonts.sh` expects.
 
 ```
-base="https://raw.githubusercontent.com/google/fonts/main/ofl"
-curl -L "$base/fraunces/Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf" -o Fraunces.ttf
-curl -L "$base/archivo/Archivo%5Bwdth%2Cwght%5D.ttf" -o Archivo.ttf
-curl -L "$base/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf" -o JetBrainsMono.ttf
+gf="https://raw.githubusercontent.com/google/fonts/main/ofl"
+curl -L "$gf/ibmplexsans/IBMPlexSans%5Bwdth%2Cwght%5D.ttf" -o IBMPlexSans.ttf
+curl -L "$gf/ibmplexmono/IBMPlexMono-Regular.ttf"          -o IBMPlexMono.ttf
 ```
 
-For the web starter, convert to woff2 (needs fonttools and brotli) and place
-the results in `../web/src/fonts/`:
+Serif ships variable only in the upstream IBM/plex repo (Google's mirror has
+static instances). Its internal family name is "IBM Plex Serif Var", so rename
+the name table to "IBM Plex Serif" after downloading, or the CSS/theme hook
+`--gl-font-serif: 'IBM Plex Serif'` will not match it:
 
 ```
-pip install fonttools brotli
-for f in Fraunces Archivo JetBrainsMono; do
-  fonttools ttLib.woff2 compress "$f.ttf" -o "../web/src/fonts/$f.woff2"
-done
+ibm="https://raw.githubusercontent.com/IBM/plex/master/packages/plex-serif-variable/fonts/complete/ttf"
+curl -L "$ibm/IBM%20Plex%20Serif%20Var-Roman.ttf" -o IBMPlexSerif.ttf
+python3 - <<'PY'
+from fontTools.ttLib import TTFont
+t = TTFont("IBMPlexSerif.ttf")
+for r in t["name"].names:
+    r.string = r.toUnicode().replace("IBM Plex Serif Var", "IBM Plex Serif").replace("IBMPlexSerifVar", "IBMPlexSerif")
+t.save("IBMPlexSerif.ttf")
+PY
 ```
 
-Axis notes:
-- Fraunces: opsz, wght, SOFT, WONK. Headlines use a high opsz with WONK on and a
-  little SOFT; running text uses opsz around 11 with WONK off.
-- Archivo: wdth, wght. The expanded cut is useful for posters.
-- JetBrains Mono: wght. Used for eyebrows, labels, and data captions.
+## Axes
 
-For installing on the system (so Typst can find them), use your OS font manager
-or copy the TTFs into the user fonts directory.
+- IBM Plex Sans: wght 100-700, wdth 75-100 (Glauca uses 85-100). Variable roman
+  + a matching `IBMPlexSans-Italic[wdth,wght].ttf` for the italic voice.
+- IBM Plex Serif: wght 100-700. Display/headings.
+- IBM Plex Mono: static Regular; extra static weights (Medium, SemiBold, Bold +
+  italics) exist on the mirror for code emphasis.
 
-## Body face (Literata)
+## Web subset
 
-Literata (OFL), a low-contrast workhorse built for sustained screen reading.
-Measured stroke contrast 1.67 against Fraunces 2.60, with a larger x-height.
-The body and body-lg roles render in Literata; Fraunces carries the headings.
+`make fonts` subsets each family to `glauca.json -> i18n.unicode-range`
+(Latin-1 plus a few punctuation/symbol codepoints, enough for European
+Portuguese) as woff2, keeping the variable axes and all layout features, and
+writes them to `../web/public/fonts/`.
 
-    https://fonts.google.com/specimen/Literata   # variable opsz,wght
+## Installing on the system
 
-Subset it to the same unicode-range as the others (see i18n.unicode-range).
+So Obsidian, VS Code, Typst, and the browser render Glauca in IBM Plex, copy
+the TTFs into your user fonts directory (`~/Library/Fonts` on macOS) or use the
+OS font manager. The variable Sans/Serif files carry their whole weight range in
+one file.

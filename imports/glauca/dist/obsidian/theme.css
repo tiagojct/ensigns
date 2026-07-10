@@ -30,14 +30,14 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-sans
-    title: Sans headings (match body)
-    description: Off (default) keeps Glauca' serif (IBM Plex Serif) headings.
+  - id: gl-headings-serif
+    title: Serif headings (IBM Plex Serif)
+    description: Off (default) keeps Glauca's sans (IBM Plex Sans) headings, matching the body.
     type: class-toggle
     default: false
   - id: gl-body-serif
     title: Serif body text (IBM Plex Serif)
-    description: Off (default) keeps Glauca' sans (IBM Plex Sans) note body.
+    description: Off (default) keeps Glauca's sans (IBM Plex Sans) note body.
     type: class-toggle
     default: false
   - id: gl-interface
@@ -52,7 +52,7 @@ settings:
     default: false
   - id: gl-embed-frames
     title: Framed embeds (Obsidian default)
-    description: Off (default) keeps Glauca' seamless transclusions.
+    description: Off (default) keeps Glauca's seamless transclusions.
     type: class-toggle
     default: false
   - id: gl-nav-plain
@@ -62,7 +62,7 @@ settings:
     default: false
   - id: gl-explorer-truncate
     title: Truncate file names (Obsidian default)
-    description: Off (default) keeps Glauca' wrapped file-explorer labels.
+    description: Off (default) keeps Glauca's wrapped file-explorer labels.
     type: class-toggle
     default: false
 */
@@ -169,8 +169,8 @@ body {
   --interactive-hover: #1f2932;
   --interactive-accent: var(--text-accent);
   --interactive-accent-hover: #6cb2ff;
-  --link-color: var(--text-accent);
-  --link-color-hover: #6cb2ff;
+  --link-color: #62ba46;
+  --link-color-hover: #8aca7a;
   --link-decoration: underline;
   --link-decoration-hover: underline;
   --link-decoration-thickness: 0.07em;
@@ -198,12 +198,12 @@ body {
   --blockquote-color: #8c8c8c;
   --hr-color: #2a3540;
   --divider-color: #2a3540;
-  --tag-color: var(--text-accent);
-  --tag-color-hover: #6cb2ff;
-  --tag-background: #3d97ff1f;
-  --tag-background-hover: #3d97ff33;
+  --tag-color: #62ba46;
+  --tag-color-hover: #8aca7a;
+  --tag-background: #62ba461f;
+  --tag-background-hover: #62ba4633;
   --tag-border-color: transparent;
-  --tag-border-color-hover: #3d97ff55;
+  --tag-border-color-hover: #62ba4655;
   --checkbox-color: var(--text-accent);
   --checkbox-color-hover: #6cb2ff;
   --checkbox-marker-color: #0b1218;
@@ -286,7 +286,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(77, 115, 145, 0.25);
   --inline-title-color: #e8eef2;
-  --inline-title-font: var(--gl-font-serif);
+  --inline-title-font: var(--gl-font-sans);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -299,8 +299,8 @@ body {
   --callout-fail: #c96a6a;
   --callout-bug: #bd77a2;
   --callout-warning: #d9ae4a;
-  --callout-summary: #007aff;
-  --callout-important: #007aff;
+  --callout-summary: #3d97ff;
+  --callout-important: #3d97ff;
   --callout-quote: var(--text-muted);
   --callout-default: var(--text-muted);
   --graph-line: #2a3540;
@@ -400,8 +400,8 @@ body {
   --interactive-hover: #ffffff;
   --interactive-accent: var(--text-accent);
   --interactive-accent-hover: #084b96;
-  --link-color: var(--text-accent);
-  --link-color-hover: #084b96;
+  --link-color: #3a6a37;
+  --link-color-hover: #2f5433;
   --link-decoration: underline;
   --link-decoration-hover: underline;
   --link-decoration-thickness: 0.07em;
@@ -429,12 +429,12 @@ body {
   --blockquote-color: #55646d;
   --hr-color: #cdd7dc;
   --divider-color: #cdd7dc;
-  --tag-color: var(--text-accent);
-  --tag-color-hover: #084b96;
-  --tag-background: #0b62cf1f;
-  --tag-background-hover: #0b62cf33;
+  --tag-color: #3a6a37;
+  --tag-color-hover: #2f5433;
+  --tag-background: #62ba461f;
+  --tag-background-hover: #62ba4633;
   --tag-border-color: transparent;
-  --tag-border-color-hover: #0b62cf55;
+  --tag-border-color-hover: #62ba4655;
   --checkbox-color: var(--text-accent);
   --checkbox-color-hover: #084b96;
   --checkbox-marker-color: #f2f7fb;
@@ -517,7 +517,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(62, 109, 132, 0.25);
   --inline-title-color: #16222a;
-  --inline-title-font: var(--gl-font-serif);
+  --inline-title-font: var(--gl-font-sans);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -530,8 +530,8 @@ body {
   --callout-fail: #c96a6a;
   --callout-bug: #bd77a2;
   --callout-warning: #d9ae4a;
-  --callout-summary: #007aff;
-  --callout-important: #007aff;
+  --callout-summary: #084b96;
+  --callout-important: #084b96;
   --callout-quote: var(--text-muted);
   --callout-default: var(--text-muted);
   --graph-line: #cdd7dc;
@@ -581,13 +581,14 @@ body {
   text-wrap: pretty;
   font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;
 }
-/* Headings set in IBM Plex Serif, matching every other Glauca surface; body text and UI
-   chrome stay IBM Plex Sans so the two read as distinct voices. Weights stay from Obsidian's
-   --h*-weight. The note title itself is --inline-title-font above, not this selector. */
+/* Headings set in IBM Plex Sans, matching the body voice; they read as headings by weight
+   (Obsidian's --h*-weight) and size, not by a serif contrast. Tighter tracking than body plus
+   a balanced wrap keep them crisp. The note title itself is --inline-title-font above, not
+   this selector; opt back into serif headings with the gl-headings-serif Style Settings toggle. */
 .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
 .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-serif); font-variation-settings: normal; letter-spacing: -0.01em; text-wrap: balance;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
+  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em; text-wrap: balance;
+  font-variant-ligatures: common-ligatures;
 }
 /* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's
    own em so larger headings carry proportionally more air. Core keeps 2.5x above (via
@@ -598,8 +599,18 @@ body {
 /* Blockquotes read as a quoted voice, distinct from body: serif, like headings, over the sea
    tint (--blockquote-background-color, per mode above) and the accent border. */
 .markdown-rendered blockquote, .cm-s-obsidian .HyperMD-quote {
-  border-radius: 0 4px 4px 0; font-family: var(--gl-font-serif);
+  border-radius: 0 4px 4px 0;
 }
+/* Quoted voice: serif italic, distinct from the sans body. font-synthesis keeps the slant
+   even before the installed IBM Plex Serif Italic face is loaded (Chromium obliques the roman);
+   once that cut is picked up it renders as the true italic. The child p is named too so
+   reading-view paragraphs inherit the slant even if core sets their font-style. */
+.markdown-rendered blockquote, .markdown-rendered blockquote p, .cm-s-obsidian .HyperMD-quote {
+  font-family: var(--gl-font-serif); font-style: italic; font-synthesis: style weight;
+}
+/* Generous breathing room top and bottom on the reading-view blockquote (the live-preview
+   .HyperMD-quote is per-line, so container padding there would space every quoted line). */
+.markdown-rendered blockquote { padding-block: 1.3em; }
 /* Explicit belt-and-suspenders: emphasis/italic text should read as sans body text like
    everything else around it, not switch typeface. Written directly (not relying on
    --font-text-theme alone) in case Obsidian has its own internal default for em/i independent
@@ -837,6 +848,27 @@ body:not(.gl-embed-frames) .markdown-embed:hover .markdown-embed-link { opacity:
 body.is-phone {
   --metadata-label-font-size: 0.9em; --metadata-input-font-size: 0.9em;
 }
+/* Tag pills give descenders room. Core clips the pill content box tight to the
+   cap height, and the reading face (Plex) descends deeper than Obsidian's stock
+   stack, so a tag such as "clippings" lost the tail of its g. A taller line box
+   keeps the glyph inside; long-tag ellipsis is unaffected. */
+.multi-select-pill .multi-select-pill-content { line-height: 1.5; }
+.markdown-rendered a.tag, .cm-s-obsidian .cm-hashtag { line-height: 1.4; }
+/* Best-of-Catppuccin polish, in Glauca's own tokens. Catppuccin's signature
+   accent picker and flavour set are declined on purpose -- both fight the single
+   rare mark and the deliberate two-mode pair. What it does do well and core
+   leaves raw are two quiet surfaces: tooltips and the suggestion / command-palette
+   popup. (A current-line tint was tried and pulled -- it read as a colour change
+   on whatever paragraph held the caret.) Each uses existing vars, so both modes
+   and any Style Settings tweak follow along; no warm mark spent. */
+.tooltip {
+  background-color: var(--background-secondary); color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-s); border-radius: var(--radius-s);
+}
+.suggestion-item.is-selected, .prompt-results .suggestion-item.is-selected {
+  background-color: var(--nav-item-background-active);
+}
 
 /* File explorer: slightly smaller labels that wrap to a second/third line instead of truncating. */
 .workspace-leaf-content[data-type="file-explorer"] .tree-item-self { height: auto; }
@@ -847,11 +879,11 @@ body.is-phone {
 /* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or
    to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the
    three theme font hooks above are literal. */
-body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }
-body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
-body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-sans); letter-spacing: -0.015em;
-  font-variant-ligatures: common-ligatures;
+body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }
+body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
+  font-family: var(--gl-font-serif); letter-spacing: -0.01em;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
 }
 body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }
 body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {

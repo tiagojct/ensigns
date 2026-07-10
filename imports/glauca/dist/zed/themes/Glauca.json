@@ -178,6 +178,16 @@
             "selection": "#5b74813d"
           }
         ],
+        "accents": [
+          "#0b62cf",
+          "#33668b",
+          "#3c6e38",
+          "#6b588b",
+          "#306972",
+          "#784a4d",
+          "#084b96",
+          "#5b7481"
+        ],
         "syntax": {
           "attribute": {
             "color": "#306972"
@@ -523,6 +533,16 @@
             "background": "#93b7c9",
             "selection": "#93b7c93d"
           }
+        ],
+        "accents": [
+          "#007aff",
+          "#4a9edb",
+          "#62ba46",
+          "#b184db",
+          "#45a3ad",
+          "#c96a6a",
+          "#6cb2ff",
+          "#93b7c9"
         ],
         "syntax": {
           "attribute": {

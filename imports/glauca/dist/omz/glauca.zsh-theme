@@ -8,6 +8,5 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%F{#55646d})%f"
 ZSH_THEME_GIT_PROMPT_DIRTY="%F{#0b62cf}*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-PROMPT='%F{#3e6d84}%~%f$(git_prompt_info)
-%(?.%F{#3e6d84}.%F{#784a4d})❯%f '
+PROMPT='%F{#3e6d84}%~%f$(git_prompt_info) %(?.%F{#3e6d84}.%F{#784a4d})❯%f '
 RPROMPT='%(?..%F{#784a4d}%?%f)'

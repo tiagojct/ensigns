@@ -55,15 +55,18 @@ def _ramp(m):
             "70": _mix(muted, txt, 0.4), "100": txt}
 
 
-def _callout_map(n):
-    """14 canonical callout-type colour variables (Editor/Callout). dies -- the
-    rare load-bearing blue mark (FOUNDATIONS.md) -- appears on exactly two of
-    the 14: summary/important, the callout types whose whole job is "notice
-    this", so the rarity holds. Everyday informational callouts use lacus, the
-    working blue, which reads as kin to the mark without spending it."""
+def _callout_map(n, m):
+    """14 canonical callout-type colour variables (Editor/Callout). The blue mark
+    (FOUNDATIONS.md) -- appears on exactly two of the 14: summary/important, the
+    callout types whose whole job is "notice this", so the rarity holds. Everyday
+    informational callouts use lacus, the working blue, which reads as kin to the
+    mark without spending it. The mark is mode-adjusted here: raw dies renders the
+    (normal-size) callout title at only 3.2:1 cold / 4.1:1 lit on its own 10% tint,
+    under AA; accent-deep (cold) and accent (lit) keep the blue mark and clear 4.5."""
+    mark = m["accent"] if m["scheme"] == "dark" else m["accent-deep"]
     return {"info": n["blue"], "todo": n["blue"], "tip": n["cyan"], "success": n["green"],
             "question": n["purple"], "example": n["purple"], "error": n["red"], "fail": n["red"],
-            "bug": n["pink"], "warning": n["yellow"], "summary": n["mark"], "important": n["mark"]}
+            "bug": n["pink"], "warning": n["yellow"], "summary": mark, "important": mark}
 
 
 def _light_safe_hue(hx, m):
@@ -232,6 +235,27 @@ body:not(.gl-embed-frames) .markdown-embed:hover .markdown-embed-link { opacity:
 body.is-phone {
   --metadata-label-font-size: 0.9em; --metadata-input-font-size: 0.9em;
 }
+/* Tag pills give descenders room. Core clips the pill content box tight to the
+   cap height, and the reading face (Plex) descends deeper than Obsidian's stock
+   stack, so a tag such as "clippings" lost the tail of its g. A taller line box
+   keeps the glyph inside; long-tag ellipsis is unaffected. */
+.multi-select-pill .multi-select-pill-content { line-height: 1.5; }
+.markdown-rendered a.tag, .cm-s-obsidian .cm-hashtag { line-height: 1.4; }
+/* Best-of-Catppuccin polish, in Glauca's own tokens. Catppuccin's signature
+   accent picker and flavour set are declined on purpose -- both fight the single
+   rare mark and the deliberate two-mode pair. What it does do well and core
+   leaves raw are two quiet surfaces: tooltips and the suggestion / command-palette
+   popup. (A current-line tint was tried and pulled -- it read as a colour change
+   on whatever paragraph held the caret.) Each uses existing vars, so both modes
+   and any Style Settings tweak follow along; no warm mark spent. */
+.tooltip {
+  background-color: var(--background-secondary); color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-s); border-radius: var(--radius-s);
+}
+.suggestion-item.is-selected, .prompt-results .suggestion-item.is-selected {
+  background-color: var(--nav-item-background-active);
+}
 """
 
 
@@ -323,14 +347,14 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-sans
-    title: Sans headings (match body)
-    description: Off (default) keeps Glauca' serif (IBM Plex Serif) headings.
+  - id: gl-headings-serif
+    title: Serif headings (IBM Plex Serif)
+    description: Off (default) keeps Glauca's sans (IBM Plex Sans) headings, matching the body.
     type: class-toggle
     default: false
   - id: gl-body-serif
     title: Serif body text (IBM Plex Serif)
-    description: Off (default) keeps Glauca' sans (IBM Plex Sans) note body.
+    description: Off (default) keeps Glauca's sans (IBM Plex Sans) note body.
     type: class-toggle
     default: false
   - id: gl-interface
@@ -345,7 +369,7 @@ settings:
     default: false
   - id: gl-embed-frames
     title: Framed embeds (Obsidian default)
-    description: Off (default) keeps Glauca' seamless transclusions.
+    description: Off (default) keeps Glauca's seamless transclusions.
     type: class-toggle
     default: false
   - id: gl-nav-plain
@@ -355,7 +379,7 @@ settings:
     default: false
   - id: gl-explorer-truncate
     title: Truncate file names (Obsidian default)
-    description: Off (default) keeps Glauca' wrapped file-explorer labels.
+    description: Off (default) keeps Glauca's wrapped file-explorer labels.
     type: class-toggle
     default: false
 */
@@ -379,7 +403,13 @@ def build_obsidian(D):
         # accent-deep clears it with margin. validate.py locks both pairs (lit accent-bright/bg,
         # cold accent-deep/bg) so a palette edit can't silently reintroduce the failure.
         hov = m["accent-bright"] if m["scheme"] == "dark" else m["accent-deep"]
-        callout, graph, canvas, meta, code = (_callout_map(named), _graph_map(m, named, faint),
+        # Internal-link green: folium, light-safe in cold and darkened a touch more there so it clears
+        # WCAG AA (4.5:1) even on the blockquote sea-tint, not just the page bg; lit stays folium (7.5:1).
+        glink = _light_safe_hue(named["green"], m)
+        if m["scheme"] == "light":
+            glink = _mix(glink, m["text"], 0.14)
+        glink_hover = _mix(glink, m["text"], 0.3)
+        callout, graph, canvas, meta, code = (_callout_map(named, m), _graph_map(m, named, faint),
             _canvas_map(m, named), _properties_map(m), _code_syntax_map(m, codem))
         L = ["." + sel + " {",
              "  --accent-h: %d; --accent-s: %d%%; --accent-l: %d%%;" % (ah[0], ah[1], ah[2])]
@@ -431,7 +461,11 @@ def build_obsidian(D):
          "  --text-highlight-bg-active: rgba(%s, 0.6);" % _rgbtriple(fire["dies"]),
          "  --interactive-normal: %s;" % m["surface"], "  --interactive-hover: %s;" % m["surface-raised"],
          "  --interactive-accent: var(--text-accent);", "  --interactive-accent-hover: %s;" % hov,
-         "  --link-color: var(--text-accent);", "  --link-color-hover: %s;" % hov,
+         # Internal (wiki) links take Glauca's green so they read distinct from the blue accent that
+         # external links and the rest of the UI carry. _light_safe_hue keeps folium legible in cold;
+         # hover deepens toward the text colour, which brightens it in lit and darkens it in cold.
+         "  --link-color: %s;" % glink,
+         "  --link-color-hover: %s;" % glink_hover,
          "  --link-decoration: underline;", "  --link-decoration-hover: underline;",
          "  --link-decoration-thickness: 0.07em;",
          "  --link-unresolved-color: %s;" % m["text-muted"], "  --link-unresolved-opacity: 0.7;",
@@ -444,13 +478,15 @@ def build_obsidian(D):
         L += [
          "  --blockquote-border-color: var(--text-accent);", "  --blockquote-color: %s;" % m["text-muted"],
          "  --hr-color: %s;" % m["border"], "  --divider-color: %s;" % m["border"],
-         # Explicit call: tags are one of the places the fire mark is allowed to show, alongside
-         # links/checkboxes/focus. Accent/bg contrast already verified by validate.py (>=4.61:1 both
-         # modes), so no separate light-mode darkening needed the way the cool tide hue required.
-         "  --tag-color: var(--text-accent);", "  --tag-color-hover: %s;" % hov,
-         "  --tag-background: %s1f;" % m["accent"],
-         "  --tag-background-hover: %s33;" % m["accent"], "  --tag-border-color: transparent;",
-         "  --tag-border-color-hover: %s55;" % m["accent"],
+         # Tags read GREEN -- the same folium as internal (wiki) links -- so "navigation to a note or a
+         # tag" is one colour, and the blue mark stays even rarer (now just checkboxes/focus/links-in-UI).
+         # glink is the link green (folium in lit, darkened in cold for AA); on its own 12/20% green tint
+         # it clears AA at 4.9-6.2:1, hover included. Covers inline tags and the tag-type property pills.
+         "  --tag-color: %s;" % glink,
+         "  --tag-color-hover: %s;" % glink_hover,
+         "  --tag-background: %s1f;" % named["green"],
+         "  --tag-background-hover: %s33;" % named["green"], "  --tag-border-color: transparent;",
+         "  --tag-border-color-hover: %s55;" % named["green"],
          "  --checkbox-color: var(--text-accent);", "  --checkbox-color-hover: %s;" % hov,
          "  --checkbox-marker-color: %s;" % m["on-accent"],
          "  --checkbox-border-color: %s;" % m["border"], "  --checkbox-border-color-hover: var(--text-accent);",
@@ -521,7 +557,7 @@ def build_obsidian(D):
          "  --search-result-background: %s;" % m["surface"],
          "  --embed-background: %s;" % m["surface"], "  --embed-border-start: 4px solid var(--text-accent);",
          "  --embed-block-shadow-hover: 0 2px 10px rgba(%s, 0.25);" % _rgbtriple(m["tint-bright"]),
-         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-serif);",
+         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-sans);",
          "  --divider-color-hover: var(--text-accent);", "  --divider-width-hover: 2px;",
         ]
         L += ["  --callout-%s: %s;" % (k, v) for k, v in callout.items()]
@@ -657,13 +693,14 @@ def build_obsidian(D):
             "  font-weight: var(--gl-body-weight, 400);\n"
             "  text-wrap: pretty;\n"
             "  font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;\n}\n"
-            "/* Headings set in IBM Plex Serif, matching every other Glauca surface; body text and UI\n"
-            "   chrome stay IBM Plex Sans so the two read as distinct voices. Weights stay from Obsidian's\n"
-            "   --h*-weight. The note title itself is --inline-title-font above, not this selector. */\n"
+            "/* Headings set in IBM Plex Sans, matching the body voice; they read as headings by weight\n"
+            "   (Obsidian's --h*-weight) and size, not by a serif contrast. Tighter tracking than body plus\n"
+            "   a balanced wrap keep them crisp. The note title itself is --inline-title-font above, not\n"
+            "   this selector; opt back into serif headings with the gl-headings-serif Style Settings toggle. */\n"
             ".markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
             ".markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-serif); font-variation-settings: normal; letter-spacing: -0.01em; text-wrap: balance;\n"
-            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
+            "  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em; text-wrap: balance;\n"
+            "  font-variant-ligatures: common-ligatures;\n}\n"
             "/* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's\n"
             "   own em so larger headings carry proportionally more air. Core keeps 2.5x above (via\n"
             "   --heading-spacing), so the hierarchy still reads top-heavy, as it should. Live preview's\n"
@@ -673,7 +710,16 @@ def build_obsidian(D):
             "/* Blockquotes read as a quoted voice, distinct from body: serif, like headings, over the sea\n"
             "   tint (--blockquote-background-color, per mode above) and the accent border. */\n"
             ".markdown-rendered blockquote, .cm-s-obsidian .HyperMD-quote {\n"
-            "  border-radius: 0 4px 4px 0; font-family: var(--gl-font-serif);\n}\n"
+            "  border-radius: 0 4px 4px 0;\n}\n"
+            "/* Quoted voice: serif italic, distinct from the sans body. font-synthesis keeps the slant\n"
+            "   even before the installed IBM Plex Serif Italic face is loaded (Chromium obliques the roman);\n"
+            "   once that cut is picked up it renders as the true italic. The child p is named too so\n"
+            "   reading-view paragraphs inherit the slant even if core sets their font-style. */\n"
+            ".markdown-rendered blockquote, .markdown-rendered blockquote p, .cm-s-obsidian .HyperMD-quote {\n"
+            "  font-family: var(--gl-font-serif); font-style: italic; font-synthesis: style weight;\n}\n"
+            "/* Generous breathing room top and bottom on the reading-view blockquote (the live-preview\n"
+            "   .HyperMD-quote is per-line, so container padding there would space every quoted line). */\n"
+            ".markdown-rendered blockquote { padding-block: 1.3em; }\n"
             "/* Explicit belt-and-suspenders: emphasis/italic text should read as sans body text like\n"
             "   everything else around it, not switch typeface. Written directly (not relying on\n"
             "   --font-text-theme alone) in case Obsidian has its own internal default for em/i independent\n"
@@ -717,11 +763,11 @@ def build_obsidian(D):
             "/* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or\n"
             "   to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the\n"
             "   three theme font hooks above are literal. */\n"
-            "body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }\n"
-            "body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
-            "body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-sans); letter-spacing: -0.015em;\n"
-            "  font-variant-ligatures: common-ligatures;\n}\n"
+            "body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }\n"
+            "body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
+            "body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
+            "  font-family: var(--gl-font-serif); letter-spacing: -0.01em;\n"
+            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
             'body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }\n'
             "body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {\n"
             "  font-optical-sizing: auto;\n}\n"

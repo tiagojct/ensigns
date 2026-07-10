@@ -236,7 +236,7 @@
     "statusBarItem.remoteBackground": "#007aff",
     "statusBarItem.remoteForeground": "#0b1218",
     "statusBarItem.errorBackground": "#c96a6a",
-    "statusBarItem.errorForeground": "#e8eef2",
+    "statusBarItem.errorForeground": "#0b1218",
     "statusBarItem.warningBackground": "#084b96",
     "statusBarItem.warningForeground": "#e8eef2",
     "statusBarItem.prominentBackground": "#1f2932",

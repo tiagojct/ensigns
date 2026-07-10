@@ -42,3 +42,11 @@ fonts-check: ## Verify Portuguese coverage and subset range (needs fonts present
 fonts: ## Subset fonts to woff2 (needs source TTFs in src/fonts/ and brotli)
 	sh src/scripts/subset_fonts.sh
 .PHONY: fonts
+
+pptx: ## Build the PowerPoint templates into dist/pptx/ (needs python-pptx)
+	python3 src/pptx/build_pptx.py
+.PHONY: pptx
+
+markedit: ## Bundle the MarkEdit theme into dist/markedit/glauca.js (needs npm)
+	cd src/markedit && npm install && npm run build
+.PHONY: markedit

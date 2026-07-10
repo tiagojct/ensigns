@@ -186,10 +186,10 @@ def build_iterm_cold(D):
 def _omz_theme(label, note, path, paren, branch, dirty, caret_ok, caret_err, err):
     """One oh-my-zsh .zsh-theme. Truecolor (%F{#hex}, zsh >= 5.7) so the prompt
     carries the exact brand hues in any terminal, and pairs cleanly with the
-    Glauca terminal preset. Two-line prompt: cwd + git on line one, caret on
-    line two. Discipline holds -- the whole prompt is cool bloom; the blue mark
-    (dies) lights in exactly one place, the git-dirty mark; a failed command
-    uses red (bacca), a distinct signal, not the brand blue."""
+    Glauca terminal preset. Single line: cwd + git + caret together, so the
+    prompt sits on the cursor's line. Discipline holds -- the whole prompt is
+    cool bloom; the blue mark (dies) lights in exactly one place, the git-dirty
+    mark; a failed command uses red (bacca), a distinct signal, not the brand blue."""
     F = lambda h: "%F{" + h + "}"
     return "\n".join([
         "# Glauca (%s) -- oh-my-zsh theme. Generated from glauca.json." % label,
@@ -202,8 +202,7 @@ def _omz_theme(label, note, path, paren, branch, dirty, caret_ok, caret_err, err
         'ZSH_THEME_GIT_PROMPT_DIRTY="' + F(dirty) + '*"',
         'ZSH_THEME_GIT_PROMPT_CLEAN=""',
         "",
-        "PROMPT='" + F(path) + "%~%f$(git_prompt_info)",
-        "%(?." + F(caret_ok) + "." + F(caret_err) + ")❯%f '",
+        "PROMPT='" + F(path) + "%~%f$(git_prompt_info) %(?." + F(caret_ok) + "." + F(caret_err) + ")❯%f '",
         "RPROMPT='%(?.." + F(err) + "%?%f)'",
         "",
     ])
@@ -258,6 +257,143 @@ def build_vivaldi(D, modekey):
         "transparencyTabBar": False, "transparencyTabs": False, "url": "", "version": 1,
     }
     return json.dumps(theme, indent=2) + "\n"
+
+def build_miniflux(D):
+    """Glauca custom CSS for Miniflux (Settings > Settings > Custom CSS). Miniflux
+    themes are pure CSS-variable sets, so this overrides them per mode: cold
+    (Pruina) in :root, lit (Profundum) under prefers-color-scheme: dark -- so a
+    "System" appearance in Miniflux follows the OS. Colours are the semantic
+    Glauca tokens (blue link + logo mark, folium/bacca/amber for alert borders);
+    a few structural rules the variables can't reach round it out. Fonts: IBM
+    Plex, installed on the machine (see src/fonts/README.md)."""
+    ext = D["palette"]["extended"]
+    folium, bacca = ext["folium"], ext["bacca"]
+    amber = D["terminal"]["ansi"][3]          # #c79a3d, the warning hue
+
+    def block(m):
+        accent, bright, deep = m["accent"], m["accent-bright"], m["accent-deep"]
+        text, muted, bg = m["text"], m["text-muted"], m["bg"]
+        surf, raised, border, tint = m["surface"], m["surface-raised"], m["border"], m["tint"]
+        onacc = m["on-accent"]
+        # Category labels read GREEN -- the same folium as the Obsidian tag/link, so "tag" is one
+        # colour across surfaces. Light darkens it (as the Obsidian link does) to clear AA on the
+        # green tint; dark keeps folium. Green text on the 12% green tint measures 5.3-6.2:1.
+        light = m["scheme"] == "light"
+        green = _mix(_mix(folium, text, 0.45), text, 0.14) if light else folium
+        green_hover = _mix(green, text, 0.3)
+        green_tint = folium + "1f"
+        V = {
+            "font-family": '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+            "body-color": text, "body-background": bg, "hr-border-color": border,
+            "title-color": text,
+            "link-color": accent, "link-focus-color": bright, "link-hover-color": bright,
+            "link-visited-color": muted,
+            "header-list-border-color": border, "header-link-color": muted,
+            "header-link-focus-color": accent, "header-link-hover-color": accent,
+            "header-active-link-color": text,
+            "page-header-title-color": text, "page-header-title-border-color": border,
+            "logo-color": accent, "logo-hover-color-span": bright,
+            "table-border-color": border, "table-th-background": surf, "table-th-color": text,
+            "table-tr-hover-background-color": surf, "table-tr-hover-color": text,
+            "button-primary-border-color": deep, "button-primary-background": accent,
+            "button-primary-color": onacc, "button-primary-focus-border-color": deep,
+            "button-primary-focus-background": bright,
+            "input-border": "1px solid " + border, "input-background": raised,
+            "input-color": text, "input-placeholder-color": muted,
+            "input-focus-color": text, "input-focus-border-color": accent,
+            "input-focus-box-shadow": "0 0 0 3px " + accent + "33",
+            "alert-color": text, "alert-background-color": surf, "alert-border-color": amber,
+            "alert-success-color": text, "alert-success-background-color": surf,
+            "alert-success-border-color": folium,
+            "alert-error-color": text, "alert-error-background-color": surf,
+            "alert-error-border-color": bacca,
+            "alert-info-color": text, "alert-info-background-color": surf,
+            "alert-info-border-color": accent,
+            "panel-background": surf, "panel-border-color": border, "panel-color": text,
+            "pagination-link-color": text, "pagination-border-color": border,
+            "category-color": green, "category-background-color": green_tint,
+            "category-border-color": folium, "category-link-color": green,
+            "category-link-hover-color": green_hover,
+            "item-border-color": border, "item-padding": "8px",
+            "item-title-link-font-weight": "600",
+            "item-status-read-title-link-color": muted,
+            "item-status-read-title-focus-color": accent,
+            "item-meta-focus-color": accent, "item-meta-li-color": muted,
+            "current-item-border-width": "3px", "current-item-border-color": accent,
+            "current-item-box-shadow": "none",
+            "entry-header-border-color": border, "entry-header-title-link-color": text,
+            "entry-content-color": text, "entry-content-code-color": text,
+            "entry-content-code-background": surf, "entry-content-code-border-color": border,
+            "entry-content-quote-color": muted, "entry-content-abbr-border-color": muted,
+            "entry-content-aside-border-color": border, "entry-enclosure-border-color": border,
+            "parsing-error-color": text, "feed-parsing-error-background-color": surf,
+            "feed-parsing-error-border-style": "solid", "feed-parsing-error-border-color": bacca,
+            "feed-has-unread-background-color": accent + "14",
+            "feed-has-unread-border-style": "solid", "feed-has-unread-border-color": accent + "55",
+            "category-has-unread-background-color": accent + "14",
+            "category-has-unread-border-style": "solid",
+            "category-has-unread-border-color": accent + "55",
+            "keyboard-shortcuts-li-color": text, "counter-color": muted,
+        }
+        return "".join("  --%s: %s;\n" % (k, v) for k, v in V.items())
+
+    cold, lit = block(D["modes"]["cold"]), block(D["modes"]["lit"])
+    out = [
+        "/* Glauca for Miniflux -- generated from glauca.json. Paste into",
+        "   Settings > Settings > Custom CSS. Cold (Pruina) is the base; lit",
+        '   (Profundum) applies under a dark OS appearance, so a "System" theme',
+        "   in Miniflux follows the OS. Fonts: install IBM Plex (see fonts README). */",
+        ":root {\n" + cold + "}",
+        "@media (prefers-color-scheme: dark) {\n:root {\n" + lit + "}\n}",
+        "/* Structural polish the theme variables cannot reach. */",
+        ".entry-content { line-height: 1.7; }",
+        "pre, code { font-family: \"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace; }",
+        "button, .button, input, textarea, select { border-radius: 6px; }",
+    ]
+    return "\n".join(out) + "\n"
+
+def build_markedit(D):
+    """Glauca colours for a MarkEdit theme (MarkEdit-theming's `Colors` set). MarkEdit
+    is an editor, so it lives in the code tier: syntax maps to D['code'] like the VS Code
+    and Zed themes (light darkened through the shared _cold_remap), and the editor chrome
+    reads the mode tokens -- blue caret and selection, muted gutter, seamless background.
+    Markdown links take folium green, matching the Obsidian/Miniflux tag+link green.
+    Emits an ES module (light + dark) that src/markedit/glauca.mjs feeds to overrideThemes;
+    `make markedit` bundles that with esbuild into dist/markedit/glauca.js."""
+    codem = D["code"]
+    remap, _deep = _cold_remap(D)
+
+    def colors_for(m, is_dark):
+        cc = (lambda role: codem[role]["color"]) if is_dark else (lambda role: remap(codem[role]["color"]))
+        a = m["accent"]
+        editor = {
+            "textColor": m["text"], "backgroundColor": m["bg"],
+            "activeLineBackground": m["surface"], "caretColor": a,
+            "selectionBackground": a + "33", "matchingBracketBackground": a + "40",
+            "gutterText": m["text-muted"], "gutterBackground": m["bg"],
+            "foldPlaceholderText": m["text-muted"], "foldPlaceholderBackground": m["surface"],
+            "searchMatchBackground": a + "55", "selectionMatchBackground": a + "2a",
+            "visibleSpaceColor": m["border"],
+        }
+        highlight = {
+            "heading": cc("keyword"), "bold": m["text"], "italic": m["text"],
+            "strikethrough": m["text-muted"], "quote": m["text-muted"],
+            "link": cc("string"), "divider": m["border"], "comment": cc("comment"),
+            "meta": m["text-muted"], "keyword": cc("keyword"), "atom": cc("number"),
+            "literal": cc("number"), "string": cc("string"), "special": cc("decorator"),
+            "variable": cc("variable"), "local": cc("parameter"), "type": cc("type"),
+            "class": cc("type"), "macro": cc("decorator"), "property": cc("function"),
+            "label": cc("decorator"), "operator": cc("operator"), "constant": cc("number"),
+            "instruction": cc("keyword"), "invalid": cc("decorator"),
+        }
+        return {"editor": editor, "highlight": highlight, "allowsFallback": True}
+
+    light = colors_for(D["modes"]["cold"], False)
+    dark = colors_for(D["modes"]["lit"], True)
+    return ("// Generated from glauca.json -- Glauca colours for MarkEdit-theming.\n"
+            "// Do not edit by hand; run `make generate`.\n"
+            "export const light = " + json.dumps(light, indent=2) + ";\n"
+            "export const dark = " + json.dumps(dark, indent=2) + ";\n")
 
 def build_vscode(D):
     lit, pal, codem, t = D["modes"]["lit"], D["palette"], D["code"], D["terminal"]
@@ -423,7 +559,7 @@ def build_vscode(D):
      "statusBar.noFolderBackground": surf, "statusBar.noFolderForeground": muted,
      "statusBarItem.hoverBackground": "#ffffff14", "statusBarItem.activeBackground": "#ffffff1f",
      "statusBarItem.remoteBackground": ember, "statusBarItem.remoteForeground": onacc,
-     "statusBarItem.errorBackground": brick, "statusBarItem.errorForeground": text,
+     "statusBarItem.errorBackground": brick, "statusBarItem.errorForeground": onacc,
      "statusBarItem.warningBackground": oil, "statusBarItem.warningForeground": text,
      "statusBarItem.prominentBackground": raised,
      # title bar / tabs / panel extras
@@ -867,6 +1003,9 @@ def build_zed(D):
         style["terminal.ansi.bright_" + n] = ansi[i + 8]
     style["players"] = [{"cursor": h, "background": h, "selection": h + "3d"}
                         for h in (ember, tide, kelp, dusk, shoal, brick, flame, foam)]
+    # accents: the palette Zed rotates through for collaborators and accent options. Same identity
+    # hues as the players, so cursors and accents read from one set; deep()-remapped for cold below.
+    style["accents"] = [ember, tide, kelp, dusk, shoal, brick, flame, foam]
     style["syntax"] = {
      "attribute": col(shoal), "boolean": syn("number"), "comment": syn("comment"), "comment.doc": syn("comment"),
      "constant": syn("number"), "constructor": col(shoal, font_style="italic"), "embedded": col(text),
@@ -952,6 +1091,8 @@ def artifacts(D):
         "dist/zed/themes/Glauca.json": build_zed(D),
         "dist/vivaldi/lit/settings.json": build_vivaldi(D, "lit"),
         "dist/vivaldi/cold/settings.json": build_vivaldi(D, "cold"),
+        "dist/miniflux/glauca.css": build_miniflux(D),
+        "src/markedit/colors.generated.js": build_markedit(D),
         "dist/obsidian/theme.css": build_obsidian(D),
         # version single-sourced from src/ manifests into dist/:
         "dist/obsidian/manifest.json": stamp_version("obsidian/manifest.json", D),
