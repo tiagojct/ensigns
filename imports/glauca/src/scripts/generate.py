@@ -127,10 +127,41 @@ def build_ghostty(D):
     g += ["palette = %d=%s" % (i, c) for i, c in enumerate(t["ansi"])]
     return "\n".join(g) + "\n"
 
-def build_ghostty_cold(D):
-    """Pruina (light) Ghostty theme: bg/fg/cursor/selection from modes.cold,
-    keeping the same 16-colour identity palette (Solarized-style mode swap)."""
+def _contrast(a, b):
+    """WCAG contrast ratio between two hex colours."""
+    def lum(hx):
+        h = hx.lstrip("#"); r, g, bl = (int(h[i:i+2], 16) / 255 for i in (0, 2, 4))
+        f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(bl)
+    l1, l2 = sorted((lum(a), lum(b)), reverse=True)
+    return (l1 + 0.05) / (l2 + 0.05)
+
+def _light_ansi(D):
+    """A light-tuned ANSI palette for the cold (Pruina) terminals. The dark palette
+    is bright-for-dark; reused flat on the frost bg, 8 of 16 slots fall below 3:1 --
+    white and bright-white (1.4:1, 1.1:1) go invisible, the bright hues wash out. So
+    the twelve coloured slots are darkened toward the cold ink until they clear the
+    light bg (>=4.5 normal, >=4.0 bright), and the four greyscale slots run a
+    dark->light luminance ramp (0 darkest ... 15 lightest, the light-terminal
+    convention, so white stays light as apps expect). Hues stay put; only luminance
+    moves. Ghostty and iTerm share this; the dark themes keep the identity palette."""
     cold, ansi = D["modes"]["cold"], D["terminal"]["ansi"]
+    ink, bg = cold["text"], cold["bg"]
+    def darken(c, target):
+        t = 0.0
+        while t < 0.9:
+            cc = _mix(c, ink, t)
+            if _contrast(cc, bg) >= target:
+                return cc
+            t += 0.02
+        return _mix(c, ink, 0.9)
+    grey = {0: ansi[0], 8: cold["text-muted"], 7: _mix(cold["text-muted"], bg, 0.5), 15: cold["surface"]}
+    return [grey[i] if i in grey else darken(c, 4.5 if i < 8 else 4.0) for i, c in enumerate(ansi)]
+
+def build_ghostty_cold(D):
+    """Pruina (light) Ghostty theme: bg/fg/cursor/selection from modes.cold, with a
+    light-tuned ANSI palette (see _light_ansi) so every colour reads on the frost bg."""
+    cold, ansi = D["modes"]["cold"], _light_ansi(D)
     g = ["# Glauca (%s) — Ghostty theme (light). Generated from glauca.json." % cold["label"],
          "background = %s" % cold["bg"], "foreground = %s" % cold["text"],
          "cursor-color = %s" % cold["accent"], "cursor-text = %s" % cold["on-accent"],
@@ -171,11 +202,11 @@ def build_iterm(D):
     return _iterm_plist(pairs)
 
 def build_iterm_cold(D):
-    """Pruina (light) iTerm2 preset: chrome from modes.cold, same 16-colour
-    identity palette (mirrors build_ghostty_cold). Link uses cold tint-bright,
-    not the ANSI bright blue -- it must stay readable on the light background
-    (tint-bright/bg is a validate.py-locked pair)."""
-    cold, ansi = D["modes"]["cold"], D["terminal"]["ansi"]
+    """Pruina (light) iTerm2 preset: chrome from modes.cold, light-tuned ANSI palette
+    (mirrors build_ghostty_cold via _light_ansi). Link uses cold tint-bright, not the
+    ANSI bright blue -- it must stay readable on the light background (tint-bright/bg
+    is a validate.py-locked pair)."""
+    cold, ansi = D["modes"]["cold"], _light_ansi(D)
     pairs = [("Ansi %d Color" % i, c) for i, c in enumerate(ansi)]
     pairs += [("Background Color", cold["bg"]), ("Bold Color", cold["text"]),
               ("Cursor Color", cold["accent"]), ("Cursor Text Color", cold["on-accent"]),
@@ -183,27 +214,55 @@ def build_iterm_cold(D):
               ("Selected Text Color", cold["on-tint"]), ("Selection Color", cold["tint"])]
     return _iterm_plist(pairs)
 
-def _omz_theme(label, note, path, paren, branch, dirty, caret_ok, caret_err, err):
+def _omz_theme(label, note, path_cur, path_dim, paren, branch, dirty, caret_ok, caret_err, err, venv, dur):
     """One oh-my-zsh .zsh-theme. Truecolor (%F{#hex}, zsh >= 5.7) so the prompt
-    carries the exact brand hues in any terminal, and pairs cleanly with the
-    Glauca terminal preset. Single line: cwd + git + caret together, so the
-    prompt sits on the cursor's line. Discipline holds -- the whole prompt is
-    cool bloom; the blue mark (dies) lights in exactly one place, the git-dirty
-    mark; a failed command uses red (bacca), a distinct signal, not the brand blue."""
+    carries the exact brand hues in any terminal, and pairs cleanly with the Glauca
+    terminal preset.
+
+    Single line: an active Python venv, the cwd, git, and the caret sit together on
+    the cursor's line. The right side is quiet reportage -- a command that ran two
+    seconds or longer shows its runtime, and a failed command shows its exit code.
+
+    Discipline holds: the field is cool bloom, the blue mark (dies) lights in exactly
+    one place -- the git-dirty mark -- and red (bacca) is the failure signal, never
+    the brand blue. The venv name and runtime stay muted so they report without
+    competing. Command timing uses zsh/datetime + add-zsh-hook, both namespaced
+    (_glauca_*), so re-sourcing the theme never double-registers."""
     F = lambda h: "%F{" + h + "}"
     return "\n".join([
         "# Glauca (%s) -- oh-my-zsh theme. Generated from glauca.json." % label,
         "# %s" % note,
-        "# Truecolor prompt (needs zsh >= 5.7). The bloom is the field; the blue mark",
-        "# lights only uncommitted work; a red caret/code means the last command failed.",
+        "# Truecolor single-line prompt (needs zsh >= 5.7): venv + cwd + git + caret,",
+        "# with a slow command's runtime and a failed command's exit code on the right.",
+        "",
+        "zmodload zsh/datetime 2>/dev/null",
+        "autoload -Uz add-zsh-hook",
+        "_glauca_preexec() { _glauca_start=$EPOCHREALTIME }",
+        "# The venv and runtime segments are coloured here, in plain shell, not in the",
+        "# prompt string: a %F{...} inside a ${x:+...} confuses prompt brace-matching.",
+        "_glauca_precmd() {",
+        "  _glauca_dur=''",
+        "  if (( ${_glauca_start:-0} )); then",
+        "    local e=$(( EPOCHREALTIME - _glauca_start ))",
+        "    (( e >= 2 )) && _glauca_dur=\"" + F(dur) + "$(printf '%.1fs' $e)%f\"",
+        "    _glauca_start=0",
+        "  fi",
+        "  if [[ -n $VIRTUAL_ENV ]]; then _glauca_venv=\"" + F(venv) + "${VIRTUAL_ENV:t} %f\"; else _glauca_venv=''; fi",
+        "  local p=${${(%):-%~}//\\%/%%}",
+        "  if [[ $p == */?* ]]; then _glauca_path=\"" + F(path_dim) + "${p%/*}/%f" + F(path_cur) + "${p##*/}%f\";"
+        " else _glauca_path=\"" + F(path_cur) + "${p}%f\"; fi",
+        "}",
+        "add-zsh-hook preexec _glauca_preexec",
+        "add-zsh-hook precmd _glauca_precmd",
         "",
         'ZSH_THEME_GIT_PROMPT_PREFIX=" ' + F(paren) + "(" + F(branch) + '"',
         'ZSH_THEME_GIT_PROMPT_SUFFIX="' + F(paren) + ')%f"',
         'ZSH_THEME_GIT_PROMPT_DIRTY="' + F(dirty) + '*"',
         'ZSH_THEME_GIT_PROMPT_CLEAN=""',
         "",
-        "PROMPT='" + F(path) + "%~%f$(git_prompt_info) %(?." + F(caret_ok) + "." + F(caret_err) + ")❯%f '",
-        "RPROMPT='%(?.." + F(err) + "%?%f)'",
+        "PROMPT='${_glauca_venv}${_glauca_path}$(git_prompt_info) "
+        + "%(?." + F(caret_ok) + "." + F(caret_err) + ")❯%f '",
+        "RPROMPT='${_glauca_dur}%(?.. " + F(err) + "%?%f)'",
         "",
     ])
 
@@ -211,9 +270,11 @@ def build_omz(D):
     """Profundum (dark) oh-my-zsh prompt: brand hues straight from the palette."""
     pal, lit = D["palette"], D["modes"]["lit"]
     return _omz_theme("Profundum", "Dark.",
-        path=pal["glaucum"]["nebula"], paren=lit["tint-bright"], branch=pal["extended"]["unda"],
+        path_cur=pal["glaucum"]["nebula"], path_dim=_mix(pal["glaucum"]["nebula"], lit["bg"], 0.5),
+        paren=lit["tint-bright"], branch=pal["extended"]["unda"],
         dirty=pal["caelum"]["dies"], caret_ok=lit["tint-bright"],
-        caret_err=pal["extended"]["bacca"], err=pal["extended"]["bacca"])
+        caret_err=pal["extended"]["bacca"], err=pal["extended"]["bacca"],
+        venv=lit["text-muted"], dur=lit["text-muted"])
 
 def build_omz_cold(D):
     """Pruina (light) oh-my-zsh prompt: cold-mode chrome plus the extended
@@ -222,9 +283,11 @@ def build_omz_cold(D):
     cold, ex = D["modes"]["cold"], D["palette"]["extended"]
     ls = lambda h: _mix(h, cold["text"], 0.45)
     return _omz_theme("Pruina", "Light.",
-        path=cold["tint-bright"], paren=cold["text-muted"], branch=ls(ex["unda"]),
+        path_cur=cold["tint"], path_dim=_mix(cold["tint"], cold["bg"], 0.5),
+        paren=cold["text-muted"], branch=ls(ex["unda"]),
         dirty=cold["accent"], caret_ok=cold["tint-bright"],
-        caret_err=ls(ex["bacca"]), err=ls(ex["bacca"]))
+        caret_err=ls(ex["bacca"]), err=ls(ex["bacca"]),
+        venv=cold["text-muted"], dur=cold["text-muted"])
 
 def build_vivaldi(D, modekey):
     """Vivaldi browser theme (settings.json). Schema matches a current exported
@@ -241,7 +304,11 @@ def build_vivaldi(D, modekey):
     - radius 6 = the system's `lg` radius token (spacing.radius.lg).
     - opaque (alpha 1, blur 0): no translucency gimmick; chrome stays legible.
     - accentOnWindow false keeps the fire off the whole window -- it marks only the
-      accent elements Vivaldi paints with colorAccentBg, so the fire stays rare."""
+      accent elements Vivaldi paints with colorAccentBg, so the fire stays rare.
+    - colorHighlightBg is both the active-tab background and the URL-field text selection. Dark mode
+      takes the brighter tint-bright so a selection reads against the near-black chrome (plain tint is
+      barely lighter there, so a highlighted URL looked unselected); light keeps the darker tint,
+      already clear on the pale field."""
     m = D["modes"][modekey]
     up = lambda h: h.upper()
     # Light-first: the plain name is the light flagship; the dark one carries its label.
@@ -251,7 +318,8 @@ def build_vivaldi(D, modekey):
         "accentFromPage": False, "accentOnWindow": False, "accentSaturationLimit": 1,
         "alpha": 1, "backgroundImage": "", "backgroundPosition": "stretch", "backgroundSource": "",
         "blur": 0, "colorAccentBg": up(m["accent"]), "colorBg": up(m["bg"]), "colorFg": up(m["text"]),
-        "colorHighlightBg": up(m["tint"]), "colorPosition": "unified", "colorWindowBg": up(m["surface"]),
+        "colorHighlightBg": up(m["tint-bright"] if m["scheme"] == "dark" else m["tint"]),
+        "colorPosition": "unified", "colorWindowBg": up(m["surface"]),
         "contrast": 5, "dimBlurred": False, "engineVersion": 1, "id": tid, "name": name,
         "preferSystemAccent": False, "radius": 6, "simpleScrollbar": False,
         "transparencyTabBar": False, "transparencyTabs": False, "url": "", "version": 1,
