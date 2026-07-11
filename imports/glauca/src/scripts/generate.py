@@ -1053,6 +1053,7 @@ def build_zed(D):
      "editor.invisible": "#3a4754", "editor.wrap_guide": "#1d262f", "editor.active_wrap_guide": "#3a4754",
      "editor.indent_guide": "#1d262f", "editor.indent_guide_active": "#3a4754",
      "editor.document_highlight.read_background": tide + "26", "editor.document_highlight.write_background": kelp + "26",
+     "editor.document_highlight.bracket_background": seab + "33",
      "terminal.background": bg, "terminal.foreground": text, "terminal.bright_foreground": text, "terminal.dim_foreground": muted,
      "link_text.hover": flame,
      "conflict": dusk, "conflict.background": dusk + "22", "conflict.border": dusk,
@@ -1066,7 +1067,9 @@ def build_zed(D):
      "hint": shoal, "hint.background": shoal + "22", "hint.border": shoal,
      "success": kelp, "success.background": kelp + "22", "success.border": kelp,
      "predictive": dim, "predictive.background": dim + "22", "predictive.border": dim,
-     "unreachable": muted, "hidden": dim, "ignored": dim,
+     "unreachable": muted, "unreachable.background": muted + "22", "unreachable.border": muted,
+     "hidden": dim, "hidden.background": dim + "22", "hidden.border": dim,
+     "ignored": dim, "ignored.background": dim + "22", "ignored.border": dim,
      "scrollbar.thumb.active_background": seab + "99",
      "panel.indent_guide": "#1d262f", "panel.indent_guide_active": "#3a4754", "panel.indent_guide_hover": "#2a3540",
      "version_control.added": kelp, "version_control.modified": ember, "version_control.deleted": brick,
@@ -1075,6 +1078,8 @@ def build_zed(D):
     for i, n in enumerate(["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]):
         style["terminal.ansi." + n] = ansi[i]
         style["terminal.ansi.bright_" + n] = ansi[i + 8]
+        style["terminal.ansi.dim_" + n] = _mix(ansi[i], bg, 0.4)   # SGR-dim: normal register faded toward bg
+    style["terminal.ansi.background"] = bg
     style["players"] = [{"cursor": h, "background": h, "selection": h + "3d"}
                         for h in (ember, tide, kelp, dusk, shoal, brick, flame, foam)]
     # accents: the palette Zed rotates through for collaborators and accent options. Same identity
@@ -1101,10 +1106,12 @@ def build_zed(D):
     }
     remap, deep = _light_remap(D)
     ansi_names = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
-    light_ansi = {}
+    la, lbg = _light_ansi(D), D["modes"]["light"]["bg"]
+    light_ansi = {"terminal.ansi.background": lbg}
     for i, name in enumerate(ansi_names):
-        light_ansi["terminal.ansi." + name] = _light_ansi(D)[i]
-        light_ansi["terminal.ansi.bright_" + name] = _light_ansi(D)[i + 8]
+        light_ansi["terminal.ansi." + name] = la[i]
+        light_ansi["terminal.ansi.bright_" + name] = la[i + 8]
+        light_ansi["terminal.ansi.dim_" + name] = _mix(la[i], lbg, 0.4)
     def light_style(s):
         # Terminal ANSI follows the shared light-safe palette; syntax/players nest, so
         # they recurse through deep(); every other value is a colour string to remap.
