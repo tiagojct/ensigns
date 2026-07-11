@@ -4,8 +4,8 @@ Generated from `glauca.json` (the `terminal` block) by `make generate`.
 
 ## Ghostty
 
-`Glauca-Dark.ghostty` is the lit (dark) theme; `Glauca.ghostty` is the
-cold (light) one. Install as named themes:
+`Glauca-Dark.ghostty` is the dark theme; `Glauca.ghostty` is the
+light one. Install as named themes:
 
 ```
 cp Glauca-Dark.ghostty ~/.config/ghostty/themes/Glauca
@@ -24,8 +24,8 @@ selection) flips between modes.
 
 ## iTerm2
 
-`Glauca-Dark.itermcolors` (lit, dark) and `Glauca.itermcolors` (cold,
-light). Import via **Settings → Profiles → Colors → Color Presets… → Import…**,
+`Glauca-Dark.itermcolors` (dark) and `Glauca.itermcolors` (light).
+Import via **Settings → Profiles → Colors → Color Presets… → Import…**,
 then pick the preset from the same menu. Colours are sRGB; the same
 identity-palette / flipped-chrome split as the Ghostty pair.
 

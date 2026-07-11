@@ -1,7 +1,7 @@
 {
   "name": "glauca-tailwind",
   "version": "1.0.0",
-  "description": "Glauca identity palette as a Tailwind colour preset. Rooted in Moby-Dick.",
+  "description": "Glauca identity palette as a frost-bloom Tailwind colour preset.",
   "main": "index.js",
   "files": [
     "index.js",
@@ -12,7 +12,7 @@
     "tailwindcss",
     "color-palette",
     "design-tokens",
-    "moby-dick",
+    "design-system",
     "glauca"
   ],
   "license": "MIT",

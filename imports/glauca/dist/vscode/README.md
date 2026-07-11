@@ -10,7 +10,7 @@ cyan (unda); decorators, namespaces and `pkg::` the red (bacca); comments the
 ash grey (cinis). Semantic highlighting is on, so
 Pylance and the R language server refine the colours further. The light theme is
 a total remap of the dark one: same hues darkened toward the ink for WCAG-safe
-contrast, same identity terminal palette, hovers that darken instead of brighten.
+contrast, a light-safe terminal palette, and hovers that darken instead of brighten.
 
 ## Install from source
 

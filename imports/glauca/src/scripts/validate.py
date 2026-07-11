@@ -14,12 +14,12 @@ for k in ["version", "signature", "modes", "palette", "code", "terminal", "type"
     if k not in D: err("missing top-level key: %s" % k)
 
 # 2. modes present, parity, scheme
-lit, cold = D["modes"].get("lit", {}), D["modes"].get("cold", {})
-lk = {k for k in lit if k not in ("label", "scheme")}
-ck = {k for k in cold if k not in ("label", "scheme")}
-if lk != ck: err("lit/cold token keys differ: %s" % (lk ^ ck))
-if lit.get("scheme") != "dark":  err("lit.scheme must be 'dark'")
-if cold.get("scheme") != "light": err("cold.scheme must be 'light'")
+dark, light = D["modes"].get("dark", {}), D["modes"].get("light", {})
+lk = {k for k in dark if k not in ("label", "scheme")}
+ck = {k for k in light if k not in ("label", "scheme")}
+if lk != ck: err("dark/light token keys differ: %s" % (lk ^ ck))
+if dark.get("scheme") != "dark":  err("dark.scheme must be 'dark'")
+if light.get("scheme") != "light": err("light.scheme must be 'light'")
 
 # 3. every colour-looking value is valid hex
 def walk(obj, path):
@@ -66,22 +66,22 @@ def ratio(f, b):
     a, c = lum(f), lum(b); hi, lo = max(a, c), min(a, c); return (hi+.05)/(lo+.05)
 
 checks = [
- ("lit text/bg",       lit["text"], lit["bg"], 4.5),
- ("lit muted/bg",      lit["text-muted"], lit["bg"], 4.5),
- ("lit accent/bg",     lit["accent"], lit["bg"], 4.5),
- ("lit button",        lit["on-accent"], lit["accent"], 4.5),
- ("lit nebula/bg",     lit["tint-pale"], lit["bg"], 4.5),
- ("lit aer/tint (UI)", lit["accent-bright"], lit["tint"], 3.0),
+ ("dark text/bg",       dark["text"], dark["bg"], 4.5),
+ ("dark muted/bg",      dark["text-muted"], dark["bg"], 4.5),
+ ("dark accent/bg",     dark["accent"], dark["bg"], 4.5),
+ ("dark button",        dark["on-accent"], dark["accent"], 4.5),
+ ("dark nebula/bg",     dark["tint-pale"], dark["bg"], 4.5),
+ ("dark aer/tint (UI)", dark["accent-bright"], dark["tint"], 3.0),
  # Hover-state text: dark mode hovers brighten (accent-bright), light mode hovers must darken
- # (accent-deep) -- the raw #007AFF anchor measures under 4.5 on the pale bg, which is why cold
+ # (accent-deep) -- the raw #007AFF anchor measures under 4.5 on the pale bg, which is why light
  # keeps it for large/UI marks and hovers use accent-deep. Both hover pairs locked at the AA floor.
- ("lit hover/bg",       lit["accent-bright"], lit["bg"], 4.5),
- ("cold hover/bg",      cold["accent-deep"], cold["bg"], 4.5),
- ("cold ink/bg",       cold["text"], cold["bg"], 4.5),
- ("cold muted/bg",     cold["text-muted"], cold["bg"], 4.5),
- ("cold accent/bg",    cold["accent"], cold["bg"], 4.5),
- ("cold button",       cold["on-accent"], cold["accent"], 4.5),
- ("cold tint-bright/bg", cold["tint-bright"], cold["bg"], 4.5),
+ ("dark hover/bg",       dark["accent-bright"], dark["bg"], 4.5),
+ ("light hover/bg",      light["accent-deep"], light["bg"], 4.5),
+ ("light ink/bg",       light["text"], light["bg"], 4.5),
+ ("light muted/bg",     light["text-muted"], light["bg"], 4.5),
+ ("light accent/bg",    light["accent"], light["bg"], 4.5),
+ ("light button",       light["on-accent"], light["accent"], 4.5),
+ ("light tint-bright/bg", light["tint-bright"], light["bg"], 4.5),
 ]
 print("WCAG contrast:")
 for label, f, b, mn in checks:

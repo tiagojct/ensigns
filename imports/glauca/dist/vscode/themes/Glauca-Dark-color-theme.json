@@ -59,8 +59,8 @@
   "colors": {
     "editor.background": "#10161c",
     "editor.foreground": "#e8eef2",
-    "editorLineNumber.foreground": "#5b656d",
-    "editorLineNumber.activeForeground": "#8c8c8c",
+    "editorLineNumber.foreground": "#8c8c8c",
+    "editorLineNumber.activeForeground": "#e8eef2",
     "editorCursor.foreground": "#007aff",
     "editor.selectionBackground": "#2b435666",
     "editor.lineHighlightBackground": "#171f26",

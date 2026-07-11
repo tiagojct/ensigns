@@ -8,7 +8,7 @@
     "extended": "Working hues added only for code (editors, terminal ANSI): folium (the leaf-green anchor, admitted here and in dataviz), bacca (red), viola (violet), lacus (blue), unda (cyan). They never appear on posters, slides, or the web."
   },
   "modes": {
-    "lit": {
+    "dark": {
       "label": "Profundum",
       "scheme": "dark",
       "bg": "#10161c",
@@ -27,7 +27,7 @@
       "tint-pale": "#93b7c9",
       "on-tint": "#0d1720"
     },
-    "cold": {
+    "light": {
       "label": "Pruina",
       "scheme": "light",
       "bg": "#f0f4f6",
@@ -118,7 +118,7 @@
     }
   },
   "terminal": {
-    "note": "ANSI 16-colour (dark chrome; the light terminal derives from modes.cold). red, yellow, magenta derived in-register; bright green is the folium anchor; bright blue is dies itself.",
+    "note": "ANSI 16-colour (dark chrome; the light terminal derives from modes.light). red, yellow, magenta derived in-register; bright green is the folium anchor; bright blue is dies itself.",
     "background": "#10161c",
     "foreground": "#e8eef2",
     "cursor": "#007aff",
@@ -229,14 +229,14 @@
   },
   "accessibility": {
     "standard": "WCAG 2.1 (body 4.5:1, large/UI 3:1) plus a Machado-2009 CVD pass at full severity.",
-    "lit": {
+    "dark": {
       "pruina on pix": 15.55,
       "cinis on pix": 5.41,
       "caelum on pix": 6.13,
       "ferrum on caelum": 6.35,
       "nebula on pix": 8.55
     },
-    "cold": {
+    "light": {
       "ink on charta": 14.64,
       "muted on charta": 5.53,
       "caelum on charta": 5.18,
@@ -250,7 +250,7 @@
       "Borders are deliberately faint; lift only if visible separators are wanted."
     ]
   },
-  "notes": "0.1.0 founds Glauca as the light-first sibling of Try-Works: same machinery, same guarantees, inverted priority. The three anchors are placed, not decorated: dies (#007AFF) is cold accent-bright, lit accent-deep, the keyword colour, the cursor, and ANSI bright blue; folium (#62BA46) is the string colour, ANSI bright green, and the dataviz green; cinis (#8C8C8C) is the dark mode's muted text exactly.",
+  "notes": "0.1.0 founds Glauca as the light-first sibling of Try-Works: same machinery, same guarantees, inverted priority. The three anchors are placed, not decorated: dies (#007AFF) is light accent-bright, dark accent-deep, the keyword colour, the cursor, and ANSI bright blue; folium (#62BA46) is the string colour, ANSI bright green, and the dataviz green; cinis (#8C8C8C) is the dark mode's muted text exactly.",
   "typography": {
     "note": "Roles, not just sizes. IBM Plex Serif carries display and headings; IBM Plex Sans carries interface and long-form body (the clinical voice); IBM Plex Mono carries code and labels. Plex has no optical-size axis, so roles bind weight, leading, tracking, figures, and measure only.",
     "fonts": {
@@ -404,11 +404,11 @@
   "gamut": {
     "note": "Wide-gamut blue for P3 displays; approximations pending an OKLab audit. sRGB hexes are the fallback.",
     "p3": {
-      "lit": {
+      "dark": {
         "accent": "color(display-p3 0.302 0.588 1)",
         "accent-bright": "color(display-p3 0.478 0.703 1)"
       },
-      "cold": {
+      "light": {
         "accent": "color(display-p3 0.121 0.379 0.804)",
         "accent-bright": "color(display-p3 0.148 0.472 1)"
       }
@@ -534,7 +534,7 @@
       "tint-pale": "C14 M4 Y0 K16",
       "paper": "C2 M1 Y0 K4",
       "ink": "C48 M19 Y0 K84",
-      "cold-accent": "C95 M53 Y0 K19",
+      "light-accent": "C95 M53 Y0 K19",
       "folium": "C47 M0 Y62 K27"
     },
     "gamut_risk": [
@@ -557,17 +557,17 @@
   "a11y": {
     "note": "Beyond body contrast: visible focus, forced-colors support, a higher-contrast path, and a reduced-transparency path. All emitted to css/a11y.css.",
     "focus": {
-      "lit": "#6cb2ff",
-      "cold": "#0b62cf",
+      "dark": "#6cb2ff",
+      "light": "#0b62cf",
       "width": "2px",
       "offset": "2px"
     },
     "contrast_more": {
-      "lit": {
+      "dark": {
         "text-muted": "#9aa4ab",
         "border": "#56626c"
       },
-      "cold": {
+      "light": {
         "text-muted": "#3e4d55",
         "border": "#7b8a91"
       }
@@ -630,7 +630,7 @@
     },
     "mark": {
       "primary": "wordmark, IBM Plex Serif semibold",
-      "emblem": "assets/logo.svg (cold), assets/logo-lit.svg"
+      "emblem": "assets/logo.svg (light), assets/logo-dark.svg"
     },
     "note": "Type-forward by choice; see BRAND.md."
   },

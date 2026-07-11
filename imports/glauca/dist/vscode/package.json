@@ -1,7 +1,7 @@
 {
   "name": "glauca-color-theme",
   "displayName": "Glauca",
-  "description": "Glauca, a Moby-Dick palette for code. Dark (Profundum) and light (Pruina), tuned for R and Python. Works in VS Code and Positron.",
+  "description": "Glauca: a frost-bloom code palette with dark Profundum and light Pruina, tuned for R and Python. Works in VS Code and Positron.",
   "version": "0.1.0",
   "publisher": "tiagojct",
   "engines": {

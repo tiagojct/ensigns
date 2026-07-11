@@ -3,7 +3,7 @@
   --gl-font-serif: "IBM Plex Serif", "IBM Plex Serif fallback", Georgia, serif;
   --gl-font-sans: "IBM Plex Sans", "IBM Plex Sans fallback", system-ui, sans-serif;
   --gl-font-mono: "IBM Plex Mono", "IBM Plex Mono fallback", ui-monospace, monospace;
-  --gl-font-reading: "IBM Plex Sans", "IBM Plex Sans fallback", Georgia, serif;
+  --gl-font-reading: "IBM Plex Sans", "IBM Plex Sans fallback", system-ui, sans-serif;
   --gl-text-xs: 0.64rem;
   --gl-text-sm: 0.8rem;
   --gl-text-base: 1rem;
@@ -45,7 +45,7 @@
 
 /* Pruina is the light default; Profundum is dark. */
 :root,
-[data-mode="cold"] {
+[data-mode="light"] {
   --gl-bg: #f0f4f6;
   --gl-surface: #f7fafb;
   --gl-surface-raised: #ffffff;
@@ -63,7 +63,7 @@
   --gl-on-tint: #f2f7fb;
 }
 
-[data-mode="lit"] {
+[data-mode="dark"] {
   --gl-bg: #10161c;
   --gl-surface: #171f26;
   --gl-surface-raised: #1f2932;

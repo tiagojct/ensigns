@@ -1,7 +1,7 @@
 /* Generated accessibility layer: focus, forced-colors, higher-contrast, reduced-transparency. */
 :root,
-[data-mode="cold"] { --gl-focus: #0b62cf; }
-[data-mode="lit"] { --gl-focus: #6cb2ff; }
+[data-mode="light"] { --gl-focus: #0b62cf; }
+[data-mode="dark"] { --gl-focus: #6cb2ff; }
 
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
   outline: 2px solid var(--gl-focus);
@@ -11,8 +11,8 @@
 
 @media (prefers-contrast: more) {
   :root,
-  [data-mode="cold"] { --gl-text-muted: #3e4d55; --gl-border: #7b8a91; }
-  [data-mode="lit"] { --gl-text-muted: #9aa4ab; --gl-border: #56626c; }
+  [data-mode="light"] { --gl-text-muted: #3e4d55; --gl-border: #7b8a91; }
+  [data-mode="dark"] { --gl-text-muted: #9aa4ab; --gl-border: #56626c; }
 }
 
 @media (forced-colors: active) {

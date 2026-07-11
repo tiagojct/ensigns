@@ -139,7 +139,7 @@ def build(mode_key, filename):
     marker_col = C["accent-bright"] if dark else accent
     tagline_col = muted if dark else tint
     swatch_border = muted            # a mid-grey reads against either mode's own ground
-    link_col = D["modes"]["lit"]["accent-bright"]   # bright blue, legible on the dark closing panel
+    link_col = D["modes"]["dark"]["accent-bright"]   # bright blue, legible on the dark closing panel
 
     prs = Presentation()
     prs.slide_width = EW; prs.slide_height = EH
@@ -211,7 +211,7 @@ def build(mode_key, filename):
     text(s, Inches(7.0), Inches(1.4), Inches(5.4), Inches(4.6),
          [[("The exception", SERIF, 26, True, False, ink)],
           [("", SANS, 8, False, False, muted)],
-          [("Fire stays rare on every surface: slides, posters, and web. "
+          [("Sky-blue stays rare on every surface: slides, posters, and web. "
             "Only the code tier spends it freely, where colour-blind safety "
             "puts the blue on keywords.", SANS, 16, False, False, muted)]],
          anchor=MSO_ANCHOR.MIDDLE, space_after=10)
@@ -234,5 +234,5 @@ def build(mode_key, filename):
 
 
 if __name__ == "__main__":
-    build("cold", "Glauca.pptx")
-    build("lit", "Glauca-Dark.pptx")
+    build("light", "Glauca.pptx")
+    build("dark", "Glauca-Dark.pptx")

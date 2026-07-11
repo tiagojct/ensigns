@@ -61,8 +61,8 @@ def _callout_map(n, m):
     callout types whose whole job is "notice this", so the rarity holds. Everyday
     informational callouts use lacus, the working blue, which reads as kin to the
     mark without spending it. The mark is mode-adjusted here: raw dies renders the
-    (normal-size) callout title at only 3.2:1 cold / 4.1:1 lit on its own 10% tint,
-    under AA; accent-deep (cold) and accent (lit) keep the blue mark and clear 4.5."""
+    (normal-size) callout title at only 3.2:1 light / 4.1:1 dark on its own 10% tint,
+    under AA; accent-deep (light) and accent (dark) keep the blue mark and clear 4.5."""
     mark = m["accent"] if m["scheme"] == "dark" else m["accent-deep"]
     return {"info": n["blue"], "todo": n["blue"], "tip": n["cyan"], "success": n["green"],
             "question": n["purple"], "example": n["purple"], "error": n["red"], "fail": n["red"],
@@ -84,13 +84,13 @@ def _light_safe_hue(hx, m):
 def _code_syntax_map(m, codem):
     """D['code']'s 11 roles -> the 11 real --code-* syntax vars (Editor/Code).
 
-    D['code'] is tuned once, against the dark (lit) background only (e.g.
-    variable == lit.text, a near-white). Reused flat in .theme-light this fails
+    D['code'] is tuned once, against the dark (dark) background only (e.g.
+    variable == dark.text, a near-white). Reused flat in .theme-light this fails
     WCAG AA against the light code background -- measured 2.27-3.35:1 for the
     six hued roles (need >=4.5:1), and worse for the near-neutral roles. So:
     - comment/variable/parameter/operator/punctuation derive from this mode's
       own text/muted tokens instead of the flat blob (variable/comment already
-      equal lit.text/lit.text-muted anyway, so lit output is unchanged).
+      equal dark.text/dark.text-muted anyway, so dark output is unchanged).
       Mixing toward --border was tried for punctuation and rejected: border is
       deliberately near-background by design, so blending toward it tanks
       contrast in light mode (measured 2.47:1) -- punctuation stays pinned to
@@ -100,8 +100,8 @@ def _code_syntax_map(m, codem):
       4.15-6.12:1 there), but in light mode are darkened toward this mode's own
       text colour (t=0.45, verified >=4.5:1 for all six) rather than reused
       raw -- same "no new colours, just mix existing ones" technique already
-      used throughout this file, and thematically consistent with how cold's
-      own accent is already a darkened variant of lit's ember for the same
+      used throughout this file, and thematically consistent with how light's
+      own accent is already a darkened variant of dark's ember for the same
       contrast reason."""
     c = lambda r: codem[r]["color"]
     txt, muted = m["text"], m["text-muted"]
@@ -230,7 +230,7 @@ body:not(.gl-embed-frames) .markdown-embed:hover .markdown-embed-link { opacity:
 /* Fenced code blocks get a hairline so they separate from same-tone chrome (reading view; the
    editor draws code blocks per-line, where a border would fragment). */
 .markdown-rendered pre { border: 1px solid var(--background-modifier-border); }
-/* Phone: the desktop-tuned 0.75em Properties type is too small under a thumb; row heights are
+/* Phone: the desktop-tuned 0.82em Properties type is too small under a thumb; row heights are
    already restored by core's own .is-phone metadata override. */
 body.is-phone {
   --metadata-label-font-size: 0.9em; --metadata-input-font-size: 0.9em;
@@ -293,15 +293,15 @@ def _properties_map(m):
             "divider-color": m["border"],
             "gap": "1px", "input-height": "calc(var(--font-text-size) * 1.4)",
             "label-text-color": m["text-muted"], "label-text-color-hover": m["text"],
-            "label-font-size": "0.75em", "input-font-size": "0.75em",
-            "sidebar-label-font-size": "0.75em", "sidebar-input-font-size": "0.75em",
+            "label-font-size": "0.82em", "input-font-size": "0.82em",
+            "sidebar-label-font-size": "0.82em", "sidebar-input-font-size": "0.82em",
             "input-text-color": m["text"], "input-background": m["bg"],
             "input-background-hover": hover,
             "property-background": m["bg"], "property-background-hover": hover,
             "property-background-active": "%s33" % m["tint-bright"]}
 
 
-def _settings_block(lit, cold):
+def _settings_block(dark, light):
     """Style Settings plugin (mgmeyers/obsidian-style-settings) metadata block.
     Each setting's id is the literal CSS variable/class name the plugin writes
     to -- not just a label. Eleven settings: enough to be useful without
@@ -326,7 +326,7 @@ settings:
     collapsed: false
   - id: text-accent
     title: Accent color
-    description: The one warm mark. Defaults follow Profundum/Pruina.
+    description: The one sky-blue mark. Defaults follow Profundum/Pruina.
     type: variable-themed-color
     format: hex
     default-light: "%s"
@@ -347,9 +347,9 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-serif
-    title: Serif headings (IBM Plex Serif)
-    description: Off (default) keeps Glauca's sans (IBM Plex Sans) headings, matching the body.
+  - id: gl-headings-sans
+    title: Sans headings (IBM Plex Sans)
+    description: Off (default) keeps Glauca's IBM Plex Serif headings; enable to match the body voice.
     type: class-toggle
     default: false
   - id: gl-body-serif
@@ -383,7 +383,7 @@ settings:
     type: class-toggle
     default: false
 */
-''' % (cold["accent"], lit["accent"]))
+''' % (light["accent"], dark["accent"]))
 
 
 def build_obsidian(D):
@@ -391,7 +391,7 @@ def build_obsidian(D):
     (verified against docs.obsidian.md). The grayscale --color-base-* ramp and
     named --color-* primitives let Obsidian derive on-system defaults; the rest
     are pinned to brand tokens per mode."""
-    lit, cold, pal = D["modes"]["lit"], D["modes"]["cold"], D["palette"]
+    dark, light, pal = D["modes"]["dark"], D["modes"]["light"], D["palette"]
     fire, ext, codem = pal["caelum"], pal["extended"], D["code"]
     named = _named_hues(pal)
 
@@ -399,12 +399,12 @@ def build_obsidian(D):
         ah = hsl(m["accent"]); r = _ramp(m)
         faint = _mix(m["text-muted"], m["bg"], 0.4)
         # Hover accent: brighter in dark mode, DEEPER in light mode. Light hovers must darken to hold
-        # WCAG AA -- accent-bright on the cold bg measures 3.55:1, under the 4.5 floor, while
-        # accent-deep clears it with margin. validate.py locks both pairs (lit accent-bright/bg,
-        # cold accent-deep/bg) so a palette edit can't silently reintroduce the failure.
+        # WCAG AA -- accent-bright on the light bg measures 3.55:1, under the 4.5 floor, while
+        # accent-deep clears it with margin. validate.py locks both pairs (dark accent-bright/bg,
+        # light accent-deep/bg) so a palette edit can't silently reintroduce the failure.
         hov = m["accent-bright"] if m["scheme"] == "dark" else m["accent-deep"]
-        # Internal-link green: folium, light-safe in cold and darkened a touch more there so it clears
-        # WCAG AA (4.5:1) even on the blockquote sea-tint, not just the page bg; lit stays folium (7.5:1).
+        # Internal-link green: folium, light-safe in light and darkened a touch more there so it clears
+        # WCAG AA (4.5:1) even on the blockquote sea-tint, not just the page bg; dark stays folium (7.5:1).
         glink = _light_safe_hue(named["green"], m)
         if m["scheme"] == "light":
             glink = _mix(glink, m["text"], 0.14)
@@ -447,9 +447,9 @@ def build_obsidian(D):
          "  --background-modifier-form-field: %s;" % m["surface"],
          "  --background-modifier-success: rgba(%s, 0.15);" % _rgbtriple(ext["folium"]),
          "  --text-normal: %s;" % m["text"], "  --text-muted: %s;" % m["text-muted"], "  --text-faint: %s;" % faint,
-         # Reading weight, per mode: bright text on the near-black lit bg optically thins (halation), so
+         # Reading weight, per mode: bright text on the near-black dark bg optically thins (halation), so
          # the dark body reads at a hair over regular to hold its colour; the light bg has no halation,
-         # so cold stays at the true 400. Consumed as font-weight (not font-variation-settings) on the
+         # so light stays at the true 400. Consumed as font-weight (not font-variation-settings) on the
          # reading/edit surfaces below, so bold and headings still win by cascade. IBM Plex Sans is a real
          # variable font (wght 100-900), so 430 is interpolated, not faux-bold.
          "  --gl-body-weight: %d;" % (430 if m["scheme"] == "dark" else 400),
@@ -462,8 +462,8 @@ def build_obsidian(D):
          "  --interactive-normal: %s;" % m["surface"], "  --interactive-hover: %s;" % m["surface-raised"],
          "  --interactive-accent: var(--text-accent);", "  --interactive-accent-hover: %s;" % hov,
          # Internal (wiki) links take Glauca's green so they read distinct from the blue accent that
-         # external links and the rest of the UI carry. _light_safe_hue keeps folium legible in cold;
-         # hover deepens toward the text colour, which brightens it in lit and darkens it in cold.
+         # external links and the rest of the UI carry. _light_safe_hue keeps folium legible in light;
+         # hover deepens toward the text colour, which brightens it in dark and darkens it in light.
          "  --link-color: %s;" % glink,
          "  --link-color-hover: %s;" % glink_hover,
          "  --link-decoration: underline;", "  --link-decoration-hover: underline;",
@@ -480,7 +480,7 @@ def build_obsidian(D):
          "  --hr-color: %s;" % m["border"], "  --divider-color: %s;" % m["border"],
          # Tags read GREEN -- the same folium as internal (wiki) links -- so "navigation to a note or a
          # tag" is one colour, and the blue mark stays even rarer (now just checkboxes/focus/links-in-UI).
-         # glink is the link green (folium in lit, darkened in cold for AA); on its own 12/20% green tint
+         # glink is the link green (folium in dark, darkened in light for AA); on its own 12/20% green tint
          # it clears AA at 4.9-6.2:1, hover included. Covers inline tags and the tag-type property pills.
          "  --tag-color: %s;" % glink,
          "  --tag-color-hover: %s;" % glink_hover,
@@ -493,7 +493,7 @@ def build_obsidian(D):
          "  --checklist-done-color: %s;" % m["text-muted"],
          # Alternative task states (- [/] [>] [<] [?] [!] [*], Minimal/Things convention), rendered by
          # the shared _task_rules() CSS at the bottom of this file. Hues follow the callout logic (cool
-         # named hues, light-safe in cold); star is ember -- checkboxes are already a sanctioned fire
+         # named hues, light-safe in light); star is ember -- checkboxes are already a sanctioned fire
          # location (--checkbox-color above).
          "  --gl-task-progress: %s;" % m["tint-bright"],
          "  --gl-task-fwd: %s;" % _light_safe_hue(named["blue"], m),
@@ -547,7 +547,7 @@ def build_obsidian(D):
          # Quieter chrome: status bar drops to the smallest UI size, vault name recedes to muted
          # weight-400 small type (all official vars) -- the note, not the workspace, is the subject.
          "  --status-bar-background: %s;" % m["surface"], "  --status-bar-border-color: %s;" % m["border"],
-         "  --status-bar-text-color: %s;" % m["text-muted"], "  --status-bar-font-size: var(--font-smallest);",
+         "  --status-bar-text-color: %s;" % m["text-muted"], "  --status-bar-font-size: var(--font-ui-smaller);",
          "  --vault-profile-color: %s;" % m["text-muted"], "  --vault-profile-color-hover: %s;" % m["text"],
          "  --vault-profile-font-weight: 400;", "  --vault-profile-font-size: var(--font-ui-smaller);",
          "  --modal-background: %s;" % m["surface"], "  --modal-border-color: %s;" % m["border"],
@@ -557,7 +557,7 @@ def build_obsidian(D):
          "  --search-result-background: %s;" % m["surface"],
          "  --embed-background: %s;" % m["surface"], "  --embed-border-start: 4px solid var(--text-accent);",
          "  --embed-block-shadow-hover: 0 2px 10px rgba(%s, 0.25);" % _rgbtriple(m["tint-bright"]),
-         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-sans);",
+         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-serif);",
          "  --divider-color-hover: var(--text-accent);", "  --divider-width-hover: 2px;",
         ]
         L += ["  --callout-%s: %s;" % (k, v) for k, v in callout.items()]
@@ -645,7 +645,7 @@ def build_obsidian(D):
         "  mask: url(%s) center / contain no-repeat;\n}\n" % (arrow_uri, arrow_uri)
     )
     code_style = _code_style_rules(codem)
-    return (_settings_block(lit, cold) +
+    return (_settings_block(dark, light) +
             "/* Glauca for Obsidian. Generated from glauca.json. */\n"
             "/* Popover (Components/Popover): Obsidian exposes no colour variables here (verified docs.obsidian.md); nothing to set. */\n"
             "body {\n"
@@ -673,15 +673,15 @@ def build_obsidian(D):
             "     static position, so a mark wider than stock's dot otherwise grows toward the text.\n"
             "     Official knob; applies in reading view and editor alike. */\n"
             "  --list-bullet-transform: translateX(-0.3em);\n"
-            "  /* IBM Plex Mono's tall x-height reads a step larger than IBM Plex Sans at equal em (same\n"
-            "     reasoning as the Properties panel's 0.75em); one notch under stock font-smaller. */\n"
-            "  --code-size: 0.85em;\n"
+            "  /* IBM Plex Mono's tall x-height reads larger than the body sans at equal em; 0.9em keeps\n"
+            "     dense code compact without making inline syntax or long lines strain the eye. */\n"
+            "  --code-size: 0.9em;\n"
             "  /* Interface icons one stroke-step lighter than stock (m/l 1.75 -> 1.5px, s/xs 2 ->\n"
             "     1.75px): hairline icons sit with the type instead of against it. Official\n"
             "     Foundations/Icons vars; xl already ships at 1.25px and stays. */\n"
             "  --icon-m-stroke-width: 1.5px;\n  --icon-l-stroke-width: 1.5px;\n"
             "  --icon-s-stroke-width: 1.75px;\n  --icon-xs-stroke-width: 1.75px;\n}\n\n"
-            + blk(lit, "theme-dark") + "\n\n" + blk(cold, "theme-light") + "\n\n"
+            + blk(dark, "theme-dark") + "\n\n" + blk(light, "theme-light") + "\n\n"
             "/* Note body in IBM Plex Sans -- the working voice; headings answer in IBM Plex Serif, same\n"
             "   pairing as every other Glauca surface. A touch larger (relative em, so the font-size\n"
             "   slider still works), at the per-mode reading weight (halation-compensated in dark), with\n"
@@ -693,14 +693,14 @@ def build_obsidian(D):
             "  font-weight: var(--gl-body-weight, 400);\n"
             "  text-wrap: pretty;\n"
             "  font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;\n}\n"
-            "/* Headings set in IBM Plex Sans, matching the body voice; they read as headings by weight\n"
-            "   (Obsidian's --h*-weight) and size, not by a serif contrast. Tighter tracking than body plus\n"
-            "   a balanced wrap keep them crisp. The note title itself is --inline-title-font above, not\n"
-            "   this selector; opt back into serif headings with the gl-headings-serif Style Settings toggle. */\n"
+            "/* IBM Plex Serif headings restore Glauca's display voice against the working sans body.\n"
+            "   Their restrained weight, tighter tracking, and balanced wrap make hierarchy clear without\n"
+            "   turning the note into a decorative page. The note title itself follows --inline-title-font\n"
+            "   above; Style Settings can opt into sans headings for a deliberately uniform reading voice. */\n"
             ".markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
             ".markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em; text-wrap: balance;\n"
-            "  font-variant-ligatures: common-ligatures;\n}\n"
+            "  font-family: var(--gl-font-serif); font-variation-settings: \"wght\" 600; letter-spacing: -0.01em; text-wrap: balance;\n"
+            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
             "/* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's\n"
             "   own em so larger headings carry proportionally more air. Core keeps 2.5x above (via\n"
             "   --heading-spacing), so the hierarchy still reads top-heavy, as it should. Live preview's\n"
@@ -756,18 +756,21 @@ def build_obsidian(D):
             ".cm-s-obsidian .cm-line.HyperMD-footnote .cm-em {\n"
             "  font-style: normal;\n}\n\n"
             + code_style + "\n\n" + extra + "\n" + nav_icons + "\n" + _task_rules() + "\n" + _FEATURES_CSS + "\n"
-            "/* File explorer: slightly smaller labels that wrap to a second/third line instead of truncating. */\n"
+            "/* File explorer: labels wrap instead of truncating, while preserving a calm, readable density. */\n"
             '.workspace-leaf-content[data-type="file-explorer"] .tree-item-self { height: auto; }\n'
             '.workspace-leaf-content[data-type="file-explorer"] .tree-item-inner {\n'
-            "  font-size: 0.88em; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip; word-break: break-word;\n}\n\n"
+            "  font-size: 0.92em; line-height: 1.35; white-space: normal; overflow: visible; text-overflow: clip; word-break: break-word;\n}\n\n"
             "/* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or\n"
             "   to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the\n"
             "   three theme font hooks above are literal. */\n"
+            "/* Kept for vaults that saved the pre-1.0 Style Settings class; serif is already the\n"
+            "   default, so the alias preserves the old preference without introducing a second UI toggle. */\n"
             "body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }\n"
-            "body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
-            "body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-serif); letter-spacing: -0.01em;\n"
-            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
+            "body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }\n"
+            "body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
+            "body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
+            "  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em;\n"
+            "  font-variant-ligatures: common-ligatures;\n}\n"
             'body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }\n'
             "body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {\n"
             "  font-optical-sizing: auto;\n}\n"

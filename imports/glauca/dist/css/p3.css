@@ -1,6 +1,6 @@
 /* Wide-gamut blue. Generated. Outside P3 the sRGB hexes in glauca.css apply. */
 @media (color-gamut: p3) {
   :root,
-  [data-mode="cold"] { --gl-accent: color(display-p3 0.121 0.379 0.804); --gl-accent-bright: color(display-p3 0.148 0.472 1); }
-  [data-mode="lit"] { --gl-accent: color(display-p3 0.302 0.588 1); --gl-accent-bright: color(display-p3 0.478 0.703 1); }
+  [data-mode="light"] { --gl-accent: color(display-p3 0.121 0.379 0.804); --gl-accent-bright: color(display-p3 0.148 0.472 1); }
+  [data-mode="dark"] { --gl-accent: color(display-p3 0.302 0.588 1); --gl-accent-bright: color(display-p3 0.478 0.703 1); }
 }

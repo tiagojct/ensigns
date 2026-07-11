@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-mode="lit" data-sans="inter">
+<html lang="en" data-mode="dark" data-sans="inter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,14 +14,14 @@
   html[data-sans="inter"]   { --sans:"Inter", system-ui, sans-serif; }
   html[data-sans="archivo"] { --sans:"Archivo", system-ui, sans-serif; }
 
-  html[data-mode="lit"] {
+  html[data-mode="dark"] {
     --bg:#12161b; --surface:#1b2127; --raised:#232b32;
     --text:#f1efe9; --muted:#97a0a4; --border:#2c3640;
     --accent:#c9651d; --accent-bright:#e0832a; --accent-deep:#9a4a16; --on-accent:#11151a;
     --sea-deep:#14242c; --sea:#2c4953; --sea-bright:#4d7680; --sea-pale:#8fb6bd; --on-sea:#0f1c22;
     --horizon:linear-gradient(180deg, transparent 0%, rgba(205,122,44,0.0) 42%, rgba(205,122,44,0.42) 80%, rgba(231,151,47,0.66) 100%);
   }
-  html[data-mode="cold"] {
+  html[data-mode="light"] {
     --bg:#dee7e4; --surface:#e7efeb; --raised:#f2f7f4;
     --text:#18272b; --muted:#52646a; --border:#c4d2cd;
     --accent:#a15117; --accent-bright:#b85f1c; --accent-deep:#7a3a10; --on-accent:#eef3f0;
@@ -48,7 +48,7 @@
   .hero .wrap { position:relative; z-index:1; }
   .eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent-bright); margin:0 0 18px; }
   .hero h1 { font-family:var(--serif); font-variation-settings:'opsz' 144,'wght' 560,'SOFT' 40,'WONK' 1; font-size:clamp(48px, 12vw, 108px); line-height:0.94; letter-spacing:-0.01em; margin:0 0 22px; color:#f1efe9; }
-  html[data-mode="cold"] .hero h1 { color:#eef0ec; }
+  html[data-mode="light"] .hero h1 { color:#eef0ec; }
   .hero p.kick { font-size:clamp(16px, 2.4vw, 20px); max-width:36ch; margin:0; color:#e7e9e4; opacity:0.94; }
   .hero .ref { margin-top:28px; font-family:var(--mono); font-size:12px; color:var(--sea-pale); letter-spacing:0.04em; }
 
@@ -75,9 +75,9 @@
   .seapanel { background:var(--sea); border-radius:6px; padding:40px; display:grid; gap:22px; }
   .seapanel .ptag { font-family:var(--mono); font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--sea-pale); margin:0; }
   .seapanel h2 { font-family:var(--serif); font-variation-settings:'opsz' 90,'wght' 600,'SOFT' 20,'WONK' 1; margin:0; font-size:clamp(26px, 5vw, 42px); line-height:1.0; color:#f1efe9; }
-  html[data-mode="cold"] .seapanel h2 { color:#eef1ec; }
+  html[data-mode="light"] .seapanel h2 { color:#eef1ec; }
   .seapanel p.body { margin:0; max-width:52ch; color:#dfe6e6; }
-  html[data-mode="cold"] .seapanel p.body { color:#e3e9e8; }
+  html[data-mode="light"] .seapanel p.body { color:#e3e9e8; }
   .btn { justify-self:start; font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; background:var(--accent); color:var(--on-accent); border:0; border-radius:2px; padding:11px 20px; cursor:pointer; }
   .btn:focus-visible { outline:2px solid #f1efe9; outline-offset:2px; }
 
@@ -115,8 +115,8 @@
     <div class="toggles">
       <div class="tg"><span class="lab">Mode</span>
         <div class="toggle" role="group" aria-label="Palette mode">
-          <button type="button" data-mode-set="lit" aria-pressed="true">Profundum</button>
-          <button type="button" data-mode-set="cold" aria-pressed="false">Pruina</button>
+          <button type="button" data-mode-set="dark" aria-pressed="true">Profundum</button>
+          <button type="button" data-mode-set="light" aria-pressed="false">Pruina</button>
         </div>
       </div>
       <div class="tg"><span class="lab">Sans</span>

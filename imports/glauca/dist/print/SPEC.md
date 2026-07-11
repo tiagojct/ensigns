@@ -23,7 +23,7 @@ C70 M50 Y40 K100. Cool rich black that reads like pix. Use plain K for text belo
 | tint-pale | C14 M4 Y0 K16 |
 | paper | C2 M1 Y0 K4 |
 | ink | C48 M19 Y0 K84 |
-| cold-accent | C95 M53 Y0 K19 |
+| light-accent | C95 M53 Y0 K19 |
 | folium | C47 M0 Y62 K27 |
 
 ## Gamut risks

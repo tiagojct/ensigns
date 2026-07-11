@@ -5,7 +5,7 @@
 #title-slide(title: "Glauca", subtitle: "An identity in two modes")
 
 #slide(title: "The rule")[
-  The tint is the large cold field. The fire is the rare hot mark.
+  The tint is the large frost field. Sky-blue is the rare load-bearing mark.
   #v(1.2em)
   #text(fill: dies, size: 40pt, font: "IBM Plex Serif", weight: 600)[One accent per slide.]
 ]

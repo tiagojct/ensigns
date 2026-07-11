@@ -9,7 +9,7 @@ settings:
     collapsed: false
   - id: text-accent
     title: Accent color
-    description: The one warm mark. Defaults follow Profundum/Pruina.
+    description: The one sky-blue mark. Defaults follow Profundum/Pruina.
     type: variable-themed-color
     format: hex
     default-light: "#0b62cf"
@@ -30,9 +30,9 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-serif
-    title: Serif headings (IBM Plex Serif)
-    description: Off (default) keeps Glauca's sans (IBM Plex Sans) headings, matching the body.
+  - id: gl-headings-sans
+    title: Sans headings (IBM Plex Sans)
+    description: Off (default) keeps Glauca's IBM Plex Serif headings; enable to match the body voice.
     type: class-toggle
     default: false
   - id: gl-body-serif
@@ -95,9 +95,9 @@ body {
      static position, so a mark wider than stock's dot otherwise grows toward the text.
      Official knob; applies in reading view and editor alike. */
   --list-bullet-transform: translateX(-0.3em);
-  /* IBM Plex Mono's tall x-height reads a step larger than IBM Plex Sans at equal em (same
-     reasoning as the Properties panel's 0.75em); one notch under stock font-smaller. */
-  --code-size: 0.85em;
+  /* IBM Plex Mono's tall x-height reads larger than the body sans at equal em; 0.9em keeps
+     dense code compact without making inline syntax or long lines strain the eye. */
+  --code-size: 0.9em;
   /* Interface icons one stroke-step lighter than stock (m/l 1.75 -> 1.5px, s/xs 2 ->
      1.75px): hairline icons sit with the type instead of against it. Official
      Foundations/Icons vars; xl already ships at 1.25px and stays. */
@@ -268,7 +268,7 @@ body {
   --status-bar-background: #171f26;
   --status-bar-border-color: #2a3540;
   --status-bar-text-color: #8c8c8c;
-  --status-bar-font-size: var(--font-smallest);
+  --status-bar-font-size: var(--font-ui-smaller);
   --vault-profile-color: #8c8c8c;
   --vault-profile-color-hover: #e8eef2;
   --vault-profile-font-weight: 400;
@@ -286,7 +286,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(77, 115, 145, 0.25);
   --inline-title-color: #e8eef2;
-  --inline-title-font: var(--gl-font-sans);
+  --inline-title-font: var(--gl-font-serif);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -326,10 +326,10 @@ body {
   --metadata-input-height: calc(var(--font-text-size) * 1.4);
   --metadata-label-text-color: #8c8c8c;
   --metadata-label-text-color-hover: #e8eef2;
-  --metadata-label-font-size: 0.75em;
-  --metadata-input-font-size: 0.75em;
-  --metadata-sidebar-label-font-size: 0.75em;
-  --metadata-sidebar-input-font-size: 0.75em;
+  --metadata-label-font-size: 0.82em;
+  --metadata-input-font-size: 0.82em;
+  --metadata-sidebar-label-font-size: 0.82em;
+  --metadata-sidebar-input-font-size: 0.82em;
   --metadata-input-text-color: #e8eef2;
   --metadata-input-background: #10161c;
   --metadata-input-background-hover: #171f26;
@@ -499,7 +499,7 @@ body {
   --status-bar-background: #f7fafb;
   --status-bar-border-color: #cdd7dc;
   --status-bar-text-color: #55646d;
-  --status-bar-font-size: var(--font-smallest);
+  --status-bar-font-size: var(--font-ui-smaller);
   --vault-profile-color: #55646d;
   --vault-profile-color-hover: #16222a;
   --vault-profile-font-weight: 400;
@@ -517,7 +517,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(62, 109, 132, 0.25);
   --inline-title-color: #16222a;
-  --inline-title-font: var(--gl-font-sans);
+  --inline-title-font: var(--gl-font-serif);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -557,10 +557,10 @@ body {
   --metadata-input-height: calc(var(--font-text-size) * 1.4);
   --metadata-label-text-color: #55646d;
   --metadata-label-text-color-hover: #16222a;
-  --metadata-label-font-size: 0.75em;
-  --metadata-input-font-size: 0.75em;
-  --metadata-sidebar-label-font-size: 0.75em;
-  --metadata-sidebar-input-font-size: 0.75em;
+  --metadata-label-font-size: 0.82em;
+  --metadata-input-font-size: 0.82em;
+  --metadata-sidebar-label-font-size: 0.82em;
+  --metadata-sidebar-input-font-size: 0.82em;
   --metadata-input-text-color: #16222a;
   --metadata-input-background: #f0f4f6;
   --metadata-input-background-hover: #f7fafb;
@@ -581,14 +581,14 @@ body {
   text-wrap: pretty;
   font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;
 }
-/* Headings set in IBM Plex Sans, matching the body voice; they read as headings by weight
-   (Obsidian's --h*-weight) and size, not by a serif contrast. Tighter tracking than body plus
-   a balanced wrap keep them crisp. The note title itself is --inline-title-font above, not
-   this selector; opt back into serif headings with the gl-headings-serif Style Settings toggle. */
+/* IBM Plex Serif headings restore Glauca's display voice against the working sans body.
+   Their restrained weight, tighter tracking, and balanced wrap make hierarchy clear without
+   turning the note into a decorative page. The note title itself follows --inline-title-font
+   above; Style Settings can opt into sans headings for a deliberately uniform reading voice. */
 .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
 .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em; text-wrap: balance;
-  font-variant-ligatures: common-ligatures;
+  font-family: var(--gl-font-serif); font-variation-settings: "wght" 600; letter-spacing: -0.01em; text-wrap: balance;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
 }
 /* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's
    own em so larger headings carry proportionally more air. Core keeps 2.5x above (via
@@ -843,7 +843,7 @@ body:not(.gl-embed-frames) .markdown-embed:hover .markdown-embed-link { opacity:
 /* Fenced code blocks get a hairline so they separate from same-tone chrome (reading view; the
    editor draws code blocks per-line, where a border would fragment). */
 .markdown-rendered pre { border: 1px solid var(--background-modifier-border); }
-/* Phone: the desktop-tuned 0.75em Properties type is too small under a thumb; row heights are
+/* Phone: the desktop-tuned 0.82em Properties type is too small under a thumb; row heights are
    already restored by core's own .is-phone metadata override. */
 body.is-phone {
   --metadata-label-font-size: 0.9em; --metadata-input-font-size: 0.9em;
@@ -870,20 +870,23 @@ body.is-phone {
   background-color: var(--nav-item-background-active);
 }
 
-/* File explorer: slightly smaller labels that wrap to a second/third line instead of truncating. */
+/* File explorer: labels wrap instead of truncating, while preserving a calm, readable density. */
 .workspace-leaf-content[data-type="file-explorer"] .tree-item-self { height: auto; }
 .workspace-leaf-content[data-type="file-explorer"] .tree-item-inner {
-  font-size: 0.88em; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip; word-break: break-word;
+  font-size: 0.92em; line-height: 1.35; white-space: normal; overflow: visible; text-overflow: clip; word-break: break-word;
 }
 
 /* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or
    to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the
    three theme font hooks above are literal. */
+/* Kept for vaults that saved the pre-1.0 Style Settings class; serif is already the
+   default, so the alias preserves the old preference without introducing a second UI toggle. */
 body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }
-body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
-body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-serif); letter-spacing: -0.01em;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
+body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }
+body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
+  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em;
+  font-variant-ligatures: common-ligatures;
 }
 body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }
 body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {

@@ -18,8 +18,8 @@ cp src/zed/README.md dist/zed/
 # vivaldi themes: zip each generated settings.json into an importable theme
 cp src/vivaldi/README.md dist/vivaldi/
 rm -f dist/vivaldi/Glauca-Dark.zip dist/vivaldi/Glauca.zip
-( cd dist/vivaldi/lit && zip -q ../Glauca-Dark.zip settings.json )
-( cd dist/vivaldi/cold && zip -q ../Glauca.zip settings.json )
+( cd dist/vivaldi/dark && zip -q ../Glauca-Dark.zip settings.json )
+( cd dist/vivaldi/light && zip -q ../Glauca.zip settings.json )
 
 # obsidian theme: generated theme.css + manifest.json already in dist/
 # (the `src/.../.` form is idempotent: plain `cp -r src/x dist/x` nests a second
