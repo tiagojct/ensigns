@@ -30,9 +30,9 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-sans
-    title: Sans headings (IBM Plex Sans)
-    description: Off (default) keeps Glauca's IBM Plex Serif headings; enable to match the body voice.
+  - id: gl-headings-serif
+    title: Serif headings (IBM Plex Serif)
+    description: Off (default) keeps Glauca's IBM Plex Sans headings; enable for a display-serif voice.
     type: class-toggle
     default: false
   - id: gl-body-serif
@@ -286,7 +286,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(77, 115, 145, 0.25);
   --inline-title-color: #e8eef2;
-  --inline-title-font: var(--gl-font-serif);
+  --inline-title-font: var(--gl-font-sans);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -517,7 +517,7 @@ body {
   --embed-border-start: 4px solid var(--text-accent);
   --embed-block-shadow-hover: 0 2px 10px rgba(62, 109, 132, 0.25);
   --inline-title-color: #16222a;
-  --inline-title-font: var(--gl-font-serif);
+  --inline-title-font: var(--gl-font-sans);
   --divider-color-hover: var(--text-accent);
   --divider-width-hover: 2px;
   --callout-info: #4a9edb;
@@ -569,8 +569,9 @@ body {
   --metadata-property-background-active: #3e6d8433;
 }
 
-/* Note body in IBM Plex Sans -- the working voice; headings answer in IBM Plex Serif, same
-   pairing as every other Glauca surface. A touch larger (relative em, so the font-size
+/* Note body in IBM Plex Sans -- the working voice, shared by the headings so the note reads
+   as one continuous surface; IBM Plex Serif is reserved for the slanted voices (emphasis,
+   blockquotes). A touch larger (relative em, so the font-size
    slider still works), at the per-mode reading weight (halation-compensated in dark), with
    the reading OpenType features already used on the web surface (old-style, proportional
    figures; common ligatures). text-wrap: pretty improves rag and kills orphans; headings keep
@@ -581,14 +582,17 @@ body {
   text-wrap: pretty;
   font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;
 }
-/* IBM Plex Serif headings restore Glauca's display voice against the working sans body.
-   Their restrained weight, tighter tracking, and balanced wrap make hierarchy clear without
-   turning the note into a decorative page. The note title itself follows --inline-title-font
-   above; Style Settings can opt into sans headings for a deliberately uniform reading voice. */
+/* IBM Plex Sans headings, the same face as the body: hierarchy comes from size, weight and
+   air rather than a change of typeface, so a note reads as one continuous voice instead of a
+   printed page. Semibold rather than core's 700 -- restrained -- and slightly tighter tracking
+   than the serif took, closing the gaps a sans opens at display sizes. Both font-weight and the
+   wght axis are set: variable IBM Plex Sans interpolates the axis, a static install lands on the
+   nearest cut. The note title follows --inline-title-font above; Style Settings opts into serif. */
 .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
 .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-serif); font-variation-settings: "wght" 600; letter-spacing: -0.01em; text-wrap: balance;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
+  font-family: var(--gl-font-sans); font-weight: 600; font-variation-settings: "wght" 600;
+  letter-spacing: -0.015em; text-wrap: balance;
+  font-variant-ligatures: common-ligatures;
 }
 /* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's
    own em so larger headings carry proportionally more air. Core keeps 2.5x above (via
@@ -611,14 +615,15 @@ body {
 /* Generous breathing room top and bottom on the reading-view blockquote (the live-preview
    .HyperMD-quote is per-line, so container padding there would space every quoted line). */
 .markdown-rendered blockquote { padding-block: 1.3em; }
-/* Explicit belt-and-suspenders: emphasis/italic text should read as sans body text like
-   everything else around it, not switch typeface. Written directly (not relying on
-   --font-text-theme alone) in case Obsidian has its own internal default for em/i independent
-   of the theme's text-font hook. Blockquotes are the one deliberate exception (serif, above),
-   so they're excluded here. */
-.markdown-rendered em:not(blockquote *), .markdown-rendered i:not(blockquote *),
-.cm-s-obsidian .cm-em {
-  font-family: var(--gl-font-sans);
+/* Emphasis speaks in IBM Plex Serif italic. With the headings now sharing the body sans, the
+   serif is what the slanted voices are for -- emphasis and blockquotes -- so a stressed phrase
+   changes register rather than merely leaning. Same font-synthesis fallback as the blockquote
+   rule. Headings are excluded: emphasis inside a heading keeps the heading's own face rather
+   than switching typeface mid-line. Blockquotes need no exclusion -- they are already serif
+   italic -- and footnotes flatten back to upright sans further down. */
+.markdown-rendered :is(em, i):not(:is(h1, h2, h3, h4, h5, h6) *),
+.cm-s-obsidian .cm-line:not(.HyperMD-header) .cm-em {
+  font-family: var(--gl-font-serif); font-style: italic; font-synthesis: style weight;
 }
 .markdown-rendered pre code, .cm-s-obsidian { font-feature-settings: "liga" 1, "calt" 1; }
 /* Properties panel in mono, for the key: value read. Obsidian's CSS-variable API has no documented
@@ -648,7 +653,7 @@ body {
 }
 .footnotes-view .footnote-content :is(em, i), .markdown-rendered .footnotes :is(em, i),
 .cm-s-obsidian .cm-line.HyperMD-footnote .cm-em {
-  font-style: normal;
+  font-family: var(--gl-font-sans); font-style: normal;
 }
 
 .cm-s-obsidian .cm-comment, .markdown-rendered pre code .token.comment { font-style: italic; }
@@ -879,14 +884,14 @@ body.is-phone {
 /* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or
    to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the
    three theme font hooks above are literal. */
-/* Kept for vaults that saved the pre-1.0 Style Settings class; serif is already the
-   default, so the alias preserves the old preference without introducing a second UI toggle. */
-body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }
+/* Kept for vaults that saved the older Style Settings class; sans is now the default, so the
+   alias is inert and preserves the old preference without a second UI toggle. */
 body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }
-body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
-body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
-  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em;
-  font-variant-ligatures: common-ligatures;
+body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }
+body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {
+  font-family: var(--gl-font-serif); letter-spacing: -0.01em;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
 }
 body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }
 body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {

@@ -9,8 +9,9 @@ copy this folder's contents to a repository root.
 
 ## Reading voice
 
-Glauca pairs IBM Plex Serif display headings with IBM Plex Sans reading text.
-With the Style Settings plugin, enable **Sans headings** for a uniform
-all-sans note, or **Serif body text** for a more literary reading mode. The
+Glauca sets headings and reading text in IBM Plex Sans, and reserves IBM Plex
+Serif for the slanted voices: emphasis and blockquotes. With the Style Settings
+plugin, enable **Serif headings** for a display-serif hierarchy, or **Serif body
+text** for a more literary reading mode. The
 theme also provides controls for text size, line height, focus mode, framed
 embeds, and explorer density.

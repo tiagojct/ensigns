@@ -347,9 +347,9 @@ settings:
     min: 1.4
     max: 2.0
     step: 0.05
-  - id: gl-headings-sans
-    title: Sans headings (IBM Plex Sans)
-    description: Off (default) keeps Glauca's IBM Plex Serif headings; enable to match the body voice.
+  - id: gl-headings-serif
+    title: Serif headings (IBM Plex Serif)
+    description: Off (default) keeps Glauca's IBM Plex Sans headings; enable for a display-serif voice.
     type: class-toggle
     default: false
   - id: gl-body-serif
@@ -557,7 +557,7 @@ def build_obsidian(D):
          "  --search-result-background: %s;" % m["surface"],
          "  --embed-background: %s;" % m["surface"], "  --embed-border-start: 4px solid var(--text-accent);",
          "  --embed-block-shadow-hover: 0 2px 10px rgba(%s, 0.25);" % _rgbtriple(m["tint-bright"]),
-         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-serif);",
+         "  --inline-title-color: %s;" % m["text"], "  --inline-title-font: var(--gl-font-sans);",
          "  --divider-color-hover: var(--text-accent);", "  --divider-width-hover: 2px;",
         ]
         L += ["  --callout-%s: %s;" % (k, v) for k, v in callout.items()]
@@ -682,8 +682,9 @@ def build_obsidian(D):
             "  --icon-m-stroke-width: 1.5px;\n  --icon-l-stroke-width: 1.5px;\n"
             "  --icon-s-stroke-width: 1.75px;\n  --icon-xs-stroke-width: 1.75px;\n}\n\n"
             + blk(dark, "theme-dark") + "\n\n" + blk(light, "theme-light") + "\n\n"
-            "/* Note body in IBM Plex Sans -- the working voice; headings answer in IBM Plex Serif, same\n"
-            "   pairing as every other Glauca surface. A touch larger (relative em, so the font-size\n"
+            "/* Note body in IBM Plex Sans -- the working voice, shared by the headings so the note reads\n"
+            "   as one continuous surface; IBM Plex Serif is reserved for the slanted voices (emphasis,\n"
+            "   blockquotes). A touch larger (relative em, so the font-size\n"
             "   slider still works), at the per-mode reading weight (halation-compensated in dark), with\n"
             "   the reading OpenType features already used on the web surface (old-style, proportional\n"
             "   figures; common ligatures). text-wrap: pretty improves rag and kills orphans; headings keep\n"
@@ -693,14 +694,17 @@ def build_obsidian(D):
             "  font-weight: var(--gl-body-weight, 400);\n"
             "  text-wrap: pretty;\n"
             "  font-variant-numeric: oldstyle-nums proportional-nums; font-variant-ligatures: common-ligatures;\n}\n"
-            "/* IBM Plex Serif headings restore Glauca's display voice against the working sans body.\n"
-            "   Their restrained weight, tighter tracking, and balanced wrap make hierarchy clear without\n"
-            "   turning the note into a decorative page. The note title itself follows --inline-title-font\n"
-            "   above; Style Settings can opt into sans headings for a deliberately uniform reading voice. */\n"
+            "/* IBM Plex Sans headings, the same face as the body: hierarchy comes from size, weight and\n"
+            "   air rather than a change of typeface, so a note reads as one continuous voice instead of a\n"
+            "   printed page. Semibold rather than core's 700 -- restrained -- and slightly tighter tracking\n"
+            "   than the serif took, closing the gaps a sans opens at display sizes. Both font-weight and the\n"
+            "   wght axis are set: variable IBM Plex Sans interpolates the axis, a static install lands on the\n"
+            "   nearest cut. The note title follows --inline-title-font above; Style Settings opts into serif. */\n"
             ".markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
             ".markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-serif); font-variation-settings: \"wght\" 600; letter-spacing: -0.01em; text-wrap: balance;\n"
-            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
+            "  font-family: var(--gl-font-sans); font-weight: 600; font-variation-settings: \"wght\" 600;\n"
+            "  letter-spacing: -0.015em; text-wrap: balance;\n"
+            "  font-variant-ligatures: common-ligatures;\n}\n"
             "/* Breathing room after headings (reading view): 1.4x the paragraph rhythm, in the heading's\n"
             "   own em so larger headings carry proportionally more air. Core keeps 2.5x above (via\n"
             "   --heading-spacing), so the hierarchy still reads top-heavy, as it should. Live preview's\n"
@@ -720,14 +724,15 @@ def build_obsidian(D):
             "/* Generous breathing room top and bottom on the reading-view blockquote (the live-preview\n"
             "   .HyperMD-quote is per-line, so container padding there would space every quoted line). */\n"
             ".markdown-rendered blockquote { padding-block: 1.3em; }\n"
-            "/* Explicit belt-and-suspenders: emphasis/italic text should read as sans body text like\n"
-            "   everything else around it, not switch typeface. Written directly (not relying on\n"
-            "   --font-text-theme alone) in case Obsidian has its own internal default for em/i independent\n"
-            "   of the theme's text-font hook. Blockquotes are the one deliberate exception (serif, above),\n"
-            "   so they're excluded here. */\n"
-            ".markdown-rendered em:not(blockquote *), .markdown-rendered i:not(blockquote *),\n"
-            ".cm-s-obsidian .cm-em {\n"
-            "  font-family: var(--gl-font-sans);\n}\n"
+            "/* Emphasis speaks in IBM Plex Serif italic. With the headings now sharing the body sans, the\n"
+            "   serif is what the slanted voices are for -- emphasis and blockquotes -- so a stressed phrase\n"
+            "   changes register rather than merely leaning. Same font-synthesis fallback as the blockquote\n"
+            "   rule. Headings are excluded: emphasis inside a heading keeps the heading's own face rather\n"
+            "   than switching typeface mid-line. Blockquotes need no exclusion -- they are already serif\n"
+            "   italic -- and footnotes flatten back to upright sans further down. */\n"
+            ".markdown-rendered :is(em, i):not(:is(h1, h2, h3, h4, h5, h6) *),\n"
+            ".cm-s-obsidian .cm-line:not(.HyperMD-header) .cm-em {\n"
+            "  font-family: var(--gl-font-serif); font-style: italic; font-synthesis: style weight;\n}\n"
             '.markdown-rendered pre code, .cm-s-obsidian { font-feature-settings: "liga" 1, "calt" 1; }\n'
             "/* Properties panel in mono, for the key: value read. Obsidian's CSS-variable API has no documented\n"
             "   font-family hook for Properties (only sizes/colours), so this targets the panel's actual DOM classes\n"
@@ -754,7 +759,7 @@ def build_obsidian(D):
             "  font-family: var(--gl-font-sans); font-style: normal;\n}\n"
             ".footnotes-view .footnote-content :is(em, i), .markdown-rendered .footnotes :is(em, i),\n"
             ".cm-s-obsidian .cm-line.HyperMD-footnote .cm-em {\n"
-            "  font-style: normal;\n}\n\n"
+            "  font-family: var(--gl-font-sans); font-style: normal;\n}\n\n"
             + code_style + "\n\n" + extra + "\n" + nav_icons + "\n" + _task_rules() + "\n" + _FEATURES_CSS + "\n"
             "/* File explorer: labels wrap instead of truncating, while preserving a calm, readable density. */\n"
             '.workspace-leaf-content[data-type="file-explorer"] .tree-item-self { height: auto; }\n'
@@ -763,14 +768,14 @@ def build_obsidian(D):
             "/* Style Settings escape hatches: class present reverts that one piece (to Obsidian stock, or\n"
             "   to the other Glauca voice). Font stack literal in gl-body-serif for the same reason the\n"
             "   three theme font hooks above are literal. */\n"
-            "/* Kept for vaults that saved the pre-1.0 Style Settings class; serif is already the\n"
-            "   default, so the alias preserves the old preference without introducing a second UI toggle. */\n"
-            "body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }\n"
+            "/* Kept for vaults that saved the older Style Settings class; sans is now the default, so the\n"
+            "   alias is inert and preserves the old preference without a second UI toggle. */\n"
             "body.gl-headings-sans { --inline-title-font: var(--gl-font-sans); }\n"
-            "body.gl-headings-sans .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
-            "body.gl-headings-sans .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
-            "  font-family: var(--gl-font-sans); font-variation-settings: normal; letter-spacing: -0.015em;\n"
-            "  font-variant-ligatures: common-ligatures;\n}\n"
+            "body.gl-headings-serif { --inline-title-font: var(--gl-font-serif); }\n"
+            "body.gl-headings-serif .markdown-rendered :is(h1, h2, h3, h4, h5, h6),\n"
+            "body.gl-headings-serif .markdown-source-view.mod-cm6 :is(.HyperMD-header, .cm-header) {\n"
+            "  font-family: var(--gl-font-serif); letter-spacing: -0.01em;\n"
+            "  font-variant-ligatures: common-ligatures discretionary-ligatures;\n}\n"
             'body.gl-body-serif { --font-text-theme: "IBM Plex Serif", Georgia, serif; }\n'
             "body.gl-body-serif .markdown-preview-view, body.gl-body-serif .markdown-source-view.mod-cm6 .cm-content {\n"
             "  font-optical-sizing: auto;\n}\n"
