@@ -4,7 +4,7 @@
 # with a slow command's runtime and a failed command's exit code on the right.
 
 zmodload zsh/datetime 2>/dev/null
-autoload -Uz add-zsh-hook
+autoload -Uz add-zsh-hook 2>/dev/null
 _glauca_preexec() { _glauca_start=$EPOCHREALTIME }
 # The venv and runtime segments are coloured here, in plain shell, not in the
 # prompt string: a %F{...} inside a ${x:+...} confuses prompt brace-matching.
@@ -19,8 +19,12 @@ _glauca_precmd() {
   local p=${${(%):-%~}//\%/%%}
   if [[ $p == */?* ]]; then _glauca_path="%F{#92a6b0}${p%/*}/%f%F{#35576b}${p##*/}%f"; else _glauca_path="%F{#35576b}${p}%f"; fi
 }
-add-zsh-hook preexec _glauca_preexec
-add-zsh-hook precmd _glauca_precmd
+# Register defensively: if add-zsh-hook is unavailable (broken fpath), skip the timing
+# feature silently rather than spilling 'function definition file not found' at every prompt.
+if (( $+functions[add-zsh-hook] )); then
+  add-zsh-hook preexec _glauca_preexec 2>/dev/null
+  add-zsh-hook precmd _glauca_precmd 2>/dev/null
+fi
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" %F{#55646d}(%F{#306972}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%F{#55646d})%f"
