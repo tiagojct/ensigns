@@ -1,8 +1,9 @@
 name: ci
 on: [push, pull_request]
 
-# Actions pinned to commit SHAs for supply-chain safety; the tag is in the
-# comment. Keep them fresh with Dependabot (.github/dependabot.yml).
+# Forgejo Actions workflow (runs when the instance has Actions enabled and a
+# runner registered). Actions pinned to commit SHAs for supply-chain safety;
+# the tag is in the comment. Bump them by hand when updating.
 jobs:
   build:
     runs-on: ubuntu-latest

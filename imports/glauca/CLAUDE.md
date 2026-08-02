@@ -45,7 +45,7 @@ make pptx       # build the PowerPoint templates (needs python-pptx)
 make markedit   # bundle the MarkEdit theme (needs npm)
 ```
 
-CI ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs `validate.py`, `generate.py --check`, `cvd_check.py`, and `check_fonts.py` on every push. There is no single-test runner; the checks are whole-file Python scripts. To verify a change: `make generate && make test`.
+CI ([.forgejo/workflows/ci.yml](.forgejo/workflows/ci.yml), Forgejo Actions) runs `validate.py`, `generate.py --check`, `cvd_check.py`, `check_fonts.py`, and a node parse of the Tailwind preset on every push. There is no single-test runner; the checks are whole-file Python scripts. To verify a change: `make generate && make test`.
 
 The npm subprojects only consume generated output. `src/web/` is the 11ty app (`npm run serve` / `npm run build`, run from `src/web`); `src/tailwind/index.js` re-exports `colors.generated.js`.
 
