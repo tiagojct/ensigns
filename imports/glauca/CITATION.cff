@@ -7,7 +7,7 @@ authors:
 version: 0.1.0
 date-released: 2026-07-10
 license: "MIT AND CC-BY-4.0"
-repository-code: "https://github.com/tiagojct/glauca"
+repository-code: "https://git.tiagojct.eu/tiagojct/glauca"
 url: "https://tiagojct.eu"
 keywords:
   - design system

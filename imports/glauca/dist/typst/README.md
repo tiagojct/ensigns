@@ -17,4 +17,4 @@ typst compile demo.typ demo.pdf
 ```
 
 IBM Plex Serif, Sans, and Mono must be installed on the system so Typst
-can find them. See `../fonts/README.md`.
+can find them. See `src/fonts/README.md` in the repo.

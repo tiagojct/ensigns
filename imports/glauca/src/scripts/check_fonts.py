@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Verify the fonts cover European Portuguese and that every codepoint is inside
 the declared subset range (glauca.json -> i18n.unicode-range).
-Skips cleanly if the font files are not present (they are documented, not committed)."""
+The Plex TTFs are committed in src/fonts/; the glyph check skips cleanly only
+when they are absent (e.g. a slimmed checkout) or fontTools is not installed."""
 import json, pathlib, sys, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 D = json.loads((ROOT / "glauca.json").read_text())
@@ -25,7 +26,7 @@ print("range: all %d Portuguese codepoints inside the declared subset" % len(PT)
 fdir = ROOT / "fonts"
 ttfs = list(fdir.glob("*.ttf")) + list(fdir.glob("*.woff2"))
 if not ttfs:
-    print("fonts not present (documented, not committed) — glyph check skipped"); sys.exit(0)
+    print("fonts not present in src/fonts/ — glyph check skipped"); sys.exit(0)
 try:
     from fontTools.ttLib import TTFont
 except ImportError:

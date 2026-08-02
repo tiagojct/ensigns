@@ -4,3 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+  - package-ecosystem: "npm"
+    directory: "/src/web"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "npm"
+    directory: "/src/markedit"
+    schedule:
+      interval: "monthly"

@@ -23,7 +23,7 @@ corporate, not trend-chasing. Terse in voice, pre-AO90 in Portuguese, no emoji.
 The identity is type-forward. The primary mark is the wordmark, Glauca set in
 IBM Plex Serif semibold. The secondary mark is the bloom emblem: a single blue
 point on a pale disc, the rule made into a glyph, for favicons and avatars
-(assets/logo.svg cold, assets/logo-lit.svg).
+(src/assets/logo.svg light, src/assets/logo-dark.svg dark).
 
 Type-forward is the right restraint. A system about reading and plain text
 should not lean on a manufactured logo; the type and the one blue carry it.

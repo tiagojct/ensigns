@@ -19,8 +19,12 @@ for _cm in (glauca_seq, glauca_div):
     except (ValueError, AttributeError):
         pass
 
-_LIGHT = dict(bg="#ffffff", panel="#ffffff", text="#16222a", grid="#dde6ea", muted="#55646d")
-_DARK  = dict(bg="#10161c", panel="#10161c", text="#e8eef2", grid="#2a3540", muted="#8c8c8c")
+_LIGHT = dict(bg="#ffffff", panel="#ffffff", text="#16222a", grid="#dde6ea", muted="#55646d", accent="#0b62cf")
+_DARK  = dict(bg="#10161c", panel="#10161c", text="#e8eef2", grid="#2a3540", muted="#8c8c8c", accent="#3d97ff")
+
+def glauca_accent(mode="light"):
+    """The mode's single accent, for one highlighted series or annotation."""
+    return (_DARK if mode == "dark" else _LIGHT)["accent"]
 
 def _apply(p):
     mpl.rcParams.update({

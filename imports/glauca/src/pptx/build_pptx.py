@@ -36,20 +36,19 @@ def rgb(hexv):
 
 
 def theme_variant(m):
-    """clrScheme + fontScheme XML for one mode dict m."""
-    acc = [m["accent"]] + DATAVIZ[:5]
-    acc = (acc + DATAVIZ)[:6]
+    """clrScheme + fontScheme XML for one mode dict m.
+
+    dk1/lt1 are always text/bg: PowerPoint's tx1 slot maps to dk1 and bg1 to
+    lt1, and the mode dict already carries the right polarity (dark mode's
+    text is light, its bg dark), so no swap is needed for user-added slides."""
+    acc = ([m["accent"]] + DATAVIZ)[:6]
     hexes = {
-        "dk1": m["text"] if m["scheme"] == "light" else m["text"],
-        "lt1": m["bg"],
+        "dk1": m["text"], "lt1": m["bg"],
         "dk2": m["tint"], "lt2": m["surface-raised"],
         "accent1": acc[0], "accent2": acc[1], "accent3": acc[2],
         "accent4": acc[3], "accent5": acc[4], "accent6": acc[5],
         "hlink": m["accent"], "folHlink": m["tint-bright"],
     }
-    # dark: swap so bg1(=lt1) is dark and tx1(=dk1) is light for user-added slides
-    if m["scheme"] == "dark":
-        hexes["dk1"], hexes["lt1"] = m["text"], m["bg"]
     order = ["dk1", "lt1", "dk2", "lt2", "accent1", "accent2", "accent3",
              "accent4", "accent5", "accent6", "hlink", "folHlink"]
     clr = "".join(
@@ -224,7 +223,7 @@ def build(mode_key, filename):
          [[("Clear glass, cold light.", SERIF, 40, True, False, close_ink)]],
          )
     text(s, Inches(0.92), Inches(5.0), Inches(11), Inches(0.6),
-         [[("github.com/tiagojct/glauca", SANS, 15, False, False, link_col)]])
+         [[("git.tiagojct.eu/tiagojct/glauca", SANS, 15, False, False, link_col)]])
 
     path = OUT / filename
     prs.save(path)

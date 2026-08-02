@@ -22,10 +22,10 @@ the leaf green (*folium*, #62BA46). The reasoning is in
 
 Three fixed points, placed rather than decorated:
 
-- **#007AFF (dies)** — cold accent-bright, lit accent-deep, the keyword colour,
+- **#007AFF (dies)** — light accent-bright, dark accent-deep, the keyword colour,
   the terminal cursor, ANSI bright blue, the P3 gamut anchor.
-- **#62BA46 (folium)** — the string colour, ANSI bright green, the dataviz
-  green, the success signal.
+- **#62BA46 (folium)** — the string colour, ANSI bright green, the success
+  signal.
 - **#8C8C8C (cinis)** — exactly the dark mode's muted text (5.4:1 on the dark
   ground), and the light mode's faint/disabled family.
 
@@ -43,7 +43,8 @@ src/                 authoring inputs (the only files you edit)
   glauca.json        the single source of truth
   scripts/           generator + checks (generate, validate, cvd, fonts)
   web/               the 11ty app (its generated CSS is embedded in src/web/src/css)
-  tailwind/ vscode/ zed/ vivaldi/ obsidian/ typst/ quarto/ omz/ themes/   scaffolding
+  tailwind/ vscode/ zed/ vivaldi/ obsidian/ typst/ quarto/ omz/ themes/
+  pptx/ miniflux/ markedit/                             scaffolding
   assets/ fonts/ specimen/                              brand assets, fonts, demos
 docs/                README's siblings (FOUNDATIONS, PRODUCT, BRAND, ...)
 dist/                generated, committed, vendorable surfaces (the build output)
@@ -65,6 +66,9 @@ dist/zed/               Zed theme family (Pruina light + Profundum dark)
 dist/vivaldi/           Vivaldi browser themes (light + dark), zipped for import
 dist/r/ dist/python/    ggplot2 / matplotlib scales and themes
 dist/quarto/ dist/print/   Quarto themes; print CMYK spec
+dist/miniflux/          Miniflux reader custom CSS (light + dark via the OS)
+dist/markedit/          MarkEdit editor theme bundle
+dist/pptx/              PowerPoint templates (light + dark)
 src/web/                minimal 11ty starter (built in place)
 ```
 
@@ -112,7 +116,8 @@ shapes in both plotting libraries.
 
 IBM Plex, all three voices: **Plex Serif** for display and headings, **Plex
 Sans** for interface and body (the reading voice), **Plex Mono** for code and
-labels. All OFL, not bundled (`src/fonts/README.md`). The type layer is roles,
+labels. All OFL; the TTFs are committed in `src/fonts/` and the Portuguese
+subsets as woff2 in `src/web/public/fonts/` (`src/fonts/README.md`). The type layer is roles,
 not sizes: display, headline, title, subhead, body-lg, body, caption, eyebrow,
 data, code — each binding family, size (fluid where it should be), weight,
 leading, tracking, OpenType features, and measure, emitted as `.gl-<role>`
@@ -120,9 +125,9 @@ classes. Plex has no optical-size axis, so unlike Try-Works the roles carry no
 opsz; figures still switch by context (oldstyle proportional in text, lining
 tabular in data) and body measure holds at 68ch.
 
-Fallback metrics in `dist/css/fallbacks.css` are neutral placeholders until the
-Plex TTFs land in `src/fonts/` — recompute them then (fontTools) and update
-`performance.payload_kb`.
+Fallback metrics in `dist/css/fallbacks.css` are metric-matched (fontTools,
+computed from the Plex TTFs against Georgia/Arial/Courier New), so the swap
+from fallback to webfont does not shift text.
 
 ## Motion
 
@@ -143,8 +148,8 @@ make test       # validate + check (what CI runs)
 make cvd        # colour-vision-deficiency report
 ```
 
-CI runs `validate`, `check`, and `cvd` on every push, so a hand-edited
-generated file or a contrast regression fails the build.
+CI runs `validate`, `check`, `cvd`, and the font-coverage check on every push,
+so a hand-edited generated file or a contrast regression fails the build.
 
 ## Versioning
 
@@ -156,8 +161,9 @@ the R and Python names.
 
 Code (generators, configs, CI, scripts) is MIT — see LICENSE-MIT. The design
 (palette, token values, docs) is CC-BY-4.0 — see LICENSE-CC-BY-4.0; attribute
-Glauca. IBM Plex is OFL and fetched separately; if you redistribute subsetted
-fonts, ship the OFL text and keep the reserved font names.
+Glauca. IBM Plex is OFL; the TTFs and subset woff2 files ship in the repo under
+that licence — if you redistribute subsetted fonts, ship the OFL text and keep
+the reserved font names.
 
 ## Credits
 

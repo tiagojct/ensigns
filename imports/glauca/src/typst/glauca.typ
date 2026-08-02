@@ -12,13 +12,13 @@
     #place(bottom + left, dx: 3cm, dy: -3cm)[
       #text(font: "IBM Plex Serif", size: 72pt, weight: 600, fill: pruina)[#title]
       #v(0.3em)
-      #text(font: "IBM Plex Mono", size: 15pt, fill: dies, tracking: 3pt)[#upper(subtitle)]
+      #text(font: "IBM Plex Mono", size: 15pt, fill: accent, tracking: 3pt)[#upper(subtitle)]
     ]
   ]
 }
 #let slide(title: "", body) = {
   page(fill: pix, margin: (x: 3cm, y: 2.4cm))[
-    #text(font: "IBM Plex Mono", size: 13pt, fill: dies, tracking: 2pt)[#upper(title)]
+    #text(font: "IBM Plex Mono", size: 13pt, fill: accent, tracking: 2pt)[#upper(title)]
     #v(0.5em); #line(length: 100%, stroke: 0.5pt + cinis); #v(1em)
     #set text(fill: pruina); #body
   ]

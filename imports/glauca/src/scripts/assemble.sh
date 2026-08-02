@@ -16,6 +16,7 @@ cp src/vscode/README.md src/vscode/preview-python.svg src/vscode/preview-r.svg d
 cp src/zed/README.md dist/zed/
 
 # vivaldi themes: zip each generated settings.json into an importable theme
+command -v zip >/dev/null || { echo "assemble.sh: 'zip' not found (needed for the Vivaldi themes)" >&2; exit 1; }
 cp src/vivaldi/README.md dist/vivaldi/
 rm -f dist/vivaldi/Glauca-Dark.zip dist/vivaldi/Glauca.zip
 ( cd dist/vivaldi/dark && zip -q ../Glauca-Dark.zip settings.json )
@@ -50,4 +51,8 @@ cp src/miniflux/README.md dist/miniflux/
 mkdir -p dist/markedit
 cp src/markedit/README.md dist/markedit/
 
-echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, obsidian, typst, quarto, themes/terminals, omz, miniflux, markedit)"
+# pptx templates: built by `make pptx`. Ship the README alongside them.
+mkdir -p dist/pptx
+cp src/pptx/README.md dist/pptx/
+
+echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, obsidian, typst, quarto, themes/terminals, omz, miniflux, markedit, pptx)"

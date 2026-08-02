@@ -11,7 +11,7 @@ files, so any hand-edit of a generated file fails the build.
 Layout: authoring inputs live under src/; generated tokens are written under dist/
 (committed). The web app embeds its generated CSS in place at src/web/src/css.
 """
-import json, pathlib, sys, uuid
+import json, pathlib, re, sys, uuid
 from generate_obsidian import build_obsidian, _mix
 
 SRC = pathlib.Path(__file__).resolve().parent.parent   # src/ (authoring inputs)
@@ -64,7 +64,6 @@ def build_typography(D):
 # ---------------- builders (each returns file text) ----------------
 def build_css(D):
     typ, sp = D["type"], D["spacing"]; dark, light = D["modes"]["dark"], D["modes"]["light"]
-    rd = typ.get if False else None
     def fam2(D):
         r = D["typography"]["fonts"].get("reading")
         return ('"%s", "%s fallback", system-ui, sans-serif' % (r["family"], r["family"])) if r else 'var(--gl-font-sans)'
@@ -76,7 +75,9 @@ def build_css(D):
     for k, v in typ["scale"]["weight"].items():  out.append("  --gl-weight-%s: %s;" % (k, v))
     for k, v in sp["scale"].items():             out.append("  --gl-space-%s: %s;" % (k, v))
     for k, v in sp["radius"].items():            out.append("  --gl-radius-%s: %s;" % (k, v))
-    out += ["  --gl-border: %s;" % sp["border"], "}", "",
+    # Named -width: the bare --gl-border is the per-mode border COLOUR below; emitting
+    # the width under the same name let the colour shadow it and consumers lost both.
+    out += ["  --gl-border-width: %s;" % sp["border"], "}", "",
             # Light-first: Pruina (light) is the default at :root; Profundum (dark) is the opt-in.
             '/* %s is the light default; %s is dark. */' % (light["label"], dark["label"]),
             ':root,\n[data-mode="light"] {'] + ["  --gl-%s: %s;" % (k, v) for k, v in light.items() if k not in SKIP] + ["}", "",
@@ -84,8 +85,11 @@ def build_css(D):
     return "\n".join(out) + "\n"
 
 def _js(o, ind="  "):
+    def key(k):
+        # Quote anything that is not a valid bare JS identifier ("2xl", "foo-bar", "DEFAULT").
+        return k if re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", k) and k != "DEFAULT" else '"%s"' % k
     if isinstance(o, dict):
-        body = ",\n".join('%s  %s: %s' % (ind, ('"%s"' % k if k == "DEFAULT" else k), _js(v, ind+"  ")) for k, v in o.items())
+        body = ",\n".join('%s  %s: %s' % (ind, key(k), _js(v, ind+"  ")) for k, v in o.items())
         return "{\n" + body + "\n" + ind + "}"
     if isinstance(o, list):
         return "[" + ", ".join(_js(x, ind) for x in o) + "]"
@@ -93,20 +97,25 @@ def _js(o, ind="  "):
 
 def build_tailwind(D):
     pal, typ, sp, tg = D["palette"], D["type"], D["spacing"], D["typography"]
-    sea, fire, gr, wh, ext = pal["glaucum"], pal["caelum"], pal["saxum"], pal["pruina"], pal["extended"]
+    sea, fire, gr, wh = pal["glaucum"], pal["caelum"], pal["saxum"], pal["pruina"]
+    # Extended-tier hues (folium, bacca, viola, lacus, unda) are deliberately absent:
+    # Tailwind is a web surface, and the tier rule keeps them to code/terminal only.
     colors = {
         "glaucum": {"DEFAULT": sea["vadum"], "caligo": sea["caligo"], "vadum": sea["vadum"],
                     "spuma": sea["spuma"], "nebula": sea["nebula"]},
         "caelum": {"DEFAULT": fire["dies"], "dies": fire["dies"], "aer": fire["aer"], "imum": fire["imum"]},
         "pruina": wh["pruina"], "charta": wh["charta"], "cinis": wh["cinis"],
         "pix": gr["pix"], "umbra": gr["umbra"], "petra": gr["petra"], "ferrum": gr["ferrum"],
-        "folium": ext["folium"], "bacca": ext["bacca"], "viola": ext["viola"], "lacus": ext["lacus"], "unda": ext["unda"],
     }
     fontFamily = {"serif": [tg["fonts"]["serif"]["family"], "Georgia", "serif"],
                   "sans": [tg["fonts"]["sans"]["family"], "system-ui", "sans-serif"],
                   "mono": [tg["fonts"]["mono"]["family"], "ui-monospace", "monospace"]}
     lineHeight = typ["scale"]["leading"]
-    letterSpacing = {"tight": "-0.02em", "snug": "-0.01em", "normal": "0", "wide": "0.05em", "eyebrow": "0.18em"}
+    # Single-sourced from typography.roles tracking values.
+    roles = tg["roles"]
+    letterSpacing = {"display": roles["display"]["tracking"], "headline": roles["headline"]["tracking"],
+                     "title": roles["title"]["tracking"], "normal": "0",
+                     "caption": roles["caption"]["tracking"], "eyebrow": roles["eyebrow"]["tracking"]}
     md = D["motion"]
     transitionDuration = dict(md["durations"])
     transitionTimingFunction = dict(md["easings"])
@@ -142,10 +151,13 @@ def _light_ansi(D):
     white and bright-white (1.4:1, 1.1:1) go invisible, the bright hues wash out. So
     the twelve coloured slots are darkened toward the light ink until they clear the
     light bg (>=4.5 normal, >=4.0 bright). The four greyscale slots use the mode's
-    semantic ink and muted text rather than literal white: terminal applications
-    frequently emit ANSI white for ordinary text, so a pale white would disappear
-    on the frost field. Hues stay put; only luminance moves. Ghostty and iTerm
-    share this; the dark themes keep the identity palette."""
+    semantic inks rather than literal white: terminal applications frequently emit
+    ANSI white for ordinary text, so a pale white would disappear on the frost
+    field. Each grey register stays distinct: black (0) is the deep saxum anchor,
+    bright-white (15) the ink, white (7) the higher-contrast muted ink, and
+    bright-black (8) the ordinary muted ink -- so dim text (8) and strong text (7)
+    still read as two levels. Hues stay put; only luminance moves. Ghostty and
+    iTerm share this; the dark themes keep the identity palette."""
     light, ansi = D["modes"]["light"], D["terminal"]["ansi"]
     ink, bg = light["text"], light["bg"]
     def darken(c, target):
@@ -156,7 +168,9 @@ def _light_ansi(D):
                 return cc
             t += 0.02
         return _mix(c, ink, 0.9)
-    grey = {0: ansi[0], 8: light["text-muted"], 7: light["text-muted"], 15: light["text"]}
+    cm = D["a11y"]["contrast_more"]["light"]
+    grey = {0: D["palette"]["saxum"]["ferrum"], 7: cm["text-muted"],
+            8: light["text-muted"], 15: light["text"]}
     return [grey[i] if i in grey else darken(c, 4.5 if i < 8 else 4.0) for i, c in enumerate(ansi)]
 
 def build_ghostty_light(D):
@@ -192,7 +206,7 @@ def _iterm_plist(pairs):
 
 def build_iterm(D):
     """Profundum (dark) iTerm2 preset: same sources as build_ghostty. Bold reuses
-    the foreground and Link is ANSI 12 (bright tide) -- iTerm falls back to its
+    the foreground and Link is ANSI 12 (dies, the bright blue) -- iTerm falls back to its
     own defaults for any key a preset omits, so both are pinned explicitly."""
     t = D["terminal"]
     pairs = [("Ansi %d Color" % i, c) for i, c in enumerate(t["ansi"])]
@@ -287,8 +301,10 @@ def build_omz_light(D):
     branch/error read on a light terminal background."""
     light, ex = D["modes"]["light"], D["palette"]["extended"]
     ls = lambda h: _mix(h, light["text"], 0.45)
+    # path_dim mixes only 0.3 toward the bg (the dark sibling uses 0.5): at 0.5 the
+    # dim segment measured 2.29:1 on the frost bg, under the 3:1 UI floor; 0.3 reads 3.45:1.
     return _omz_theme("Pruina", "Light.",
-        path_cur=light["tint"], path_dim=_mix(light["tint"], light["bg"], 0.5),
+        path_cur=light["tint"], path_dim=_mix(light["tint"], light["bg"], 0.3),
         paren=light["text-muted"], branch=ls(ex["unda"]),
         dirty=light["accent"], caret_ok=light["tint-bright"],
         caret_err=ls(ex["bacca"]), err=ls(ex["bacca"]),
@@ -413,7 +429,7 @@ def build_miniflux(D):
     light, dark = block(D["modes"]["light"]), block(D["modes"]["dark"])
     out = [
         "/* Glauca for Miniflux -- generated from glauca.json. Paste into",
-        "   Settings > Settings > Custom CSS. Cold (Pruina) is the base; dark",
+        "   Settings > Settings > Custom CSS. Light (Pruina) is the base; dark",
         '   (Profundum) applies under a dark OS appearance, so a "System" theme',
         "   in Miniflux follows the OS. Fonts: install IBM Plex (see fonts README). */",
         ":root {\n" + light + "}",
@@ -803,7 +819,9 @@ def _light_remap(D):
         "#1d262f": _mix(light["border"], light["bg"], 0.5),          # faint guides
         "#3a4754": _mix(light["border"], light["text-muted"], 0.35), # whitespace/tree strokes
         "#2f1c1e": _mix(light["bg"], ext["bacca"], 0.18),           # validation error bg
-        "#2d251a": _mix(light["bg"], fire["dies"], 0.18),          # validation warning bg
+        # warning bg stays warm in both modes: the dark side tints toward the amber
+        # warning hue (terminal ANSI yellow), so the light side must too, not toward blue.
+        "#2d251a": _mix(light["bg"], D["terminal"]["ansi"][3], 0.18),  # validation warning bg
         "#132335": _mix(light["bg"], ext["lacus"], 0.18),            # validation info bg
     }
     M8 = {"#ffffff14": "#00000010", "#ffffff1f": "#0000001a", "#ffffff0a": "#0000000a"}
@@ -1005,9 +1023,14 @@ def build_vscode_icons(D):
     return out
 
 def build_typst(D):
-    m = D["modes"]["dark"]
-    pairs = [("pix", m["bg"]), ("umbra", m["surface"]), ("tint-deep", m["tint-deep"]), ("sea", m["tint"]),
-             ("tint-bright", m["tint-bright"]), ("tint-pale", m["tint-pale"]), ("dies", m["accent"]),
+    """Typst colour tokens for the slide theme. Palette anchors keep their Latin
+    names (dies is THE anchor #007aff, not a mode accent); the working blue for
+    text on the dark slide field is `accent` (modes.dark.accent, the audited
+    caelum-on-pix pair, 6.1:1)."""
+    m, pal = D["modes"]["dark"], D["palette"]
+    pairs = [("pix", m["bg"]), ("umbra", m["surface"]), ("tint-deep", m["tint-deep"]), ("tint", m["tint"]),
+             ("tint-bright", m["tint-bright"]), ("tint-pale", m["tint-pale"]),
+             ("dies", pal["caelum"]["dies"]), ("accent", m["accent"]),
              ("aer", m["accent-bright"]), ("pruina", m["text"]), ("cinis", m["text-muted"])]
     return "// Glauca colours. Generated from glauca.json.\n" + "".join('#let %s = rgb("%s")\n' % (n, v) for n, v in pairs)
 
@@ -1166,7 +1189,8 @@ def artifacts(D):
         "dist/typst/colors.typ": build_typst(D),
         "dist/quarto/glauca.scss": build_quarto_scss(D, "light"),
         "dist/quarto/glauca-dark.scss": build_quarto_scss(D, "dark"),
-        "dist/quarto/glauca.theme": build_quarto_theme(D),
+        "dist/quarto/glauca.theme": build_quarto_theme(D, "light"),
+        "dist/quarto/glauca-dark.theme": build_quarto_theme(D, "dark"),
         "dist/quarto/typst-brand.typ": build_typst_brand(D),
         "dist/tailwind/colors.generated.js": build_tailwind(D),
         "dist/themes/terminals/Glauca-Dark.ghostty": build_ghostty(D),
@@ -1227,8 +1251,8 @@ def build_r(D):
     t = R_TEMPLATE
     repl = {"@@CAT@@": rv(dv["categorical"]["colors"]), "@@SEQ@@": rv(dv["sequential"]["colors"]),
             "@@DIV@@": rv(dv["diverging"]["colors"]), "@@PCH@@": "c(" + ", ".join(str(x) for x in dv["shapes"]["ggplot_pch"]) + ")", "@@BASE@@": f["base"], "@@TITLE@@": f["title"],
-            "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"],
-            "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"]}
+            "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"], "@@LACCENT@@": L["accent"],
+            "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"], "@@DACCENT@@": K["accent"]}
     for k, v in repl.items(): t = t.replace(k, v)
     return t
 
@@ -1251,8 +1275,8 @@ def build_pyviz(D):
     t = PY_TEMPLATE
     for k, v in {"@@CAT@@": pl(dv["categorical"]["colors"]), "@@SEQ@@": pl(dv["sequential"]["colors"]),
                  "@@DIV@@": pl(dv["diverging"]["colors"]), "@@MARK@@": pl(dv["shapes"]["matplotlib"]),
-                 "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"],
-                 "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"]}.items():
+                 "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"], "@@LACCENT@@": L["accent"],
+                 "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"], "@@DACCENT@@": K["accent"]}.items():
         t = t.replace(k, v)
     return t
 
@@ -1266,9 +1290,12 @@ glauca_diverging   <- @@DIV@@
 glauca_shapes      <- @@PCH@@
 
 .glauca_plot <- list(
-  light = list(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@"),
-  dark  = list(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@")
+  light = list(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@", accent="@@LACCENT@@"),
+  dark  = list(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@", accent="@@DACCENT@@")
 )
+
+# The mode's single accent, for one highlighted series or annotation.
+glauca_accent <- function(mode = c("light", "dark")) .glauca_plot[[match.arg(mode)]]$accent
 
 glauca_pal_d <- function(n) {
   if (n > length(glauca_categorical))
@@ -1276,8 +1303,8 @@ glauca_pal_d <- function(n) {
   unname(glauca_categorical[seq_len(n)])
 }
 
-scale_colour_glauca_d   <- function(...) ggplot2::discrete_scale("colour", "glauca", glauca_pal_d, ...)
-scale_fill_glauca_d     <- function(...) ggplot2::discrete_scale("fill", "glauca", glauca_pal_d, ...)
+scale_colour_glauca_d   <- function(...) ggplot2::discrete_scale("colour", palette = glauca_pal_d, ...)
+scale_fill_glauca_d     <- function(...) ggplot2::discrete_scale("fill", palette = glauca_pal_d, ...)
 scale_colour_glauca_c   <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_sequential, ...)
 scale_fill_glauca_c     <- function(...) ggplot2::scale_fill_gradientn(colours = glauca_sequential, ...)
 scale_colour_glauca_div <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_diverging, ...)
@@ -1326,8 +1353,12 @@ for _cm in (glauca_seq, glauca_div):
     except (ValueError, AttributeError):
         pass
 
-_LIGHT = dict(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@")
-_DARK  = dict(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@")
+_LIGHT = dict(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@", accent="@@LACCENT@@")
+_DARK  = dict(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@", accent="@@DACCENT@@")
+
+def glauca_accent(mode="light"):
+    """The mode's single accent, for one highlighted series or annotation."""
+    return (_DARK if mode == "dark" else _LIGHT)["accent"]
 
 def _apply(p):
     mpl.rcParams.update({
@@ -1479,11 +1510,20 @@ def build_quarto_scss(D, modekey):
                m["accent-deep"], m["surface"], m["accent"], h1, m["accent"]))
 
 
-def build_quarto_theme(D):
-    c = D["code"]; dark = D["modes"]["dark"]
+def build_quarto_theme(D, modekey="dark"):
+    """Pandoc/Quarto highlight theme per mode. The light build runs the code map
+    through the shared _light_remap (the same derivation as VS Code/Zed light),
+    so light pages get code on the light surface -- Quarto pairs them via
+    highlight-style: { light: glauca.theme, dark: glauca-dark.theme }."""
+    c, m = D["code"], D["modes"][modekey]
+    if modekey == "light":
+        remap, _ = _light_remap(D)
+        cc = lambda role: remap(c[role]["color"])
+    else:
+        cc = lambda role: c[role]["color"]
     def st(role):
-        r = c[role]; sty = r.get("style", "")
-        return {"text-color": r["color"], "background-color": None,
+        sty = c[role].get("style", "")
+        return {"text-color": cc(role), "background-color": None,
                 "bold": sty == "bold", "italic": sty == "italic", "underline": False}
     role = {"Keyword": "keyword", "ControlFlow": "keyword", "Import": "keyword",
             "DataType": "type", "BuiltIn": "type",
@@ -1493,8 +1533,8 @@ def build_quarto_theme(D):
             "Function": "function", "Operator": "operator", "Variable": "variable",
             "Attribute": "decorator", "Annotation": "decorator", "Preprocessor": "decorator",
             "Other": "variable", "Normal": "variable"}
-    theme = {"text-color": c["variable"]["color"], "background-color": dark["surface"],
-             "line-number-color": dark["text-muted"], "line-number-background-color": None,
+    theme = {"text-color": cc("variable"), "background-color": m["surface"],
+             "line-number-color": m["text-muted"], "line-number-background-color": None,
              "text-styles": {k: st(v) for k, v in role.items()}}
     return json.dumps(theme, indent=2) + "\n"
 

@@ -3,6 +3,9 @@
 Generated from [`src/glauca.json`](../../src/glauca.json) in the repository.
 Profundum is the dark mode; Pruina is the light mode.
 
+![Pruina, the light mode](img/light.svg)
+![Profundum, the dark mode](img/dark.svg)
+
 Copy `manifest.json` and `theme.css` into `.obsidian/themes/Glauca/`, then
 select **Glauca** under **Settings → Appearance**. For a community submission,
 copy this folder's contents to a repository root.

@@ -14,7 +14,7 @@ To change a token: edit glauca.json, then run `make generate`, then
 
 ## Checks
 
-- `make validate` enforces structure, valid hex, lit/cold key parity, WCAG
+- `make validate` enforces structure, valid hex, dark/light key parity, WCAG
   contrast thresholds, typography roles, and the data-viz scales.
 - `make check` confirms every generated file matches the json (no drift).
 - `make cvd` reports colour-vision behaviour.
@@ -31,6 +31,6 @@ builders pure: json in, string out.
 
 ## Style of change
 
-The system has a point of view: the cold sea is the field, the fire is the rare
-hot mark. Proposals that would scatter the accent or break the contrast floors
-will be asked to justify themselves against that.
+The system has a point of view: the pale bloom is the field, the sky-blue is
+the rare load-bearing mark. Proposals that would scatter the accent or break
+the contrast floors will be asked to justify themselves against that.

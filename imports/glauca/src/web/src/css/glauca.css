@@ -40,7 +40,7 @@
   --gl-radius-md: 4px;
   --gl-radius-lg: 6px;
   --gl-radius-pill: 999px;
-  --gl-border: 1px;
+  --gl-border-width: 1px;
 }
 
 /* Pruina is the light default; Profundum is dark. */

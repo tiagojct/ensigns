@@ -17,7 +17,7 @@ _glauca_precmd() {
   fi
   if [[ -n $VIRTUAL_ENV ]]; then _glauca_venv="%F{#55646d}${VIRTUAL_ENV:t} %f"; else _glauca_venv=''; fi
   local p=${${(%):-%~}//\%/%%}
-  if [[ $p == */?* ]]; then _glauca_path="%F{#92a6b0}${p%/*}/%f%F{#35576b}${p##*/}%f"; else _glauca_path="%F{#35576b}${p}%f"; fi
+  if [[ $p == */?* ]]; then _glauca_path="%F{#6d8695}${p%/*}/%f%F{#35576b}${p##*/}%f"; else _glauca_path="%F{#35576b}${p}%f"; fi
 }
 # Register defensively: if add-zsh-hook is unavailable (broken fpath), skip the timing
 # feature silently rather than spilling 'function definition file not found' at every prompt.

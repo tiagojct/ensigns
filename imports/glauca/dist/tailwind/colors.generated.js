@@ -20,12 +20,7 @@ module.exports = {
     pix: "#10161c",
     umbra: "#171f26",
     petra: "#1f2932",
-    ferrum: "#0b1218",
-    folium: "#62ba46",
-    bacca: "#c96a6a",
-    viola: "#b184db",
-    lacus: "#4a9edb",
-    unda: "#45a3ad"
+    ferrum: "#0b1218"
   },
   fontFamily: {
     serif: ["IBM Plex Serif", "Georgia", "serif"],
@@ -38,9 +33,9 @@ module.exports = {
     base: "1rem",
     lg: "1.25rem",
     xl: "1.563rem",
-    2xl: "1.953rem",
-    3xl: "2.441rem",
-    4xl: "3.052rem",
+    "2xl": "1.953rem",
+    "3xl": "2.441rem",
+    "4xl": "3.052rem",
     display: "clamp(2.5rem, 6vw, 4rem)",
     poster: "clamp(3rem, 10vw, 6.5rem)"
   },
@@ -51,26 +46,27 @@ module.exports = {
     relaxed: "1.7"
   },
   letterSpacing: {
-    tight: "-0.02em",
-    snug: "-0.01em",
+    display: "-0.02em",
+    headline: "-0.014em",
+    title: "-0.008em",
     normal: "0",
-    wide: "0.05em",
+    caption: "0.005em",
     eyebrow: "0.18em"
   },
   spacing: {
-    0: "0",
-    1: "0.25rem",
-    2: "0.5rem",
-    3: "0.75rem",
-    4: "1rem",
-    5: "1.25rem",
-    6: "1.5rem",
-    8: "2rem",
-    10: "2.5rem",
-    12: "3rem",
-    16: "4rem",
-    20: "5rem",
-    24: "6rem"
+    "0": "0",
+    "1": "0.25rem",
+    "2": "0.5rem",
+    "3": "0.75rem",
+    "4": "1rem",
+    "5": "1.25rem",
+    "6": "1.5rem",
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
+    "20": "5rem",
+    "24": "6rem"
   },
   borderRadius: {
     none: "0",

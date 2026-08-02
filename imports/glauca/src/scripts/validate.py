@@ -9,9 +9,15 @@ HEX = re.compile(r"^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")
 
 def err(m): errors.append(m)
 
-# 1. required top-level keys
-for k in ["version", "signature", "modes", "palette", "code", "terminal", "type", "spacing", "accessibility"]:
-    if k not in D: err("missing top-level key: %s" % k)
+# 1. required top-level keys. Bail out immediately if any is missing: the checks
+# below index into these sections, and a KeyError traceback would bury the error list.
+REQUIRED = ["version", "signature", "modes", "palette", "code", "terminal", "type",
+            "spacing", "accessibility", "typography", "dataviz", "a11y"]
+missing = [k for k in REQUIRED if k not in D]
+if missing:
+    print("VALIDATION FAILED:")
+    for k in missing: print("  - missing top-level key: %s" % k)
+    sys.exit(1)
 
 # 2. modes present, parity, scheme
 dark, light = D["modes"].get("dark", {}), D["modes"].get("light", {})
@@ -29,12 +35,14 @@ def walk(obj, path):
         for k, v in obj.items(): walk(v, path + "." + str(k))
     elif isinstance(obj, list):
         for i, v in enumerate(obj): walk(v, "%s[%d]" % (path, i))
-for sec in ["modes", "palette", "code", "terminal"]:
+for sec in ["modes", "palette", "code", "terminal", "a11y"]:
     walk(D[sec], sec)
+walk(D["dataviz"].get("plot", {}), "dataviz.plot")
 
 # 3b. typography roles
-tg = D.get("typography", {})
+tg = D["typography"]
 roles = tg.get("roles", {}); meas = tg.get("measure", {})
+if not roles: err("typography.roles is empty")
 fontkeys = set(tg.get("fonts", {}).keys())
 serif_opsz = tg.get("fonts", {}).get("serif", {}).get("axes", {}).get("opsz", [9, 144])
 for name, r in roles.items():
@@ -47,13 +55,15 @@ for name, r in roles.items():
 
 # 3c. dataviz scales
 import re as _re
-dv = D.get("dataviz", {})
+dv = D["dataviz"]
 for key in ("categorical", "sequential", "diverging"):
     sc = dv.get(key, {}).get("colors", [])
     if not sc: err("dataviz.%s: no colors" % key)
     for c in sc:
         if not _re.fullmatch(r"#[0-9A-Fa-f]{6}", c): err("dataviz.%s: bad hex %r" % (key, c))
-if dv and "plot" in dv:
+if "plot" not in dv:
+    err("dataviz.plot missing (the R/Python themes are built from it)")
+else:
     for m in ("light", "dark"):
         if m not in dv["plot"]: err("dataviz.plot: missing %s" % m)
 

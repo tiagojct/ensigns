@@ -7,9 +7,12 @@ glauca_diverging   <- c("#084b96", "#3672b4", "#7ba1cd", "#c0d3e6", "#f0efe9", "
 glauca_shapes      <- c(16, 15, 17, 18, 25, 3, 4)
 
 .glauca_plot <- list(
-  light = list(bg="#ffffff", panel="#ffffff", text="#16222a", grid="#dde6ea", muted="#55646d"),
-  dark  = list(bg="#10161c", panel="#10161c", text="#e8eef2", grid="#2a3540", muted="#8c8c8c")
+  light = list(bg="#ffffff", panel="#ffffff", text="#16222a", grid="#dde6ea", muted="#55646d", accent="#0b62cf"),
+  dark  = list(bg="#10161c", panel="#10161c", text="#e8eef2", grid="#2a3540", muted="#8c8c8c", accent="#3d97ff")
 )
+
+# The mode's single accent, for one highlighted series or annotation.
+glauca_accent <- function(mode = c("light", "dark")) .glauca_plot[[match.arg(mode)]]$accent
 
 glauca_pal_d <- function(n) {
   if (n > length(glauca_categorical))
@@ -17,8 +20,8 @@ glauca_pal_d <- function(n) {
   unname(glauca_categorical[seq_len(n)])
 }
 
-scale_colour_glauca_d   <- function(...) ggplot2::discrete_scale("colour", "glauca", glauca_pal_d, ...)
-scale_fill_glauca_d     <- function(...) ggplot2::discrete_scale("fill", "glauca", glauca_pal_d, ...)
+scale_colour_glauca_d   <- function(...) ggplot2::discrete_scale("colour", palette = glauca_pal_d, ...)
+scale_fill_glauca_d     <- function(...) ggplot2::discrete_scale("fill", palette = glauca_pal_d, ...)
 scale_colour_glauca_c   <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_sequential, ...)
 scale_fill_glauca_c     <- function(...) ggplot2::scale_fill_gradientn(colours = glauca_sequential, ...)
 scale_colour_glauca_div <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_diverging, ...)

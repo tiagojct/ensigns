@@ -46,8 +46,9 @@ verified rather than sprinkled as decoration:
   text-level accents use its darker relatives. Light hovers darken; dark
   hovers brighten. Both rules are locked as contrast tests in validate.py.
 - **folium #62BA46** — the leaf. The working signal for growth and success,
-  the string colour, the terminal's bright green, the dataviz green. It lives
-  in the extended tier: everywhere code lives, never on a poster.
+  the string colour, the terminal's bright green. It lives in the extended
+  tier: everywhere code lives, never on a poster. (Dataviz stays brand-free:
+  Okabe-Ito categorical, dies-blue sequential.)
 - **cinis #8C8C8C** — the ash. The neutral pivot: exactly the dark mode's
   muted text (5.4:1 on the dark ground), the light mode's faint tier, the
   comment colour.
@@ -61,8 +62,9 @@ colour-vision deficiency see most reliably. The measured close pairs
 (number/function under protan and deutan; function/type under tritan) are
 reinforced with weight and italics — bold keywords, italic types, italic
 numbers, italic comments — so no distinction rides on hue alone. The exception
-is stated, bounded, and tested (`make cvd`); an ethic that cannot name its own
-exceptions is a mood.
+is stated, bounded, and measured (`make cvd` prints the simulation table; the
+contrast floors are the tests that gate the build); an ethic that cannot name
+its own exceptions is a mood.
 
 ## Light first
 

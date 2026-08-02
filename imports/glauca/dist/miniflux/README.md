@@ -18,7 +18,7 @@ choice.
 ## Fonts
 
 The CSS asks for IBM Plex Sans (UI + body) and IBM Plex Mono (code). Install
-them on the machine viewing Miniflux (see [../fonts/README.md](../fonts/README.md));
+them on the machine viewing Miniflux (see `src/fonts/README.md` in the repo);
 otherwise the system sans/mono fallbacks apply.
 
 ## What it maps

@@ -30,14 +30,14 @@ def _named_hues(pal):
     terminal ANSI set) -- shared unchanged across both .theme-dark and
     .theme-light blocks. Glauca's palette has no orange/yellow tier, so yellow
     is pinned to the terminal's ANSI 11 register (#d9ae4a in glauca.json) and
-    orange is mixed between it and bacca -- derived, not new. "mark" is dies,
-    the one rare blue, reserved for the two notice-me callout types."""
-    caelum, ext = pal["caelum"], pal["extended"]
+    orange is mixed between it and bacca -- derived, not new. (The blue mark
+    itself is not in this set: the callout map takes it from the mode's own
+    accent tokens, and Obsidian has no --color-mark variable.)"""
+    ext = pal["extended"]
     yellow = "#d9ae4a"
     return {"red": ext["bacca"], "orange": _mix(ext["bacca"], yellow, 0.5), "yellow": yellow,
             "green": ext["folium"], "cyan": ext["unda"], "blue": ext["lacus"],
-            "purple": ext["viola"], "pink": _mix(ext["bacca"], ext["viola"], 0.5),
-            "mark": caelum["dies"]}
+            "purple": ext["viola"], "pink": _mix(ext["bacca"], ext["viola"], 0.5)}
 
 
 def _ramp(m):
@@ -56,17 +56,22 @@ def _ramp(m):
 
 
 def _callout_map(n, m):
-    """14 canonical callout-type colour variables (Editor/Callout). The blue mark
-    (FOUNDATIONS.md) -- appears on exactly two of the 14: summary/important, the
+    """12 canonical callout-type colour variables (Editor/Callout). The blue mark
+    (FOUNDATIONS.md) -- appears on exactly two of the 12: summary/important, the
     callout types whose whole job is "notice this", so the rarity holds. Everyday
     informational callouts use lacus, the working blue, which reads as kin to the
     mark without spending it. The mark is mode-adjusted here: raw dies renders the
     (normal-size) callout title at only 3.2:1 light / 4.1:1 dark on its own 10% tint,
-    under AA; accent-deep (light) and accent (dark) keep the blue mark and clear 4.5."""
+    under AA; accent-deep (light) and accent (dark) keep the blue mark and clear 4.5.
+    Every named hue goes through _light_safe_hue for the same reason: app.css paints
+    the callout TITLE TEXT with this variable (over a 10% tint of itself), and the
+    raw mid-tone hues measure 1.8-3.0:1 on the light tint -- dark mode returns
+    them unchanged."""
     mark = m["accent"] if m["scheme"] == "dark" else m["accent-deep"]
-    return {"info": n["blue"], "todo": n["blue"], "tip": n["cyan"], "success": n["green"],
-            "question": n["purple"], "example": n["purple"], "error": n["red"], "fail": n["red"],
-            "bug": n["pink"], "warning": n["yellow"], "summary": mark, "important": mark}
+    s = lambda hx: _light_safe_hue(hx, m)
+    return {"info": s(n["blue"]), "todo": s(n["blue"]), "tip": s(n["cyan"]), "success": s(n["green"]),
+            "question": s(n["purple"]), "example": s(n["purple"]), "error": s(n["red"]), "fail": s(n["red"]),
+            "bug": s(n["pink"]), "warning": s(n["yellow"]), "summary": mark, "important": mark}
 
 
 def _light_safe_hue(hx, m):
@@ -113,8 +118,11 @@ def _code_syntax_map(m, codem):
             "punctuation": muted}
 
 
+# CM6 class for the type role is cm-tag, not cm-type: Obsidian paints .cm-type from
+# --code-function (app.css groups it with builtin/property/attribute) while .cm-tag is
+# the class it colours from --code-tag, where this generator sends the type hue.
 _CODE_STYLE_CLASSES = {"comment": ("comment", "comment"), "keyword": ("keyword", "keyword"),
-                       "type": ("type", "tag"), "number": ("number", "number")}
+                       "type": ("tag", "tag"), "number": ("number", "number")}
 
 
 def _code_style_rules(codem):
@@ -260,15 +268,21 @@ body.is-phone {
 
 
 def _graph_map(m, n, faint):
+    # node-tag/node-attachment are applied by app.css as TEXT colour on graph node
+    # labels, so they go through _light_safe_hue (raw lacus/unda read ~2.6:1 on the
+    # light bg); dark mode passes them through unchanged.
     return {"line": m["border"], "text": m["text-muted"], "node": m["tint-bright"],
             "node-unresolved": faint, "node-focused": m["accent-bright"],
-            "node-tag": n["blue"], "node-attachment": n["cyan"]}
+            "node-tag": _light_safe_hue(n["blue"], m), "node-attachment": _light_safe_hue(n["cyan"], m)}
 
 
 def _canvas_map(m, n):
+    # canvas color-N is also the canvas node LABEL text colour (app.css), so the
+    # named hues are light-safed like the callout and graph hues.
+    s = lambda hx: _light_safe_hue(hx, m)
     return {"background": m["bg"], "card-label-color": m["text-muted"], "dot-pattern": m["border"],
-            "color-1": n["red"], "color-2": n["orange"], "color-3": n["yellow"],
-            "color-4": n["green"], "color-5": n["cyan"], "color-6": n["purple"]}
+            "color-1": s(n["red"]), "color-2": s(n["orange"]), "color-3": s(n["yellow"]),
+            "color-4": s(n["green"]), "color-5": s(n["cyan"]), "color-6": s(n["purple"])}
 
 
 def _properties_map(m):
@@ -455,10 +469,9 @@ def build_obsidian(D):
          "  --gl-body-weight: %d;" % (430 if m["scheme"] == "dark" else 400),
          "  --text-on-accent: %s;" % m["on-accent"], "  --text-on-accent-inverted: %s;" % m["text"],
          "  --text-accent: %s;" % m["accent"], "  --text-accent-hover: %s;" % hov,
-         "  --text-error: %s;" % ext["bacca"],
+         "  --text-error: %s;" % _light_safe_hue(ext["bacca"], m),
          "  --text-selection: %s44;" % m["tint-bright"],
          "  --text-highlight-bg: rgba(%s, 0.4);" % _rgbtriple(fire["aer"]),
-         "  --text-highlight-bg-active: rgba(%s, 0.6);" % _rgbtriple(fire["dies"]),
          "  --interactive-normal: %s;" % m["surface"], "  --interactive-hover: %s;" % m["surface-raised"],
          "  --interactive-accent: var(--text-accent);", "  --interactive-accent-hover: %s;" % hov,
          # Internal (wiki) links take Glauca's green so they read distinct from the blue accent that
@@ -502,7 +515,7 @@ def build_obsidian(D):
          "  --gl-task-important: %s;" % _light_safe_hue(named["yellow"], m),
          "  --gl-task-star: %s;" % m["accent"],
          "  --pill-color: %s;" % m["text"], "  --pill-color-hover: %s;" % m["text"],
-         "  --pill-color-remove: %s;" % m["text-muted"], "  --pill-color-remove-hover: %s;" % ext["bacca"],
+         "  --pill-color-remove: %s;" % m["text-muted"], "  --pill-color-remove-hover: %s;" % _light_safe_hue(ext["bacca"], m),
          # Property pills (author, aliases, ...) sit flat on the note like the rest of the Properties
          # panel -- the boxed surface-raised chip read as a second UI inside it. Hover keeps the tint
          # and accent outline, so a pill still announces itself as removable on interaction. Tag-type

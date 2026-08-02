@@ -16,6 +16,7 @@
   font-family: "IBM Plex Mono";
   src: url("/fonts/IBMPlexMono.woff2") format("woff2");
   font-weight: 400 700; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122;
 }
 
 * { box-sizing: border-box; }
@@ -31,10 +32,10 @@ q::before { content: open-quote; } q::after { content: close-quote; }
 
 .wrap { max-inline-size: 60rem; margin-inline: auto; padding-inline: var(--gl-space-6); }
 .prose > * + * { margin-block-start: var(--gl-space-4); }
-section { padding-block: var(--gl-space-16); border-block-end: var(--gl-border) solid var(--gl-border); }
+section { padding-block: var(--gl-space-16); border-block-end: var(--gl-border-width) solid var(--gl-border); }
 /* Light-first hero: the frost field itself, with the one blue mark on the eyebrow
    and a faint bloom of accent at the base. Colors ride the mode variables. */
-.hero { background: var(--gl-surface); border-block-end: var(--gl-border) solid var(--gl-border); padding-block: var(--gl-space-20) var(--gl-space-16); position: relative; overflow: hidden; }
+.hero { background: var(--gl-surface); border-block-end: var(--gl-border-width) solid var(--gl-border); padding-block: var(--gl-space-20) var(--gl-space-16); position: relative; overflow: hidden; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--gl-accent) 14%, transparent) 100%); pointer-events: none; }
 .hero .wrap { position: relative; }
 .hero .gl-eyebrow { color: var(--gl-accent); margin-block: 0 var(--gl-space-4); }

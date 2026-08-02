@@ -11,6 +11,8 @@ jobs:
       - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: "3.x"
+      - name: Install fontTools (glyph-coverage check needs it)
+        run: pip install fonttools
       - name: Validate tokens, contrast, roles, scales
         run: python3 src/scripts/validate.py
       - name: Check generated files are in sync with the json
@@ -19,3 +21,5 @@ jobs:
         run: python3 src/scripts/cvd_check.py
       - name: Portuguese coverage and subset range
         run: python3 src/scripts/check_fonts.py
+      - name: Tailwind preset parses as JavaScript
+        run: node --check dist/tailwind/colors.generated.js && node -e "require('./dist/tailwind')"

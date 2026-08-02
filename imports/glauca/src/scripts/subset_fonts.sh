@@ -3,7 +3,8 @@
 # and all layout features. Place source TTFs in src/fonts/ first (see src/fonts/README.md).
 # Run from the repo root.
 set -e
-RANGE="0000-00FF,0131,0152-0153,2000-206F,20AC,2122"
+# Range single-sourced from glauca.json (i18n.unicode-range), not duplicated here.
+RANGE=$(python3 -c "import json,pathlib;print(json.loads(pathlib.Path('src/glauca.json').read_text())['i18n']['unicode-range'].replace('U+','').replace(' ',''))")
 OUT="src/web/public/fonts"; mkdir -p "$OUT"
 for pair in "IBMPlexSerif:src/fonts/IBMPlexSerif.ttf" "IBMPlexSans:src/fonts/IBMPlexSans.ttf" "IBMPlexMono:src/fonts/IBMPlexMono.ttf"; do
   name=$(echo "$pair" | cut -d: -f1); src=$(echo "$pair" | cut -d: -f2)

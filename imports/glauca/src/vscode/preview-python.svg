@@ -1,11 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="238" viewBox="0 0 720 238">
-  <rect width="720" height="238" rx="8" fill="#12161b"/>
-  <rect x="0" y="0" width="720" height="30" rx="8" fill="#1b2127"/>
-  <text x="360" y="20" text-anchor="middle" font-family="monospace" font-size="12" fill="#97a0a4">Glauca — Python</text>
-  <text x="24" y="58" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#c9651d" font-weight="700">import </tspan><tspan fill="#f1efe9">pandas </tspan><tspan fill="#c9651d" font-weight="700">as </tspan><tspan fill="#f1efe9">pd</tspan></text>
-  <text x="24" y="84" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#97a0a4"># spirometry summary</tspan></text>
-  <text x="24" y="110" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#d06a52">@cache</tspan></text>
-  <text x="24" y="136" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#c9651d" font-weight="700">def </tspan><tspan fill="#5f93b0">summarise</tspan><tspan fill="#aeb6b8">(path</tspan><tspan fill="#8a9296">: </tspan><tspan fill="#5f97a0">str</tspan><tspan fill="#8a9296">) -&gt; </tspan><tspan fill="#5f97a0">pd.DataFrame</tspan><tspan fill="#8a9296">:</tspan></text>
-  <text x="24" y="162" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#f1efe9">    df </tspan><tspan fill="#aeb6b8">= </tspan><tspan fill="#f1efe9">pd.</tspan><tspan fill="#5f93b0">read_csv</tspan><tspan fill="#8a9296">(path)</tspan></text>
-  <text x="24" y="188" xml:space="preserve" font-family="monospace" font-size="15"><tspan fill="#c9651d" font-weight="700">    return </tspan><tspan fill="#f1efe9">df[df.fev1 </tspan><tspan fill="#aeb6b8">&gt; </tspan><tspan fill="#a487ba">0</tspan><tspan fill="#8a9296">].</tspan><tspan fill="#5f93b0">groupby</tspan><tspan fill="#86a87f">("asthma")</tspan><tspan fill="#8a9296">.</tspan><tspan fill="#5f93b0">mean</tspan><tspan fill="#8a9296">()</tspan></text>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" font-size="14">
+  <rect width="720" height="360" rx="8" fill="#10161c"/>
+  <rect width="720" height="30" rx="8" fill="#171f26"/>
+  <text x="20" y="20" fill="#c3cdd3" font-size="12">bloom.py — Glauca (Profundum)</text>
+  <g xml:space="preserve">
+    <text x="24" y="62" fill="#8c8c8c" font-style="italic"># A pale frost field; one sky-blue mark.</text>
+    <text x="24" y="88"><tspan fill="#007aff" font-weight="700">from</tspan><tspan fill="#e8eef2"> functools </tspan><tspan fill="#007aff" font-weight="700">import</tspan><tspan fill="#e8eef2"> cache</tspan></text>
+    <text x="24" y="140" fill="#c96a6a">@cache</text>
+    <text x="24" y="166"><tspan fill="#007aff" font-weight="700">def</tspan><tspan fill="#4a9edb"> bloom</tspan><tspan fill="#86929a">(</tspan><tspan fill="#c3cdd3">field</tspan><tspan fill="#86929a">: </tspan><tspan fill="#45a3ad" font-style="italic">str</tspan><tspan fill="#86929a">, </tspan><tspan fill="#c3cdd3">n</tspan><tspan fill="#86929a">: </tspan><tspan fill="#45a3ad" font-style="italic">int</tspan><tspan fill="#a7b1b8"> = </tspan><tspan fill="#b184db" font-style="italic">3</tspan><tspan fill="#86929a">) -&gt; </tspan><tspan fill="#45a3ad" font-style="italic">str</tspan><tspan fill="#86929a">:</tspan></text>
+    <text x="52" y="192" fill="#62ba46">"""Return n rare marks on the field."""</text>
+    <text x="52" y="218"><tspan fill="#e8eef2">marks </tspan><tspan fill="#a7b1b8">= </tspan><tspan fill="#86929a">[</tspan><tspan fill="#62ba46">f"{field}-{i}"</tspan><tspan fill="#e8eef2"> </tspan><tspan fill="#007aff" font-weight="700">for</tspan><tspan fill="#e8eef2"> i </tspan><tspan fill="#007aff" font-weight="700">in</tspan><tspan fill="#e8eef2"> </tspan><tspan fill="#4a9edb">range</tspan><tspan fill="#86929a">(</tspan><tspan fill="#e8eef2">n</tspan><tspan fill="#86929a">)]</tspan></text>
+    <text x="52" y="244"><tspan fill="#007aff" font-weight="700">return</tspan><tspan fill="#e8eef2"> </tspan><tspan fill="#62ba46">", "</tspan><tspan fill="#86929a">.</tspan><tspan fill="#4a9edb">join</tspan><tspan fill="#86929a">(</tspan><tspan fill="#e8eef2">marks</tspan><tspan fill="#86929a">)</tspan></text>
+    <text x="24" y="296" font-size="12"><tspan fill="#8c8c8c" font-style="italic"># comment</tspan><tspan fill="#007aff" font-weight="700">  keyword</tspan><tspan fill="#62ba46">  string</tspan><tspan fill="#b184db" font-style="italic">  number</tspan><tspan fill="#4a9edb">  function</tspan><tspan fill="#45a3ad" font-style="italic">  type</tspan><tspan fill="#c96a6a">  decorator</tspan></text>
+  </g>
+  <rect x="0" y="330" width="720" height="30" fill="#171f26"/>
+  <text x="20" y="350" fill="#8c8c8c" font-size="12">main*</text>
+  <text x="700" y="350" text-anchor="end" fill="#8c8c8c" font-size="12">Python · UTF-8</text>
 </svg>

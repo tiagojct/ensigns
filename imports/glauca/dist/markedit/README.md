@@ -38,5 +38,5 @@ cp dist/markedit/glauca.js \
 
 The theme overrides MarkEdit's built-in light and dark themes, so it follows the
 app's light/dark mode automatically — no theme to pick. Install IBM Plex (see
-[../fonts/README.md](../fonts/README.md)) for the intended type; set the editor
+`src/fonts/README.md` in the repo) for the intended type; set the editor
 font to IBM Plex Mono in MarkEdit's settings.
