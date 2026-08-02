@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" font-size="14">
   <rect width="720" height="360" rx="8" fill="#10161c"/>
   <rect width="720" height="30" rx="8" fill="#171f26"/>
-  <text x="20" y="20" fill="#c3cdd3" font-size="12">bloom.R — Glauca (Profundum)</text>
+  <text x="20" y="20" fill="#c3cdd3" font-size="12">bloom.R — Glauca Dark</text>
   <g xml:space="preserve">
     <text x="24" y="62" fill="#8c8c8c" font-style="italic"># One accent per plot; the palette is Okabe-Ito.</text>
     <text x="24" y="88"><tspan fill="#4a9edb">library</tspan><tspan fill="#86929a">(</tspan><tspan fill="#e8eef2">ggplot2</tspan><tspan fill="#86929a">)</tspan></text>

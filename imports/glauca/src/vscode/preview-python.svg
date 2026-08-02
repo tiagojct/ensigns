@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" font-size="14">
   <rect width="720" height="360" rx="8" fill="#10161c"/>
   <rect width="720" height="30" rx="8" fill="#171f26"/>
-  <text x="20" y="20" fill="#c3cdd3" font-size="12">bloom.py — Glauca (Profundum)</text>
+  <text x="20" y="20" fill="#c3cdd3" font-size="12">bloom.py — Glauca Dark</text>
   <g xml:space="preserve">
     <text x="24" y="62" fill="#8c8c8c" font-style="italic"># A pale frost field; one sky-blue mark.</text>
     <text x="24" y="88"><tspan fill="#007aff" font-weight="700">from</tspan><tspan fill="#e8eef2"> functools </tspan><tspan fill="#007aff" font-weight="700">import</tspan><tspan fill="#e8eef2"> cache</tspan></text>

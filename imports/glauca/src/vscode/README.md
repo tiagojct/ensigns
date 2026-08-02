@@ -1,7 +1,7 @@
 # Glauca for VS Code
 
-Two code themes from the Glauca palette, tuned for R and Python: **Glauca**
-(Pruina, light — the flagship) and **Glauca (Profundum)** (dark). Both work in
+Two code themes from the Glauca palette, tuned for R and Python: **Glauca Light**
+(Pruina, the flagship) and **Glauca Dark** (Profundum). Both work in
 VS Code and in Positron (which reads VS Code themes and semantic tokens).
 
 Keywords carry the blue mark (dies); strings are leaf green (folium); numbers
@@ -15,8 +15,8 @@ contrast, a light-safe terminal palette, and hovers that darken instead of brigh
 ## Install from source
 
 Copy the `vscode/` folder to `~/.vscode/extensions/glauca-color-theme/`
-(or build a vsix with `vsce package`). Restart, then pick **Glauca** or
-**Glauca (Profundum)** under Preferences: Color Theme. In Positron the
+(or build a vsix with `vsce package`). Restart, then pick **Glauca Light** or
+**Glauca Dark** under Preferences: Color Theme. In Positron the
 same path under its extensions folder works.
 
 ## File icons

@@ -333,7 +333,7 @@ def build_vivaldi(D, modekey):
     m = D["modes"][modekey]
     up = lambda h: h.upper()
     # Light-first: the plain name is the light flagship; the dark one carries its label.
-    name = "Glauca (Profundum)" if modekey == "dark" else "Glauca"
+    name = "Glauca Dark" if modekey == "dark" else "Glauca Light"
     tid = str(uuid.uuid5(uuid.NAMESPACE_URL, "glauca.vivaldi." + modekey))
     theme = {
         "accentFromPage": False, "accentOnWindow": False, "accentSaturationLimit": 1,
@@ -778,7 +778,7 @@ def build_vscode(D):
     })
     for i, k in enumerate(["Black","Red","Green","Yellow","Blue","Magenta","Cyan","White","BrightBlack","BrightRed","BrightGreen","BrightYellow","BrightBlue","BrightMagenta","BrightCyan","BrightWhite"]):
         wb["terminal.ansi" + k] = ansi[i]
-    theme = {"name": "Glauca (Profundum)", "type": "dark", "semanticHighlighting": True,
+    theme = {"name": "Glauca Dark", "type": "dark", "semanticHighlighting": True,
              "semanticTokenColors": semantic, "colors": wb, "tokenColors": tokenColors}
     return json.dumps(theme, indent=2) + "\n"
 
@@ -860,7 +860,7 @@ def build_vscode_light(D):
         "statusBarItem.warningForeground": light["on-accent"],
         "statusBarItem.errorForeground": light["on-accent"],
     })
-    out = {"name": "Glauca", "type": "light", "semanticHighlighting": True,
+    out = {"name": "Glauca Light", "type": "light", "semanticHighlighting": True,
            "semanticTokenColors": deep(theme["semanticTokenColors"]),
            "colors": colors, "tokenColors": deep(theme["tokenColors"])}
     return json.dumps(out, indent=2) + "\n"
@@ -1150,8 +1150,8 @@ def build_zed(D):
         return out
     theme = {"$schema": "https://zed.dev/schema/themes/v0.2.0.json",
              "name": "Glauca", "author": "tiagojct",
-             "themes": [{"name": "Glauca (Pruina)", "appearance": "light", "style": light_style(style)},
-                        {"name": "Glauca (Profundum)", "appearance": "dark", "style": style}]}
+             "themes": [{"name": "Glauca Light", "appearance": "light", "style": light_style(style)},
+                        {"name": "Glauca Dark", "appearance": "dark", "style": style}]}
     return json.dumps(theme, indent=2) + "\n"
 
 def stamp_version(rel, D):

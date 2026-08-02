@@ -4,7 +4,7 @@
   "author": "tiagojct",
   "themes": [
     {
-      "name": "Glauca (Pruina)",
+      "name": "Glauca Light",
       "appearance": "light",
       "style": {
         "border": "#cdd7dc",
@@ -376,7 +376,7 @@
       }
     },
     {
-      "name": "Glauca (Profundum)",
+      "name": "Glauca Dark",
       "appearance": "dark",
       "style": {
         "border": "#2a3540",

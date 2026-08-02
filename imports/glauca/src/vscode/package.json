@@ -18,12 +18,12 @@
   "contributes": {
     "themes": [
       {
-        "label": "Glauca",
+        "label": "Glauca Light",
         "uiTheme": "vs",
         "path": "./themes/Glauca-color-theme.json"
       },
       {
-        "label": "Glauca (Profundum)",
+        "label": "Glauca Dark",
         "uiTheme": "vs-dark",
         "path": "./themes/Glauca-Dark-color-theme.json"
       }
