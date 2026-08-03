@@ -574,8 +574,12 @@ def build_vscode(D):
      "statusBar.background": dark["surface"], "statusBar.foreground": dark["text-muted"], "statusBar.border": dark["border"],
      "statusBar.debuggingBackground": fire["dies"], "statusBar.debuggingForeground": dark["on-accent"],
      "titleBar.activeBackground": dark["bg"], "titleBar.activeForeground": dark["text"], "titleBar.border": dark["border"],
+     # Tabs: ONE blue line, on top of the active tab only. tab.activeBorder (bottom)
+     # and tab.border (vertical separators) are explicitly transparent -- letting
+     # either default in gives the active tab a second accent line and a boxed-in
+     # look. The active tab shares the editor bg so it reads as attached to it.
      "tab.activeBackground": dark["bg"], "tab.inactiveBackground": dark["surface"], "tab.activeForeground": dark["text"],
-     "tab.inactiveForeground": dark["text-muted"], "tab.activeBorderTop": fire["dies"], "tab.border": dark["border"],
+     "tab.inactiveForeground": dark["text-muted"], "tab.activeBorderTop": fire["dies"], "tab.border": "#00000000",
      "editorGroupHeader.tabsBackground": dark["surface"], "panel.background": dark["bg"], "panel.border": dark["border"],
      "panelTitle.activeBorder": fire["dies"],
      "terminal.background": dark["bg"], "terminal.foreground": dark["text"], "terminalCursor.foreground": fire["dies"],
@@ -653,7 +657,7 @@ def build_vscode(D):
      "statusBarItem.prominentBackground": raised,
      # title bar / tabs / panel extras
      "titleBar.inactiveBackground": bg, "titleBar.inactiveForeground": muted,
-     "tab.hoverBackground": raised, "tab.unfocusedHoverBackground": raised, "tab.activeBorder": ember,
+     "tab.hoverBackground": raised, "tab.unfocusedHoverBackground": raised, "tab.activeBorder": "#00000000",
      "tab.unfocusedActiveForeground": muted, "tab.lastPinnedBorder": border, "tab.activeModifiedBorder": ember,
      "panelTitle.activeForeground": text, "panelTitle.inactiveForeground": muted, "panelInput.border": border,
      "panelSectionHeader.background": surf,
