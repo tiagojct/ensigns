@@ -24,3 +24,17 @@ jobs:
         run: python3 src/scripts/check_fonts.py
       - name: Tailwind preset parses as JavaScript
         run: node --check dist/tailwind/colors.generated.js && node -e "require('./dist/tailwind')"
+      - name: Generated JSON surfaces parse
+        run: |
+          python3 - <<'EOF'
+          import glob, json, sys
+          bad = []
+          for p in sorted(glob.glob("dist/**/*.json", recursive=True)):
+              try:
+                  json.load(open(p))
+              except Exception as e:
+                  bad.append("%s: %s" % (p, e))
+          if bad:
+              print("\n".join(bad)); sys.exit(1)
+          print("ok: every generated .json under dist/ parses")
+          EOF

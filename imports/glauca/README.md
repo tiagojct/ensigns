@@ -43,8 +43,8 @@ src/                 authoring inputs (the only files you edit)
   glauca.json        the single source of truth
   scripts/           generator + checks (generate, validate, cvd, fonts)
   web/               the 11ty app (its generated CSS is embedded in src/web/src/css)
-  tailwind/ vscode/ zed/ vivaldi/ obsidian/ typst/ quarto/ omz/ themes/
-  pptx/ miniflux/ markedit/                             scaffolding
+  tailwind/ vscode/ zed/ vivaldi/ firefox/ thunderbird/ zotero/ obsidian/
+  typst/ quarto/ omz/ themes/ pptx/ miniflux/ markedit/  scaffolding
   assets/ fonts/ specimen/                              brand assets, fonts, demos
 docs/                README's siblings (FOUNDATIONS, PRODUCT, BRAND, ...)
 dist/                generated, committed, vendorable surfaces (the build output)
@@ -59,11 +59,14 @@ dist/css/               custom properties (colours, type scale, spacing), light 
 dist/tailwind/          preset: colours, fontSize, spacing, borderRadius
 dist/typst/             slide theme + generated colours + poster preset
 dist/obsidian/          theme.css + manifest (Pruina / Profundum)
-dist/themes/terminals/  Ghostty + iTerm2 presets (Glauca light + Glauca-Dark)
+dist/themes/terminals/  Ghostty + iTerm2 presets (Glauca light + Glauca-Dark) + glauca.conf
 dist/omz/               oh-my-zsh prompt themes (light + dark)
 dist/vscode/            light + dark code themes and a file-icon theme, tuned for R and Python
 dist/zed/               Zed theme family (Pruina light + Profundum dark)
 dist/vivaldi/           Vivaldi browser themes (light + dark), zipped for import
+dist/firefox/           Firefox static theme (both modes in one), packaged as .xpi
+dist/thunderbird/       Thunderbird static theme (both modes in one), packaged as .xpi
+dist/zotero/            Zotero 7 theme, a userChrome.css drop-in (light + dark)
 dist/r/ dist/python/    ggplot2 / matplotlib scales and themes
 dist/quarto/ dist/print/   Quarto themes; print CMYK spec
 dist/miniflux/          Miniflux reader custom CSS (light + dark via the OS)
@@ -101,11 +104,13 @@ the paper field with the one blue mark.
 
 ## Accessibility
 
-Every body pair clears WCAG AA in both modes, locked as tests: 13 contrast rows
+Every body pair clears WCAG AA in both modes, locked as tests: 18 contrast rows
 in `src/scripts/validate.py`, including both hover pairs (dark hovers brighten,
 light hovers darken — the raw #007AFF measures under 4.5:1 on the pale ground,
 so light-mode hovers use the deep blue and the anchor serves as the large/UI
-mark). A Machado-2009 colour-vision pass covers the code hues; the measured
+mark), the sea used as a selection fill (browser menus, mail rows, terminal
+search candidates), and the deep blue used as a fill rather than a hover. A
+Machado-2009 colour-vision pass covers the code hues; the measured
 close pairs (number/function, function/type) are reinforced with weight and
 italics, never colour alone. `dist/css/a11y.css` adds :focus-visible rings,
 prefers-contrast: more, forced-colors, and reduced-transparency support. Data

@@ -16,11 +16,27 @@ cp src/vscode/README.md src/vscode/preview-python.svg src/vscode/preview-r.svg d
 cp src/zed/README.md dist/zed/
 
 # vivaldi themes: zip each generated settings.json into an importable theme
-command -v zip >/dev/null || { echo "assemble.sh: 'zip' not found (needed for the Vivaldi themes)" >&2; exit 1; }
+command -v zip >/dev/null || { echo "assemble.sh: 'zip' not found (needed for the Vivaldi, Firefox, and Thunderbird packages)" >&2; exit 1; }
 cp src/vivaldi/README.md dist/vivaldi/
 rm -f dist/vivaldi/Glauca-Dark.zip dist/vivaldi/Glauca.zip
 ( cd dist/vivaldi/dark && zip -q ../Glauca-Dark.zip settings.json )
 ( cd dist/vivaldi/light && zip -q ../Glauca.zip settings.json )
+
+# firefox + thunderbird static themes: generated manifest.json already in dist/.
+# Each gets the light emblem as its Add-ons Manager icon and is zipped into an
+# installable .xpi (an .xpi is a zip of the manifest and its siblings, not of the
+# folder, so the zip is made from inside the directory as the Vivaldi themes are).
+for app in firefox thunderbird; do
+  mkdir -p "dist/$app"
+  cp "src/$app/README.md" "dist/$app/"
+  cp src/assets/logo.svg "dist/$app/icon.svg"
+  rm -f "dist/$app/Glauca.xpi"
+  ( cd "dist/$app" && zip -q Glauca.xpi manifest.json icon.svg )
+done
+
+# zotero theme: generated userChrome.css already in dist/
+mkdir -p dist/zotero
+cp src/zotero/README.md dist/zotero/
 
 # obsidian theme: generated theme.css + manifest.json already in dist/
 # (the `src/.../.` form is idempotent: plain `cp -r src/x dist/x` nests a second
@@ -37,7 +53,7 @@ cp src/quarto/README.md dist/quarto/
 mkdir -p dist/quarto/example
 cp -r src/quarto/example/. dist/quarto/example/
 
-# terminal preset: generated .ghostty already in dist/
+# terminal presets: generated .ghostty/.itermcolors/glauca.conf already in dist/
 cp src/themes/terminals/README.md src/themes/terminals/preview.svg dist/themes/terminals/
 
 # oh-my-zsh prompt: generated .zsh-theme files already in dist/
@@ -55,4 +71,4 @@ cp src/markedit/README.md dist/markedit/
 mkdir -p dist/pptx
 cp src/pptx/README.md dist/pptx/
 
-echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, obsidian, typst, quarto, themes/terminals, omz, miniflux, markedit, pptx)"
+echo "assembled scaffolding into dist/ (tailwind, vscode, zed, vivaldi, firefox, thunderbird, zotero, obsidian, typst, quarto, themes/terminals, omz, miniflux, markedit, pptx)"

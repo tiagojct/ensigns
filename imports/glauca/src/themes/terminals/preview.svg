@@ -7,7 +7,7 @@
     <text x="24" y="66"><tspan fill="#526672">~/</tspan><tspan fill="#93b7c9">glauca</tspan><tspan fill="#4d7391"> (</tspan><tspan fill="#45a3ad">main</tspan><tspan fill="#007aff">*</tspan><tspan fill="#4d7391">)</tspan><tspan fill="#4d7391"> ❯</tspan><tspan fill="#e8eef2"> make generate</tspan></text>
     <text x="24" y="92" fill="#c6ced4">generated files from src/glauca.json</text>
     <text x="24" y="118"><tspan fill="#526672">~/</tspan><tspan fill="#93b7c9">glauca</tspan><tspan fill="#4d7391"> (</tspan><tspan fill="#45a3ad">main</tspan><tspan fill="#4d7391">)</tspan><tspan fill="#4d7391"> ❯</tspan><tspan fill="#e8eef2"> make test</tspan></text>
-    <text x="24" y="144"><tspan fill="#62ba46">validation passed</tspan><tspan fill="#8c8c8c">  # 13 contrast rows, all ok</tspan></text>
+    <text x="24" y="144"><tspan fill="#62ba46">validation passed</tspan><tspan fill="#8c8c8c">  # 18 contrast rows, all ok</tspan></text>
     <text x="24" y="170"><tspan fill="#4f9e3f">green</tspan><tspan fill="#c79a3d"> yellow</tspan><tspan fill="#4981c4"> blue</tspan><tspan fill="#8e74ab"> magenta</tspan><tspan fill="#3f93a0"> cyan</tspan><tspan fill="#b85f5f"> red</tspan></text>
     <text x="24" y="196"><tspan fill="#62ba46">bright-green</tspan><tspan fill="#d9ae4a"> bright-yellow</tspan><tspan fill="#007aff"> bright-blue</tspan><tspan fill="#b184db"> bright-magenta</tspan></text>
   </g>

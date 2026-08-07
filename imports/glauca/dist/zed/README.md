@@ -10,6 +10,12 @@ same light-safe terminal palette -- so both stay in lockstep from one source.
 `themes/Glauca.json` is generated from `src/glauca.json`; edit the json and
 run `make generate`, never the theme file.
 
+Coverage is checked against Zed's own shipped theme rather than guessed at:
+every style key and every syntax capture Zed sets is set here too, including
+search match states, the version-control word-diff and conflict-marker colours,
+the per-register dim terminal ANSI (SGR-2), and the collaborator/accent
+rotations.
+
 ## Install
 
 Copy the theme into Zed's user themes directory:

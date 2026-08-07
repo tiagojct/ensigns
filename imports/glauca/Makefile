@@ -50,3 +50,22 @@ pptx: ## Build the PowerPoint templates into dist/pptx/ (needs python-pptx)
 markedit: ## Bundle the MarkEdit theme into dist/markedit/glauca.js (needs npm)
 	cd src/markedit && npm install && npm run build
 .PHONY: markedit
+
+firefox-lint: ## Validate the Firefox theme with web-ext (needs npx)
+	npx --yes web-ext@8 lint --source-dir dist/firefox --self-hosted
+.PHONY: firefox-lint
+
+# Release Firefox enforces add-on signing and ignores xpinstall.signatures.required,
+# so the only way to install the theme permanently is a signed package. "unlisted"
+# signs it for self-distribution without publishing it on addons.mozilla.org. Get a
+# JWT issuer and secret from https://addons.mozilla.org/developers/addon/api/key/ and
+# export them first:
+#   export AMO_JWT_ISSUER=user:12345:67  AMO_JWT_SECRET=...
+# The signed .xpi lands in dist/firefox/; install it from about:addons.
+# Thunderbird signs through addons.thunderbird.net instead, which web-ext cannot
+# drive -- upload dist/thunderbird/Glauca.xpi there by hand.
+firefox-sign: firefox-lint ## Sign the Firefox theme for self-distribution (needs AMO_JWT_* and npx)
+	@test -n "$(AMO_JWT_ISSUER)" || { echo "set AMO_JWT_ISSUER and AMO_JWT_SECRET first (see the Makefile comment)"; exit 1; }
+	npx --yes web-ext@8 sign --source-dir dist/firefox --artifacts-dir dist/firefox \
+		--channel unlisted --api-key "$(AMO_JWT_ISSUER)" --api-secret "$(AMO_JWT_SECRET)"
+.PHONY: firefox-sign

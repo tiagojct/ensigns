@@ -12,6 +12,21 @@ Pylance and the R language server refine the colours further. The light theme is
 a total remap of the dark one: same hues darkened toward the ink for WCAG-safe
 contrast, a light-safe terminal palette, and hovers that darken instead of brighten.
 
+Workbench coverage is exhaustive rather than sampled — every documented colour
+key that would otherwise fall back to stock Dark+/Light+ is set from the
+palette, so nothing in the window is a colour this system did not choose: tabs
+in all their states, the activity bar, editor groups, marker navigation, the
+merge editor, diff and multi-diff, rendered markdown, lists and trees, form
+controls, panels, the terminal and its suggest icons, testing and coverage,
+notebooks, settings, the SCM graph, extensions, chat and inline edits. Token
+scopes cover LaTeX, BibTeX, and diffs alongside the R/Python core.
+
+The blue splits by job on the dark side. The anchor #007AFF is the *mark* —
+cursor, focus ring, button fill, the active tab's line — and is audited against
+the editor field. As *text* on the chrome surfaces it measures 4.15:1 on the
+sidebar and 3.68:1 on the raised surface, so blue text there takes the mode
+accent instead (6.1:1). Both collapse to the same blue in the light theme.
+
 ## Install from source
 
 Copy the `vscode/` folder to `~/.vscode/extensions/glauca-color-theme/`

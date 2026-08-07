@@ -1,7 +1,7 @@
 {
   "name": "Glauca",
   "version": "0.1.0",
-  "description": "A design system named for the glaucous bloom: the blue-grey-green film on leaves, waves and eyes. A pale frost field is the ground; one vivid sky-blue (dies) is the load-bearing mark. Light-first: Pruina (light) leads, Profundum (dark) answers. Ships as web/CSS, Tailwind, Typst slides and posters, an Obsidian theme, Ghostty/iTerm2 presets, an oh-my-zsh prompt, VS Code and Zed themes, and R/Python plot styles.",
+  "description": "A design system named for the glaucous bloom: the blue-grey-green film on leaves, waves and eyes. A pale frost field is the ground; one vivid sky-blue (dies) is the load-bearing mark. Light-first: Pruina (light) leads, Profundum (dark) answers. Ships as web/CSS, Tailwind, Typst slides and posters, an Obsidian theme, Ghostty/iTerm2 presets, an oh-my-zsh prompt, VS Code and Zed themes, Firefox/Thunderbird/Vivaldi browser themes, a Zotero theme, and R/Python plot styles.",
   "signature": "Nothing hides behind the surface. The bloom carries the substance -- pale, even, legible -- and the sky-blue dies is the one rare mark, kept rare so a page never shouts. The working exception is the code tier, where legibility duty puts the blue on keywords and admits the leaf green. See FOUNDATIONS.md.",
   "tiers": {
     "core": "Identity hues used everywhere: saxum (dark neutrals), glaucum (the bloom tints), caelum (the blue mark), pruina (pale neutrals). These define the brand.",
@@ -656,13 +656,16 @@
         "oh-my-zsh",
         "zed",
         "vivaldi",
+        "firefox",
+        "thunderbird",
+        "zotero",
         "miniflux",
         "markedit",
         "pptx"
       ],
       "confirm": []
     },
-    "top_gap": "none at 0.1.0; surfaces inherited complete from the Try-Works machinery.",
+    "top_gap": "none at 0.1.0; surfaces inherited complete from the Try-Works machinery, plus the reading-and-reference set (Firefox, Thunderbird, Zotero) added for the academic workflow.",
     "scope": "0.x: the public surface may still move; semver from 1.0.",
     "note": "See PRODUCT.md."
   }

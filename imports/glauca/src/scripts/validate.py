@@ -92,6 +92,18 @@ checks = [
  ("light accent/bg",    light["accent"], light["bg"], 4.5),
  ("light button",       light["on-accent"], light["accent"], 4.5),
  ("light tint-bright/bg", light["tint-bright"], light["bg"], 4.5),
+ # The sea as a selection fill: menu and list highlights in the browser, mail, and
+ # reference themes take the tint rather than the blue (a keyboard cursor moving down a
+ # list is not an accent), and Ghostty's search candidates take it too. Dark uses the
+ # dark end of the ramp under pale text, light the pale end under the ink.
+ ("dark text/tint",       dark["text"], dark["tint"], 4.5),
+ ("light ink/tint-pale",  light["text"], light["tint-pale"], 4.5),
+ ("dark on-tint/tint-pale", dark["on-tint"], dark["tint-pale"], 4.5),
+ # accent-deep as a fill, not just a hover: the Zotero selected row is painted with it
+ # in dark mode, carrying the on-accent ink and the white icon strokes Zotero draws on
+ # top. Both the ink pair and the fill's own visibility against the field are locked.
+ ("dark button (deep)",   dark["on-accent"], dark["accent-deep"], 4.5),
+ ("dark accent-deep/bg",  dark["accent-deep"], dark["bg"], 3.0),
 ]
 print("WCAG contrast:")
 for label, f, b, mn in checks:

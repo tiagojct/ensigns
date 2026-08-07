@@ -127,14 +127,51 @@ def build_tailwind(D):
                _js(lineHeight), _js(letterSpacing), _js(sp["scale"]), _js(sp["radius"]),
                _js(transitionDuration), _js(transitionTimingFunction)))
 
+def _ghostty(label, note, bg, fg, cursor, cursor_text, sel_bg, sel_fg,
+             search_fg, search_bg, sel_search_fg, sel_search_bg, divider, split_fill,
+             titlebar_bg, titlebar_fg, ansi):
+    """One Ghostty theme file. A theme file is an ordinary Ghostty config, so it may
+    set any option except `theme` and `config-file`; this one stays strictly to colour,
+    leaving behaviour to the user's own config (see dist/themes/terminals/glauca.conf
+    for the optional wiring).
+
+    Beyond the chrome and the sixteen ANSI slots: search matches split in two, which is
+    where the blue-rare rule earns its keep -- candidate matches take the quiet sea so a
+    screenful of hits stays calm, and only the focused match takes dies. Ghostty's stock
+    search colours are golden yellow and peach, which are off-system in both modes. The
+    split divider and the unfocused-split fill follow the border and the field; the
+    titlebar pair is read only by the GTK app runtime under `window-theme = ghostty`,
+    and is ignored elsewhere.
+
+    Minimum Ghostty: 1.3 (search-* landed with terminal search; split-divider-color
+    needs 1.1). On an older build, drop the search-* lines."""
+    return "\n".join([
+        "# Glauca (%s) — Ghostty theme%s. Generated from glauca.json." % (label, note),
+        "# Colour only; needs Ghostty >= 1.3 for the search-* keys.",
+        "background = %s" % bg, "foreground = %s" % fg,
+        "cursor-color = %s" % cursor, "cursor-text = %s" % cursor_text,
+        "selection-background = %s" % sel_bg, "selection-foreground = %s" % sel_fg,
+        "search-foreground = %s" % search_fg, "search-background = %s" % search_bg,
+        "search-selected-foreground = %s" % sel_search_fg,
+        "search-selected-background = %s" % sel_search_bg,
+        "split-divider-color = %s" % divider, "unfocused-split-fill = %s" % split_fill,
+        "# GTK only, and only under `window-theme = ghostty`; ignored elsewhere.",
+        "window-titlebar-background = %s" % titlebar_bg,
+        "window-titlebar-foreground = %s" % titlebar_fg,
+    ] + ["palette = %d=%s" % (i, c) for i, c in enumerate(ansi)]) + "\n"
+
 def build_ghostty(D):
+    """Profundum (dark) Ghostty theme: the identity ANSI palette and dark chrome."""
     t, dark = D["terminal"], D["modes"]["dark"]
-    g = ["# Glauca (%s) — Ghostty theme. Generated from glauca.json." % dark["label"],
-         "background = %s" % t["background"], "foreground = %s" % t["foreground"],
-         "cursor-color = %s" % t["cursor"], "cursor-text = %s" % t["cursor-text"],
-         "selection-background = %s" % t["selection-bg"], "selection-foreground = %s" % t["selection-fg"]]
-    g += ["palette = %d=%s" % (i, c) for i, c in enumerate(t["ansi"])]
-    return "\n".join(g) + "\n"
+    return _ghostty(dark["label"], "", t["background"], t["foreground"],
+        t["cursor"], t["cursor-text"], t["selection-bg"], t["selection-fg"],
+        # Both modes put candidates on tint-pale and the focused match on the mode
+        # accent, so the polarity flips against the selection (pale ink on the sea) and
+        # a hit is unmistakable. Measured: 8.49:1 and 6.35:1 here, 9.81:1 and 5.32:1 light.
+        search_fg=dark["on-tint"], search_bg=dark["tint-pale"],
+        sel_search_fg=dark["on-accent"], sel_search_bg=dark["accent"],
+        divider=dark["border"], split_fill=dark["bg"],
+        titlebar_bg=dark["surface"], titlebar_fg=dark["text"], ansi=t["ansi"])
 
 def _contrast(a, b):
     """WCAG contrast ratio between two hex colours."""
@@ -175,14 +212,49 @@ def _light_ansi(D):
 
 def build_ghostty_light(D):
     """Pruina (light) Ghostty theme: bg/fg/cursor/selection from modes.light, with a
-    light-tuned ANSI palette (see _light_ansi) so every colour reads on the frost bg."""
+    light-tuned ANSI palette (see _light_ansi) so every colour reads on the frost bg.
+    Search candidates sit on the pale tint with the ink on top; the focused match takes
+    the light accent with on-accent text (the validate.py-locked button pair)."""
     light, ansi = D["modes"]["light"], _light_ansi(D)
-    g = ["# Glauca (%s) — Ghostty theme (light). Generated from glauca.json." % light["label"],
-         "background = %s" % light["bg"], "foreground = %s" % light["text"],
-         "cursor-color = %s" % light["accent"], "cursor-text = %s" % light["on-accent"],
-         "selection-background = %s" % light["tint"], "selection-foreground = %s" % light["on-tint"]]
-    g += ["palette = %d=%s" % (i, c) for i, c in enumerate(ansi)]
-    return "\n".join(g) + "\n"
+    return _ghostty(light["label"], " (light)", light["bg"], light["text"],
+        light["accent"], light["on-accent"], light["tint"], light["on-tint"],
+        search_fg=light["text"], search_bg=light["tint-pale"],
+        sel_search_fg=light["on-accent"], sel_search_bg=light["accent"],
+        divider=light["border"], split_fill=light["bg"],
+        titlebar_bg=light["surface"], titlebar_fg=light["text"], ansi=ansi)
+
+
+def build_ghostty_conf(D):
+    """The optional companion config for the Ghostty presets: not a theme file, but the
+    two or three lines that make the pair behave as one system. `theme = light:...,dark:...`
+    follows the desktop appearance, so Pruina and Profundum swap with the OS; the contrast
+    floor of 1.1 is Ghostty's own recommendation against a program painting text the same
+    colour as its background, and is well under any value that would start flattening the
+    palette. The macOS icon block is left commented because Ghostty documents
+    `macos-icon = custom-style` as experimental."""
+    light, dark, pal = D["modes"]["light"], D["modes"]["dark"], D["palette"]
+    return "\n".join([
+        "# Glauca for Ghostty -- optional companion config. Generated from glauca.json.",
+        "# Append to ~/.config/ghostty/config, or keep it separate and add",
+        "#   config-file = ?glauca.conf",
+        "# to your config. Install the two themes first (see README.md).",
+        "",
+        "# Follow the desktop appearance: Pruina by day, Profundum by night.",
+        "theme = light:Glauca,dark:Glauca-Dark",
+        "",
+        "# Never let a program paint text the same colour as its background.",
+        "minimum-contrast = 1.1",
+        "",
+        "# Linux/GTK: paint the titlebar from the theme's window-titlebar-* colours.",
+        "# window-theme = ghostty",
+        "",
+        "# macOS: the app icon in the Glauca register -- one blue mark on a frost screen.",
+        "# Ghostty documents custom-style as experimental, so this is opt-in.",
+        "# macos-icon = custom-style",
+        "# macos-icon-ghost-color = %s" % pal["caelum"]["dies"],
+        "# macos-icon-screen-color = %s,%s" % (light["bg"], pal["glaucum"]["nebula"]),
+        "",
+    ])
 
 def _iterm_color(hexv):
     """One iTerm2 colour <dict>: sRGB components as 0-1 floats (repr is
@@ -441,6 +513,119 @@ def build_miniflux(D):
     ]
     return "\n".join(out) + "\n"
 
+def _webext_theme_manifest(D, name, description, addon_id, min_version, colors_for):
+    """One Gecko static theme (Firefox or Thunderbird). Both apps read the same
+    `theme` manifest key, so the two surfaces differ only in which colour keys the
+    host supports -- `colors_for(mode)` supplies that per app.
+
+    manifest_version is 2: that is the version Mozilla's own static-theme
+    documentation still specifies, and both hosts accept it, where MV3 static
+    themes would raise the floor to Thunderbird 128 for no gain. Light-first, and
+    the scheme is stated rather than inferred: `theme` carries Pruina with
+    color_scheme "light", `dark_theme` carries Profundum with "dark", so the
+    built-in pages follow the chrome instead of guessing from the frame colour.
+    The version is the system's own, so a release stamps every surface at once."""
+    def block(modekey, scheme):
+        return {"colors": colors_for(D["modes"][modekey]), "properties": {"color_scheme": scheme}}
+    manifest = {
+        "manifest_version": 2,
+        "name": name,
+        "version": D["version"],
+        "description": description,
+        "author": "tiagojct",
+        "homepage_url": "https://git.tiagojct.eu/tiagojct/glauca",
+        # data_collection_permissions has been mandatory for new addons.mozilla.org
+        # submissions since 3 November 2025, and a static theme is the easy case: it is
+        # a colour table, it collects nothing, so "none" stands alone as the spec
+        # requires. Older hosts ignore the key rather than choking on it.
+        "browser_specific_settings": {"gecko": {
+            "id": addon_id, "strict_min_version": min_version,
+            "data_collection_permissions": {"required": ["none"]},
+        }},
+        "icons": {"48": "icon.svg", "96": "icon.svg"},
+        "theme": block("light", "light"),
+        "dark_theme": block("dark", "dark"),
+    }
+    return json.dumps(manifest, indent=2) + "\n"
+
+
+def _chrome_colors(D, m):
+    """The colour keys Firefox and Thunderbird share, in one table so the two
+    themes cannot drift apart.
+
+    The window is the frost field: `frame` is the mode background, the toolbars sit
+    one surface above it, and the URL/search field sits one above that, so depth
+    reads as three flat steps rather than shadow. Blue stays rare -- it marks the
+    selected tab's line, the focused field's border, the text selection inside that
+    field, and the attention state of an icon; nothing else. Hover and active states
+    are mixes of the surface toward the ink, so they hold in both modes without a
+    second table. Popup highlight is the sea, not the blue: a keyboard cursor moving
+    down a menu is not an accent."""
+    hover = _mix(m["surface"], m["text"], 0.08)
+    active = _mix(m["surface"], m["text"], 0.14)
+    # In dark the sea is a dark fill under pale text; in light it must be the pale
+    # end of the ramp under dark text. Both then pair with the mode's own text.
+    sea = m["tint"] if m["scheme"] == "dark" else m["tint-pale"]
+    return {
+        "frame": m["bg"], "frame_inactive": m["bg"],
+        "toolbar": m["surface"], "toolbar_text": m["text"],
+        "toolbar_top_separator": m["border"], "toolbar_bottom_separator": m["border"],
+        "toolbar_vertical_separator": m["border"],
+        "toolbar_field": m["surface-raised"], "toolbar_field_text": m["text"],
+        "toolbar_field_border": m["border"],
+        "toolbar_field_focus": m["surface-raised"], "toolbar_field_text_focus": m["text"],
+        "toolbar_field_border_focus": m["accent"],
+        "toolbar_field_highlight": m["accent"], "toolbar_field_highlight_text": m["on-accent"],
+        "button_background_hover": hover, "button_background_active": active,
+        "tab_selected": m["surface"], "tab_text": m["text"],
+        "tab_background_text": m["text-muted"],
+        "tab_line": m["accent"], "tab_loading": m["accent"],
+        "icons": m["text-muted"], "icons_attention": m["accent"],
+        "popup": m["surface"], "popup_text": m["text"], "popup_border": m["border"],
+        "popup_highlight": sea, "popup_highlight_text": m["text"],
+        "sidebar": m["surface"], "sidebar_text": m["text"], "sidebar_border": m["border"],
+        "sidebar_highlight": m["accent"], "sidebar_highlight_text": m["on-accent"],
+    }
+
+
+def build_firefox(D):
+    """Glauca for Firefox: a static theme. Adds the browser-only keys on top of the
+    shared chrome table -- `bookmark_text` (the documented alias for toolbar_text, kept
+    for Chrome-compatible readers) and the new-tab trio, which is the one full-page
+    surface a theme controls, so it takes the field, a card on the surface above it,
+    and the mode's ink."""
+    def colors_for(m):
+        c = _chrome_colors(D, m)
+        c.update({"bookmark_text": m["text"], "ntp_background": m["bg"],
+                  "ntp_card_background": m["surface"], "ntp_text": m["text"]})
+        return c
+    return _webext_theme_manifest(
+        D, "Glauca",
+        "Glauca: a frost-bloom browser theme. Pruina by day, Profundum by night, with "
+        "one sky-blue mark on the selected tab and the focused address field.",
+        "glauca-theme@tiagojct.eu", "115.0", colors_for)
+
+
+def build_thunderbird(D):
+    """Glauca for Thunderbird: the same static theme against Thunderbird's key set.
+    The Firefox-only keys (bookmark_text, ntp_*) are dropped -- Thunderbird documents
+    them as unused -- and one key is added that Firefox has no equivalent for:
+    `sidebar_highlight_border`, which outlines the selected row of the folder tree and
+    message list. `sidebar_text` is what switches tree theming on at all, so the shared
+    table already carries the important half."""
+    def colors_for(m):
+        c = _chrome_colors(D, m)
+        # A deeper edge on the accent fill: accent-deep is darker than accent in light
+        # and more saturated than it in dark, so the row reads as bounded either way.
+        c["sidebar_highlight_border"] = m["accent-deep"]
+        return c
+    return _webext_theme_manifest(
+        D, "Glauca",
+        "Glauca: a frost-bloom Thunderbird theme. Pruina by day, Profundum by night, "
+        "with one sky-blue mark on the selected tab, folder, and message.",
+        "glauca-theme@thunderbird.tiagojct.eu", "115.0", colors_for)
+
+
 def build_markedit(D):
     """Glauca colours for a MarkEdit theme (MarkEdit-theming's `Colors` set). MarkEdit
     is an editor, so it lives in the code tier: syntax maps to D['code'] like the VS Code
@@ -483,6 +668,194 @@ def build_markedit(D):
             "// Do not edit by hand; run `make generate`.\n"
             "export const light = " + json.dumps(light, indent=2) + ";\n"
             "export const dark = " + json.dumps(dark, indent=2) + ";\n")
+
+# Zotero's tag swatches, in source order. Tag colours are categorical marks a user
+# assigns by name, so they are treated the way this system treats every other
+# categorical encoding: the CVD-safe Okabe-Ito set carries the hues that have one,
+# and the extended tier fills the rest. The names are Zotero's and cannot change --
+# only the hue behind each one does.
+_ZOTERO_TAGS = {
+    "tag-red":     "#D55E00",   # Okabe-Ito vermillion
+    "tag-orange":  "#E69F00",   # Okabe-Ito orange
+    "tag-yellow":  "#F0E442",   # Okabe-Ito yellow
+    "tag-green":   "#009E73",   # Okabe-Ito bluish green
+    "tag-teal":    "unda",      # extended tier
+    "tag-blue":    "#56B4E9",   # Okabe-Ito sky blue
+    "tag-indigo":  "#0072B2",   # Okabe-Ito blue
+    "tag-purple":  "viola",     # extended tier
+    "tag-magenta": "#CC79A7",   # Okabe-Ito reddish purple
+    "tag-plum":    "bacca",     # extended tier
+    "tag-gray":    "cinis",     # the neutral anchor
+}
+
+
+def build_zotero(D):
+    """Glauca for Zotero 7, as a userChrome.css drop-in.
+
+    Zotero 7 is Gecko-based and paints its whole interface from a flat set of CSS
+    custom properties (`--accent-*`, `--fill-*`, `--color-*`, `--tag-*`), declared on
+    :root inside a prefers-color-scheme query -- so re-declaring that set is the whole
+    theme, and Zotero's own Appearance preference (which forces the scheme) keeps
+    working. Two consequences shape this file:
+
+    - userChrome.css loads as a USER stylesheet, and a normal user declaration loses
+      to a normal author declaration in the cascade. Every declaration here therefore
+      carries !important; without it Zotero's own values win and nothing changes.
+    - Zotero derives six composite colours and eleven opaque tag swatches from the
+      base set at build time (the `derive-colors` mixin). Overriding only the base
+      would leave those composites on Zotero's grey, so they are recomputed here from
+      the Glauca values -- alpha fills flattened onto the surface they sit on.
+
+    The panes are three flat steps of the field, in the order Zotero uses them: the
+    item pane is the highest surface, the toolbar sits below it, the sidepane below
+    that. In light that runs paper -> surface -> field; in dark it inverts, which is
+    exactly how the mode tokens are already stacked. The fill-* ladder is the mode's
+    ink at Zotero's own six alphas, so text, icons, and dividers keep their intended
+    weights."""
+    pal, ext = D["palette"], D["palette"]["extended"]
+    named = {"unda": ext["unda"], "viola": ext["viola"], "bacca": ext["bacca"],
+             "cinis": pal["pruina"]["cinis"]}
+    amber = D["terminal"]["ansi"][3]                # #c79a3d, the shared warning hue
+    copper = D["dataviz"]["diverging"]["colors"][7]  # #b97435, the warm end of the axis
+
+    def over(fg_hex8, bg):
+        """Flatten an 8-digit #rrggbbaa over an opaque background -- Zotero's derived
+        composites are opaque colours, so the alpha has to be resolved here."""
+        return _mix(bg, fg_hex8[:7], int(fg_hex8[7:], 16) / 255)
+
+    def block(m):
+        dark = m["scheme"] == "dark"
+        ink, field = m["text"], m["bg"]
+        # background = the top surface, sidepane = the bottom one; toolbar sits between.
+        background = m["bg"] if dark else m["surface-raised"]
+        sidepane = m["surface-raised"] if dark else m["bg"]
+        toolbar = m["surface"]
+
+        def legible(hue, target=4.5):
+            """Nudge a categorical hue toward the mode's ink until it clears `target`
+            on the content background: that darkens it in light and lightens it in
+            dark, so one rule serves both modes. The hue itself does not move."""
+            t = 0.0
+            while t < 0.9:
+                cc = _mix(hue, ink, t)
+                if _contrast(cc, background) >= target:
+                    return cc
+                t += 0.02
+            return _mix(hue, ink, 0.9)
+
+        def min_alpha(target, floor):
+            """The smallest alpha (as a byte) at which the ink clears `target` on the
+            content background, never going below Zotero's own step. Zotero's ladder is
+            calibrated to pure black and pure white; the Glauca inks are softer than
+            both, so the same alpha renders lighter, and in light mode the secondary
+            rung lands at 3.7:1 -- under AA for the field labels it paints. Solving for
+            the ratio instead of copying the alpha keeps the guarantee."""
+            a = floor
+            while a < 255:
+                if _contrast(_mix(background, ink, a / 255), background) >= target:
+                    return a
+                a += 1
+            return 255
+
+        # Zotero's own alpha ladders, kept per mode: dark needs a touch more opacity
+        # for the same apparent weight against a dark field. The two text-bearing rungs
+        # are then lifted to clear AA; tertiary and below are dividers, faint icons, and
+        # disabled states, and stay on the ladder exactly as Zotero draws them.
+        fills = ["d9", "8c", "40", "1a", "0d", "05"] if not dark else ["e5", "8c", "4d", "1f", "0f", "08"]
+        fills[0] = "%02x" % min_alpha(10.0, int(fills[0], 16))
+        fills[1] = "%02x" % min_alpha(4.5, int(fills[1], 16))
+        names = ["primary", "secondary", "tertiary", "quarternary", "quinary", "senary"]
+        V = {}
+        # accents
+        V["accent-blue"] = m["accent"]
+        for suffix, la, da in (("10", "1a", "4d"), ("30", "4d", "73"), ("50", "80", "99")):
+            V["accent-blue" + suffix] = m["accent"] + (da if dark else la)
+        V["accent-azure"] = m["accent-bright"]
+        # accent-white means white, in both of Zotero's modes: it strokes icons sitting
+        # on an accent fill and paints one half of the Windows focus ring. It is the
+        # pale ink here rather than the mode's on-accent, which in dark is near-black.
+        V["accent-white"] = D["modes"]["light"]["on-accent"]
+        # Selection. Zotero takes --color-accent from the OS (SelectedItem) on macOS and
+        # Linux, so a user with an orange system accent gets orange rows in a frost-bloom
+        # window. Pinning it to a mode blue puts the selection back on the one mark
+        # everywhere. Dark takes accent-deep rather than accent, because the selected row
+        # carries both the on-accent ink (4.7:1 there) and white icon strokes drawn with
+        # accent-white -- on the lighter accent those strokes measure 2.8:1, under the
+        # 3:1 floor for a graphical object; on accent-deep they reach 4.5:1.
+        V["color-accent"] = m["accent-deep"] if dark else m["accent"]
+        V["color-accent-text"] = m["on-accent"]
+        V["accent-green"] = legible(ext["folium"])
+        V["accent-red"] = legible(ext["bacca"])
+        V["accent-teal"] = legible(ext["unda"])
+        V["accent-yellow"] = legible(amber)
+        V["accent-gold"] = legible(amber, 5.0)
+        V["accent-orange"] = legible(copper)
+        V["accent-wood"] = legible(copper, 5.0)
+        V["accent-wood-dark"] = legible(copper, 6.0)
+        # The reader's text highlight sits behind body text, so it stays a wash.
+        V["accent-highlight"] = amber + ("26" if dark else "80")
+        # ink ladder
+        for name, alpha in zip(names, fills):
+            V["fill-" + name] = ink + alpha
+        # surfaces
+        V["color-background"] = background
+        for suffix, alpha in (("30", "4d"), ("50", "80"), ("70", "b2")):
+            V["color-background" + suffix] = background + alpha
+        V["color-border"] = m["border"]
+        V["color-border50"] = _mix(m["border"], background, 0.5)
+        V["color-button"] = m["surface-raised"]
+        V["color-control"] = m["surface-raised"] if not dark else ink
+        V["color-invalid"] = legible(ext["bacca"], 5.0)
+        V["color-invalid-background"] = _mix(background, ext["bacca"], 0.18 if dark else 0.12)
+        V["color-menu"] = toolbar + ("94" if dark else "b8")
+        V["color-panedivider"] = m["border"]
+        V["color-sidepane"] = sidepane
+        V["color-tabbar"] = field
+        V["color-toolbar"] = toolbar
+        V["color-scrollbar"] = _mix(m["text-muted"], background, 0.35)
+        V["color-scrollbar-hover"] = m["text-muted"]
+        V["color-scrollbar-background"] = "transparent"
+        V["color-stripe"] = ink + ("0d" if dark else "0a")
+        # Tags clear 3:1, not 4.5:1. A tag is a swatch first and a short bold label
+        # second -- both are non-body marks -- and holding them to the body floor
+        # would drag the yellow to olive and the sky blue to slate, losing the very
+        # hue identity a categorical scale exists to carry.
+        for key, spec in _ZOTERO_TAGS.items():
+            V[key] = legible(named.get(spec, spec), 3.0)
+        # Zotero's derived composites, recomputed rather than inherited.
+        V["color-quinary-on-background"] = over(V["fill-quinary"], background)
+        V["color-quarternary-on-background"] = over(V["fill-quarternary"], background)
+        V["color-quinary-on-sidepane"] = over(V["fill-quinary"], sidepane)
+        V["color-quarternary-on-sidepane"] = over(V["fill-quarternary"], sidepane)
+        V["color-stripe-on-background"] = over(V["color-stripe"], background)
+        V["color-menu-opaque"] = toolbar
+        for key in _ZOTERO_TAGS:
+            V[key + "-opaque"] = V[key]
+        return "".join("    --%s: %s !important;\n" % (k, v) for k, v in V.items())
+
+    out = ["/* Glauca for Zotero 7 -- generated from glauca.json. Copy to the `chrome`",
+           "   folder of your Zotero profile as userChrome.css and restart; see README.md",
+           "   for the profile path and the one pref Zotero needs to load it.",
+           "",
+           "   Zotero paints its interface from these custom properties, so re-declaring",
+           "   them is the whole theme. !important is required, not decorative:",
+           "   userChrome.css is a user stylesheet, and a normal user declaration loses",
+           "   to Zotero's own author declaration. Zotero's Appearance preference forces",
+           '   the colour scheme, so "Automatic" still follows the OS. */']
+    for modekey, scheme in (("light", "light"), ("dark", "dark")):
+        m = D["modes"][modekey]
+        out.append("\n/* %s */\n@media (prefers-color-scheme: %s) {\n  :root {\n%s  }\n}"
+                   % (m["label"], scheme, block(m)))
+    out += ["",
+            "/* The one thing the variables cannot reach: monospace. Zotero renders code",
+            "   and the citation-key field in the platform default. */",
+            'pre, code, textarea.code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important; }',
+            "",
+            "/* Optional: put the whole interface on IBM Plex Sans. Zotero sizes its rows",
+            "   from the system font, so try it before keeping it. */",
+            '/* :root { font-family: "IBM Plex Sans", system-ui, sans-serif !important; } */']
+    return "\n".join(out) + "\n"
+
 
 def build_vscode(D):
     dark, pal, codem, t = D["modes"]["dark"], D["palette"], D["code"], D["terminal"]
@@ -539,6 +912,21 @@ def build_vscode(D):
      {"scope": ["markup.inserted"], "settings": {"foreground": ext["folium"]}},
      {"scope": ["markup.deleted"], "settings": {"foreground": ext["bacca"]}},
      {"scope": ["markup.changed"], "settings": {"foreground": fire["dies"]}},
+     # LaTeX and BibTeX: the academic half of the audience. Commands read as keywords,
+     # environments as types, maths and cross-references as the number hue, entry types
+     # as decorators -- the same role logic the code map uses everywhere else.
+     {"scope": ["support.function.general.tex", "keyword.control.preamble.tex",
+                "punctuation.definition.keyword.latex"], "settings": {"foreground": c("keyword"), "fontStyle": "bold"}},
+     {"scope": ["support.class.latex", "entity.name.function.environment.latex",
+                "variable.parameter.function.latex"], "settings": {"foreground": c("type"), "fontStyle": "italic"}},
+     {"scope": ["meta.math.block.latex", "string.other.math.tex",
+                "constant.other.reference.citation.latex", "constant.other.reference.label.latex"], "settings": {"foreground": c("number")}},
+     {"scope": ["entity.name.type.entry.bibtex", "entity.name.type.entry-key.bibtex"], "settings": {"foreground": c("decorator")}},
+     {"scope": ["support.variable.bibtex", "constant.other.key.bibtex"], "settings": {"foreground": c("function")}},
+     # diff hunks and git commit messages
+     {"scope": ["meta.diff.header", "meta.diff.range", "meta.diff.index"], "settings": {"foreground": c("comment"), "fontStyle": "italic"}},
+     {"scope": ["meta.diff.header.from-file", "punctuation.definition.deleted"], "settings": {"foreground": ext["bacca"]}},
+     {"scope": ["meta.diff.header.to-file", "punctuation.definition.inserted"], "settings": {"foreground": ext["folium"]}},
     ]
     semantic = {"keyword": c("keyword"), "string": c("string"), "number": c("number"),
      "function": c("function"), "method": c("function"), "function.defaultLibrary": c("type"),
@@ -554,6 +942,14 @@ def build_vscode(D):
      "annotation": c("decorator"), "type.defaultLibrary": c("type"), "class.defaultLibrary": c("type"),
      "operator": c("operator"), "comment": {"foreground": c("comment"), "fontStyle": "italic"}}
     a = lambda x: x + "66"
+    # The blue splits by job, exactly as the palette says it should. The anchor #007AFF
+    # is the mark -- cursors, fills, focus rings, the active tab's line -- and it is
+    # audited against the editor field (4.5:1) where marks live. As *text* on the
+    # chrome surfaces it measures 4.15:1 on the sidebar and 3.68:1 on the raised
+    # surface, under AA, which is why the mode carries a separate text blue: dark
+    # accent, the pair validate.py locks at 6.1:1. Both remap to the same light accent,
+    # so this distinction exists only on the dark side.
+    accent_text = dark["accent"]
     wb = {
      "editor.background": dark["bg"], "editor.foreground": dark["text"],
      "editorLineNumber.foreground": dark["text-muted"], "editorLineNumber.activeForeground": dark["text"],
@@ -562,11 +958,11 @@ def build_vscode(D):
      "editorBracketHighlight.foreground1": sea["nebula"], "editorBracketHighlight.foreground2": fire["dies"],
      "editorBracketHighlight.foreground3": ext["viola"], "editorBracketHighlight.foreground4": ext["folium"],
      "editorBracketHighlight.foreground5": ext["lacus"], "editorBracketHighlight.foreground6": ext["bacca"],
-     "editorError.foreground": ext["bacca"], "editorWarning.foreground": fire["dies"], "editorInfo.foreground": ext["lacus"],
+     "editorError.foreground": ext["bacca"], "editorWarning.foreground": accent_text, "editorInfo.foreground": ext["lacus"],
      "focusBorder": fire["dies"], "button.background": fire["dies"], "button.foreground": dark["on-accent"],
      "button.hoverBackground": fire["aer"], "badge.background": fire["dies"], "badge.foreground": dark["on-accent"],
      "input.background": dark["surface"], "input.border": dark["border"], "inputOption.activeBorder": fire["dies"],
-     "list.activeSelectionBackground": dark["surface-raised"], "list.highlightForeground": fire["dies"], "list.hoverBackground": "#1b242c",
+     "list.activeSelectionBackground": dark["surface-raised"], "list.highlightForeground": accent_text, "list.hoverBackground": "#1b242c",
      "sideBar.background": dark["surface"], "sideBar.foreground": "#c3cdd3", "sideBar.border": dark["border"],
      "sideBarTitle.foreground": dark["text-muted"], "sideBarSectionHeader.background": dark["bg"],
      "activityBar.background": dark["bg"], "activityBar.foreground": dark["text"],
@@ -611,7 +1007,7 @@ def build_vscode(D):
      "editor.hoverHighlightBackground": spray + "26", "editorWhitespace.foreground": "#3a4754",
      "editorIndentGuide.background1": "#1d262f", "editorIndentGuide.activeBackground1": "#3a4754",
      "editorRuler.foreground": border, "editorBracketMatch.background": spray + "26",
-     "editorBracketMatch.border": spray, "editorCodeLens.foreground": dim,
+     "editorBracketMatch.border": spray, "editorCodeLens.foreground": muted,
      "editorInlayHint.foreground": muted, "editorInlayHint.background": "#00000000",
      "editorLink.activeForeground": tide, "editorCursor.background": bg,
      "editorGutter.modifiedBackground": ember, "editorGutter.addedBackground": kelp, "editorGutter.deletedBackground": brick,
@@ -622,7 +1018,7 @@ def build_vscode(D):
      "editorWidget.background": surf, "editorWidget.foreground": text, "editorWidget.border": border,
      "editorHoverWidget.background": surf, "editorHoverWidget.foreground": text, "editorHoverWidget.border": border,
      "editorSuggestWidget.background": surf, "editorSuggestWidget.foreground": text, "editorSuggestWidget.border": border,
-     "editorSuggestWidget.selectedBackground": raised, "editorSuggestWidget.highlightForeground": ember,
+     "editorSuggestWidget.selectedBackground": raised, "editorSuggestWidget.highlightForeground": accent_text,
      "editorSuggestWidget.focusHighlightForeground": flame,
      "editorGroup.border": border, "editorGroupHeader.tabsBorder": border, "editorGroupHeader.noTabsBackground": surf,
      # inputs, dropdowns, checkboxes, keybindings
@@ -633,7 +1029,9 @@ def build_vscode(D):
      "inputValidation.infoBackground": "#132335", "inputValidation.infoBorder": tide,
      "dropdown.background": surf, "dropdown.foreground": text, "dropdown.border": border, "dropdown.listBackground": surf,
      "checkbox.background": raised, "checkbox.foreground": text, "checkbox.border": border,
-     "keybindingLabel.background": raised, "keybindingLabel.foreground": muted, "keybindingLabel.border": border, "keybindingLabel.bottomBorder": border,
+     # A keycap is content, not chrome: muted on the raised surface measures 4.39:1,
+     # just under AA, so the label takes the full ink and the chip carries the border.
+     "keybindingLabel.background": raised, "keybindingLabel.foreground": text, "keybindingLabel.border": border, "keybindingLabel.bottomBorder": border,
      # lists and trees
      "list.activeSelectionForeground": text, "list.inactiveSelectionBackground": surf, "list.inactiveSelectionForeground": text,
      "list.focusBackground": raised, "list.focusForeground": text, "list.hoverForeground": text,
@@ -646,7 +1044,7 @@ def build_vscode(D):
      "minimapSlider.background": seab + "40", "minimapSlider.hoverBackground": seab + "55", "minimapSlider.activeBackground": seab + "77",
      "minimapGutter.modifiedBackground": ember, "minimapGutter.addedBackground": kelp, "minimapGutter.deletedBackground": brick,
      # breadcrumbs
-     "breadcrumb.foreground": muted, "breadcrumb.focusForeground": text, "breadcrumb.activeSelectionForeground": ember,
+     "breadcrumb.foreground": muted, "breadcrumb.focusForeground": text, "breadcrumb.activeSelectionForeground": accent_text,
      "breadcrumb.background": bg, "breadcrumbPicker.background": surf,
      # status bar extras
      "statusBar.noFolderBackground": surf, "statusBar.noFolderForeground": muted,
@@ -681,7 +1079,7 @@ def build_vscode(D):
      # quick input / command palette
      "quickInput.background": surf, "quickInput.foreground": text, "quickInputTitle.background": bg,
      "quickInputList.focusBackground": raised, "quickInputList.focusForeground": text,
-     "pickerGroup.foreground": ember, "pickerGroup.border": border,
+     "pickerGroup.foreground": accent_text, "pickerGroup.border": border,
      # menus
      "menu.background": surf, "menu.foreground": text, "menu.border": border,
      "menu.selectionBackground": raised, "menu.selectionForeground": text, "menu.separatorBackground": border,
@@ -714,6 +1112,10 @@ def build_vscode(D):
      "editorGhostText.foreground": dim, "editorGhostText.border": "#00000000",
      "editorStickyScroll.background": surf, "editorStickyScrollHover.background": "#1b242c",
      "editorStickyScroll.border": border, "editorStickyScroll.shadow": "#0000004d",
+     # dim is for states WCAG exempts or that are previews of text you have not
+     # accepted: disabled controls, placeholders, ghost text, ignored files. Code lens,
+     # blame annotations, and inline debug values are content you read and click, so
+     # they take muted -- which is also the relationship VS Code's own defaults draw.
      "editorLightBulb.foreground": flame, "editorLightBulbAutoFix.foreground": tide, "editorLightBulbAi.foreground": dusk,
      "editorHint.foreground": shoal, "editorGutter.commentRangeForeground": dim, "editorGutter.foldingControlForeground": muted,
      "editorInlayHint.typeForeground": shoal, "editorInlayHint.typeBackground": "#00000000",
@@ -776,9 +1178,298 @@ def build_vscode(D):
      "welcomePage.progress.foreground": ember, "welcomePage.tileBackground": surf, "welcomePage.tileHoverBackground": raised,
      "welcomePage.tileBorder": border, "walkThrough.embeddedEditorBackground": surf, "walkthrough.stepTitle.foreground": text,
      # inline chat / chat (Copilot and similar)
-     "chat.requestBackground": surf, "chat.slashCommandBackground": ember + "22", "chat.slashCommandForeground": ember,
+     "chat.requestBackground": surf, "chat.slashCommandBackground": ember + "22", "chat.slashCommandForeground": accent_text,
      "chat.avatarBackground": raised, "inlineChat.background": surf, "inlineChat.border": border,
      "inlineChatInput.background": bg, "inlineChatInput.border": border,
+    })
+    # Third pass: the keys the first two left to VS Code's built-in defaults. Anything
+    # unset falls back to the stock Dark+/Light+ value, which is off-system (stock blue
+    # focus rings, stock grey chrome), so the remaining documented surfaces are pinned
+    # here. Every value is palette-derived, so the light build's total remap covers them
+    # by construction. Unknown keys are ignored by VS Code, so forward-looking entries
+    # (agent/chat/inline-edit) cost nothing on older builds.
+    hover, faint = "#1b242c", "#ffffff0a"
+    wb.update({
+     # activity bar: the blue marks the active strip and the drop target, nothing else
+     "activityBar.border": border, "activityBar.inactiveForeground": muted,
+     "activityBar.activeBorder": ember, "activityBar.activeBackground": "#00000000",
+     "activityBar.activeFocusBorder": ember, "activityBar.dropBorder": ember,
+     "activityBarTop.background": bg, "activityBarTop.foreground": text,
+     "activityBarTop.inactiveForeground": muted, "activityBarTop.activeBorder": ember,
+     "activityBarTop.activeBackground": "#00000000", "activityBarTop.dropBorder": ember,
+     "activityErrorBadge.background": brick, "activityErrorBadge.foreground": onacc,
+     "activityWarningBadge.background": ember, "activityWarningBadge.foreground": onacc,
+     # side bar
+     "sideBar.dropBackground": seab + "22", "sideBarSectionHeader.foreground": muted,
+     "sideBarSectionHeader.border": border, "sideBarTitle.background": surf, "sideBarTitle.border": border,
+     "sideBarStickyScroll.background": surf, "sideBarStickyScroll.border": border,
+     "sideBarStickyScroll.shadow": "#0000004d", "sideBarActivityBarTop.border": border,
+     # tabs: the one blue line stays on top of the focused active tab. Every other tab
+     # border is transparent so nothing reads as a box (see tab.activeBorder above); the
+     # unfocused group's active tab gets the quiet sea line instead of the blue.
+     "tab.selectedBackground": bg, "tab.selectedForeground": text, "tab.selectedBorderTop": ember,
+     "tab.hoverForeground": text, "tab.hoverBorder": "#00000000",
+     # Hover is a pointer affordance, so it reveals the label fully in either group
+     # (muted on the raised surface is 4.39:1); the group is told apart by its line.
+     "tab.unfocusedHoverForeground": text, "tab.unfocusedHoverBorder": "#00000000",
+     "tab.unfocusedActiveBackground": bg, "tab.unfocusedActiveBorder": "#00000000",
+     # An unfocused group is signalled by its tab line going from blue to sea, not by
+     # its labels going illegible: muted already sits close to the AA floor on the tab
+     # surface, so there is no room to dim it further and still call it text.
+     "tab.unfocusedActiveBorderTop": seab, "tab.unfocusedInactiveBackground": surf,
+     "tab.unfocusedInactiveForeground": muted, "tab.inactiveModifiedBorder": seab,
+     "tab.unfocusedActiveModifiedBorder": seab, "tab.unfocusedInactiveModifiedBorder": border,
+     "tab.dragAndDropBorder": ember,
+     # editor groups and panes
+     "editorGroup.emptyBackground": bg, "editorGroup.focusedEmptyBorder": ember,
+     "editorGroup.dropBackground": seab + "22", "editorGroup.dropIntoPromptBackground": surf,
+     "editorGroup.dropIntoPromptForeground": text, "editorGroup.dropIntoPromptBorder": border,
+     "editorGroupHeader.border": border, "editorPane.background": bg,
+     "sideBySideEditor.horizontalBorder": border, "sideBySideEditor.verticalBorder": border,
+     # editor surface: the gutter shares the editor field, and the line highlight is a
+     # fill rather than a boxed border (lineHighlightBackground is already set above).
+     "editorGutter.background": bg, "editor.lineHighlightBorder": "#00000000",
+     "editor.foldBackground": spray + "1a", "editor.foldPlaceholderForeground": muted,
+     "editor.placeholder.foreground": dim, "editor.inactiveSelectionBackground": dark["tint"] + "33",
+     "editor.linkedEditingBackground": ember + "22", "editor.symbolHighlightBackground": ember + "33",
+     "editor.findMatchBorder": ember, "editorLineNumber.dimmedForeground": dim,
+     "editorOverviewRuler.background": bg, "editorUnnecessaryCode.border": "#00000000",
+     "editor.inactiveLineHighlightBackground": "#00000000",
+     "editor.wordHighlightTextBackground": spray + "26",
+     "editorOverviewRuler.wordHighlightTextForeground": spray + "88",
+     "minimap.chatEditHighlight": kelp + "66",
+     "editorUnicodeHighlight.background": brick + "22", "editorUnicodeHighlight.border": brick,
+     "editorStickyScrollGutter.background": surf, "editorHint.border": "#00000000",
+     "editor.compositionBorder": ember, "editorGhostText.background": "#00000000",
+     "editorHoverWidget.highlightForeground": ember,
+     "editorSuggestWidget.selectedForeground": text, "editorSuggestWidget.selectedIconForeground": ember,
+     "editorBracketHighlight.unexpectedBracket.foreground": brick,
+     "editorMultiCursor.primary.foreground": ember, "editorMultiCursor.primary.background": bg,
+     "editorMultiCursor.secondary.foreground": foam, "editorMultiCursor.secondary.background": bg,
+     "editorIndentGuide.background2": "#1d262f", "editorIndentGuide.background3": "#1d262f",
+     "editorIndentGuide.background4": "#1d262f", "editorIndentGuide.background5": "#1d262f",
+     "editorIndentGuide.background6": "#1d262f",
+     "editorIndentGuide.activeBackground2": "#3a4754", "editorIndentGuide.activeBackground3": "#3a4754",
+     "editorIndentGuide.activeBackground4": "#3a4754", "editorIndentGuide.activeBackground5": "#3a4754",
+     "editorIndentGuide.activeBackground6": "#3a4754",
+     # marker navigation and peek extras
+     "editorMarkerNavigation.background": surf,
+     "editorMarkerNavigationError.background": brick, "editorMarkerNavigationError.headerBackground": brick + "22",
+     "editorMarkerNavigationWarning.background": ember, "editorMarkerNavigationWarning.headerBackground": ember + "22",
+     "editorMarkerNavigationInfo.background": tide, "editorMarkerNavigationInfo.headerBackground": tide + "22",
+     "peekViewEditorGutter.background": surf, "peekViewEditor.matchHighlightBorder": ember,
+     "peekViewEditorStickyScroll.background": surf, "peekViewEditorStickyScrollGutter.background": surf,
+     # diff, merge, and the merge editor
+     "diffEditor.border": border, "diffEditor.insertedTextBorder": "#00000000",
+     "diffEditor.removedTextBorder": "#00000000", "diffEditor.unchangedRegionBackground": surf,
+     "diffEditor.unchangedRegionForeground": muted, "diffEditor.unchangedCodeBackground": bg,
+     "diffEditor.unchangedRegionShadow": "#0000004d",
+     "diffEditor.move.border": dusk, "diffEditor.moveActive.border": ember,
+     "diffEditorGutter.insertedLineBackground": kelp + "14", "diffEditorGutter.removedLineBackground": brick + "14",
+     "diffEditorOverview.insertedForeground": kelp + "cc", "diffEditorOverview.removedForeground": brick + "cc",
+     "multiDiffEditor.background": bg, "multiDiffEditor.border": border, "multiDiffEditor.headerBackground": surf,
+     "merge.border": "#00000000", "merge.commonHeaderBackground": dusk + "55",
+     "merge.commonContentBackground": dusk + "22",
+     "mergeEditor.change.background": kelp + "22", "mergeEditor.change.word.background": kelp + "44",
+     "mergeEditor.changeBase.background": dusk + "22", "mergeEditor.changeBase.word.background": dusk + "44",
+     "mergeEditor.conflict.input1.background": tide + "22", "mergeEditor.conflict.input2.background": kelp + "22",
+     "mergeEditor.conflict.unhandledFocused.border": brick, "mergeEditor.conflict.unhandledUnfocused.border": brick + "88",
+     "mergeEditor.conflict.handledFocused.border": seab, "mergeEditor.conflict.handledUnfocused.border": border,
+     "mergeEditor.conflict.handled.minimapOverViewRuler": kelp,
+     "mergeEditor.conflict.unhandled.minimapOverViewRuler": brick,
+     "mergeEditor.conflictingLines.background": brick + "22",
+     "editorOverviewRuler.commonContentForeground": dusk + "88",
+     "editorOverviewRuler.currentContentForeground": tide + "88",
+     "editorOverviewRuler.incomingContentForeground": kelp + "88",
+     # rendered markdown (hovers, walkthroughs, release notes, extension pages)
+     "textBlockQuote.background": surf, "textBlockQuote.border": ember, "textCodeBlock.background": surf,
+     "textPreformat.foreground": c("type"), "textPreformat.background": surf, "textPreformat.border": border,
+     "textSeparator.foreground": border,
+     "markdownAlert.note.foreground": tide, "markdownAlert.tip.foreground": kelp,
+     "markdownAlert.important.foreground": dusk, "markdownAlert.warning.foreground": accent_text,
+     "markdownAlert.caution.foreground": brick,
+     # lists and trees
+     "list.dropBackground": seab + "22", "list.dropBetweenBackground": ember,
+     "list.filterMatchBackground": ember + "33", "list.filterMatchBorder": ember + "66",
+     "list.focusOutline": ember, "list.focusAndSelectionOutline": ember,
+     "list.inactiveFocusBackground": surf, "list.inactiveFocusOutline": border,
+     "list.deemphasizedForeground": dim, "list.invalidItemForeground": brick,
+     "list.focusHighlightForeground": accent_text, "list.activeSelectionIconForeground": text,
+     "list.inactiveSelectionIconForeground": muted, "listFilterWidget.shadow": "#0000004d",
+     "tree.tableColumnsBorder": border, "tree.tableOddRowsBackground": faint,
+     "quickInputList.focusIconForeground": ember,
+     # buttons, inputs, checkboxes, radios, gauges
+     "button.border": "#00000000", "button.separator": onacc + "66",
+     "button.secondaryBackground": raised, "button.secondaryForeground": text,
+     "button.secondaryHoverBackground": surf, "button.secondaryBorder": border,
+     "checkbox.selectBackground": surf, "checkbox.selectBorder": ember,
+     "checkbox.disabled.background": surf, "checkbox.disabled.foreground": dim,
+     "radio.activeBackground": ember + "22", "radio.activeBorder": ember, "radio.activeForeground": text,
+     "radio.inactiveBackground": "#00000000", "radio.inactiveBorder": border,
+     "radio.inactiveForeground": muted, "radio.inactiveHoverBackground": faint,
+     "inputOption.hoverBackground": "#ffffff14",
+     "inputValidation.errorForeground": text, "inputValidation.warningForeground": text,
+     "inputValidation.infoForeground": text,
+     "gauge.background": ember + "33", "gauge.foreground": ember, "gauge.border": border,
+     "gauge.warningBackground": flame + "33", "gauge.warningForeground": flame,
+     "gauge.errorBackground": brick + "33", "gauge.errorForeground": brick,
+     # status bar extras. The hover pills reuse on-accent, which the light remap turns
+     # into the pale ink -- so pale-on-hue holds in both modes with no override.
+     "statusBar.debuggingBorder": ember, "statusBar.focusBorder": ember, "statusBar.noFolderBorder": border,
+     "statusBarItem.focusBorder": ember, "statusBarItem.hoverForeground": text,
+     "statusBarItem.compactHoverBackground": "#ffffff1f",
+     "statusBarItem.prominentForeground": text, "statusBarItem.prominentHoverBackground": "#ffffff14",
+     "statusBarItem.prominentHoverForeground": text,
+     "statusBarItem.errorHoverBackground": brick, "statusBarItem.errorHoverForeground": onacc,
+     # The warning pill is the one that cannot use on-accent: its fill is the deep blue,
+     # and near-black on deep blue measures 2.2:1. It takes the pale ink instead, and
+     # flips to on-accent in the light build alongside the non-hover pill above.
+     "statusBarItem.warningHoverBackground": oil, "statusBarItem.warningHoverForeground": text,
+     "statusBarItem.remoteHoverBackground": flame, "statusBarItem.remoteHoverForeground": onacc,
+     "statusBarItem.offlineBackground": brick, "statusBarItem.offlineForeground": onacc,
+     "statusBarItem.offlineHoverBackground": brick, "statusBarItem.offlineHoverForeground": onacc,
+     # panels and output
+     "panel.dropBorder": ember, "panelTitle.border": border,
+     "panelTitleBadge.background": ember, "panelTitleBadge.foreground": onacc,
+     "panelSection.border": border, "panelSection.dropBackground": seab + "22",
+     "panelSectionHeader.foreground": text, "panelSectionHeader.border": border,
+     "panelStickyScroll.background": surf, "panelStickyScroll.border": border,
+     "panelStickyScroll.shadow": "#0000004d",
+     "outputView.background": bg, "outputViewStickyScroll.background": surf,
+     # integrated terminal: selection matches the Ghostty/iTerm presets
+     "terminal.selectionForeground": text, "terminal.inactiveSelectionBackground": dark["tint"] + "33",
+     "terminal.dropBackground": seab + "22", "terminal.findMatchBorder": ember,
+     "terminal.findMatchHighlightBorder": flame, "terminal.hoverHighlightBackground": spray + "26",
+     "terminal.initialHintForeground": dim, "terminalOverviewRuler.border": border,
+     "terminalOverviewRuler.findMatchForeground": ember, "terminalStickyScroll.border": border,
+     "terminalStickyScrollHover.background": hover, "terminalCommandGuide.foreground": seab,
+     # terminal suggest icons, on the same hue logic as the editor's symbolIcon set
+     "terminalSymbolIcon.fileForeground": muted, "terminalSymbolIcon.folderForeground": muted,
+     "terminalSymbolIcon.methodForeground": tide, "terminalSymbolIcon.aliasForeground": shoal,
+     "terminalSymbolIcon.argumentForeground": param, "terminalSymbolIcon.flagForeground": dusk,
+     "terminalSymbolIcon.optionForeground": dusk, "terminalSymbolIcon.optionValueForeground": kelp,
+     "terminalSymbolIcon.branchForeground": ember, "terminalSymbolIcon.commitForeground": foam,
+     "terminalSymbolIcon.tagForeground": brick, "terminalSymbolIcon.stashForeground": dusk,
+     "terminalSymbolIcon.remoteForeground": shoal, "terminalSymbolIcon.pullRequestForeground": ember,
+     "terminalSymbolIcon.pullRequestDoneForeground": kelp,
+     "terminalSymbolIcon.inlineSuggestionForeground": dim,
+     "terminalSymbolIcon.symbolicLinkFileForeground": foam,
+     "terminalSymbolIcon.symbolicLinkFolderForeground": foam, "terminalSymbolIcon.symbolText": text,
+     # testing: pass/fail/skip and the coverage overlays
+     "testing.iconErrored": brick, "testing.iconSkipped": dusk, "testing.iconUnset": muted,
+     "testing.iconPassed.retired": kelp + "80", "testing.iconFailed.retired": brick + "80",
+     "testing.iconErrored.retired": brick + "80", "testing.iconQueued.retired": ember + "80",
+     "testing.iconSkipped.retired": dusk + "80", "testing.iconUnset.retired": muted + "80",
+     "testing.runAction": kelp, "testing.peekBorder": brick, "testing.peekHeaderBackground": surf,
+     "testing.messagePeekBorder": tide, "testing.messagePeekHeaderBackground": surf,
+     "testing.message.error.badgeBackground": brick, "testing.message.error.badgeForeground": onacc,
+     "testing.message.error.badgeBorder": brick, "testing.message.error.lineBackground": brick + "22",
+     "testing.message.info.decorationForeground": muted, "testing.message.info.lineBackground": tide + "22",
+     "testing.coveredBackground": kelp + "22", "testing.coveredBorder": kelp + "44",
+     "testing.coveredGutterBackground": kelp + "55", "testing.uncoveredBackground": brick + "22",
+     "testing.uncoveredBorder": brick + "44", "testing.uncoveredGutterBackground": brick + "55",
+     "testing.uncoveredBranchBackground": brick + "44",
+     "testing.coverCountBadgeBackground": raised, "testing.coverCountBadgeForeground": text,
+     # notebooks (the .ipynb surface this system exists for)
+     "notebook.focusedCellBackground": surf, "notebook.selectedCellBorder": seab,
+     "notebook.inactiveSelectedCellBorder": border, "notebook.inactiveFocusedCellBorder": border,
+     "notebook.cellInsertionIndicator": ember, "notebook.outputContainerBorderColor": border,
+     "notebook.symbolHighlightBackground": ember + "22",
+     "notebookEditorOverviewRuler.runningCellForeground": ember,
+     "notebookScrollbarSlider.background": seab + "40", "notebookScrollbarSlider.hoverBackground": seab + "66",
+     "notebookScrollbarSlider.activeBackground": seab + "99",
+     # settings UI extras
+     "settings.checkboxForeground": text, "settings.dropdownForeground": text,
+     "settings.dropdownListBorder": border, "settings.numberInputForeground": text,
+     "settings.textInputForeground": text, "settings.focusedRowBorder": ember,
+     "settings.headerBorder": border, "settings.rowHoverBackground": faint,
+     "settings.sashBorder": border, "settings.settingsHeaderHoverForeground": accent_text,
+     # source-control graph
+     "scmGraph.foreground1": ember, "scmGraph.foreground2": kelp, "scmGraph.foreground3": dusk,
+     "scmGraph.foreground4": tide, "scmGraph.foreground5": shoal,
+     "scmGraph.historyItemRefColor": ember, "scmGraph.historyItemRemoteRefColor": shoal,
+     "scmGraph.historyItemBaseRefColor": dusk, "scmGraph.historyItemHoverLabelForeground": onacc,
+     "scmGraph.historyItemHoverDefaultLabelBackground": raised,
+     "scmGraph.historyItemHoverDefaultLabelForeground": text,
+     "scmGraph.historyItemHoverAdditionsForeground": kelp,
+     "scmGraph.historyItemHoverDeletionsForeground": brick,
+     # extensions view
+     "extensionButton.background": ember, "extensionButton.foreground": onacc,
+     "extensionButton.hoverBackground": flame, "extensionButton.border": "#00000000",
+     "extensionButton.separator": onacc + "66",
+     "extensionBadge.remoteBackground": shoal, "extensionBadge.remoteForeground": onacc,
+     "extensionIcon.starForeground": flame, "extensionIcon.verifiedForeground": tide,
+     "extensionIcon.preReleaseForeground": dusk, "extensionIcon.sponsorForeground": brick,
+     "extensionIcon.privateForeground": muted, "mcpIcon.starForeground": flame,
+     # toolbars, menus, action lists, badges
+     "toolbar.activeBackground": raised, "toolbar.hoverOutline": "#00000000",
+     "actionBar.toggledBackground": raised,
+     "menu.selectionBorder": "#00000000", "menubar.selectionBorder": "#00000000",
+     "editorActionList.background": surf, "editorActionList.foreground": text,
+     "editorActionList.focusBackground": raised, "editorActionList.focusForeground": text,
+     "keybindingTable.headerBackground": surf, "keybindingTable.rowsBackground": faint,
+     "profileBadge.background": raised, "profileBadge.foreground": text, "profiles.sashBorder": border,
+     "simpleFindWidget.sashBorder": border, "notificationToast.border": border,
+     "searchEditor.findMatchBackground": ember + "33", "searchEditor.findMatchBorder": ember + "66",
+     "searchEditor.textInputBorder": border, "search.resultsInfoForeground": muted,
+     "scrollbar.background": "#00000000",
+     "minimap.infoHighlight": tide, "minimap.selectionOccurrenceHighlight": spray + "44",
+     # debug, inline values, and comments
+     "debugIcon.breakpointCurrentStackframeForeground": flame,
+     "debugIcon.breakpointStackframeForeground": muted, "debugTokenExpression.type": shoal,
+     "debugView.exceptionLabelBackground": brick, "debugView.exceptionLabelForeground": onacc,
+     "editor.inlineValuesForeground": muted, "editor.inlineValuesBackground": "#00000000",
+     "editorGutter.itemBackground": "#00000000", "editorGutter.itemGlyphForeground": muted,
+     "editorGutter.addedSecondaryBackground": kelp + "80",
+     "editorGutter.deletedSecondaryBackground": brick + "80",
+     "editorGutter.modifiedSecondaryBackground": ember + "80",
+     "editorGutter.commentGlyphForeground": muted,
+     "editorGutter.commentUnresolvedGlyphForeground": ember,
+     "editorGutter.commentDraftGlyphForeground": dim,
+     "editorOverviewRuler.commentForeground": muted,
+     "editorOverviewRuler.commentUnresolvedForeground": ember,
+     "editorOverviewRuler.commentDraftForeground": dim,
+     "commentsView.resolvedIcon": muted, "commentsView.unresolvedIcon": ember,
+     "editorCommentsWidget.rangeBackground": ember + "14",
+     "editorCommentsWidget.rangeActiveBackground": ember + "22",
+     "editorCommentsWidget.replyInputBackground": surf,
+     "editorCommentsWidget.resolvedBorder": border, "editorCommentsWidget.unresolvedBorder": ember,
+     "git.blame.editorDecorationForeground": muted, "symbolIcon.packageForeground": brick,
+     "commandCenter.debuggingBackground": ember + "33",
+     "chart.axis": muted, "chart.guide": border, "chart.line": ember,
+     # chat, inline chat, and inline edits
+     "chat.requestBorder": border, "chat.avatarForeground": text, "chat.editedFileForeground": accent_text,
+     "chat.linesAddedForeground": kelp, "chat.linesRemovedForeground": brick,
+     "chat.checkpointSeparator": border, "chat.requestBubbleBackground": surf,
+     "chat.requestBubbleHoverBackground": raised, "chat.requestCodeBorder": border,
+     "chat.thinkingShimmer": seab, "chatManagement.sashBorder": border,
+     "aiCustomizationManagement.sashBorder": border, "agentStatusIndicator.background": ember,
+     "agentSessionReadIndicator.foreground": ember, "agentSessionSelectedBadge.border": ember,
+     "agentSessionSelectedUnfocusedBadge.border": border,
+     "inlineChat.foreground": text, "inlineChat.shadow": "#0000004d",
+     "inlineChatInput.focusBorder": ember, "inlineChatInput.placeholderForeground": muted,
+     "inlineChatDiff.inserted": kelp + "22", "inlineChatDiff.removed": brick + "22",
+     "interactive.activeCodeBorder": ember, "interactive.inactiveCodeBorder": border,
+     "editorMinimap.inlineChatInserted": kelp + "66",
+     "editorOverviewRuler.inlineChatInserted": kelp + "99",
+     "editorOverviewRuler.inlineChatRemoved": brick + "99",
+     "inlineEdit.originalBackground": brick + "14", "inlineEdit.modifiedBackground": kelp + "14",
+     "inlineEdit.originalBorder": brick + "55", "inlineEdit.modifiedBorder": kelp + "55",
+     "inlineEdit.originalChangedLineBackground": brick + "22",
+     "inlineEdit.originalChangedTextBackground": brick + "33",
+     "inlineEdit.modifiedChangedLineBackground": kelp + "22",
+     "inlineEdit.modifiedChangedTextBackground": kelp + "33",
+     "inlineEdit.tabWillAcceptOriginalBorder": brick, "inlineEdit.tabWillAcceptModifiedBorder": kelp,
+     "inlineEdit.gutterIndicator.background": surf,
+     "inlineEdit.gutterIndicator.primaryBackground": ember,
+     "inlineEdit.gutterIndicator.primaryForeground": onacc,
+     "inlineEdit.gutterIndicator.primaryBorder": ember,
+     "inlineEdit.gutterIndicator.secondaryBackground": raised,
+     "inlineEdit.gutterIndicator.secondaryForeground": text,
+     "inlineEdit.gutterIndicator.secondaryBorder": border,
+     "inlineEdit.gutterIndicator.successfulBackground": kelp,
+     "inlineEdit.gutterIndicator.successfulForeground": onacc,
+     "inlineEdit.gutterIndicator.successfulBorder": kelp,
     })
     for i, k in enumerate(["Black","Red","Green","Yellow","Blue","Magenta","Cyan","White","BrightBlack","BrightRed","BrightGreen","BrightYellow","BrightBlue","BrightMagenta","BrightCyan","BrightWhite"]):
         wb["terminal.ansi" + k] = ansi[i]
@@ -860,8 +1551,9 @@ def build_vscode_light(D):
     colors = {k: (light_ansi[k] if k in light_ansi else remap(v)) for k, v in theme["colors"].items()}
     colors.update({
         # dark pairs these with near-white text; after the remap that text is ink over a dark
-        # hue, so the two status pills flip to the light-on-dark on-accent instead.
+        # hue, so the status pills flip to the light-on-dark on-accent instead.
         "statusBarItem.warningForeground": light["on-accent"],
+        "statusBarItem.warningHoverForeground": light["on-accent"],
         "statusBarItem.errorForeground": light["on-accent"],
     })
     out = {"name": "Glauca Light", "type": "light", "semanticHighlighting": True,
@@ -1027,16 +1719,31 @@ def build_vscode_icons(D):
     return out
 
 def build_typst(D):
-    """Typst colour tokens for the slide theme. Palette anchors keep their Latin
-    names (dies is THE anchor #007aff, not a mode accent); the working blue for
-    text on the dark slide field is `accent` (modes.dark.accent, the audited
-    caelum-on-pix pair, 6.1:1)."""
+    """Typst colour tokens for the slide theme. Two layers: the flat legacy names
+    (dark-mode values; dies is THE anchor #007aff, not a mode accent, and the
+    working blue for text on the dark slide field is `accent`, the audited
+    caelum-on-pix pair, 6.1:1), plus a `dark` and a `light` dict carrying every
+    mode token so the slide theme can run Pruina decks. Dict keys use underscores
+    (Typst identifiers cannot carry hyphens)."""
     m, pal = D["modes"]["dark"], D["palette"]
     pairs = [("pix", m["bg"]), ("umbra", m["surface"]), ("tint-deep", m["tint-deep"]), ("tint", m["tint"]),
              ("tint-bright", m["tint-bright"]), ("tint-pale", m["tint-pale"]),
              ("dies", pal["caelum"]["dies"]), ("accent", m["accent"]),
              ("aer", m["accent-bright"]), ("pruina", m["text"]), ("cinis", m["text-muted"])]
-    return "// Glauca colours. Generated from glauca.json.\n" + "".join('#let %s = rgb("%s")\n' % (n, v) for n, v in pairs)
+    out = ["// Glauca colours. Generated from glauca.json."]
+    out += ['#let %s = rgb("%s")' % (n, v) for n, v in pairs]
+    keys = [("bg", "bg"), ("surface", "surface"), ("raised", "surface-raised"),
+            ("text", "text"), ("muted", "text-muted"), ("border", "border"),
+            ("accent", "accent"), ("accent_bright", "accent-bright"),
+            ("accent_deep", "accent-deep"), ("on_accent", "on-accent"),
+            ("tint_deep", "tint-deep"), ("tint", "tint"),
+            ("tint_bright", "tint-bright"), ("tint_pale", "tint-pale"),
+            ("on_tint", "on-tint")]
+    for name in ("dark", "light"):
+        md = D["modes"][name]
+        body = ",\n".join('  %s: rgb("%s")' % (k, md[v]) for k, v in keys)
+        out.append("#let %s = (\n%s,\n)" % (name, body))
+    return "\n".join(out) + "\n"
 
 def build_zed(D):
     """Zed theme family (schema v0.2.0). Ships both appearances in one family
@@ -1085,6 +1792,10 @@ def build_zed(D):
      "editor.indent_guide": "#1d262f", "editor.indent_guide_active": "#3a4754",
      "editor.document_highlight.read_background": tide + "26", "editor.document_highlight.write_background": kelp + "26",
      "editor.document_highlight.bracket_background": seab + "33",
+     "editor.hover_line_number": text,
+     # Search: candidate matches take the quiet sea, the focused match takes the blue --
+     # the same split the Ghostty preset makes with search-* vs search-selected-*.
+     "search.active_match_background": ember + "88",
      "terminal.background": bg, "terminal.foreground": text, "terminal.bright_foreground": text, "terminal.dim_foreground": muted,
      "link_text.hover": flame,
      "conflict": dusk, "conflict.background": dusk + "22", "conflict.border": dusk,
@@ -1105,6 +1816,8 @@ def build_zed(D):
      "panel.indent_guide": "#1d262f", "panel.indent_guide_active": "#3a4754", "panel.indent_guide_hover": "#2a3540",
      "version_control.added": kelp, "version_control.modified": ember, "version_control.deleted": brick,
      "version_control.conflict": dusk, "version_control.renamed": tide, "version_control.ignored": dim,
+     "version_control.word_added": kelp + "3d", "version_control.word_deleted": brick + "3d",
+     "version_control.conflict_marker.ours": kelp + "22", "version_control.conflict_marker.theirs": tide + "22",
     }
     for i, n in enumerate(["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]):
         style["terminal.ansi." + n] = ansi[i]
@@ -1134,6 +1847,9 @@ def build_zed(D):
      "namespace": syn("decorator"), "module": syn("decorator"), "constant.builtin": syn("number"),
      "function.builtin": col(shoal, font_style="italic"), "function.special": col(brick),
      "variable.member": col(c("parameter")), "keyword.import": syn("keyword"), "tag.delimiter": syn("punctuation"),
+     "variable.parameter": col(c("parameter")), "punctuation.markup": col(ember),
+     "selector": col(shoal), "selector.pseudo": col(dusk, font_style="italic"),
+     "diff.plus": col(kelp), "diff.minus": col(brick),
     }
     remap, deep = _light_remap(D)
     ansi_names = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
@@ -1201,6 +1917,7 @@ def artifacts(D):
         "dist/themes/terminals/Glauca.ghostty": build_ghostty_light(D),
         "dist/themes/terminals/Glauca-Dark.itermcolors": build_iterm(D),
         "dist/themes/terminals/Glauca.itermcolors": build_iterm_light(D),
+        "dist/themes/terminals/glauca.conf": build_ghostty_conf(D),
         "dist/omz/glauca-dark.zsh-theme": build_omz(D),
         "dist/omz/glauca.zsh-theme": build_omz_light(D),
         "dist/vscode/themes/Glauca-Dark-color-theme.json": build_vscode(D),
@@ -1209,9 +1926,15 @@ def artifacts(D):
         "dist/zed/themes/Glauca.json": build_zed(D),
         "dist/vivaldi/dark/settings.json": build_vivaldi(D, "dark"),
         "dist/vivaldi/light/settings.json": build_vivaldi(D, "light"),
+        "dist/firefox/manifest.json": build_firefox(D),
+        "dist/thunderbird/manifest.json": build_thunderbird(D),
+        "dist/zotero/userChrome.css": build_zotero(D),
         "dist/miniflux/glauca.css": build_miniflux(D),
         "src/markedit/colors.generated.js": build_markedit(D),
         "dist/obsidian/theme.css": build_obsidian(D),
+        # the slide theme embeds its generated colours in place (a src/ exception,
+        # like the web CSS below, so `make demo` compiles src/typst/demo.typ):
+        "src/typst/colors.typ": build_typst(D),
         # version single-sourced from src/ manifests into dist/:
         "dist/obsidian/manifest.json": stamp_version("obsidian/manifest.json", D),
         "dist/vscode/package.json": stamp_version("vscode/package.json", D),
