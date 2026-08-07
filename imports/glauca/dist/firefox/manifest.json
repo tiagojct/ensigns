@@ -1,0 +1,113 @@
+{
+  "manifest_version": 2,
+  "name": "Glauca",
+  "version": "0.1.0",
+  "description": "Glauca: a frost-bloom browser theme. Pruina by day, Profundum by night, with one sky-blue mark on the selected tab and the focused address field.",
+  "author": "tiagojct",
+  "homepage_url": "https://git.tiagojct.eu/tiagojct/glauca",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "glauca-theme@tiagojct.eu",
+      "strict_min_version": "115.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "icons": {
+    "48": "icon.svg",
+    "96": "icon.svg"
+  },
+  "theme": {
+    "colors": {
+      "frame": "#f0f4f6",
+      "frame_inactive": "#f0f4f6",
+      "toolbar": "#f7fafb",
+      "toolbar_text": "#16222a",
+      "toolbar_top_separator": "#cdd7dc",
+      "toolbar_bottom_separator": "#cdd7dc",
+      "toolbar_vertical_separator": "#cdd7dc",
+      "toolbar_field": "#ffffff",
+      "toolbar_field_text": "#16222a",
+      "toolbar_field_border": "#cdd7dc",
+      "toolbar_field_focus": "#ffffff",
+      "toolbar_field_text_focus": "#16222a",
+      "toolbar_field_border_focus": "#0b62cf",
+      "toolbar_field_highlight": "#0b62cf",
+      "toolbar_field_highlight_text": "#f2f7fb",
+      "button_background_hover": "#e5e9ea",
+      "button_background_active": "#d8dcde",
+      "tab_selected": "#f7fafb",
+      "tab_text": "#16222a",
+      "tab_background_text": "#55646d",
+      "tab_line": "#0b62cf",
+      "tab_loading": "#0b62cf",
+      "icons": "#55646d",
+      "icons_attention": "#0b62cf",
+      "popup": "#f7fafb",
+      "popup_text": "#16222a",
+      "popup_border": "#cdd7dc",
+      "popup_highlight": "#b7cdd6",
+      "popup_highlight_text": "#16222a",
+      "sidebar": "#f7fafb",
+      "sidebar_text": "#16222a",
+      "sidebar_border": "#cdd7dc",
+      "sidebar_highlight": "#0b62cf",
+      "sidebar_highlight_text": "#f2f7fb",
+      "bookmark_text": "#16222a",
+      "ntp_background": "#f0f4f6",
+      "ntp_card_background": "#f7fafb",
+      "ntp_text": "#16222a"
+    },
+    "properties": {
+      "color_scheme": "light"
+    }
+  },
+  "dark_theme": {
+    "colors": {
+      "frame": "#10161c",
+      "frame_inactive": "#10161c",
+      "toolbar": "#171f26",
+      "toolbar_text": "#e8eef2",
+      "toolbar_top_separator": "#2a3540",
+      "toolbar_bottom_separator": "#2a3540",
+      "toolbar_vertical_separator": "#2a3540",
+      "toolbar_field": "#1f2932",
+      "toolbar_field_text": "#e8eef2",
+      "toolbar_field_border": "#2a3540",
+      "toolbar_field_focus": "#1f2932",
+      "toolbar_field_text_focus": "#e8eef2",
+      "toolbar_field_border_focus": "#3d97ff",
+      "toolbar_field_highlight": "#3d97ff",
+      "toolbar_field_highlight_text": "#0b1218",
+      "button_background_hover": "#283036",
+      "button_background_active": "#343c43",
+      "tab_selected": "#171f26",
+      "tab_text": "#e8eef2",
+      "tab_background_text": "#8c8c8c",
+      "tab_line": "#3d97ff",
+      "tab_loading": "#3d97ff",
+      "icons": "#8c8c8c",
+      "icons_attention": "#3d97ff",
+      "popup": "#171f26",
+      "popup_text": "#e8eef2",
+      "popup_border": "#2a3540",
+      "popup_highlight": "#2b4356",
+      "popup_highlight_text": "#e8eef2",
+      "sidebar": "#171f26",
+      "sidebar_text": "#e8eef2",
+      "sidebar_border": "#2a3540",
+      "sidebar_highlight": "#3d97ff",
+      "sidebar_highlight_text": "#0b1218",
+      "bookmark_text": "#e8eef2",
+      "ntp_background": "#10161c",
+      "ntp_card_background": "#171f26",
+      "ntp_text": "#e8eef2"
+    },
+    "properties": {
+      "color_scheme": "dark"
+    }
+  }
+}
