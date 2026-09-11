@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://git.tiagojct.eu/tiagojct/glauca"
+    "url": "https://github.com/tiagojct/glauca"
   },
   "contributes": {
     "themes": [

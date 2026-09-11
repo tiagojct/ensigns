@@ -223,7 +223,7 @@ def build(mode_key, filename):
          [[("Clear glass, cold light.", SERIF, 40, True, False, close_ink)]],
          )
     text(s, Inches(0.92), Inches(5.0), Inches(11), Inches(0.6),
-         [[("git.tiagojct.eu/tiagojct/glauca", SANS, 15, False, False, link_col)]])
+         [[("github.com/tiagojct/glauca", SANS, 15, False, False, link_col)]])
 
     path = OUT / filename
     prs.save(path)

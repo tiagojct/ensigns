@@ -533,7 +533,7 @@ def _webext_theme_manifest(D, name, description, addon_id, min_version, colors_f
         "version": D["version"],
         "description": description,
         "author": "tiagojct",
-        "homepage_url": "https://git.tiagojct.eu/tiagojct/glauca",
+        "homepage_url": "https://github.com/tiagojct/glauca",
         # data_collection_permissions has been mandatory for new addons.mozilla.org
         # submissions since 3 November 2025, and a static theme is the easy case: it is
         # a colour table, it collects nothing, so "none" stands alone as the spec

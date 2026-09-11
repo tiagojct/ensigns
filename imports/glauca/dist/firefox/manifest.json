@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Glauca: a frost-bloom browser theme. Pruina by day, Profundum by night, with one sky-blue mark on the selected tab and the focused address field.",
   "author": "tiagojct",
-  "homepage_url": "https://git.tiagojct.eu/tiagojct/glauca",
+  "homepage_url": "https://github.com/tiagojct/glauca",
   "browser_specific_settings": {
     "gecko": {
       "id": "glauca-theme@tiagojct.eu",
