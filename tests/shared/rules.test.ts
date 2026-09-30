@@ -2,7 +2,7 @@
 // also break a family on purpose to show that each check fails when it should.
 import { describe, expect, it } from "vitest";
 import { loadFamilies } from "../../lib/model/load.ts";
-import { runRuleChecks } from "../../lib/model/checks.ts";
+import { RULE_CHECKS, hueClass, runRuleChecks } from "../../lib/model/checks.ts";
 import { resolveFamily } from "../../lib/model/resolve.ts";
 import type { FamilyFile } from "../../lib/model/types.ts";
 
@@ -63,6 +63,39 @@ describe("rule checks", () => {
       [roles.link, roles["link-hover"]] = [roles["link-hover"], roles.link];
       const results = runRuleChecks(resolveFamily(file)).filter((r) => r.check === "hover-direction");
       expect(results.some((r) => r.failures.length > 0)).toBe(true);
+    });
+  });
+
+  describe("the pair checks", () => {
+    const pequod = resolveFamily(fileOf("pequod"));
+    const run = (name: string, ...args: string[]) => RULE_CHECKS[name]!({ family: pequod, args });
+
+    it("classifies hues by OKLCH angle", () => {
+      const pure = { red: "#FF0000", yellow: "#FFFF00", green: "#00FF00", cyan: "#00FFFF", blue: "#0000FF", magenta: "#FF00FF", orange: "#FF8000", violet: "#8000FF" };
+      for (const [name, hex] of Object.entries(pure)) expect(hueClass(hex), name).toBe(name);
+      expect(hueClass("#808080")).toBe("neutral");
+    });
+
+    it("not-red-green fails Ahab against Tashtego and passes Ahab against Starbuck", () => {
+      expect(run("not-red-green", "accents.ahab", "accents.tashtego").length).toBeGreaterThan(0);
+      expect(run("not-red-green", "accents.tashtego", "accents.ahab").length).toBeGreaterThan(0);
+      expect(run("not-red-green", "accents.ahab", "accents.starbuck")).toEqual([]);
+    });
+
+    it("not-blue-green and not-blue-violet catch their pairs and only those", () => {
+      expect(run("not-blue-green", "accents.starbuck", "accents.tashtego").length).toBeGreaterThan(0);
+      expect(run("not-blue-green", "accents.starbuck", "accents.ahab")).toEqual([]);
+      expect(run("not-blue-violet", "accents.starbuck", "accents.starbuck")).toEqual([]);
+    });
+
+    it("lightness-gap wants the stated L*", () => {
+      expect(run("lightness-gap", "roles.text", "roles.bg", "40")).toEqual([]);
+      expect(run("lightness-gap", "roles.text", "roles.text-muted", "40").length).toBeGreaterThan(0);
+    });
+
+    it("reports a missing address or a missing minimum", () => {
+      expect(run("not-red-green", "accents.ahab", "accents.nobody").length).toBeGreaterThan(0);
+      expect(run("lightness-gap", "roles.text", "roles.bg").length).toBeGreaterThan(0);
     });
   });
 });
