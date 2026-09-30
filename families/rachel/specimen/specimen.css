@@ -1,0 +1,387 @@
+/* Rachel specimen: a phone screen with a glucose reading, a leaflet page and a consent form.
+   Every colour is a custom property from the family (roles, extra, surfaces, status). Sizes, spacing,
+   touch targets, borders and the focus ring come from the design tokens. No text is smaller than
+   design.type.size.min (18 px) and no control is shorter than design.touch.target.min (48 px). */
+
+.specimen-rachel {
+  display: grid;
+  gap: var(--design-space-3xl);
+  color: var(--roles-text);
+  font-family: var(--font-sans);
+  font-size: var(--design-type-size-body);
+  font-weight: var(--design-type-weight-body);
+  line-height: var(--design-type-line-height-body);
+  letter-spacing: var(--design-type-letter-spacing-body);
+}
+.specimen-rachel *, .specimen-rachel *::before, .specimen-rachel *::after { box-sizing: border-box; }
+.specimen-rachel :where(h5, h6, p, ul, ol, figure, fieldset, legend) { margin: 0; padding: 0; }
+.specimen-rachel :where(ul, ol) { list-style: none; }
+
+/* The same blocks, one level at a time: the colours, the border width and the icon colours of a status level. */
+.specimen-rachel [data-status="success"] {
+  --sp-fill: var(--extra-success-fill);
+  --sp-edge: var(--extra-success-border);
+  --sp-ink: var(--extra-success-fg);
+  --sp-on: var(--extra-success-on);
+  --sp-colour: var(--status-success);
+  --sp-width: var(--design-status-success-border-width);
+}
+.specimen-rachel [data-status="warning"] {
+  --sp-fill: var(--extra-warning-fill);
+  --sp-edge: var(--extra-warning-border);
+  --sp-ink: var(--extra-warning-fg);
+  --sp-on: var(--extra-warning-on);
+  --sp-colour: var(--status-warning);
+  --sp-width: var(--design-status-warning-border-width);
+}
+.specimen-rachel [data-status="danger"] {
+  --sp-fill: var(--extra-danger-fill);
+  --sp-edge: var(--extra-danger-border);
+  --sp-ink: var(--extra-danger-fg);
+  --sp-on: var(--extra-danger-on);
+  --sp-colour: var(--status-danger);
+  --sp-width: var(--design-status-danger-border-width);
+}
+
+/* Headings and text */
+
+.sp-part { min-width: 0; }
+.sp-label {
+  margin-bottom: var(--design-space-md);
+  font-size: var(--design-type-size-h3);
+  font-weight: var(--design-type-weight-strong);
+  line-height: var(--design-type-line-height-heading);
+}
+.sp-screen-title, .sp-sheet-title {
+  font-size: var(--design-type-size-h2);
+  font-weight: var(--design-type-weight-strong);
+  line-height: var(--design-type-line-height-heading);
+}
+.sp-card-title, .sp-sheet-heading, .sp-callout-title {
+  font-size: var(--design-type-size-h3);
+  font-weight: var(--design-type-weight-strong);
+  line-height: var(--design-type-line-height-heading);
+}
+.sp-when, .sp-hint, .sp-note, .sp-ticks, .sp-range figcaption, .sp-unit {
+  color: var(--roles-text-muted);
+  font-size: var(--design-type-size-min);
+}
+.sp-unit { font-size: var(--design-type-size-h3); }
+.sp-note { max-width: var(--design-type-measure-body); }
+
+.specimen-rachel a { color: var(--roles-link); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+.specimen-rachel a:hover { color: var(--roles-link-hover); text-decoration-thickness: 3px; }
+
+/* Icons: a solid shape in the status colour, a mark inside it. Each level has its own silhouette. */
+
+.sp-icon { flex: none; width: 2.5rem; height: 2.5rem; }
+.sp-icon-small { width: 2.25rem; height: 2.25rem; }
+.sp-icon-back { fill: var(--sp-colour); stroke: var(--sp-colour); stroke-width: 3; stroke-linejoin: round; }
+.sp-icon-line { fill: none; stroke: var(--sp-on); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.sp-icon-dot, .sp-icon-glyph { fill: var(--sp-on); stroke: none; }
+
+/* Status boxes: the big one under a reading, the rows of the history and the callout of the leaflet */
+
+.sp-status, .sp-row, .sp-callout {
+  border-style: solid;
+  border-color: var(--sp-edge);
+  border-width: var(--sp-width);
+  border-radius: var(--design-radius-md);
+  background-color: var(--sp-fill);
+  color: var(--sp-ink);
+}
+.sp-status { display: flex; align-items: flex-start; gap: var(--design-space-md); padding: var(--design-space-md); }
+.sp-status-label { font-size: var(--design-type-size-h3); font-weight: var(--design-type-weight-strong); line-height: var(--design-type-line-height-heading); }
+.sp-status-note { margin-top: var(--design-space-xs); }
+
+/* Phone */
+
+.sp-phone {
+  width: 100%;
+  max-width: 390px;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 4px solid var(--extra-control-edge);
+  border-radius: 36px;
+  background-color: var(--roles-bg);
+}
+.sp-phone-head { padding: var(--design-space-lg) var(--design-space-lg) var(--design-space-sm); }
+.sp-phone-body { display: grid; gap: var(--design-space-lg); padding: var(--design-space-md) var(--design-space-md) var(--design-space-lg); }
+
+.sp-card {
+  display: grid;
+  gap: var(--design-space-sm);
+  padding: var(--design-space-lg) var(--design-space-md);
+  border: var(--design-border-width-default) solid var(--roles-border);
+  border-radius: var(--design-radius-lg);
+  background-color: var(--roles-surface-raised);
+}
+.sp-value { display: flex; align-items: baseline; gap: var(--design-space-sm); margin-block: var(--design-space-xs) var(--design-space-sm); }
+.sp-number { font-size: var(--design-type-size-reading); font-weight: var(--design-type-weight-strong); line-height: var(--design-type-line-height-reading); font-variant-numeric: tabular-nums; }
+
+/* The range bar. Positions are shares of a scale from 2 to 10 mmol/L: the target starts at 4.0 (25 per cent)
+   and ends at 7.0 (62.5 per cent), and the reading of 6.4 sits at 55 per cent. */
+
+.sp-range {
+  --sp-target-start: 25%;
+  --sp-target-end: 62.5%;
+  --sp-reading: 55%;
+  position: relative;
+  padding-top: 3.25rem;
+}
+.sp-track {
+  position: relative;
+  height: 3.25rem;
+  border: var(--design-border-width-default) solid var(--roles-border);
+  border-radius: var(--design-radius-sm);
+  background-color: var(--extra-meter-track);
+  color: var(--roles-text);
+}
+.sp-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--design-type-size-min);
+}
+.sp-zone-low { left: 0; width: var(--sp-target-start); }
+.sp-zone-high { left: var(--sp-target-end); right: 0; }
+.sp-zone-target {
+  left: var(--sp-target-start);
+  width: calc(var(--sp-target-end) - var(--sp-target-start));
+  justify-content: flex-start;
+  padding-left: var(--design-space-sm);
+  border-inline: var(--design-status-success-border-width) solid var(--extra-success-border);
+  background-color: var(--extra-meter-target);
+  font-weight: var(--design-type-weight-strong);
+}
+.sp-marker {
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: var(--sp-reading);
+  width: 0.5rem;
+  margin-left: -0.25rem;
+  border: 2px solid var(--roles-surface-raised);
+  border-radius: 2px;
+  background-color: var(--extra-meter-marker);
+}
+.sp-flag {
+  position: absolute;
+  top: 0;
+  left: var(--sp-reading);
+  transform: translateX(-50%);
+  min-width: 3.5rem;
+  padding: 0 var(--design-space-sm);
+  border: var(--design-border-width-default) solid var(--extra-meter-marker);
+  border-radius: var(--design-radius-sm);
+  background-color: var(--roles-surface-raised);
+  font-size: var(--design-type-size-body);
+  font-weight: var(--design-type-weight-strong);
+  line-height: 1.75;
+  text-align: center;
+}
+.sp-flag::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -0.45rem;
+  border: 0.45rem solid transparent;
+  border-top-color: var(--extra-meter-marker);
+}
+.sp-ticks { position: relative; height: 1.75rem; margin-top: var(--design-space-xs); }
+.sp-ticks li { position: absolute; top: 0; transform: translateX(-50%); }
+.sp-ticks li:nth-child(1) { left: 0; transform: none; }
+.sp-ticks li:nth-child(2) { left: var(--sp-target-start); }
+.sp-ticks li:nth-child(3) { left: var(--sp-target-end); }
+.sp-ticks li:nth-child(4) { right: 0; transform: none; }
+.sp-range figcaption { margin-top: var(--design-space-xs); }
+
+/* History */
+
+.sp-earlier { display: grid; gap: var(--design-space-sm); }
+.sp-history { display: grid; gap: var(--design-space-md); }
+.sp-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--design-space-xs) var(--design-space-md);
+  padding: var(--design-space-md);
+}
+.sp-row-when { font-size: var(--design-type-size-min); }
+.sp-row-value { text-align: right; white-space: nowrap; }
+.sp-row-number { font-size: var(--design-type-size-h2); font-weight: var(--design-type-weight-strong); line-height: var(--design-type-line-height-heading); }
+.sp-row .sp-unit { color: inherit; font-size: var(--design-type-size-min); }
+.sp-row-status {
+  display: flex;
+  align-items: center;
+  grid-column: 1 / -1;
+  gap: var(--design-space-sm);
+  font-weight: var(--design-type-weight-strong);
+}
+
+/* Tabs: the current one is bold, underlined and carries a thick bar, so it differs without colour. */
+
+.sp-tabs { display: flex; border-top: var(--design-border-width-default) solid var(--roles-border); background-color: var(--roles-surface-raised); }
+.specimen-rachel .sp-tab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--design-touch-target-comfortable);
+  padding: var(--design-space-sm);
+  border-top: 6px solid transparent;
+  color: var(--roles-link);
+  text-decoration: none;
+}
+.specimen-rachel .sp-tab:hover { color: var(--roles-link-hover); text-decoration: underline; }
+.specimen-rachel .sp-tab[aria-current] {
+  border-top-color: var(--roles-button);
+  color: var(--roles-text);
+  font-weight: var(--design-type-weight-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.25em;
+}
+
+/* Buttons */
+
+.sp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--design-touch-target-min);
+  min-height: var(--design-touch-target-comfortable);
+  padding: 0 var(--design-space-lg);
+  border: var(--design-border-width-strong) solid var(--roles-button);
+  border-radius: var(--design-radius-md);
+  font: inherit;
+  font-weight: var(--design-type-weight-strong);
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+.sp-button-primary { background-color: var(--roles-button); color: var(--roles-on-button); }
+.sp-button-primary:hover { border-color: var(--extra-button-hover); background-color: var(--extra-button-hover); }
+.sp-button-secondary { background-color: var(--roles-surface-raised); color: var(--roles-link); }
+.sp-button-secondary:hover { border-color: var(--roles-link-hover); color: var(--roles-link-hover); }
+.sp-wide { width: 100%; }
+
+/* Leaflet page and consent form: a sheet of paper */
+
+.sp-sheet {
+  display: grid;
+  gap: var(--design-space-md);
+  max-width: 38rem;
+  margin-inline: auto;
+  padding: var(--design-space-xl);
+  border: var(--design-border-width-default) solid var(--roles-border);
+  border-radius: var(--design-radius-sm);
+  background-color: var(--roles-surface-raised);
+}
+.sp-sheet > :is(p, ul) { max-width: var(--design-type-measure-body); }
+.sp-sheet-heading { margin-top: var(--design-space-sm); }
+.sp-leaflet p.prose { font-size: var(--design-type-size-lead); }
+.sp-list { display: grid; gap: var(--design-space-xs); list-style: disc; padding-left: var(--design-space-lg); }
+.sp-list li::marker { color: var(--roles-text); }
+
+.sp-callout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--design-space-md);
+  margin-block: var(--design-space-sm);
+  padding: var(--design-space-lg);
+}
+.sp-callout > div { display: grid; gap: var(--design-space-sm); }
+
+/* The form: large hit areas, a visible box, a required marker that is a word and a symbol */
+
+.sp-fieldset { display: grid; gap: var(--design-touch-gap-min); min-width: 0; border: 0; }
+.sp-fieldset legend { margin-bottom: var(--design-space-sm); }
+.sp-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--design-space-md);
+  min-height: var(--design-touch-target-comfortable);
+  padding: var(--design-space-sm) var(--design-space-md);
+  border: var(--design-border-width-default) solid var(--roles-border);
+  border-radius: var(--design-radius-md);
+  background-color: var(--surfaces-field);
+  cursor: pointer;
+}
+.sp-check:hover { border-color: var(--roles-link-hover); }
+.sp-check:has(.sp-box:checked) { border-color: var(--roles-button); }
+.sp-box {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.15rem 0 0;
+  border: var(--design-border-width-strong) solid var(--extra-control-edge);
+  border-radius: var(--design-radius-sm);
+  background-color: var(--surfaces-field);
+  cursor: pointer;
+}
+.sp-box:checked { border-color: var(--roles-button); background-color: var(--roles-button); }
+.sp-box:checked::after {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 0.12rem;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid var(--roles-on-button);
+  border-width: 0 4px 4px 0;
+  transform: rotate(45deg);
+}
+.sp-required { font-weight: var(--design-type-weight-strong); white-space: nowrap; }
+.sp-field { display: grid; gap: var(--design-space-sm); }
+.sp-field-label { font-weight: var(--design-type-weight-strong); }
+.sp-input {
+  width: 100%;
+  min-height: var(--design-touch-target-comfortable);
+  padding: 0 var(--design-space-md);
+  border: var(--design-border-width-strong) solid var(--extra-control-edge);
+  border-radius: var(--design-radius-md);
+  background-color: var(--surfaces-field);
+  color: var(--roles-text);
+  font: inherit;
+}
+.sp-actions { display: flex; flex-wrap: wrap; gap: var(--design-touch-gap-comfortable); margin-top: var(--design-space-sm); }
+
+/* Keyboard focus: a thick outline set off from the control. It is a line, so it survives without colour. */
+
+.specimen-rachel :is(a, button, input):focus-visible,
+.specimen-rachel .sp-box:focus-visible {
+  outline: var(--design-focus-width) var(--design-focus-style) var(--roles-focus);
+  outline-offset: var(--design-focus-offset);
+}
+
+.sp-focus-sample {
+  display: inline-block;
+  margin: var(--design-space-sm) var(--design-space-md);
+  padding: var(--design-space-xs) var(--design-space-md);
+  border: var(--design-border-width-strong) solid var(--roles-button);
+  border-radius: var(--design-radius-md);
+  color: var(--roles-text);
+  font-size: var(--design-type-size-body);
+  font-weight: var(--design-type-weight-strong);
+  outline: var(--design-focus-width) var(--design-focus-style) var(--roles-focus);
+  outline-offset: var(--design-focus-offset);
+}
+
+@media (forced-colors: active) {
+  .sp-icon { forced-color-adjust: none; }
+}
+
+@media (max-width: 30rem) {
+  .sp-sheet { padding: var(--design-space-md); }
+  .sp-callout { grid-template-columns: minmax(0, 1fr); }
+  .sp-actions > .sp-button { flex: 1 1 100%; }
+}
