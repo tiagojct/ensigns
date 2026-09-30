@@ -66,13 +66,19 @@ describe("projector", () => {
 });
 
 describe("sunlight", () => {
-  it("keeps 4.5:1 after glare and leaves large text alone", () => {
+  it("keeps 4.5:1 for body text after glare", () => {
     const good = sunlight(family({ ink: "#595959", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(good)).toEqual([]);
     const bad = sunlight(family({ ink: "#767676", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(bad).length).toBeGreaterThan(0);
-    const large = sunlight(family({ ink: "#767676", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper"), textPair("ink", "paper", "large")]; }), thresholds);
-    expect(byId(large, "extra.ink on extra.paper").length).toBe(2);
+  });
+
+  it("asks 3:1 of large text after glare and nothing of a component", () => {
+    const large = (ink: string, kind: "large" | "component") => sunlight(family({ ink: ink, paper: "#FFFFFF", body: "#000000" }, (f) => { f.pairs = [textPair("body", "paper"), textPair("ink", "paper", kind as "text" | "large")]; }), thresholds);
+    expect(failures(large("#767676", "large"))).toEqual([]);
+    expect(failures(large("#9A9A9A", "large")).length).toBeGreaterThan(0);
+    const component = sunlight(family({ ink: "#9A9A9A", paper: "#FFFFFF", body: "#000000" }, (f) => { f.pairs = [textPair("body", "paper"), { fg: "extra.ink", bg: "extra.paper", kind: "component" }]; }), thresholds);
+    expect(failures(component)).toEqual([]);
   });
 });
 
@@ -82,6 +88,12 @@ describe("aged-eye", () => {
     expect(failures(good)).toEqual([]);
     const bad = agedEyeProfile(family({ ink: "#595959", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(bad).length).toBeGreaterThan(0);
+  });
+
+  it("asks 4.5:1 of large text after the simulation", () => {
+    const large = (ink: string) => agedEyeProfile(family({ ink, paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper", "large")]; }), thresholds);
+    expect(failures(large("#595959"))).toEqual([]);
+    expect(failures(large("#767676")).length).toBeGreaterThan(0);
   });
 
   it("keeps the members of a set apart", () => {

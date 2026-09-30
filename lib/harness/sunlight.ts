@@ -13,11 +13,12 @@ const PROFILE = "sunlight";
 export function sunlight(family: ResolvedFamily, t: Thresholds): Check[] {
   const k = num(t, "common.flare.sunlight.value");
   const bodyMin = num(t, "profiles.sunlight.bodyText.min");
+  const largeMin = num(t, "profiles.sunlight.largeText.min");
   const apartMin = num(t, "profiles.sunlight.meaningfulPairs.minDistance");
   const out = pairChecks({
     profile: PROFILE, family, situation: `after glare ${k}`,
     contrast: (fg, bg) => contrastWithFlare(fg, bg, k),
-    minFor: (kind) => (kind === "text" ? bodyMin : undefined),
+    minFor: (kind) => (kind === "text" ? bodyMin : kind === "large" ? largeMin : undefined),
   });
   if (out.length === 0) out.push(nothingDeclared(PROFILE, "text pairs"));
   for (const set of gatedSets(family, "sunlight")) {

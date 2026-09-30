@@ -47,8 +47,8 @@ meta.environments lists the profiles a family must pass. Each profile, its simul
 - cvd: the distinct sets, under normal vision and three simulations.
 - night: the roles, syntax, ANSI and terminal colours of both modes, against a luminance band and a brightness cap.
 - projector: the declared text and large-text pairs, and the distinct sets marked for it, after flare (0.02 in a dark room, 0.08 in a lit room).
-- sunlight: the declared text pairs and the sets marked for it, after glare (0.06).
-- aged-eye: the declared text pairs and the sets marked for it, after the aged-eye simulation.
+- sunlight: the declared text and large-text pairs and the sets marked for it, after glare (0.06).
+- aged-eye: the declared text and large-text pairs and the sets marked for it, after the aged-eye simulation.
 - print-grey: the declared text pairs, converted to grey, and the sets marked for it, in L*.
 - eink: the sets marked for it, quantised to sixteen grey levels.
 - photocopy: the sets marked for it, against the L* window of a copier.
