@@ -10,6 +10,7 @@ Ten colour families named after the Pequod and the nine ships she gams with in M
 - tests/shared holds the tests that cover every family. tests/environments holds one test file per environment profile, and tests/environments.json holds every threshold with its reason.
 - tests/fixtures/legacy and tests/parity are frozen copies of what the five old repositories held. Do not edit them.
 - scripts/design records how each family's values were chosen. scripts/migrate records how the old repositories were converted. scripts/report.ts writes reports/<family>.json.
+- scripts/pages builds the local family pages into preview/, which git ignores (npm run pages). A family's specimen is families/<id>/specimen/specimen.html and specimen.css; scripts/pages/README.md gives the rules.
 - legacy/ and site/ are dormant until phase 4.
 
 ## Commands

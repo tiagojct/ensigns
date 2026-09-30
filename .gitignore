@@ -18,6 +18,7 @@ __pycache__/
 /site/dist/
 /reports/
 /dist/
+/preview/
 
 # Editors and operating system
 /.vscode/

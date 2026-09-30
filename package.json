@@ -17,7 +17,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "pages": "node scripts/pages/build.ts"
   },
   "dependencies": {
     "culori": "^4.0.2"

@@ -10,10 +10,14 @@ export type ContrastKind = "text" | "large" | "component";
 const AA: Record<ContrastKind, number> = { text: 4.5, large: 3, component: 3 };
 const AAA: Record<Exclude<ContrastKind, "component">, number> = { text: 7, large: 4.5 };
 
+/** The weights of linear R, G and B in relative luminance. */
+export const LUMINANCE_WEIGHTS = [0.2126, 0.7152, 0.0722] as const;
+
 /** Relative luminance Y, 0 (black) to 1 (white). */
 export function relativeLuminance(hex: string): number {
   const [r, g, b] = hexToLinear(hex);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  const [wr, wg, wb] = LUMINANCE_WEIGHTS;
+  return wr * r + wg * g + wb * b;
 }
 
 /** WCAG ratio (L1 + 0.05) / (L2 + 0.05) with L1 the larger luminance. */

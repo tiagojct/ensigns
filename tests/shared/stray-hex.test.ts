@@ -15,7 +15,7 @@ const exemptions = JSON.parse(readFileSync(join(root, "tests/shared/hex-exemptio
 
 const TEXT = new Set([".ts", ".js", ".mjs", ".cjs", ".css", ".scss", ".json", ".md", ".typ", ".toml", ".yml", ".yaml", ".html", ".svg", ".r", ".py", ".lua", ".conf", ".txt", ".qmd", ".cff", ".tex", ".sh"]);
 // Directories and files the lint covers. Token files hold the palette, so they are not scanned.
-const ROOTS = ["lib", "packages", "docs", "families", "site/src", "site/public", "README.md", "CHANGELOG.md", "CITATION.cff"];
+const ROOTS = ["lib", "packages", "docs", "families", "scripts/pages", "site/src", "site/public", "README.md", "CHANGELOG.md", "CITATION.cff"];
 const SKIP_DIRS = new Set(["node_modules", ".git"]);
 
 /** ** matches any path, **\/ matches any folders (or none), * matches within one folder. */

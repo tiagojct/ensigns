@@ -76,8 +76,9 @@ describe("family quotations", () => {
   }
 });
 
-// Quotation marks promise the reader Melville's words. In a README or a model document, any quoted
-// span of four words or more is found in the text or listed, with a reason, in quotes-allowlist.json.
+// Quotation marks promise the reader Melville's words. In a README, a model document or a family's
+// specimen, any quoted span of four words or more is found in the text or listed, with a reason, in
+// quotes-allowlist.json.
 describe("quotations in documents", () => {
   const root = repoRoot();
   const allow = JSON.parse(readFileSync(join(root, "tests/shared/quotes-allowlist.json"), "utf8")) as Record<string, string>;
@@ -85,9 +86,21 @@ describe("quotations in documents", () => {
 
   const documents = ["README.md", "CLAUDE.md", "docs/model.md", "legacy/README.md", "scripts/migrate/README.md"];
   for (const dir of readdirSync(join(root, "families"))) {
-    const readme = join("families", dir, "README.md");
-    if (existsSync(join(root, readme))) documents.push(readme);
+    for (const doc of [join("families", dir, "README.md"), join("families", dir, "specimen", "specimen.html")]) {
+      if (existsSync(join(root, doc))) documents.push(doc);
+    }
   }
+
+  /** A specimen is an HTML fragment: its text without the tags, with the entities for quotation marks read as the marks. */
+  const textOf = (doc: string, source: string): string =>
+    doc.endsWith(".html")
+      ? source
+          .replace(/<[^>]*>/g, " ")
+          .replace(/&(?:quot|#34);/g, '"')
+          .replace(/&(?:ldquo|#8220);/g, "\u201c")
+          .replace(/&(?:rdquo|#8221);/g, "\u201d")
+          .replace(/\s+/g, " ")
+      : source;
 
   function quotedSpans(markdown: string): string[] {
     const plain = markdown.replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, " ");
@@ -98,7 +111,7 @@ describe("quotations in documents", () => {
 
   for (const doc of documents) {
     it(`${doc} quotes only Moby-Dick verbatim, or says why not`, () => {
-      const offenders = quotedSpans(readFileSync(join(root, doc), "utf8"))
+      const offenders = quotedSpans(textOf(doc, readFileSync(join(root, doc), "utf8")))
         .filter((s) => !body.includes(normaliseQuote(s).replace(/[.,;:!?]+$/, "")) && !(s in allow))
         .map((s) => `${relative(root, join(root, doc))}: "${s}"`);
       expect(offenders).toEqual([]);

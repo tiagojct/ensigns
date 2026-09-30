@@ -1,0 +1,293 @@
+/* The local family pages. Every colour is a custom property from tokens.css:
+   the Pequod roles for the page itself, and each family's own roles inside the
+   elements that carry its data-scope and data-mode. No colour value is typed here. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--roles-bg);
+  color: var(--roles-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.page-head, main, .page-foot {
+  max-width: 94rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+.page-head { padding-block: 1.25rem 0.25rem; }
+.page-foot { padding-block: 2rem 3rem; color: var(--roles-text-muted); font-size: 0.875rem; }
+
+h1, h2, h3, h4, h5 { margin: 0; line-height: 1.25; }
+h1 { font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem); margin-block: 0.25rem 0.5rem; }
+h2 { font-size: 1.5rem; margin-block: 2.5rem 1rem; padding-top: 1.25rem; border-top: 1px solid var(--roles-border); }
+h3 { font-size: 1.2rem; margin-block: 1.75rem 0.5rem; }
+h4 { font-size: 1rem; margin-block: 1.25rem 0.5rem; }
+h5 { font-size: 0.875rem; margin-block: 0.9rem 0.4rem; }
+p { margin-block: 0 0.75rem; }
+
+a { color: var(--roles-link); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+a:hover, a.hover { color: var(--roles-link-hover); text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--roles-focus); outline-offset: 2px; }
+
+code, pre { font-family: var(--font-mono); }
+code { font-size: 0.875em; overflow-wrap: anywhere; }
+
+.aside { color: var(--roles-text-muted); font-size: 0.875rem; }
+.intro { max-width: 68ch; color: var(--roles-text-muted); }
+
+/* Header */
+
+.crumbs { font-size: 0.9375rem; }
+.tagline { max-width: 60ch; font-size: 1.125rem; color: var(--roles-text-muted); }
+.note {
+  max-width: 75ch;
+  margin-block: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--roles-border);
+  border-left: 4px solid var(--roles-accent);
+  border-radius: 6px;
+  background-color: var(--roles-surface);
+}
+.quote { max-width: 60ch; margin: 1rem 0 1.25rem; }
+.quote blockquote {
+  margin: 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 3px solid var(--roles-accent);
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+.quote blockquote p { margin: 0; }
+.quote figcaption { margin-top: 0.35rem; padding-left: 1rem; font-size: 0.875rem; color: var(--roles-text-muted); }
+.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.4rem 1.25rem;
+  max-width: 75rem;
+  margin: 0 0 1rem;
+}
+.facts dt { color: var(--roles-text-muted); }
+.facts dd { margin: 0; min-width: 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+
+@media (max-width: 40rem) {
+  .facts { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .facts dd { margin-bottom: 0.6rem; }
+}
+
+/* Tags and chips. A chip always carries a word; the icon and the colour add to it. */
+
+.tags, .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+.tags li {
+  padding: 0.05rem 0.6rem;
+  border: 1px solid var(--roles-border);
+  border-radius: 999px;
+  background-color: var(--roles-surface);
+  font-size: 0.8125rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.05rem 0.6rem;
+  border-style: solid;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+/* No specificity, so the width and colour classes of tokens.css win whatever the order. */
+:where(.chip) { border-width: 1px; border-color: currentColor; }
+.edge-solid { border-style: solid; }
+.edge-dashed { border-style: dashed; }
+.edge-dotted { border-style: dotted; }
+.edge-double { border-style: double; }
+
+.ps-pass { color: var(--status-success); }
+.ps-warn { color: var(--status-warning); }
+.ps-fail { color: var(--status-danger); }
+.ps-external, .ps-info { color: var(--status-info); }
+.ps-not-implemented, .ps-waived { color: var(--roles-text-muted); }
+
+/* The view selector and the two mode panels */
+
+.views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem 0.75rem;
+  border: 1px solid var(--roles-border);
+  border-radius: 10px;
+  background-color: var(--roles-surface);
+}
+.views legend { padding: 0 0.35rem; font-weight: 600; }
+.views label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9375rem; white-space: nowrap; cursor: pointer; }
+.views input { margin: 0; accent-color: var(--roles-accent); }
+
+.filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sim:has(input[value="protan"]:checked) .panels { filter: url(#sim-protan); }
+.sim:has(input[value="deutan"]:checked) .panels { filter: url(#sim-deutan); }
+.sim:has(input[value="tritan"]:checked) .panels { filter: url(#sim-tritan); }
+.sim:has(input[value="greyscale"]:checked) .panels { filter: url(#sim-greyscale); }
+.sim:has(input[value="eink"]:checked) .panels { filter: url(#sim-eink); }
+.sim:has(input[value="photocopy"]:checked) .panels { filter: url(#sim-photocopy); }
+.sim:has(input[value="projector-dark"]:checked) .panels { filter: url(#sim-projector-dark); }
+.sim:has(input[value="projector-lit"]:checked) .panels { filter: url(#sim-projector-lit); }
+.sim:has(input[value="sunlight"]:checked) .panels { filter: url(#sim-sunlight); }
+.sim:has(input[value="aged-eye"]:checked) .panels { filter: url(#sim-aged-eye); }
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+.mode {
+  min-width: 0;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--roles-border);
+  border-radius: 14px;
+  background-color: var(--roles-bg);
+  color: var(--roles-text);
+}
+/* Only the panel's own headings: a specimen inside it styles its headings itself. */
+.mode > h3 { margin-top: 0; font-size: 1.35rem; }
+.mode > h5 { color: var(--roles-text-muted); }
+@media (max-width: 30rem) {
+  .mode { padding: 1rem 0.8rem 1.25rem; }
+}
+.mode > h4 { margin-top: 1.4rem; padding-top: 0.9rem; border-top: 1px solid var(--roles-border); }
+[data-mode="dark"] { color-scheme: dark; }
+[data-mode="light"] { color-scheme: light; }
+
+/* Swatches and ramps */
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.75rem, 1fr));
+  gap: 0.65rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.swatches li { display: flex; align-items: flex-start; gap: 0.6rem; min-width: 0; }
+.swatch { flex: none; width: 2.5rem; height: 2.5rem; border: 1px solid var(--roles-border); border-radius: 8px; }
+.swatch-text { display: flex; flex-direction: column; min-width: 0; font-size: 0.8125rem; line-height: 1.35; }
+.swatch-text .name { font-weight: 600; overflow-wrap: anywhere; }
+.swatch-text .meta { color: var(--roles-text-muted); overflow-wrap: anywhere; }
+.swatch-text .from { color: var(--roles-text-muted); font-size: 0.75rem; overflow-wrap: anywhere; }
+
+.ramp { margin: 0 0 1rem; }
+.ramp figcaption { margin-bottom: 0.3rem; font-size: 0.8125rem; }
+.strip { display: flex; height: 2.25rem; overflow: hidden; border: 1px solid var(--roles-border); border-radius: 8px; }
+.strip > span { flex: 1 1 0; min-width: 0; }
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.8rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: var(--roles-text-muted);
+}
+.values .step { color: var(--roles-text); }
+
+/* The sample in each panel */
+
+.sample { display: grid; gap: 0.8rem; }
+.sample > p { margin: 0; }
+.sample-title { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+.muted { color: var(--roles-text-muted); }
+.subtle { color: var(--roles-text-subtle); font-size: 1.2rem; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.btn {
+  padding: 0.4rem 0.95rem;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--roles-button);
+  color: var(--roles-on-button);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.btn.focus { outline: 2px solid var(--roles-focus); outline-offset: 2px; }
+.accent-chip { padding: 0.15rem 0.6rem; border-radius: 6px; background-color: var(--roles-accent); color: var(--roles-on-accent); font-size: 0.875rem; }
+.selected { padding: 0.15rem 0.5rem; border-radius: 4px; background-color: var(--roles-selection); }
+
+.code, .term {
+  margin: 0;
+  padding: 0.75rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--roles-border);
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.code code, .term code { display: block; min-width: max-content; font-size: inherit; overflow-wrap: normal; }
+.line { display: block; padding-inline: 1rem; white-space: pre; }
+.sy-italic { font-style: italic; }
+.sy-bold { font-weight: 700; }
+.sy-underline { text-decoration: underline; }
+.sy-strikethrough { text-decoration: line-through; }
+
+.specimen { margin-top: 0.5rem; }
+
+/* Tables. Each sits in a container that scrolls sideways when the table is wider than the page. */
+
+.scroll { margin: 0 0 1.25rem; overflow-x: auto; border: 1px solid var(--roles-border); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+th, td { padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--roles-border); text-align: left; vertical-align: baseline; }
+thead th { background-color: var(--roles-surface); font-weight: 600; white-space: nowrap; }
+tbody tr:last-child > * { border-bottom: 0; }
+tbody th { font-weight: 600; min-width: 10rem; }
+/* On a narrow screen a table keeps readable columns and its container scrolls sideways. */
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.wide { min-width: 16rem; }
+td.detail { min-width: 22rem; }
+th code, td code { overflow-wrap: normal; white-space: nowrap; }
+
+.pair { display: inline-block; }
+.pair-ground { display: inline-block; padding: 4px; border: 1px solid var(--roles-border); border-radius: 8px; }
+.pair-text { display: inline-block; padding: 0.05rem 0.55rem; border-radius: 5px; font-weight: 600; }
+.badge { display: inline-block; padding: 0.05rem 0.55rem; border-width: 2px; border-style: solid; border-radius: 6px; font-size: 0.8125rem; white-space: nowrap; }
+
+details { margin: 0 0 1.25rem; }
+summary { margin-bottom: 0.5rem; color: var(--roles-link); cursor: pointer; }
+
+.profile h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+
+/* The index */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.card { display: flex; }
+.card article {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: 1.1rem 1.25rem 1.25rem;
+  border: 1px solid var(--roles-border);
+  border-radius: 14px;
+  background-color: var(--roles-surface-raised);
+}
+.card h2 { margin: 0; padding: 0; border: 0; font-size: 1.5rem; }
+.card p { margin: 0; }
+.card-meta { color: var(--roles-text-muted); font-size: 0.875rem; }
+.strips { display: grid; gap: 0.45rem; }
+.strip-row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; gap: 0.6rem; font-size: 0.8125rem; color: var(--roles-text-muted); }
+.card .strip { height: 1.75rem; }
