@@ -1,0 +1,7 @@
+# Keep GitHub's language statistics about the code, not the archives and fixtures.
+legacy/** linguist-vendored
+tests/parity/** linguist-vendored
+tests/fixtures/** linguist-vendored
+site/test/__snapshots__/** linguist-vendored
+packages/mastodon/vendor/** linguist-vendored
+docs/migration/** linguist-documentation
