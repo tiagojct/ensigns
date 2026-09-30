@@ -1,0 +1,301 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "bachelor",
+    "name": "Bachelor",
+    "version": "0.1.0",
+    "chapter": 115,
+    "chapterTitle": "The Pequod Meets The Bachelor",
+    "quote": "Signals, ensigns, and jacks of all colours were flying from her rigging, on every side.",
+    "quotes": [
+      {"chapter":115,"text":"long streamers of narrow red bunting at their hats"},
+      {"chapter":115,"text":"glad holiday apparel"},
+      {"chapter":115,"text":"nailed to her main truck was a brazen lamp"},
+      {"chapter":115,"text":"the olive-hued girls"},
+      {"chapter":115,"text":"the widely-separated ships"},
+      {"chapter":115,"text":"a full ship and homeward-bound"},
+      {"chapter":115,"text":"the barbarian sound of enormous drums"},
+      {"chapter":115,"text":"glittering fiddle-bows of whale ivory"}
+    ],
+    "tagline": "Eight flags with an ink each, for slides and signs read across a hall.",
+    "goal": "Slides, posters, signage and conference banners, read at 5 to 20 metres.",
+    "environments": ["projector","cvd","print-grey"],
+    "licence": {"tokens":"CC-BY-4.0","code":"MIT"}
+  },
+  "palette": {
+    "flag": {
+      "red": {"hex":"#B20000","note":"Deep field, white ink."},
+      "orange": {"hex":"#FFA800","note":"Bright field, dark ink."},
+      "yellow": {"hex":"#FFF000","note":"Bright field, dark ink."},
+      "green": {"hex":"#00DA77","note":"Bright field, dark ink. Told apart in print by its pattern."},
+      "cyan": {"hex":"#00E6FF","note":"Bright field, dark ink. Told apart in print by its pattern."},
+      "blue": {"hex":"#0000C9","note":"Deep field, white ink."},
+      "violet": {"hex":"#22006B","note":"Deep field, white ink."},
+      "magenta": {"hex":"#9C0097","note":"Deep field, white ink. Told apart in print by its pattern."}
+    },
+    "ink": {
+      "white": {"hex":"#FFFFFF"},
+      "orange": {"hex":"#160B01"},
+      "yellow": {"hex":"#100D01"},
+      "green": {"hex":"#021007"},
+      "cyan": {"hex":"#000F14"}
+    },
+    "light": {
+      "bg": {"hex":"#F3F0E9"},
+      "surface": {"hex":"#EBE7DE"},
+      "raised": {"hex":"#FFFFFF"},
+      "text": {"hex":"#0B111F"},
+      "muted": {"hex":"#3F4450"},
+      "subtle": {"hex":"#6B7079"},
+      "rule": {"hex":"#84817A"},
+      "grid": {"hex":"#D2CEC8"},
+      "hover": {"hex":"#0300A3"}
+    },
+    "dark": {
+      "bg": {"hex":"#080E1C"},
+      "surface": {"hex":"#151B2A"},
+      "raised": {"hex":"#1F2636"},
+      "text": {"hex":"#F7F4EC"},
+      "muted": {"hex":"#CDC8BE"},
+      "subtle": {"hex":"#A5A29A"},
+      "rule": {"hex":"#677081"},
+      "grid": {"hex":"#384050"},
+      "hover": {"hex":"#FFF9A1"}
+    },
+    "alpha": {
+      "yellow": {"ref":"{palette.flag.yellow}","alpha":0.45},
+      "blue": {"ref":"{palette.flag.blue}","alpha":0.5}
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Brazen lamp",
+      "roles": {
+        "bg": "{palette.dark.bg}",
+        "surface": "{palette.dark.surface}",
+        "surface-raised": "{palette.dark.raised}",
+        "text": "{palette.dark.text}",
+        "text-muted": "{palette.dark.muted}",
+        "text-subtle": "{palette.dark.subtle}",
+        "border": "{palette.dark.rule}",
+        "link": "{palette.flag.yellow}",
+        "link-hover": "{palette.dark.hover}",
+        "accent": "{palette.flag.yellow}",
+        "on-accent": "{palette.ink.yellow}",
+        "button": "{palette.flag.yellow}",
+        "on-button": "{palette.ink.yellow}",
+        "focus": "{palette.flag.yellow}",
+        "selection": "{palette.alpha.blue}",
+        "extra": {
+          "ink-red": "{palette.ink.white}",
+          "ink-orange": "{palette.ink.orange}",
+          "ink-yellow": "{palette.ink.yellow}",
+          "ink-green": "{palette.ink.green}",
+          "ink-cyan": "{palette.ink.cyan}",
+          "ink-blue": "{palette.ink.white}",
+          "ink-violet": "{palette.ink.white}",
+          "ink-magenta": "{palette.ink.white}"
+        }
+      },
+      "accents": {
+        "red": "{palette.flag.red}",
+        "orange": "{palette.flag.orange}",
+        "yellow": "{palette.flag.yellow}",
+        "green": "{palette.flag.green}",
+        "cyan": "{palette.flag.cyan}",
+        "blue": "{palette.flag.blue}",
+        "violet": "{palette.flag.violet}",
+        "magenta": "{palette.flag.magenta}"
+      },
+      "data": {
+        "categorical": {
+          "label": "The eight flags, most separable first",
+          "colors": {
+            "violet": "{palette.flag.violet}",
+            "yellow": "{palette.flag.yellow}",
+            "red": "{palette.flag.red}",
+            "cyan": "{palette.flag.cyan}",
+            "blue": "{palette.flag.blue}",
+            "orange": "{palette.flag.orange}",
+            "magenta": "{palette.flag.magenta}",
+            "green": "{palette.flag.green}"
+          }
+        },
+        "plot": {
+          "bg": "{palette.dark.bg}",
+          "panel": "{palette.dark.surface}",
+          "grid": "{palette.dark.grid}",
+          "text": "{palette.dark.text}",
+          "muted": "{palette.dark.muted}",
+          "outline": "{palette.dark.text}",
+          "accent": "{palette.flag.yellow}"
+        }
+      }
+    },
+    "light": {
+      "label": "Holiday apparel",
+      "roles": {
+        "bg": "{palette.light.bg}",
+        "surface": "{palette.light.surface}",
+        "surface-raised": "{palette.light.raised}",
+        "text": "{palette.light.text}",
+        "text-muted": "{palette.light.muted}",
+        "text-subtle": "{palette.light.subtle}",
+        "border": "{palette.light.rule}",
+        "link": "{palette.flag.blue}",
+        "link-hover": "{palette.light.hover}",
+        "accent": "{palette.flag.blue}",
+        "on-accent": "{palette.ink.white}",
+        "button": "{palette.flag.blue}",
+        "on-button": "{palette.ink.white}",
+        "focus": "{palette.flag.blue}",
+        "selection": "{palette.alpha.yellow}",
+        "extra": {
+          "ink-red": "{palette.ink.white}",
+          "ink-orange": "{palette.ink.orange}",
+          "ink-yellow": "{palette.ink.yellow}",
+          "ink-green": "{palette.ink.green}",
+          "ink-cyan": "{palette.ink.cyan}",
+          "ink-blue": "{palette.ink.white}",
+          "ink-violet": "{palette.ink.white}",
+          "ink-magenta": "{palette.ink.white}"
+        }
+      },
+      "accents": {
+        "red": "{palette.flag.red}",
+        "orange": "{palette.flag.orange}",
+        "yellow": "{palette.flag.yellow}",
+        "green": "{palette.flag.green}",
+        "cyan": "{palette.flag.cyan}",
+        "blue": "{palette.flag.blue}",
+        "violet": "{palette.flag.violet}",
+        "magenta": "{palette.flag.magenta}"
+      },
+      "data": {
+        "categorical": {
+          "label": "The eight flags, most separable first",
+          "colors": {
+            "violet": "{palette.flag.violet}",
+            "yellow": "{palette.flag.yellow}",
+            "red": "{palette.flag.red}",
+            "cyan": "{palette.flag.cyan}",
+            "blue": "{palette.flag.blue}",
+            "orange": "{palette.flag.orange}",
+            "magenta": "{palette.flag.magenta}",
+            "green": "{palette.flag.green}"
+          }
+        },
+        "plot": {
+          "bg": "{palette.light.bg}",
+          "panel": "{palette.light.raised}",
+          "grid": "{palette.light.grid}",
+          "text": "{palette.light.text}",
+          "muted": "{palette.light.muted}",
+          "outline": "{palette.light.text}",
+          "accent": "{palette.flag.blue}"
+        }
+      }
+    }
+  },
+  "typography": {
+    "sans": "Overpass",
+    "display": "Overpass"
+  },
+  "design": {
+    "viewing": {"distance-near-m":5,"distance-far-m":20,"cap-height-arcmin":20,"cap-height-floor-arcmin":16,"screen-heights-to-farthest-viewer":6},
+    "slide": {"ratio":"16 / 9","width-pt":960,"height-pt":540},
+    "poster-header": {"ratio":"3 / 4","width-mm":841},
+    "type": {
+      "cap-height-em": 0.7,
+      "large-ratio": 1.5,
+      "display-ratio": 2,
+      "size": {"caption":22,"body":28,"title":42,"display":84},
+      "weight": {"body":500,"strong":700,"title":800,"display":900},
+      "leading": {"body":1.3,"title":1.05}
+    },
+    "signage": {"body-mm-per-metre":8.3,"title-mm-per-metre":12.5},
+    "chart": {"mark-outline-pt":3,"row-gap-pt":10},
+    "pattern": {
+      "red": {"name":"bands","angle":0},
+      "orange": {"name":"diagonal","angle":45},
+      "yellow": {"name":"border","angle":0},
+      "green": {"name":"cross","angle":0},
+      "cyan": {"name":"checks","angle":0},
+      "blue": {"name":"saltire","angle":45},
+      "violet": {"name":"dots","angle":0},
+      "magenta": {"name":"quarters","angle":0}
+    }
+  },
+  "pairs": [
+    {"fg":"roles.text","bg":"roles.bg","kind":"text","why":"body text on the slide ground"},
+    {"fg":"roles.text-muted","bg":"roles.bg","kind":"text","why":"captions and notes on the ground"},
+    {"fg":"roles.text-subtle","bg":"roles.bg","kind":"large","why":"quiet labels, set at title size only"},
+    {"fg":"roles.text","bg":"roles.surface","kind":"text","why":"body text on a panel"},
+    {"fg":"roles.text-muted","bg":"roles.surface","kind":"text","why":"captions on a panel"},
+    {"fg":"roles.text","bg":"roles.surface-raised","kind":"text","why":"text on a raised card or a chart panel"},
+    {"fg":"roles.text-muted","bg":"roles.surface-raised","kind":"text","why":"axis labels and notes on a chart panel"},
+    {"fg":"roles.link","bg":"roles.bg","kind":"text","why":"a web address on the ground"},
+    {"fg":"roles.link-hover","bg":"roles.bg","kind":"text","why":"a web address under the pointer"},
+    {"fg":"roles.on-accent","bg":"roles.accent","kind":"text","why":"text on the accent"},
+    {"fg":"roles.on-button","bg":"roles.button","kind":"text","why":"text on a button"},
+    {"fg":"roles.accent","bg":"roles.bg","kind":"component","why":"a rule or a marker in the accent"},
+    {"fg":"roles.border","bg":"roles.bg","kind":"component","why":"rules and chart axes"},
+    {"fg":"roles.focus","bg":"roles.bg","kind":"component","why":"the focus ring"},
+    {"fg":"extra.ink-red","bg":"accents.red","kind":"text","why":"body text on the red field; titles use the same ink"},
+    {"fg":"extra.ink-orange","bg":"accents.orange","kind":"text","why":"body text on the orange field; titles use the same ink"},
+    {"fg":"extra.ink-yellow","bg":"accents.yellow","kind":"text","why":"body text on the yellow field; titles use the same ink"},
+    {"fg":"extra.ink-green","bg":"accents.green","kind":"text","why":"body text on the green field; titles use the same ink"},
+    {"fg":"extra.ink-cyan","bg":"accents.cyan","kind":"text","why":"body text on the cyan field; titles use the same ink"},
+    {"fg":"extra.ink-blue","bg":"accents.blue","kind":"text","why":"body text on the blue field; titles use the same ink"},
+    {"fg":"extra.ink-violet","bg":"accents.violet","kind":"text","why":"body text on the violet field; titles use the same ink"},
+    {"fg":"extra.ink-magenta","bg":"accents.magenta","kind":"text","why":"body text on the magenta field; titles use the same ink"}
+  ],
+  "rules": [
+    {
+      "id": "two-bands",
+      "text": "A field that carries body text sits in one of two luminance bands: deep, with white ink, or bright, with a dark ink. Nothing between them carries body text in a lit room, so no flag is placed there.",
+      "check": ["lightness-gap:accents.red,accents.orange,35","lightness-gap:accents.magenta,accents.green,35"]
+    },
+    {
+      "id": "own-ink",
+      "text": "Each field carries its own ink, extra.ink-<flag>: white on the four deep fields, a dark tint of the field's hue on the four bright ones. Text on a field is set in that ink and in no other."
+    },
+    {
+      "id": "one-accent",
+      "text": "The accent is one flag in each mode, blue in Holiday apparel and yellow in Brazen lamp. Link, button and focus take it, and no other core or extra role does.",
+      "check": "accent-only-in-roles:link,button,focus"
+    },
+    {
+      "id": "pattern-in-print",
+      "text": "Every flag has a pattern token. In print in grey the three flags that lightness cannot tell from another (green, cyan and magenta) are told apart by their pattern, and the other five by lightness."
+    },
+    {
+      "id": "marks-outlined",
+      "text": "A chart mark is a flag with an outline in the text colour. No flag keeps 3:1 against both grounds, so the outline carries the mark against whichever ground it is on."
+    },
+    {
+      "id": "heavy-type",
+      "text": "Text on a field is set at weight 500 or more, titles at 800 or 900. A thin stroke blurs away at a distance sooner than a thick one."
+    }
+  ],
+  "distinct": [
+    {
+      "id": "fields",
+      "set": "accents",
+      "min": 0.1,
+      "for": ["projector"],
+      "note": "The eight flags, told apart by colour alone: under normal vision, under each colour vision simulation and after the flare of a dark room and of a lit room. No pair is reinforced or patterned."
+    },
+    {
+      "id": "fields-print",
+      "set": "accents",
+      "for": ["print-grey"],
+      "patterned": ["green","cyan","magenta"],
+      "by": "the flag's pattern token (design.pattern): a cross on green, checks on cyan, quarters on magenta",
+      "note": "The same eight flags for print in grey. Five stand on their own lightness, 12 L* or more from each other. The other three sit at the lightness of one of the five, so each carries a pattern of its own. Colour vision results repeat those of fields."
+    }
+  ],
+  "targets": {
+    "exclude": ["vscode","zed","neovim","terminals"]
+  }
+}

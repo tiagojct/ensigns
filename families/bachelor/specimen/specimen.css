@@ -1,0 +1,123 @@
+/* Bachelor specimen: a title slide, a section slide on each field, a chart slide and a poster header.
+   Each frame is drawn twice, as designed and with the flare of a lit room added by the page's own filter
+   (sim-projector-lit). Every colour is a custom property from tokens.css. Every size comes from the
+   design block: type in points on a slide 960 points wide, sign lettering in millimetres per metre of
+   viewing distance on a poster 841 millimetres wide. A frame is a size container, so its content
+   scales with its width. */
+
+.specimen-bachelor { font-family: var(--font-sans); font-weight: var(--design-type-weight-body); }
+
+.sp-root { display: grid; gap: 1.75rem; }
+.sp-h { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-weight: var(--design-type-weight-title); line-height: 1.15; }
+.specimen-bachelor .prose { margin: 0; max-width: 62ch; color: var(--roles-text-muted); }
+.sp-nowrap { white-space: nowrap; }
+.sp-block { display: grid; gap: 0.6rem; }
+.sp-block > h6 { margin: 0; font-family: var(--font-display); font-size: 1.05rem; font-weight: var(--design-type-weight-strong); line-height: 1.2; }
+.sp-sections { display: grid; gap: 1.1rem; }
+
+.sp-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 0.75rem; align-items: start; }
+.sp-pair-tall { grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); max-width: 30rem; }
+.sp-figure { margin: 0; min-width: 0; }
+.sp-figure figcaption { margin-top: 0.3rem; font-size: 0.8125rem; line-height: 1.35; color: var(--roles-text-muted); }
+
+/* The flags: each sets the field, the ink and the chart colour that the rules below read. */
+.sp-flag-red { --sp-field: var(--accents-red); --sp-ink: var(--extra-ink-red); --sp-mark: var(--data-categorical-red); }
+.sp-flag-orange { --sp-field: var(--accents-orange); --sp-ink: var(--extra-ink-orange); --sp-mark: var(--data-categorical-orange); }
+.sp-flag-yellow { --sp-field: var(--accents-yellow); --sp-ink: var(--extra-ink-yellow); --sp-mark: var(--data-categorical-yellow); }
+.sp-flag-green { --sp-field: var(--accents-green); --sp-ink: var(--extra-ink-green); --sp-mark: var(--data-categorical-green); }
+.sp-flag-cyan { --sp-field: var(--accents-cyan); --sp-ink: var(--extra-ink-cyan); --sp-mark: var(--data-categorical-cyan); }
+.sp-flag-blue { --sp-field: var(--accents-blue); --sp-ink: var(--extra-ink-blue); --sp-mark: var(--data-categorical-blue); }
+.sp-flag-violet { --sp-field: var(--accents-violet); --sp-ink: var(--extra-ink-violet); --sp-mark: var(--data-categorical-violet); }
+.sp-flag-magenta { --sp-field: var(--accents-magenta); --sp-ink: var(--extra-ink-magenta); --sp-mark: var(--data-categorical-magenta); }
+.sp-field { background-color: var(--sp-field); color: var(--sp-ink); }
+
+/* A frame: a slide, or the tall crop of a poster. The washed copy gets the page's flare filter. */
+.sp-frame {
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--design-slide-ratio);
+  border: 1px solid var(--roles-border);
+  border-radius: 6px;
+  background-color: var(--roles-bg);
+  color: var(--roles-text);
+}
+.sp-frame-tall { aspect-ratio: var(--design-poster-header-ratio); }
+.sp-washed .sp-frame { filter: url(#sim-projector-lit); }
+
+/* The canvas fills the frame. --sp-u is one point of slide, or one millimetre of poster. */
+.sp-canvas {
+  --sp-u: calc(100cqw / var(--design-slide-width-pt));
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  display: grid;
+  align-content: start;
+  padding: calc(36 * var(--sp-u)) calc(48 * var(--sp-u));
+  row-gap: calc(12 * var(--sp-u));
+  line-height: var(--design-type-leading-body);
+}
+.sp-canvas p { margin: 0; }
+.sp-display { font-family: var(--font-display); font-weight: var(--design-type-weight-display); font-size: calc(var(--design-type-size-display) * var(--sp-u)); line-height: var(--design-type-leading-title); }
+.sp-title { font-family: var(--font-display); font-weight: var(--design-type-weight-title); font-size: calc(var(--design-type-size-title) * var(--sp-u)); line-height: var(--design-type-leading-title); }
+.sp-body { font-weight: var(--design-type-weight-body); font-size: calc(var(--design-type-size-body) * var(--sp-u)); }
+.sp-caption { font-weight: var(--design-type-weight-body); font-size: calc(var(--design-type-size-caption) * var(--sp-u)); }
+.sp-kicker { font-weight: var(--design-type-weight-strong); letter-spacing: 0.08em; text-transform: uppercase; }
+.sp-muted { color: var(--roles-text-muted); }
+
+/* Bunting: a string of pennants, one in each flag. */
+.sp-bunting { display: block; width: 100%; height: auto; }
+.sp-string { fill: none; stroke: var(--roles-text); stroke-width: 3; }
+.sp-pennant { fill: var(--sp-field); stroke: var(--roles-text); stroke-width: 3; stroke-linejoin: round; }
+
+/* The title slide sits on the ground, with the bunting along its top edge. */
+.sp-opening { padding: 0; grid-template-rows: auto minmax(0, 1fr) auto; row-gap: 0; }
+.sp-opening .sp-text { display: grid; align-self: center; gap: calc(14 * var(--sp-u)); padding: 0 calc(48 * var(--sp-u)); }
+.sp-opening .sp-foot { padding: 0 calc(48 * var(--sp-u)) calc(30 * var(--sp-u)); }
+
+/* A section slide is one field, with its ink, and a canton that carries the flag's pattern. */
+.sp-section { align-content: end; row-gap: calc(14 * var(--sp-u)); padding-bottom: calc(44 * var(--sp-u)); }
+.sp-canton { position: absolute; top: 0; left: 0; display: block; width: calc(150 * var(--sp-u)); height: calc(150 * var(--sp-u)); border-right: calc(3 * var(--sp-u)) solid var(--sp-ink); border-bottom: calc(3 * var(--sp-u)) solid var(--sp-ink); }
+.sp-pat-field { fill: var(--sp-field); }
+.sp-pat-ink { fill: var(--sp-ink); }
+.sp-pat-line { fill: none; stroke: var(--sp-ink); }
+
+/* The chart slide: eight bars on a raised panel, each with an outline in the text colour. */
+.sp-chart { grid-template-rows: auto auto minmax(0, 1fr); row-gap: calc(10 * var(--sp-u)); }
+.sp-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  padding: calc(14 * var(--sp-u)) calc(24 * var(--sp-u)) calc(8 * var(--sp-u));
+  border: calc(2 * var(--sp-u)) solid var(--roles-border);
+  border-radius: calc(8 * var(--sp-u));
+  background-color: var(--data-plot-panel);
+  color: var(--data-plot-text);
+}
+.sp-bars { --sp-max: 20; display: grid; grid-template-rows: repeat(8, minmax(0, 1fr)); row-gap: calc(7 * var(--sp-u)); min-height: 0; margin: 0; padding: 0; list-style: none; }
+.sp-bar-row, .sp-axis { display: grid; grid-template-columns: calc(132 * var(--sp-u)) minmax(0, 1fr) calc(48 * var(--sp-u)); column-gap: calc(12 * var(--sp-u)); align-items: center; min-height: 0; }
+.sp-label { font-size: calc(var(--design-type-size-caption) * var(--sp-u)); font-weight: var(--design-type-weight-strong); text-align: right; line-height: 1; }
+.sp-value { font-size: calc(var(--design-type-size-caption) * var(--sp-u)); font-weight: var(--design-type-weight-strong); line-height: 1; }
+.sp-track { align-self: stretch; border-right: calc(2 * var(--sp-u)) solid var(--data-plot-grid); background-image: repeating-linear-gradient(90deg, var(--data-plot-grid) 0 calc(2 * var(--sp-u)), var(--data-plot-panel) calc(2 * var(--sp-u)) 25%); }
+.sp-bar { display: block; box-sizing: border-box; width: calc(var(--sp-v) / var(--sp-max) * 100%); height: 100%; border: calc(var(--design-chart-mark-outline-pt) * var(--sp-u)) solid var(--data-plot-outline); background-color: var(--sp-mark); }
+.sp-axis { padding-top: calc(6 * var(--sp-u)); color: var(--data-plot-muted); font-size: calc(var(--design-type-size-caption) * var(--sp-u)); line-height: 1; }
+.sp-axis .sp-ticks { display: flex; justify-content: space-between; }
+.sp-v7 { --sp-v: 7; }
+.sp-v9 { --sp-v: 9; }
+.sp-v10 { --sp-v: 10; }
+.sp-v11 { --sp-v: 11; }
+.sp-v12 { --sp-v: 12; }
+.sp-v14 { --sp-v: 14; }
+.sp-v16 { --sp-v: 16; }
+.sp-v17 { --sp-v: 17; }
+
+/* The poster header: a blue field above the ground, sized in millimetres for a viewer five metres away. */
+.sp-canvas.sp-poster { --sp-u: calc(100cqw / var(--design-poster-header-width-mm)); padding: 0; grid-template-rows: minmax(0, 1fr) auto auto; row-gap: 0; }
+.sp-poster-field { display: grid; align-content: start; gap: calc(28 * var(--sp-u)); padding: calc(56 * var(--sp-u)) calc(44 * var(--sp-u)) calc(36 * var(--sp-u)); }
+.sp-poster-title { font-family: var(--font-display); font-weight: var(--design-type-weight-display); font-size: calc(var(--design-signage-title-mm-per-metre) * var(--design-viewing-distance-near-m) * var(--sp-u)); line-height: var(--design-type-leading-title); }
+.sp-poster-body { font-weight: var(--design-type-weight-body); font-size: calc(var(--design-signage-body-mm-per-metre) * var(--design-viewing-distance-near-m) * var(--sp-u)); }
+.sp-poster-caption { font-weight: var(--design-type-weight-body); font-size: calc(var(--design-signage-body-mm-per-metre) * var(--design-viewing-distance-near-m) * var(--design-viewing-cap-height-floor-arcmin) / var(--design-viewing-cap-height-arcmin) * var(--sp-u)); }
+.sp-key { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(26 * var(--sp-u)) calc(30 * var(--sp-u)); margin: 0; padding: calc(36 * var(--sp-u)) calc(44 * var(--sp-u)) calc(40 * var(--sp-u)); list-style: none; }
+.sp-key li { display: grid; gap: calc(10 * var(--sp-u)); }
+.sp-swatch { display: block; width: 100%; height: auto; aspect-ratio: 1; border: calc(3 * var(--sp-u)) solid var(--roles-text); }
+.sp-key .sp-poster-caption { font-weight: var(--design-type-weight-strong); line-height: 1; }
