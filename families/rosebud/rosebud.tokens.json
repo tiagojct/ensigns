@@ -1,0 +1,427 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "rosebud",
+    "name": "Rosebud",
+    "formerly": {
+      "id": "ambergris",
+      "name": "Ambergris",
+      "version": "0.3.0"
+    },
+    "version": "0.3.0",
+    "chapter": [91,92],
+    "chapterTitle": "The Pequod Meets the Rose-Bud; Ambergris",
+    "quote": "the romantic name of this aromatic ship",
+    "tagline": "Near-monochrome, one teal for interaction, a hue sweep for data.",
+    "goal": "Quiet application chrome for tools used for hours: dashboards, admin tools, editors' chrome, Loomings' interface.",
+    "environments": ["office-screen","cvd","forced-colors"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "palette": {
+    "grey": {
+      "100": "#EAEDEF",
+      "200": "#DCDFE3",
+      "300": "#C8CBD0",
+      "400": "#AEB2B7",
+      "500": "#8D9298",
+      "600": "#72777D",
+      "700": "#5C6168",
+      "800": "#42484E",
+      "900": "#2B3037",
+      "950": "#1A1F26",
+      "1000": "#0C1117",
+      "000": "#FAFBFD",
+      "050": "#F3F5F7"
+    },
+    "accent": {
+      "100": "#D1EFEC",
+      "200": "#AEE0DC",
+      "300": "#86CDC8",
+      "400": "#5BB6B1",
+      "500": "#2F9F99",
+      "600": "#1E807B",
+      "700": "#1B6864",
+      "800": "#164F4C",
+      "900": "#0E3937",
+      "050": "#E7F8F6"
+    },
+    "alpha-ink": {
+      "10": {"ref":"{palette.grey.1000}","alpha":0.1},
+      "16": {"ref":"{palette.grey.1000}","alpha":0.16},
+      "28": {"ref":"{palette.grey.1000}","alpha":0.28},
+      "56": {"ref":"{palette.grey.1000}","alpha":0.56},
+      "72": {"ref":"{palette.grey.1000}","alpha":0.72},
+      "03": {"ref":"{palette.grey.1000}","alpha":0.03},
+      "06": {"ref":"{palette.grey.1000}","alpha":0.06}
+    },
+    "alpha-paper": {
+      "12": {"ref":"{palette.grey.000}","alpha":0.12},
+      "20": {"ref":"{palette.grey.000}","alpha":0.2},
+      "36": {"ref":"{palette.grey.000}","alpha":0.36},
+      "64": {"ref":"{palette.grey.000}","alpha":0.64},
+      "04": {"ref":"{palette.grey.000}","alpha":0.04},
+      "08": {"ref":"{palette.grey.000}","alpha":0.08}
+    },
+    "alpha-accent": {
+      "14": {"ref":"{palette.accent.500}","alpha":0.14},
+      "24": {"ref":"{palette.accent.500}","alpha":0.24},
+      "08": {"ref":"{palette.accent.500}","alpha":0.08}
+    },
+    "sweep-dark": {
+      "1": "#13998D",
+      "2": "#2BA6C6",
+      "3": "#6FAEF3",
+      "4": "#A0BAFE",
+      "5": "#C3CCFE"
+    },
+    "sweep-light": {
+      "1": "#2EA094",
+      "2": "#0587A4",
+      "3": "#236AAF",
+      "4": "#304BB0",
+      "5": "#3428AA"
+    },
+    "sweep-supplied": {
+      "1": {
+        "hex": "#26998E",
+        "note": "Design input for the hue sweep. The light and dark variants derive from it."
+      },
+      "2": {
+        "hex": "#26859E",
+        "note": "Design input for the hue sweep. The light and dark variants derive from it."
+      },
+      "3": {
+        "hex": "#2664A3",
+        "note": "Design input for the hue sweep. The light and dark variants derive from it."
+      },
+      "4": {
+        "hex": "#263FA9",
+        "note": "Design input for the hue sweep. The light and dark variants derive from it."
+      },
+      "5": {
+        "hex": "#3426AE",
+        "note": "Design input for the hue sweep. The light and dark variants derive from it."
+      }
+    },
+    "ansi-dark": {
+      "red": "#CF7F79",
+      "green": "#7BB587",
+      "yellow": "#D4BC79",
+      "blue": "#72A5DE",
+      "magenta": "#B893D4",
+      "bright-red": "#E7958E",
+      "bright-green": "#91CB9C",
+      "bright-yellow": "#E8CF8C",
+      "bright-blue": "#88BCF6",
+      "bright-magenta": "#CEA9EB"
+    },
+    "terminal-dark": {
+      "selection-bg": "#143336"
+    },
+    "terminal-light": {
+      "selection-bg": "#C9E5E5"
+    }
+  },
+  "modes": {
+    "dark": {
+      "roles": {
+        "bg": "{palette.grey.950}",
+        "surface": "{palette.grey.1000}",
+        "text": "{palette.grey.100}",
+        "text-muted": "{palette.grey.400}",
+        "text-subtle": "{palette.grey.500}",
+        "border": "{palette.grey.800}",
+        "link": "{palette.accent.400}",
+        "link-hover": "{palette.accent.300}",
+        "accent": "{palette.accent.500}",
+        "on-accent": "{palette.grey.950}",
+        "button": "{palette.grey.100}",
+        "on-button": "{palette.grey.1000}",
+        "focus": "{palette.grey.000}",
+        "selection": "{palette.accent.900}",
+        "surface-raised": "{palette.grey.900}",
+        "extra": {
+          "ground": "{palette.grey.1000}",
+          "surface-hover": "{palette.alpha-paper.04}",
+          "surface-active": "{palette.alpha-paper.08}",
+          "surface-inverse": "{palette.grey.000}",
+          "text-disabled": "{palette.grey.700}",
+          "text-inverse": "{palette.grey.1000}",
+          "rule-faint": "{palette.grey.900}",
+          "border-control": "{palette.grey.600}",
+          "border-strong": "{palette.grey.300}",
+          "fill-solid-hover": "{palette.grey.000}",
+          "fill-muted": "{palette.grey.900}",
+          "fill-muted-hover": "{palette.grey.800}",
+          "accent-surface-hover": "{palette.accent.800}",
+          "accent-on-surface": "{palette.accent.300}",
+          "selection-fill": "{palette.alpha-accent.24}",
+          "selection-text": "{palette.grey.000}",
+          "scrim": "{palette.alpha-ink.72}",
+          "focus-halo": "{palette.grey.1000}"
+        }
+      },
+      "accents": {"teal":"{palette.accent.500}"},
+      "syntax": {
+        "keyword": {"color":"{palette.grey.200}","style":"bold"},
+        "string": {"color":"{palette.grey.300}","style":"italic"},
+        "number": "{palette.grey.200}",
+        "comment": {"color":"{palette.grey.500}","style":"italic"},
+        "function": "{palette.grey.000}",
+        "type": "{palette.grey.200}",
+        "constant": "{palette.grey.200}",
+        "variable": "{palette.grey.100}",
+        "operator": "{palette.grey.400}",
+        "punctuation": "{palette.grey.500}",
+        "decorator": "{palette.grey.300}",
+        "parameter": "{palette.grey.100}"
+      },
+      "ansi": {
+        "black": "{palette.grey.950}",
+        "red": "{palette.ansi-dark.red}",
+        "green": "{palette.ansi-dark.green}",
+        "yellow": "{palette.ansi-dark.yellow}",
+        "blue": "{palette.ansi-dark.blue}",
+        "magenta": "{palette.ansi-dark.magenta}",
+        "cyan": "{palette.accent.400}",
+        "white": "{palette.grey.300}",
+        "bright-black": "{palette.grey.700}",
+        "bright-red": "{palette.ansi-dark.bright-red}",
+        "bright-green": "{palette.ansi-dark.bright-green}",
+        "bright-yellow": "{palette.ansi-dark.bright-yellow}",
+        "bright-blue": "{palette.ansi-dark.bright-blue}",
+        "bright-magenta": "{palette.ansi-dark.bright-magenta}",
+        "bright-cyan": "{palette.accent.300}",
+        "bright-white": "{palette.grey.000}"
+      },
+      "terminal": {
+        "background": "{palette.grey.1000}",
+        "foreground": "{palette.grey.100}",
+        "cursor": "{palette.grey.000}",
+        "cursor-text": "{palette.grey.1000}",
+        "selection-background": "{palette.terminal-dark.selection-bg}",
+        "selection-foreground": "{palette.grey.000}"
+      },
+      "status": {
+        "policy": "achromatic",
+        "neutral": {
+          "weight": "{design.border.width.hair}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.03}",
+          "accent": "{palette.grey.500}",
+          "icon": "dot"
+        },
+        "success": {
+          "weight": "{design.border.width.thin}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.03}",
+          "accent": "{palette.grey.700}",
+          "icon": "check"
+        },
+        "warning": {
+          "weight": "{design.border.width.thin}",
+          "edge": "dashed",
+          "fill": "{palette.alpha-ink.06}",
+          "accent": "{palette.grey.800}",
+          "icon": "triangle"
+        },
+        "critical": {
+          "weight": "{design.border.width.thick}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.10}",
+          "accent": "{palette.grey.1000}",
+          "icon": "octagon"
+        }
+      },
+      "data": {
+        "sequential": {
+          "sweep": {
+            "label": "Five-step hue sweep, sequential only; pick the variant that matches the chart background",
+            "colors": [
+              "{palette.sweep-dark.1}",
+              "{palette.sweep-dark.2}",
+              "{palette.sweep-dark.3}",
+              "{palette.sweep-dark.4}",
+              "{palette.sweep-dark.5}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.grey.950}",
+          "grid": "{palette.grey.900}",
+          "text": "{palette.grey.100}",
+          "muted": "{palette.grey.400}"
+        }
+      }
+    },
+    "light": {
+      "roles": {
+        "bg": "{palette.grey.000}",
+        "surface": "{palette.grey.100}",
+        "text": "{palette.grey.950}",
+        "text-muted": "{palette.grey.700}",
+        "text-subtle": "{palette.grey.600}",
+        "border": "{palette.grey.300}",
+        "link": "{palette.accent.600}",
+        "link-hover": "{palette.accent.700}",
+        "accent": "{palette.accent.500}",
+        "on-accent": "{palette.grey.950}",
+        "button": "{palette.grey.1000}",
+        "on-button": "{palette.grey.000}",
+        "focus": "{palette.grey.1000}",
+        "selection": "{palette.accent.050}",
+        "surface-raised": "{palette.grey.000}",
+        "extra": {
+          "ground": "{palette.grey.050}",
+          "surface-hover": "{palette.alpha-ink.03}",
+          "surface-active": "{palette.alpha-ink.06}",
+          "surface-inverse": "{palette.grey.1000}",
+          "text-disabled": "{palette.grey.400}",
+          "text-inverse": "{palette.grey.000}",
+          "rule-faint": "{palette.grey.200}",
+          "border-control": "{palette.grey.500}",
+          "border-strong": "{palette.grey.800}",
+          "fill-solid-hover": "{palette.grey.900}",
+          "fill-muted": "{palette.grey.100}",
+          "fill-muted-hover": "{palette.grey.200}",
+          "accent-surface-hover": "{palette.accent.100}",
+          "accent-on-surface": "{palette.accent.700}",
+          "selection-fill": "{palette.alpha-accent.24}",
+          "selection-text": "{palette.grey.950}",
+          "scrim": "{palette.alpha-ink.56}",
+          "focus-halo": "{palette.grey.000}"
+        }
+      },
+      "accents": {"teal":"{palette.accent.500}"},
+      "syntax": {
+        "keyword": {"color":"{palette.grey.950}","style":"bold"},
+        "string": {"color":"{palette.grey.900}","style":"italic"},
+        "number": "{palette.grey.950}",
+        "comment": {"color":"{palette.grey.700}","style":"italic"},
+        "function": "{palette.grey.1000}",
+        "type": "{palette.grey.950}",
+        "constant": "{palette.grey.950}",
+        "variable": "{palette.grey.950}",
+        "operator": "{palette.grey.800}",
+        "punctuation": "{palette.grey.700}",
+        "decorator": "{palette.grey.900}",
+        "parameter": "{palette.grey.950}"
+      },
+      "ansi": {
+        "black": "{palette.grey.950}",
+        "red": "{palette.ansi-dark.red}",
+        "green": "{palette.ansi-dark.green}",
+        "yellow": "{palette.ansi-dark.yellow}",
+        "blue": "{palette.ansi-dark.blue}",
+        "magenta": "{palette.ansi-dark.magenta}",
+        "cyan": "{palette.accent.400}",
+        "white": "{palette.grey.300}",
+        "bright-black": "{palette.grey.700}",
+        "bright-red": "{palette.ansi-dark.bright-red}",
+        "bright-green": "{palette.ansi-dark.bright-green}",
+        "bright-yellow": "{palette.ansi-dark.bright-yellow}",
+        "bright-blue": "{palette.ansi-dark.bright-blue}",
+        "bright-magenta": "{palette.ansi-dark.bright-magenta}",
+        "bright-cyan": "{palette.accent.300}",
+        "bright-white": "{palette.grey.000}"
+      },
+      "terminal": {
+        "background": "{palette.grey.000}",
+        "foreground": "{palette.grey.950}",
+        "cursor": "{palette.grey.1000}",
+        "cursor-text": "{palette.grey.000}",
+        "selection-background": "{palette.terminal-light.selection-bg}",
+        "selection-foreground": "{palette.grey.950}"
+      },
+      "status": {
+        "policy": "achromatic",
+        "neutral": {
+          "weight": "{design.border.width.hair}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.03}",
+          "accent": "{palette.grey.500}",
+          "icon": "dot"
+        },
+        "success": {
+          "weight": "{design.border.width.thin}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.03}",
+          "accent": "{palette.grey.700}",
+          "icon": "check"
+        },
+        "warning": {
+          "weight": "{design.border.width.thin}",
+          "edge": "dashed",
+          "fill": "{palette.alpha-ink.06}",
+          "accent": "{palette.grey.800}",
+          "icon": "triangle"
+        },
+        "critical": {
+          "weight": "{design.border.width.thick}",
+          "edge": "solid",
+          "fill": "{palette.alpha-ink.10}",
+          "accent": "{palette.grey.1000}",
+          "icon": "octagon"
+        }
+      },
+      "data": {
+        "sequential": {
+          "sweep": {
+            "label": "Five-step hue sweep, sequential only; pick the variant that matches the chart background",
+            "colors": [
+              "{palette.sweep-light.1}",
+              "{palette.sweep-light.2}",
+              "{palette.sweep-light.3}",
+              "{palette.sweep-light.4}",
+              "{palette.sweep-light.5}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.grey.000}",
+          "grid": "{palette.grey.200}",
+          "text": "{palette.grey.950}",
+          "muted": "{palette.grey.700}"
+        }
+      }
+    }
+  },
+  "design": {
+    "border": {
+      "width": {"hair":"1px","thin":"1.5px","thick":"3px"},
+      "radius": {"none":"0","sm":"3px","md":"6px","lg":"10px","full":"999px"}
+    },
+    "focus": {
+      "width": "2px",
+      "offset": "2px"
+    },
+    "shadow": {
+      "0": "none",
+      "1": "0 1px 2px {palette.alpha-ink.06}",
+      "2": "0 1px 2px {palette.alpha-ink.06}, 0 4px 8px -2px {palette.alpha-ink.06}",
+      "3": "0 2px 4px {palette.alpha-ink.06}, 0 12px 24px -6px {palette.alpha-ink.10}",
+      "inset": "inset 0 1px 0 {palette.alpha-paper.64}"
+    }
+  },
+  "rules": [
+    {
+      "id": "accent-marks-interaction",
+      "text": "Accent marks interaction only: links, current item, selection, accent rules. Never severity, never decoration."
+    },
+    {
+      "id": "status-achromatic",
+      "text": "Status is achromatic. Severity is carried by border weight, edge style and fill density, plus an icon and explicit copy."
+    },
+    {
+      "id": "data-and-chrome-apart",
+      "text": "The data sweep never appears in interface chrome, and the interface accent never appears in a chart."
+    },
+    {
+      "id": "functional-hues-in-content",
+      "text": "Functional hues exist for terminal and editor content only: ANSI slots, diffs, diagnostics. Never interface chrome."
+    }
+  ]
+}

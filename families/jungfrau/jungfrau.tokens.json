@@ -1,0 +1,446 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "jungfrau",
+    "name": "Jungfrau",
+    "formerly": {
+      "id": "try-works",
+      "name": "Try-Works",
+      "version": "1.0.0"
+    },
+    "version": "1.0.0",
+    "chapter": 81,
+    "chapterTitle": "The Pequod Meets the Virgin",
+    "quote": "a clean one (that is, an empty one)",
+    "quotes": [
+      {"chapter":96,"text":"Look not too long in the face of the fire"}
+    ],
+    "tagline": "A cold sea is the field; the fire is the one hot mark.",
+    "goal": "Reading, writing and code in a dark room at night.",
+    "environments": ["night","editor","cvd"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "palette": {
+    "ground": {
+      "pitch": "#12161B",
+      "hold": "#1B2127",
+      "deck": "#232B32",
+      "iron": "#11151A"
+    },
+    "sea": {
+      "trough": "#14242C",
+      "swell": "#2C4953",
+      "spray": "#4D7680",
+      "foam": "#8FB6BD"
+    },
+    "fire": {
+      "ember": "#C9651D",
+      "flame": "#E0832A",
+      "oil": "#9A4A16"
+    },
+    "whale": {
+      "whale": "#F1EFE9",
+      "bone": "#DEE7E4",
+      "gull": "#97A0A4"
+    },
+    "extended": {
+      "kelp": "#86A87F",
+      "brick": "#D06A52",
+      "dusk": "#A487BA",
+      "tide": "#5F93B0",
+      "shoal": "#5F97A0"
+    },
+    "dark": {
+      "border": "#2C3640",
+      "on-tint": "#0F1C22",
+      "contrast-more-text-muted": "#9BA3A7",
+      "contrast-more-border": "#5F666C"
+    },
+    "code": {
+      "operator": "#AEB6B8",
+      "punctuation": "#8A9296",
+      "parameter": "#CDD2D3"
+    },
+    "terminal-dark": {
+      "red": "#C05A3A",
+      "green": "#6F8F6A",
+      "blue": "#46708A",
+      "magenta": "#8A6F9E",
+      "white": "#C9CCCE",
+      "bright-black": "#3A4754"
+    },
+    "okabe-ito": {
+      "orange": "#E69F00",
+      "blue": "#0072B2",
+      "bluish-green": "#009E73",
+      "reddish-purple": "#CC79A7",
+      "vermillion": "#D55E00",
+      "sky-blue": "#56B4E9",
+      "yellow": "#F0E442"
+    },
+    "teal": {
+      "1": "#E4F5FB",
+      "2": "#B3E0EE",
+      "3": "#7EC4D7",
+      "4": "#48A0B7",
+      "5": "#0A7B93",
+      "6": "#00576C",
+      "7": "#003542"
+    },
+    "teal-amber": {
+      "1": "#00576E",
+      "2": "#287D93",
+      "3": "#72A9B4",
+      "4": "#BBD7D9",
+      "5": "#F1EEE6",
+      "6": "#E7CCAE",
+      "7": "#DA9B6A",
+      "8": "#C26D32",
+      "9": "#984A1A"
+    },
+    "light": {
+      "surface": "#E7EFEB",
+      "text": "#18272B",
+      "text-muted": "#52646A",
+      "border": "#C4D2CD",
+      "accent": "#9E5017",
+      "accent-deep": "#7A3A10",
+      "on-accent": "#EEF3F0",
+      "tint-pale": "#B4CCC9",
+      "surface-raised": "#F2F7F4",
+      "accent-bright": "#B85F1C",
+      "tint-deep": "#16242B",
+      "tint": "#264852",
+      "tint-bright": "#3D6B76",
+      "contrast-more-text-muted": "#3C4D52",
+      "contrast-more-border": "#758382"
+    },
+    "extended-light": {
+      "kelp": "#4F6855",
+      "brick": "#7D4C40",
+      "dusk": "#655C7A",
+      "tide": "#3F6274",
+      "shoal": "#3F656B"
+    },
+    "syntax-light": {
+      "parameter": "#2C3C41"
+    },
+    "plot-light": {
+      "bg": "#FFFFFF",
+      "grid": "#DCE5E1"
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Try-Fire",
+      "roles": {
+        "bg": "{palette.ground.pitch}",
+        "surface": "{palette.ground.hold}",
+        "text": "{palette.whale.whale}",
+        "text-muted": "{palette.whale.gull}",
+        "text-subtle": "{palette.whale.gull}",
+        "border": "{palette.dark.border}",
+        "link": "{palette.fire.ember}",
+        "link-hover": "{palette.fire.flame}",
+        "accent": "{palette.fire.ember}",
+        "on-accent": "{palette.ground.iron}",
+        "button": "{palette.fire.ember}",
+        "on-button": "{palette.ground.iron}",
+        "focus": "{palette.fire.flame}",
+        "selection": "{palette.sea.swell}",
+        "surface-raised": "{palette.ground.deck}",
+        "extra": {
+          "accent-bright": "{palette.fire.flame}",
+          "accent-deep": "{palette.fire.oil}",
+          "tint-deep": "{palette.sea.trough}",
+          "tint": "{palette.sea.swell}",
+          "tint-bright": "{palette.sea.spray}",
+          "tint-pale": "{palette.sea.foam}",
+          "on-tint": "{palette.dark.on-tint}",
+          "contrast-more-text-muted": "{palette.dark.contrast-more-text-muted}",
+          "contrast-more-border": "{palette.dark.contrast-more-border}"
+        }
+      },
+      "accents": {
+        "ember": "{palette.fire.ember}",
+        "flame": "{palette.fire.flame}",
+        "oil": "{palette.fire.oil}",
+        "kelp": "{palette.extended.kelp}",
+        "brick": "{palette.extended.brick}",
+        "dusk": "{palette.extended.dusk}",
+        "tide": "{palette.extended.tide}",
+        "shoal": "{palette.extended.shoal}"
+      },
+      "surfaces": {
+        "editor": "{palette.ground.pitch}",
+        "editor-line": "{palette.ground.hold}",
+        "editor-selection": {"ref":"{palette.sea.swell}","alpha":0.4,"over":"surfaces.editor"},
+        "sidebar": "{palette.ground.hold}"
+      },
+      "syntax": {
+        "keyword": {"color":"{palette.fire.ember}","style":"bold"},
+        "string": "{palette.extended.kelp}",
+        "number": "{palette.extended.dusk}",
+        "comment": {"color":"{palette.whale.gull}","style":"italic"},
+        "function": "{palette.extended.tide}",
+        "type": {"color":"{palette.extended.shoal}","style":"italic"},
+        "constant": "{palette.extended.dusk}",
+        "variable": "{palette.whale.whale}",
+        "operator": "{palette.code.operator}",
+        "punctuation": "{palette.code.punctuation}",
+        "decorator": "{palette.extended.brick}",
+        "parameter": "{palette.code.parameter}"
+      },
+      "ansi": {
+        "black": "{palette.ground.hold}",
+        "red": "{palette.terminal-dark.red}",
+        "green": "{palette.terminal-dark.green}",
+        "yellow": "{palette.fire.ember}",
+        "blue": "{palette.terminal-dark.blue}",
+        "magenta": "{palette.terminal-dark.magenta}",
+        "cyan": "{palette.extended.shoal}",
+        "white": "{palette.terminal-dark.white}",
+        "bright-black": "{palette.terminal-dark.bright-black}",
+        "bright-red": "{palette.extended.brick}",
+        "bright-green": "{palette.extended.kelp}",
+        "bright-yellow": "{palette.fire.flame}",
+        "bright-blue": "{palette.extended.tide}",
+        "bright-magenta": "{palette.extended.dusk}",
+        "bright-cyan": "{palette.sea.foam}",
+        "bright-white": "{palette.whale.whale}"
+      },
+      "terminal": {
+        "background": "{palette.ground.pitch}",
+        "foreground": "{palette.whale.whale}",
+        "cursor": "{palette.fire.ember}",
+        "cursor-text": "{palette.ground.iron}",
+        "selection-background": "{palette.sea.swell}",
+        "selection-foreground": "{palette.whale.whale}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.extended.brick}",
+        "warning": "{palette.fire.ember}",
+        "success": "{palette.extended.kelp}",
+        "info": "{palette.extended.tide}",
+        "hint": "{palette.extended.shoal}",
+        "conflict": "{palette.extended.dusk}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Okabe-Ito (CVD-safe), brand-led",
+          "colors": {
+            "orange": "{palette.okabe-ito.orange}",
+            "blue": "{palette.okabe-ito.blue}",
+            "bluish-green": "{palette.okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
+            "vermillion": "{palette.okabe-ito.vermillion}",
+            "sky-blue": "{palette.okabe-ito.sky-blue}",
+            "yellow": "{palette.okabe-ito.yellow}"
+          }
+        },
+        "sequential": {
+          "teal": {
+            "label": "teal, perceptually uniform (even OKLCH lightness)",
+            "colors": [
+              "{palette.teal.1}",
+              "{palette.teal.2}",
+              "{palette.teal.3}",
+              "{palette.teal.4}",
+              "{palette.teal.5}",
+              "{palette.teal.6}",
+              "{palette.teal.7}"
+            ]
+          }
+        },
+        "diverging": {
+          "teal-amber": {
+            "label": "teal-amber, pale centre",
+            "colors": [
+              "{palette.teal-amber.1}",
+              "{palette.teal-amber.2}",
+              "{palette.teal-amber.3}",
+              "{palette.teal-amber.4}",
+              "{palette.teal-amber.5}",
+              "{palette.teal-amber.6}",
+              "{palette.teal-amber.7}",
+              "{palette.teal-amber.8}",
+              "{palette.teal-amber.9}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.ground.pitch}",
+          "grid": "{palette.dark.border}",
+          "text": "{palette.whale.whale}",
+          "muted": "{palette.whale.gull}"
+        }
+      }
+    },
+    "light": {
+      "label": "True Lamp",
+      "roles": {
+        "bg": "{palette.whale.bone}",
+        "surface": "{palette.light.surface}",
+        "text": "{palette.light.text}",
+        "text-muted": "{palette.light.text-muted}",
+        "text-subtle": "{palette.light.text-muted}",
+        "border": "{palette.light.border}",
+        "link": "{palette.light.accent}",
+        "link-hover": "{palette.light.accent-deep}",
+        "accent": "{palette.light.accent}",
+        "on-accent": "{palette.light.on-accent}",
+        "button": "{palette.light.accent}",
+        "on-button": "{palette.light.on-accent}",
+        "focus": "{palette.light.accent}",
+        "selection": "{palette.light.tint-pale}",
+        "surface-raised": "{palette.light.surface-raised}",
+        "extra": {
+          "accent-bright": "{palette.light.accent-bright}",
+          "accent-deep": "{palette.light.accent-deep}",
+          "tint-deep": "{palette.light.tint-deep}",
+          "tint": "{palette.light.tint}",
+          "tint-bright": "{palette.light.tint-bright}",
+          "tint-pale": "{palette.light.tint-pale}",
+          "on-tint": "{palette.light.on-accent}",
+          "contrast-more-text-muted": "{palette.light.contrast-more-text-muted}",
+          "contrast-more-border": "{palette.light.contrast-more-border}"
+        }
+      },
+      "accents": {
+        "ember": "{palette.light.accent}",
+        "flame": "{palette.light.accent-deep}",
+        "oil": "{palette.light.accent-deep}",
+        "kelp": "{palette.extended-light.kelp}",
+        "brick": "{palette.extended-light.brick}",
+        "dusk": "{palette.extended-light.dusk}",
+        "tide": "{palette.extended-light.tide}",
+        "shoal": "{palette.extended-light.shoal}"
+      },
+      "surfaces": {
+        "editor": "{palette.whale.bone}",
+        "editor-line": "{palette.light.surface}",
+        "editor-selection": {"ref":"{palette.light.tint-pale}","alpha":0.4,"over":"surfaces.editor"},
+        "sidebar": "{palette.light.surface}"
+      },
+      "syntax": {
+        "keyword": {"color":"{palette.light.accent}","style":"bold"},
+        "string": "{palette.extended-light.kelp}",
+        "number": "{palette.extended-light.dusk}",
+        "comment": {"color":"{palette.light.text-muted}","style":"italic"},
+        "function": "{palette.extended-light.tide}",
+        "type": {"color":"{palette.extended-light.shoal}","style":"italic"},
+        "constant": "{palette.extended-light.dusk}",
+        "variable": "{palette.light.text}",
+        "operator": "{palette.light.text-muted}",
+        "punctuation": "{palette.light.text-muted}",
+        "decorator": "{palette.extended-light.brick}",
+        "parameter": "{palette.syntax-light.parameter}"
+      },
+      "ansi": {
+        "black": "{palette.ground.hold}",
+        "red": "{palette.terminal-dark.red}",
+        "green": "{palette.terminal-dark.green}",
+        "yellow": "{palette.fire.ember}",
+        "blue": "{palette.terminal-dark.blue}",
+        "magenta": "{palette.terminal-dark.magenta}",
+        "cyan": "{palette.extended.shoal}",
+        "white": "{palette.terminal-dark.white}",
+        "bright-black": "{palette.terminal-dark.bright-black}",
+        "bright-red": "{palette.extended.brick}",
+        "bright-green": "{palette.extended.kelp}",
+        "bright-yellow": "{palette.fire.flame}",
+        "bright-blue": "{palette.extended.tide}",
+        "bright-magenta": "{palette.extended.dusk}",
+        "bright-cyan": "{palette.sea.foam}",
+        "bright-white": "{palette.whale.whale}"
+      },
+      "terminal": {
+        "background": "{palette.whale.bone}",
+        "foreground": "{palette.light.text}",
+        "cursor": "{palette.light.accent}",
+        "cursor-text": "{palette.light.on-accent}",
+        "selection-background": "{palette.light.tint}",
+        "selection-foreground": "{palette.light.on-accent}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.extended-light.brick}",
+        "warning": "{palette.light.accent}",
+        "success": "{palette.extended-light.kelp}",
+        "info": "{palette.extended-light.tide}",
+        "hint": "{palette.extended-light.shoal}",
+        "conflict": "{palette.extended-light.dusk}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Okabe-Ito (CVD-safe), brand-led",
+          "colors": {
+            "orange": "{palette.okabe-ito.orange}",
+            "blue": "{palette.okabe-ito.blue}",
+            "bluish-green": "{palette.okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
+            "vermillion": "{palette.okabe-ito.vermillion}",
+            "sky-blue": "{palette.okabe-ito.sky-blue}",
+            "yellow": "{palette.okabe-ito.yellow}"
+          }
+        },
+        "sequential": {
+          "teal": {
+            "label": "teal, perceptually uniform (even OKLCH lightness)",
+            "colors": [
+              "{palette.teal.1}",
+              "{palette.teal.2}",
+              "{palette.teal.3}",
+              "{palette.teal.4}",
+              "{palette.teal.5}",
+              "{palette.teal.6}",
+              "{palette.teal.7}"
+            ]
+          }
+        },
+        "diverging": {
+          "teal-amber": {
+            "label": "teal-amber, pale centre",
+            "colors": [
+              "{palette.teal-amber.1}",
+              "{palette.teal-amber.2}",
+              "{palette.teal-amber.3}",
+              "{palette.teal-amber.4}",
+              "{palette.teal-amber.5}",
+              "{palette.teal-amber.6}",
+              "{palette.teal-amber.7}",
+              "{palette.teal-amber.8}",
+              "{palette.teal-amber.9}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.plot-light.bg}",
+          "grid": "{palette.plot-light.grid}",
+          "text": "{palette.light.text}",
+          "muted": "{palette.light.text-muted}"
+        }
+      }
+    }
+  },
+  "typography": {
+    "serif": "Fraunces",
+    "sans": "Archivo",
+    "mono": "JetBrains Mono",
+    "reading": "Literata"
+  },
+  "rules": [
+    {
+      "id": "one-hot-mark",
+      "text": "Fire is rare: one hot mark per surface."
+    },
+    {
+      "id": "cold-field",
+      "text": "The cold sea is the field; fire is the mark."
+    }
+  ]
+}
