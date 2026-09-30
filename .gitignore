@@ -24,6 +24,7 @@ __pycache__/
 .idea/
 .DS_Store
 
-# Local scratch
+# Local scratch, and the git worktrees the design agents work in
 /.scratch/
+/.claude/
 *.log

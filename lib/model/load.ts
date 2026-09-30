@@ -35,6 +35,31 @@ export function loadFamilies(root: string = repoRoot()): LoadedFamily[] {
   return out.sort((a, b) => a.dir.localeCompare(b.dir));
 }
 
+export interface LoadedCandidate extends LoadedFamily {
+  /** The file name without .tokens.json. */
+  candidate: string;
+}
+
+/**
+ * families/<id>/candidates/<name>.tokens.json: a second design of the same family, offered for the owner
+ * to choose between. loadFamilies does not read them; the candidate tests and the page builder do.
+ */
+export function loadCandidates(root: string = repoRoot()): LoadedCandidate[] {
+  const base = join(root, "families");
+  const out: LoadedCandidate[] = [];
+  for (const dir of readdirSync(base, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const folder = join(base, dir.name, "candidates");
+    if (!existsSync(folder)) continue;
+    for (const name of readdirSync(folder).filter((f) => f.endsWith(".tokens.json")).sort()) {
+      const path = join(folder, name);
+      const raw = readJson(path);
+      out.push({ dir: dir.name, candidate: name.replace(/\.tokens\.json$/, ""), path, raw, file: raw as FamilyFile });
+    }
+  }
+  return out;
+}
+
 export function loadSchema(root: string = repoRoot()): object {
   return readJson(join(root, "schema", "family.schema.json")) as object;
 }
