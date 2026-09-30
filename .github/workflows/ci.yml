@@ -1,0 +1,41 @@
+name: ci
+
+# Tests run on every push to main and on every pull request. Nothing here publishes.
+# Later phases add the R check, pytest, the site build and the generated-file freshness check.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      # The forced-colors test renders a specimen in Chromium. Fail if the browser is missing.
+      ENSIGNS_REQUIRE_BROWSER: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: Environment reports
+        run: node scripts/report.ts --out reports
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: reports
+          path: reports
+          if-no-files-found: ignore
