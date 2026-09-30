@@ -1,0 +1,1148 @@
+[
+  {
+    "mode": "dark",
+    "address": "roles.bg",
+    "from": "#12161B",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.surface",
+    "from": "#1B2127",
+    "to": "#1D242A"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.surface-raised",
+    "from": "#232B32",
+    "to": "#242B32"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text-muted",
+    "from": "#97A0A4",
+    "to": "#878F93"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text-subtle",
+    "from": "#97A0A4",
+    "to": "#878F93"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.border",
+    "from": "#2C3640",
+    "to": "#2E3741"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.link",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.link-hover",
+    "from": "#E0832A",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.accent",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.on-accent",
+    "from": "#11151A",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.button",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.on-button",
+    "from": "#11151A",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "roles.focus",
+    "from": "#E0832A",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "extra.accent-bright",
+    "from": "#E0832A",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "extra.contrast-more-text-muted",
+    "from": "#9BA3A7",
+    "to": "#949DA1"
+  },
+  {
+    "mode": "dark",
+    "address": "extra.contrast-more-border",
+    "from": "#5F666C",
+    "to": "#626970"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.ember",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.flame",
+    "from": "#E0832A",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.kelp",
+    "from": "#86A87F",
+    "to": "#93AC65"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.brick",
+    "from": "#D06A52",
+    "to": "#BF7881"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.dusk",
+    "from": "#A487BA",
+    "to": "#BF97D3"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.tide",
+    "from": "#5F93B0",
+    "to": "#4F9BA5"
+  },
+  {
+    "mode": "dark",
+    "address": "accents.shoal",
+    "from": "#5F97A0",
+    "to": "#7CBE9F"
+  },
+  {
+    "mode": "dark",
+    "address": "surfaces.editor",
+    "from": "#12161B",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "surfaces.editor-line",
+    "from": "#1B2127",
+    "to": "#1D242A"
+  },
+  {
+    "mode": "dark",
+    "address": "surfaces.editor-selection",
+    "from": "#1C2A31",
+    "to": "#1F2D35"
+  },
+  {
+    "mode": "dark",
+    "address": "surfaces.sidebar",
+    "from": "#1B2127",
+    "to": "#1D242A"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.keyword",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.string",
+    "from": "#86A87F",
+    "to": "#93AC65"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.number",
+    "from": "#A487BA",
+    "to": "#BF97D3"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.comment",
+    "from": "#97A0A4",
+    "to": "#878F93"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.function",
+    "from": "#5F93B0",
+    "to": "#4F9BA5"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.type",
+    "from": "#5F97A0",
+    "to": "#7CBE9F"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.constant",
+    "from": "#A487BA",
+    "to": "#BF97D3"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.variable",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.operator",
+    "from": "#AEB6B8",
+    "to": "#8F9798"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.punctuation",
+    "from": "#8A9296",
+    "to": "#868D91"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.decorator",
+    "from": "#D06A52",
+    "to": "#BF7881"
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.parameter",
+    "from": "#CDD2D3",
+    "to": "#999EA0"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.black",
+    "from": "#1B2127",
+    "to": "#1D242A"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.red",
+    "from": "#C05A3A",
+    "to": "#B56F78"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.green",
+    "from": "#6F8F6A",
+    "to": "#8AA35C"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.yellow",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.blue",
+    "from": "#46708A",
+    "to": "#8FA5B5"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.magenta",
+    "from": "#8A6F9E",
+    "to": "#B58EC9"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.cyan",
+    "from": "#5F97A0",
+    "to": "#45929C"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.white",
+    "from": "#C9CCCE",
+    "to": "#A3A19E"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-black",
+    "from": "#3A4754",
+    "to": "#49535E"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-red",
+    "from": "#D06A52",
+    "to": "#BF7881"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-green",
+    "from": "#86A87F",
+    "to": "#93AC65"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-yellow",
+    "from": "#E0832A",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-blue",
+    "from": "#5F93B0",
+    "to": "#9AB2C3"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-magenta",
+    "from": "#A487BA",
+    "to": "#BF97D3"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-cyan",
+    "from": "#8FB6BD",
+    "to": "#5FABB5"
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-white",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.background",
+    "from": "#12161B",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.foreground",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.cursor",
+    "from": "#C9651D",
+    "to": "#E78D32"
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.cursor-text",
+    "from": "#11151A",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.selection-foreground",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "status.danger",
+    "from": "#D06A52",
+    "to": "#BF7881"
+  },
+  {
+    "mode": "dark",
+    "address": "status.warning",
+    "from": "#C9651D",
+    "to": "#D56F2B"
+  },
+  {
+    "mode": "dark",
+    "address": "status.success",
+    "from": "#86A87F",
+    "to": "#93AC65"
+  },
+  {
+    "mode": "dark",
+    "address": "status.info",
+    "from": "#5F93B0",
+    "to": "#4F9BA5"
+  },
+  {
+    "mode": "dark",
+    "address": "status.hint",
+    "from": "#5F97A0",
+    "to": "#7CBE9F"
+  },
+  {
+    "mode": "dark",
+    "address": "status.conflict",
+    "from": "#A487BA",
+    "to": "#BF97D3"
+  },
+  {
+    "mode": "dark",
+    "address": "data.categorical.yellow",
+    "from": "#F0E442",
+    "to": "#C0B300"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.1",
+    "from": "#E4F5FB",
+    "to": "#053535"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.2",
+    "from": "#B3E0EE",
+    "to": "#054C4C"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.3",
+    "from": "#7EC4D7",
+    "to": "#136262"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.4",
+    "from": "#48A0B7",
+    "to": "#2B7979"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.5",
+    "from": "#0A7B93",
+    "to": "#48908F"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.6",
+    "from": "#00576C",
+    "to": "#6AA6A5"
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.7",
+    "from": "#003542",
+    "to": "#8EBBBA"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.1",
+    "from": "#00576E",
+    "to": "#117878"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.2",
+    "from": "#287D93",
+    "to": "#438787"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.3",
+    "from": "#72A9B4",
+    "to": "#659796"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.4",
+    "from": "#BBD7D9",
+    "to": "#84A6A5"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.5",
+    "from": "#F1EEE6",
+    "to": "#B4B1A9"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.6",
+    "from": "#E7CCAE",
+    "to": "#AE9B86"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.7",
+    "from": "#DA9B6A",
+    "to": "#A18769"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.8",
+    "from": "#C26D32",
+    "to": "#95734C"
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.9",
+    "from": "#984A1A",
+    "to": "#88602D"
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.bg",
+    "from": "#12161B",
+    "to": "#171B21"
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.grid",
+    "from": "#2C3640",
+    "to": "#2E3741"
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.text",
+    "from": "#F1EFE9",
+    "to": "#AFACA2"
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.muted",
+    "from": "#97A0A4",
+    "to": "#878F93"
+  },
+  {
+    "mode": "light",
+    "address": "roles.bg",
+    "from": "#DEE7E4",
+    "to": "#B5A892"
+  },
+  {
+    "mode": "light",
+    "address": "roles.surface",
+    "from": "#E7EFEB",
+    "to": "#BAAD97"
+  },
+  {
+    "mode": "light",
+    "address": "roles.surface-raised",
+    "from": "#F2F7F4",
+    "to": "#BCB09C"
+  },
+  {
+    "mode": "light",
+    "address": "roles.text",
+    "from": "#18272B",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "roles.text-muted",
+    "from": "#52646A",
+    "to": "#3C342A"
+  },
+  {
+    "mode": "light",
+    "address": "roles.text-subtle",
+    "from": "#52646A",
+    "to": "#3C342A"
+  },
+  {
+    "mode": "light",
+    "address": "roles.border",
+    "from": "#C4D2CD",
+    "to": "#A59986"
+  },
+  {
+    "mode": "light",
+    "address": "roles.link",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "roles.link-hover",
+    "from": "#7A3A10",
+    "to": "#381509"
+  },
+  {
+    "mode": "light",
+    "address": "roles.accent",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "roles.on-accent",
+    "from": "#EEF3F0",
+    "to": "#B2A895"
+  },
+  {
+    "mode": "light",
+    "address": "roles.button",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "roles.on-button",
+    "from": "#EEF3F0",
+    "to": "#B2A895"
+  },
+  {
+    "mode": "light",
+    "address": "roles.focus",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "roles.selection",
+    "from": "#B4CCC9",
+    "to": "#678B8A"
+  },
+  {
+    "mode": "light",
+    "address": "extra.accent-bright",
+    "from": "#B85F1C",
+    "to": "#7E3B02"
+  },
+  {
+    "mode": "light",
+    "address": "extra.accent-deep",
+    "from": "#7A3A10",
+    "to": "#381509"
+  },
+  {
+    "mode": "light",
+    "address": "extra.tint-deep",
+    "from": "#16242B",
+    "to": "#132129"
+  },
+  {
+    "mode": "light",
+    "address": "extra.tint",
+    "from": "#264852",
+    "to": "#1A3D46"
+  },
+  {
+    "mode": "light",
+    "address": "extra.tint-bright",
+    "from": "#3D6B76",
+    "to": "#2E5963"
+  },
+  {
+    "mode": "light",
+    "address": "extra.tint-pale",
+    "from": "#B4CCC9",
+    "to": "#678B8A"
+  },
+  {
+    "mode": "light",
+    "address": "extra.on-tint",
+    "from": "#EEF3F0",
+    "to": "#B2A895"
+  },
+  {
+    "mode": "light",
+    "address": "extra.contrast-more-text-muted",
+    "from": "#3C4D52",
+    "to": "#2E261E"
+  },
+  {
+    "mode": "light",
+    "address": "extra.contrast-more-border",
+    "from": "#758382",
+    "to": "#595147"
+  },
+  {
+    "mode": "light",
+    "address": "accents.ember",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "accents.flame",
+    "from": "#7A3A10",
+    "to": "#7E3B02"
+  },
+  {
+    "mode": "light",
+    "address": "accents.oil",
+    "from": "#7A3A10",
+    "to": "#381509"
+  },
+  {
+    "mode": "light",
+    "address": "accents.kelp",
+    "from": "#4F6855",
+    "to": "#32432C"
+  },
+  {
+    "mode": "light",
+    "address": "accents.brick",
+    "from": "#7D4C40",
+    "to": "#560E17"
+  },
+  {
+    "mode": "light",
+    "address": "accents.dusk",
+    "from": "#655C7A",
+    "to": "#3A2A57"
+  },
+  {
+    "mode": "light",
+    "address": "accents.tide",
+    "from": "#3F6274",
+    "to": "#004552"
+  },
+  {
+    "mode": "light",
+    "address": "accents.shoal",
+    "from": "#3F656B",
+    "to": "#16342C"
+  },
+  {
+    "mode": "light",
+    "address": "surfaces.editor",
+    "from": "#DEE7E4",
+    "to": "#B5A892"
+  },
+  {
+    "mode": "light",
+    "address": "surfaces.editor-line",
+    "from": "#E7EFEB",
+    "to": "#BAAD97"
+  },
+  {
+    "mode": "light",
+    "address": "surfaces.editor-selection",
+    "from": "#CDDCD9",
+    "to": "#969C8F"
+  },
+  {
+    "mode": "light",
+    "address": "surfaces.sidebar",
+    "from": "#E7EFEB",
+    "to": "#BAAD97"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.keyword",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.string",
+    "from": "#4F6855",
+    "to": "#32432C"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.number",
+    "from": "#655C7A",
+    "to": "#3A2A57"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.comment",
+    "from": "#52646A",
+    "to": "#3C342A"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.function",
+    "from": "#3F6274",
+    "to": "#004552"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.type",
+    "from": "#3F656B",
+    "to": "#16342C"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.constant",
+    "from": "#655C7A",
+    "to": "#3A2A57"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.variable",
+    "from": "#18272B",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.operator",
+    "from": "#52646A",
+    "to": "#3C342A"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.punctuation",
+    "from": "#52646A",
+    "to": "#3C342A"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.decorator",
+    "from": "#7D4C40",
+    "to": "#560E17"
+  },
+  {
+    "mode": "light",
+    "address": "syntax.parameter",
+    "from": "#2C3C41",
+    "to": "#2C251F"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.black",
+    "from": "#1B2127",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.red",
+    "from": "#C05A3A",
+    "to": "#560E17"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.green",
+    "from": "#6F8F6A",
+    "to": "#32432C"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.yellow",
+    "from": "#C9651D",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.blue",
+    "from": "#46708A",
+    "to": "#142733"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.magenta",
+    "from": "#8A6F9E",
+    "to": "#3A2A57"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.cyan",
+    "from": "#5F97A0",
+    "to": "#004552"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.white",
+    "from": "#C9CCCE",
+    "to": "#3D3832"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-black",
+    "from": "#3A4754",
+    "to": "#3E4749"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-red",
+    "from": "#D06A52",
+    "to": "#671F25"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-green",
+    "from": "#86A87F",
+    "to": "#40523A"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-yellow",
+    "from": "#E0832A",
+    "to": "#7E3B02"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-blue",
+    "from": "#5F93B0",
+    "to": "#415969"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-magenta",
+    "from": "#A487BA",
+    "to": "#483867"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-cyan",
+    "from": "#8FB6BD",
+    "to": "#175461"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-white",
+    "from": "#F1EFE9",
+    "to": "#56514C"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.background",
+    "from": "#DEE7E4",
+    "to": "#B5A892"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.foreground",
+    "from": "#18272B",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.cursor",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.cursor-text",
+    "from": "#EEF3F0",
+    "to": "#B2A895"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.selection-background",
+    "from": "#264852",
+    "to": "#678B8A"
+  },
+  {
+    "mode": "light",
+    "address": "terminal.selection-foreground",
+    "from": "#EEF3F0",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "status.danger",
+    "from": "#7D4C40",
+    "to": "#560E17"
+  },
+  {
+    "mode": "light",
+    "address": "status.warning",
+    "from": "#9E5017",
+    "to": "#602500"
+  },
+  {
+    "mode": "light",
+    "address": "status.success",
+    "from": "#4F6855",
+    "to": "#32432C"
+  },
+  {
+    "mode": "light",
+    "address": "status.info",
+    "from": "#3F6274",
+    "to": "#004552"
+  },
+  {
+    "mode": "light",
+    "address": "status.hint",
+    "from": "#3F656B",
+    "to": "#16342C"
+  },
+  {
+    "mode": "light",
+    "address": "status.conflict",
+    "from": "#655C7A",
+    "to": "#3A2A57"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.orange",
+    "from": "#E69F00",
+    "to": "#7D4E00"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.blue",
+    "from": "#0072B2",
+    "to": "#005B9A"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.bluish-green",
+    "from": "#009E73",
+    "to": "#006543"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.reddish-purple",
+    "from": "#CC79A7",
+    "to": "#8B3E6B"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.vermillion",
+    "from": "#D55E00",
+    "to": "#9E3600"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.sky-blue",
+    "from": "#56B4E9",
+    "to": "#005E8E"
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.yellow",
+    "from": "#F0E442",
+    "to": "#625A00"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.1",
+    "from": "#E4F5FB",
+    "to": "#81AFAE"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.2",
+    "from": "#B3E0EE",
+    "to": "#5E9A9A"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.3",
+    "from": "#7EC4D7",
+    "to": "#3E8685"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.4",
+    "from": "#48A0B7",
+    "to": "#207070"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.5",
+    "from": "#0A7B93",
+    "to": "#035B5B"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.6",
+    "from": "#00576C",
+    "to": "#004545"
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.7",
+    "from": "#003542",
+    "to": "#003030"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.1",
+    "from": "#00576E",
+    "to": "#003839"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.2",
+    "from": "#287D93",
+    "to": "#185050"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.3",
+    "from": "#72A9B4",
+    "to": "#426868"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.4",
+    "from": "#BBD7D9",
+    "to": "#678281"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.5",
+    "from": "#F1EEE6",
+    "to": "#9C9890"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.6",
+    "from": "#E7CCAE",
+    "to": "#887968"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.7",
+    "from": "#DA9B6A",
+    "to": "#715C45"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.8",
+    "from": "#C26D32",
+    "to": "#5A4122"
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.9",
+    "from": "#984A1A",
+    "to": "#442600"
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.bg",
+    "from": "#FFFFFF",
+    "to": "#B5A892"
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.grid",
+    "from": "#DCE5E1",
+    "to": "#A59986"
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.text",
+    "from": "#18272B",
+    "to": "#16100A"
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.muted",
+    "from": "#52646A",
+    "to": "#3C342A"
+  }
+]

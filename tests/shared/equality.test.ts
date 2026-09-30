@@ -53,9 +53,15 @@ describe("migration equality", () => {
         for (const c of changes) expect(c.why.length, `${c.mode} ${c.address}`).toBeGreaterThan(20);
       });
 
-      it("holds every step of the original scales in the palette", () => {
+      it("holds every step of the original scales in the palette, unless a recorded change replaced it", () => {
         const steps = [...snapshot.scale.steps, ...snapshot.extraScales.flatMap((s: any) => s.steps)];
-        for (const t of steps) expect(resolved.palette.get(t.id)?.hex, t.id).toBe(t.hex.toUpperCase());
+        const replaced = new Set([...changes.map((c) => c.from), ...Object.keys(dropped[id] ?? {}).map((h) => h.toUpperCase())]);
+        for (const t of steps) {
+          const was = t.hex.toUpperCase();
+          const now = resolved.palette.get(t.id)?.hex;
+          if (now === was) continue;
+          expect(replaced.has(was), `${t.id} is ${now ?? "missing"}, was ${was}, and neither a recorded change nor a retirement explains it`).toBe(true);
+        }
       });
 
       it("keeps every colour literal of the legacy token file in the palette, except those listed", () => {

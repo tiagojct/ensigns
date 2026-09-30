@@ -8,7 +8,7 @@
       "name": "Try-Works",
       "version": "1.0.0"
     },
-    "version": "1.0.0",
+    "version": "2.0.0",
     "chapter": 81,
     "chapterTitle": "The Pequod Meets the Virgin",
     "quote": "a clean one (that is, an empty one)",
@@ -25,112 +25,154 @@
   },
   "palette": {
     "ground": {
-      "pitch": "#12161B",
-      "hold": "#1B2127",
-      "deck": "#232B32",
-      "iron": "#11151A"
+      "pitch": "#171B21",
+      "hold": "#1D242A",
+      "deck": "#242B32",
+      "seam": "#2E3741"
+    },
+    "whale": {
+      "whale": "#AFACA2",
+      "gull": "#878F93"
+    },
+    "fire": {
+      "ember": "#D56F2B",
+      "flame": "#E78D32",
+      "oil": "#9A4A16"
     },
     "sea": {
       "trough": "#14242C",
       "swell": "#2C4953",
       "spray": "#4D7680",
-      "foam": "#8FB6BD"
-    },
-    "fire": {
-      "ember": "#C9651D",
-      "flame": "#E0832A",
-      "oil": "#9A4A16"
-    },
-    "whale": {
-      "whale": "#F1EFE9",
-      "bone": "#DEE7E4",
-      "gull": "#97A0A4"
+      "foam": "#8FB6BD",
+      "abyss": "#0F1C22"
     },
     "extended": {
-      "kelp": "#86A87F",
-      "brick": "#D06A52",
-      "dusk": "#A487BA",
-      "tide": "#5F93B0",
-      "shoal": "#5F97A0"
+      "kelp": "#93AC65",
+      "brick": "#BF7881",
+      "dusk": "#BF97D3",
+      "tide": "#4F9BA5",
+      "shoal": "#7CBE9F"
     },
-    "dark": {
-      "border": "#2C3640",
-      "on-tint": "#0F1C22",
-      "contrast-more-text-muted": "#9BA3A7",
-      "contrast-more-border": "#5F666C"
+    "night": {
+      "text-muted-more": "#949DA1",
+      "border-more": "#626970"
+    },
+    "lamp": {
+      "paper": "#B5A892",
+      "leaf": "#BAAD97",
+      "board": "#BCB09C",
+      "edge": "#A59986",
+      "ink": "#16100A",
+      "shade": "#3C342A",
+      "on-fire": "#B2A895",
+      "text-muted-more": "#2E261E",
+      "border-more": "#595147"
+    },
+    "fire-lamp": {
+      "ember": "#602500",
+      "flame": "#7E3B02",
+      "oil": "#381509"
+    },
+    "sea-lamp": {
+      "trough": "#132129",
+      "swell": "#1A3D46",
+      "spray": "#2E5963",
+      "foam": "#678B8A"
+    },
+    "extended-lamp": {
+      "kelp": "#32432C",
+      "brick": "#560E17",
+      "dusk": "#3A2A57",
+      "tide": "#004552",
+      "shoal": "#16342C"
     },
     "code": {
-      "operator": "#AEB6B8",
-      "punctuation": "#8A9296",
-      "parameter": "#CDD2D3"
+      "parameter": "#999EA0",
+      "operator": "#8F9798",
+      "punctuation": "#868D91"
     },
-    "terminal-dark": {
-      "red": "#C05A3A",
-      "green": "#6F8F6A",
-      "blue": "#46708A",
-      "magenta": "#8A6F9E",
-      "white": "#C9CCCE",
-      "bright-black": "#3A4754"
+    "code-lamp": {
+      "parameter": "#2C251F"
     },
-    "okabe-ito": {
+    "ansi-dark": {
+      "red": "#B56F78",
+      "green": "#8AA35C",
+      "blue": "#8FA5B5",
+      "magenta": "#B58EC9",
+      "cyan": "#45929C",
+      "white": "#A3A19E",
+      "bright-black": "#49535E",
+      "bright-blue": "#9AB2C3",
+      "bright-cyan": "#5FABB5"
+    },
+    "ansi-lamp": {
+      "blue": "#142733",
+      "white": "#3D3832",
+      "bright-black": "#3E4749",
+      "bright-red": "#671F25",
+      "bright-green": "#40523A",
+      "bright-blue": "#415969",
+      "bright-magenta": "#483867",
+      "bright-cyan": "#175461",
+      "bright-white": "#56514C"
+    },
+    "night-okabe-ito": {
       "orange": "#E69F00",
       "blue": "#0072B2",
       "bluish-green": "#009E73",
       "reddish-purple": "#CC79A7",
       "vermillion": "#D55E00",
       "sky-blue": "#56B4E9",
-      "yellow": "#F0E442"
+      "yellow": "#C0B300"
     },
-    "teal": {
-      "1": "#E4F5FB",
-      "2": "#B3E0EE",
-      "3": "#7EC4D7",
-      "4": "#48A0B7",
-      "5": "#0A7B93",
-      "6": "#00576C",
-      "7": "#003542"
+    "lamp-okabe-ito": {
+      "orange": "#7D4E00",
+      "blue": "#005B9A",
+      "bluish-green": "#006543",
+      "reddish-purple": "#8B3E6B",
+      "vermillion": "#9E3600",
+      "sky-blue": "#005E8E",
+      "yellow": "#625A00"
     },
-    "teal-amber": {
-      "1": "#00576E",
-      "2": "#287D93",
-      "3": "#72A9B4",
-      "4": "#BBD7D9",
-      "5": "#F1EEE6",
-      "6": "#E7CCAE",
-      "7": "#DA9B6A",
-      "8": "#C26D32",
-      "9": "#984A1A"
+    "night-teal": {
+      "1": "#053535",
+      "2": "#054C4C",
+      "3": "#136262",
+      "4": "#2B7979",
+      "5": "#48908F",
+      "6": "#6AA6A5",
+      "7": "#8EBBBA"
     },
-    "light": {
-      "surface": "#E7EFEB",
-      "text": "#18272B",
-      "text-muted": "#52646A",
-      "border": "#C4D2CD",
-      "accent": "#9E5017",
-      "accent-deep": "#7A3A10",
-      "on-accent": "#EEF3F0",
-      "tint-pale": "#B4CCC9",
-      "surface-raised": "#F2F7F4",
-      "accent-bright": "#B85F1C",
-      "tint-deep": "#16242B",
-      "tint": "#264852",
-      "tint-bright": "#3D6B76",
-      "contrast-more-text-muted": "#3C4D52",
-      "contrast-more-border": "#758382"
+    "lamp-teal": {
+      "1": "#81AFAE",
+      "2": "#5E9A9A",
+      "3": "#3E8685",
+      "4": "#207070",
+      "5": "#035B5B",
+      "6": "#004545",
+      "7": "#003030"
     },
-    "extended-light": {
-      "kelp": "#4F6855",
-      "brick": "#7D4C40",
-      "dusk": "#655C7A",
-      "tide": "#3F6274",
-      "shoal": "#3F656B"
+    "night-teal-amber": {
+      "1": "#117878",
+      "2": "#438787",
+      "3": "#659796",
+      "4": "#84A6A5",
+      "5": "#B4B1A9",
+      "6": "#AE9B86",
+      "7": "#A18769",
+      "8": "#95734C",
+      "9": "#88602D"
     },
-    "syntax-light": {
-      "parameter": "#2C3C41"
-    },
-    "plot-light": {
-      "bg": "#FFFFFF",
-      "grid": "#DCE5E1"
+    "lamp-teal-amber": {
+      "1": "#003839",
+      "2": "#185050",
+      "3": "#426868",
+      "4": "#678281",
+      "5": "#9C9890",
+      "6": "#887968",
+      "7": "#715C45",
+      "8": "#5A4122",
+      "9": "#442600"
     }
   },
   "modes": {
@@ -139,19 +181,19 @@
       "roles": {
         "bg": "{palette.ground.pitch}",
         "surface": "{palette.ground.hold}",
+        "surface-raised": "{palette.ground.deck}",
         "text": "{palette.whale.whale}",
         "text-muted": "{palette.whale.gull}",
         "text-subtle": "{palette.whale.gull}",
-        "border": "{palette.dark.border}",
+        "border": "{palette.ground.seam}",
         "link": "{palette.fire.ember}",
         "link-hover": "{palette.fire.flame}",
         "accent": "{palette.fire.ember}",
-        "on-accent": "{palette.ground.iron}",
+        "on-accent": "{palette.ground.pitch}",
         "button": "{palette.fire.ember}",
-        "on-button": "{palette.ground.iron}",
+        "on-button": "{palette.ground.pitch}",
         "focus": "{palette.fire.flame}",
         "selection": "{palette.sea.swell}",
-        "surface-raised": "{palette.ground.deck}",
         "extra": {
           "accent-bright": "{palette.fire.flame}",
           "accent-deep": "{palette.fire.oil}",
@@ -159,9 +201,9 @@
           "tint": "{palette.sea.swell}",
           "tint-bright": "{palette.sea.spray}",
           "tint-pale": "{palette.sea.foam}",
-          "on-tint": "{palette.dark.on-tint}",
-          "contrast-more-text-muted": "{palette.dark.contrast-more-text-muted}",
-          "contrast-more-border": "{palette.dark.contrast-more-border}"
+          "on-tint": "{palette.sea.abyss}",
+          "contrast-more-text-muted": "{palette.night.text-muted-more}",
+          "contrast-more-border": "{palette.night.border-more}"
         }
       },
       "accents": {
@@ -183,11 +225,11 @@
       "syntax": {
         "keyword": {"color":"{palette.fire.ember}","style":"bold"},
         "string": "{palette.extended.kelp}",
-        "number": "{palette.extended.dusk}",
+        "number": {"color":"{palette.extended.dusk}","style":"italic"},
         "comment": {"color":"{palette.whale.gull}","style":"italic"},
         "function": "{palette.extended.tide}",
         "type": {"color":"{palette.extended.shoal}","style":"italic"},
-        "constant": "{palette.extended.dusk}",
+        "constant": {"color":"{palette.extended.dusk}","style":"italic"},
         "variable": "{palette.whale.whale}",
         "operator": "{palette.code.operator}",
         "punctuation": "{palette.code.punctuation}",
@@ -196,27 +238,27 @@
       },
       "ansi": {
         "black": "{palette.ground.hold}",
-        "red": "{palette.terminal-dark.red}",
-        "green": "{palette.terminal-dark.green}",
+        "red": "{palette.ansi-dark.red}",
+        "green": "{palette.ansi-dark.green}",
         "yellow": "{palette.fire.ember}",
-        "blue": "{palette.terminal-dark.blue}",
-        "magenta": "{palette.terminal-dark.magenta}",
-        "cyan": "{palette.extended.shoal}",
-        "white": "{palette.terminal-dark.white}",
-        "bright-black": "{palette.terminal-dark.bright-black}",
+        "blue": "{palette.ansi-dark.blue}",
+        "magenta": "{palette.ansi-dark.magenta}",
+        "cyan": "{palette.ansi-dark.cyan}",
+        "white": "{palette.ansi-dark.white}",
+        "bright-black": "{palette.ansi-dark.bright-black}",
         "bright-red": "{palette.extended.brick}",
         "bright-green": "{palette.extended.kelp}",
         "bright-yellow": "{palette.fire.flame}",
-        "bright-blue": "{palette.extended.tide}",
+        "bright-blue": "{palette.ansi-dark.bright-blue}",
         "bright-magenta": "{palette.extended.dusk}",
-        "bright-cyan": "{palette.sea.foam}",
+        "bright-cyan": "{palette.ansi-dark.bright-cyan}",
         "bright-white": "{palette.whale.whale}"
       },
       "terminal": {
         "background": "{palette.ground.pitch}",
         "foreground": "{palette.whale.whale}",
-        "cursor": "{palette.fire.ember}",
-        "cursor-text": "{palette.ground.iron}",
+        "cursor": "{palette.fire.flame}",
+        "cursor-text": "{palette.ground.pitch}",
         "selection-background": "{palette.sea.swell}",
         "selection-foreground": "{palette.whale.whale}"
       },
@@ -231,198 +273,198 @@
       },
       "data": {
         "categorical": {
-          "label": "Okabe-Ito (CVD-safe), brand-led",
+          "label": "Okabe-Ito, lowered under the night brightness cap",
           "colors": {
-            "orange": "{palette.okabe-ito.orange}",
-            "blue": "{palette.okabe-ito.blue}",
-            "bluish-green": "{palette.okabe-ito.bluish-green}",
-            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
-            "vermillion": "{palette.okabe-ito.vermillion}",
-            "sky-blue": "{palette.okabe-ito.sky-blue}",
-            "yellow": "{palette.okabe-ito.yellow}"
+            "orange": "{palette.night-okabe-ito.orange}",
+            "blue": "{palette.night-okabe-ito.blue}",
+            "bluish-green": "{palette.night-okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.night-okabe-ito.reddish-purple}",
+            "vermillion": "{palette.night-okabe-ito.vermillion}",
+            "sky-blue": "{palette.night-okabe-ito.sky-blue}",
+            "yellow": "{palette.night-okabe-ito.yellow}"
           }
         },
         "sequential": {
           "teal": {
-            "label": "teal, perceptually uniform (even OKLCH lightness)",
+            "label": "Teal, even in lightness, under the cap",
             "colors": [
-              "{palette.teal.1}",
-              "{palette.teal.2}",
-              "{palette.teal.3}",
-              "{palette.teal.4}",
-              "{palette.teal.5}",
-              "{palette.teal.6}",
-              "{palette.teal.7}"
+              "{palette.night-teal.1}",
+              "{palette.night-teal.2}",
+              "{palette.night-teal.3}",
+              "{palette.night-teal.4}",
+              "{palette.night-teal.5}",
+              "{palette.night-teal.6}",
+              "{palette.night-teal.7}"
             ]
           }
         },
         "diverging": {
           "teal-amber": {
-            "label": "teal-amber, pale centre",
+            "label": "Teal and amber with a pale centre, under the cap",
             "colors": [
-              "{palette.teal-amber.1}",
-              "{palette.teal-amber.2}",
-              "{palette.teal-amber.3}",
-              "{palette.teal-amber.4}",
-              "{palette.teal-amber.5}",
-              "{palette.teal-amber.6}",
-              "{palette.teal-amber.7}",
-              "{palette.teal-amber.8}",
-              "{palette.teal-amber.9}"
+              "{palette.night-teal-amber.1}",
+              "{palette.night-teal-amber.2}",
+              "{palette.night-teal-amber.3}",
+              "{palette.night-teal-amber.4}",
+              "{palette.night-teal-amber.5}",
+              "{palette.night-teal-amber.6}",
+              "{palette.night-teal-amber.7}",
+              "{palette.night-teal-amber.8}",
+              "{palette.night-teal-amber.9}"
             ]
           }
         },
         "plot": {
           "bg": "{palette.ground.pitch}",
-          "grid": "{palette.dark.border}",
+          "grid": "{palette.ground.seam}",
           "text": "{palette.whale.whale}",
           "muted": "{palette.whale.gull}"
         }
       }
     },
     "light": {
-      "label": "True Lamp",
+      "label": "Lamp-feeder",
       "roles": {
-        "bg": "{palette.whale.bone}",
-        "surface": "{palette.light.surface}",
-        "text": "{palette.light.text}",
-        "text-muted": "{palette.light.text-muted}",
-        "text-subtle": "{palette.light.text-muted}",
-        "border": "{palette.light.border}",
-        "link": "{palette.light.accent}",
-        "link-hover": "{palette.light.accent-deep}",
-        "accent": "{palette.light.accent}",
-        "on-accent": "{palette.light.on-accent}",
-        "button": "{palette.light.accent}",
-        "on-button": "{palette.light.on-accent}",
-        "focus": "{palette.light.accent}",
-        "selection": "{palette.light.tint-pale}",
-        "surface-raised": "{palette.light.surface-raised}",
+        "bg": "{palette.lamp.paper}",
+        "surface": "{palette.lamp.leaf}",
+        "surface-raised": "{palette.lamp.board}",
+        "text": "{palette.lamp.ink}",
+        "text-muted": "{palette.lamp.shade}",
+        "text-subtle": "{palette.lamp.shade}",
+        "border": "{palette.lamp.edge}",
+        "link": "{palette.fire-lamp.ember}",
+        "link-hover": "{palette.fire-lamp.oil}",
+        "accent": "{palette.fire-lamp.ember}",
+        "on-accent": "{palette.lamp.on-fire}",
+        "button": "{palette.fire-lamp.ember}",
+        "on-button": "{palette.lamp.on-fire}",
+        "focus": "{palette.fire-lamp.ember}",
+        "selection": "{palette.sea-lamp.foam}",
         "extra": {
-          "accent-bright": "{palette.light.accent-bright}",
-          "accent-deep": "{palette.light.accent-deep}",
-          "tint-deep": "{palette.light.tint-deep}",
-          "tint": "{palette.light.tint}",
-          "tint-bright": "{palette.light.tint-bright}",
-          "tint-pale": "{palette.light.tint-pale}",
-          "on-tint": "{palette.light.on-accent}",
-          "contrast-more-text-muted": "{palette.light.contrast-more-text-muted}",
-          "contrast-more-border": "{palette.light.contrast-more-border}"
+          "accent-bright": "{palette.fire-lamp.flame}",
+          "accent-deep": "{palette.fire-lamp.oil}",
+          "tint-deep": "{palette.sea-lamp.trough}",
+          "tint": "{palette.sea-lamp.swell}",
+          "tint-bright": "{palette.sea-lamp.spray}",
+          "tint-pale": "{palette.sea-lamp.foam}",
+          "on-tint": "{palette.lamp.on-fire}",
+          "contrast-more-text-muted": "{palette.lamp.text-muted-more}",
+          "contrast-more-border": "{palette.lamp.border-more}"
         }
       },
       "accents": {
-        "ember": "{palette.light.accent}",
-        "flame": "{palette.light.accent-deep}",
-        "oil": "{palette.light.accent-deep}",
-        "kelp": "{palette.extended-light.kelp}",
-        "brick": "{palette.extended-light.brick}",
-        "dusk": "{palette.extended-light.dusk}",
-        "tide": "{palette.extended-light.tide}",
-        "shoal": "{palette.extended-light.shoal}"
+        "ember": "{palette.fire-lamp.ember}",
+        "flame": "{palette.fire-lamp.flame}",
+        "oil": "{palette.fire-lamp.oil}",
+        "kelp": "{palette.extended-lamp.kelp}",
+        "brick": "{palette.extended-lamp.brick}",
+        "dusk": "{palette.extended-lamp.dusk}",
+        "tide": "{palette.extended-lamp.tide}",
+        "shoal": "{palette.extended-lamp.shoal}"
       },
       "surfaces": {
-        "editor": "{palette.whale.bone}",
-        "editor-line": "{palette.light.surface}",
-        "editor-selection": {"ref":"{palette.light.tint-pale}","alpha":0.4,"over":"surfaces.editor"},
-        "sidebar": "{palette.light.surface}"
+        "editor": "{palette.lamp.paper}",
+        "editor-line": "{palette.lamp.leaf}",
+        "editor-selection": {"ref":"{palette.sea-lamp.foam}","alpha":0.4,"over":"surfaces.editor"},
+        "sidebar": "{palette.lamp.leaf}"
       },
       "syntax": {
-        "keyword": {"color":"{palette.light.accent}","style":"bold"},
-        "string": "{palette.extended-light.kelp}",
-        "number": "{palette.extended-light.dusk}",
-        "comment": {"color":"{palette.light.text-muted}","style":"italic"},
-        "function": "{palette.extended-light.tide}",
-        "type": {"color":"{palette.extended-light.shoal}","style":"italic"},
-        "constant": "{palette.extended-light.dusk}",
-        "variable": "{palette.light.text}",
-        "operator": "{palette.light.text-muted}",
-        "punctuation": "{palette.light.text-muted}",
-        "decorator": "{palette.extended-light.brick}",
-        "parameter": "{palette.syntax-light.parameter}"
+        "keyword": {"color":"{palette.fire-lamp.ember}","style":"bold"},
+        "string": "{palette.extended-lamp.kelp}",
+        "number": {"color":"{palette.extended-lamp.dusk}","style":"italic"},
+        "comment": {"color":"{palette.lamp.shade}","style":"italic"},
+        "function": "{palette.extended-lamp.tide}",
+        "type": {"color":"{palette.extended-lamp.shoal}","style":"italic"},
+        "constant": {"color":"{palette.extended-lamp.dusk}","style":"italic"},
+        "variable": "{palette.lamp.ink}",
+        "operator": "{palette.lamp.shade}",
+        "punctuation": "{palette.lamp.shade}",
+        "decorator": "{palette.extended-lamp.brick}",
+        "parameter": "{palette.code-lamp.parameter}"
       },
       "ansi": {
-        "black": "{palette.ground.hold}",
-        "red": "{palette.terminal-dark.red}",
-        "green": "{palette.terminal-dark.green}",
-        "yellow": "{palette.fire.ember}",
-        "blue": "{palette.terminal-dark.blue}",
-        "magenta": "{palette.terminal-dark.magenta}",
-        "cyan": "{palette.extended.shoal}",
-        "white": "{palette.terminal-dark.white}",
-        "bright-black": "{palette.terminal-dark.bright-black}",
-        "bright-red": "{palette.extended.brick}",
-        "bright-green": "{palette.extended.kelp}",
-        "bright-yellow": "{palette.fire.flame}",
-        "bright-blue": "{palette.extended.tide}",
-        "bright-magenta": "{palette.extended.dusk}",
-        "bright-cyan": "{palette.sea.foam}",
-        "bright-white": "{palette.whale.whale}"
+        "black": "{palette.lamp.ink}",
+        "red": "{palette.extended-lamp.brick}",
+        "green": "{palette.extended-lamp.kelp}",
+        "yellow": "{palette.fire-lamp.ember}",
+        "blue": "{palette.ansi-lamp.blue}",
+        "magenta": "{palette.extended-lamp.dusk}",
+        "cyan": "{palette.extended-lamp.tide}",
+        "white": "{palette.ansi-lamp.white}",
+        "bright-black": "{palette.ansi-lamp.bright-black}",
+        "bright-red": "{palette.ansi-lamp.bright-red}",
+        "bright-green": "{palette.ansi-lamp.bright-green}",
+        "bright-yellow": "{palette.fire-lamp.flame}",
+        "bright-blue": "{palette.ansi-lamp.bright-blue}",
+        "bright-magenta": "{palette.ansi-lamp.bright-magenta}",
+        "bright-cyan": "{palette.ansi-lamp.bright-cyan}",
+        "bright-white": "{palette.ansi-lamp.bright-white}"
       },
       "terminal": {
-        "background": "{palette.whale.bone}",
-        "foreground": "{palette.light.text}",
-        "cursor": "{palette.light.accent}",
-        "cursor-text": "{palette.light.on-accent}",
-        "selection-background": "{palette.light.tint}",
-        "selection-foreground": "{palette.light.on-accent}"
+        "background": "{palette.lamp.paper}",
+        "foreground": "{palette.lamp.ink}",
+        "cursor": "{palette.fire-lamp.ember}",
+        "cursor-text": "{palette.lamp.on-fire}",
+        "selection-background": "{palette.sea-lamp.foam}",
+        "selection-foreground": "{palette.lamp.ink}"
       },
       "status": {
         "policy": "chromatic",
-        "danger": "{palette.extended-light.brick}",
-        "warning": "{palette.light.accent}",
-        "success": "{palette.extended-light.kelp}",
-        "info": "{palette.extended-light.tide}",
-        "hint": "{palette.extended-light.shoal}",
-        "conflict": "{palette.extended-light.dusk}"
+        "danger": "{palette.extended-lamp.brick}",
+        "warning": "{palette.fire-lamp.ember}",
+        "success": "{palette.extended-lamp.kelp}",
+        "info": "{palette.extended-lamp.tide}",
+        "hint": "{palette.extended-lamp.shoal}",
+        "conflict": "{palette.extended-lamp.dusk}"
       },
       "data": {
         "categorical": {
-          "label": "Okabe-Ito (CVD-safe), brand-led",
+          "label": "Okabe-Ito, lowered under the night brightness cap",
           "colors": {
-            "orange": "{palette.okabe-ito.orange}",
-            "blue": "{palette.okabe-ito.blue}",
-            "bluish-green": "{palette.okabe-ito.bluish-green}",
-            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
-            "vermillion": "{palette.okabe-ito.vermillion}",
-            "sky-blue": "{palette.okabe-ito.sky-blue}",
-            "yellow": "{palette.okabe-ito.yellow}"
+            "orange": "{palette.lamp-okabe-ito.orange}",
+            "blue": "{palette.lamp-okabe-ito.blue}",
+            "bluish-green": "{palette.lamp-okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.lamp-okabe-ito.reddish-purple}",
+            "vermillion": "{palette.lamp-okabe-ito.vermillion}",
+            "sky-blue": "{palette.lamp-okabe-ito.sky-blue}",
+            "yellow": "{palette.lamp-okabe-ito.yellow}"
           }
         },
         "sequential": {
           "teal": {
-            "label": "teal, perceptually uniform (even OKLCH lightness)",
+            "label": "Teal, even in lightness, under the cap",
             "colors": [
-              "{palette.teal.1}",
-              "{palette.teal.2}",
-              "{palette.teal.3}",
-              "{palette.teal.4}",
-              "{palette.teal.5}",
-              "{palette.teal.6}",
-              "{palette.teal.7}"
+              "{palette.lamp-teal.1}",
+              "{palette.lamp-teal.2}",
+              "{palette.lamp-teal.3}",
+              "{palette.lamp-teal.4}",
+              "{palette.lamp-teal.5}",
+              "{palette.lamp-teal.6}",
+              "{palette.lamp-teal.7}"
             ]
           }
         },
         "diverging": {
           "teal-amber": {
-            "label": "teal-amber, pale centre",
+            "label": "Teal and amber with a pale centre, under the cap",
             "colors": [
-              "{palette.teal-amber.1}",
-              "{palette.teal-amber.2}",
-              "{palette.teal-amber.3}",
-              "{palette.teal-amber.4}",
-              "{palette.teal-amber.5}",
-              "{palette.teal-amber.6}",
-              "{palette.teal-amber.7}",
-              "{palette.teal-amber.8}",
-              "{palette.teal-amber.9}"
+              "{palette.lamp-teal-amber.1}",
+              "{palette.lamp-teal-amber.2}",
+              "{palette.lamp-teal-amber.3}",
+              "{palette.lamp-teal-amber.4}",
+              "{palette.lamp-teal-amber.5}",
+              "{palette.lamp-teal-amber.6}",
+              "{palette.lamp-teal-amber.7}",
+              "{palette.lamp-teal-amber.8}",
+              "{palette.lamp-teal-amber.9}"
             ]
           }
         },
         "plot": {
-          "bg": "{palette.plot-light.bg}",
-          "grid": "{palette.plot-light.grid}",
-          "text": "{palette.light.text}",
-          "muted": "{palette.light.text-muted}"
+          "bg": "{palette.lamp.paper}",
+          "grid": "{palette.lamp.edge}",
+          "text": "{palette.lamp.ink}",
+          "muted": "{palette.lamp.shade}"
         }
       }
     }
@@ -442,6 +484,26 @@
     {
       "id": "cold-field",
       "text": "The cold sea is the field; fire is the mark."
+    },
+    {
+      "id": "night-ground",
+      "text": "The dark ground sits at a relative luminance of 0.010 to 0.012 and keeps the sea hue. Body text is 7:1 to about 8.6:1 on it."
+    },
+    {
+      "id": "no-blue-text",
+      "text": "No text role is blue. Blues appear only as dark fields."
+    },
+    {
+      "id": "brightness-cap",
+      "text": "No colour in either mode is brighter than a relative luminance of 0.45."
+    },
+    {
+      "id": "lamplight",
+      "text": "Light is lamplight, not daylight: a dimmed warm paper for reading at night, relative luminance 0.35 to 0.45."
+    },
+    {
+      "id": "no-health-claims",
+      "text": "Nothing here claims an effect on sleep or melatonin. The case is glare, halation and dark adaptation."
     }
   ],
   "pairs": [
@@ -494,23 +556,98 @@
       "why": "hover text: light hovers darken"
     },
     {
-      "fg": "extra.tint-bright",
-      "bg": "roles.bg",
+      "fg": "extra.on-tint",
+      "bg": "extra.tint",
       "kind": "text",
-      "modes": ["light"]
+      "modes": ["light"],
+      "why": "text on a sea field"
+    },
+    {
+      "fg": "ansi.red",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI red"
+    },
+    {
+      "fg": "ansi.green",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI green"
+    },
+    {
+      "fg": "ansi.yellow",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI yellow"
+    },
+    {
+      "fg": "ansi.blue",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI blue"
+    },
+    {
+      "fg": "ansi.magenta",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI magenta"
+    },
+    {
+      "fg": "ansi.cyan",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "ANSI cyan"
+    },
+    {
+      "fg": "ansi.bright-red",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright red: emphasis colours"
+    },
+    {
+      "fg": "ansi.bright-green",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright green: emphasis colours"
+    },
+    {
+      "fg": "ansi.bright-yellow",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright yellow: emphasis colours"
+    },
+    {
+      "fg": "ansi.bright-blue",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright blue: emphasis colours"
+    },
+    {
+      "fg": "ansi.bright-magenta",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright magenta: emphasis colours"
+    },
+    {
+      "fg": "ansi.bright-cyan",
+      "bg": "terminal.background",
+      "kind": "large",
+      "why": "ANSI bright cyan: emphasis colours"
     }
   ],
   "distinct": [
+    {
+      "id": "fire-trio",
+      "members": ["accents.ember","accents.flame","accents.oil"],
+      "note": "Ember, flame and oil are one ramp in two modes. In the old light mode flame and oil were both #7A3A10; each has its own value now."
+    },
     {
       "id": "syntax-hues-dark",
       "set": "syntax-hues",
       "modes": ["dark"],
       "aliases": [
         ["number","constant"]
-      ],
-      "min": 0.03,
-      "cvd": "report",
-      "note": "Baseline of Try-Works 1.0.0. The repositioning retunes the code hues to the night band and must beat this floor."
+      ]
     },
     {
       "id": "syntax-hues-light",
@@ -519,24 +656,25 @@
       "aliases": [
         ["number","constant"]
       ],
-      "min": 0.019,
       "cvd": "report",
-      "note": "Baseline of Try-Works 1.0.0. The repositioning retunes the code hues to the night band and must beat this floor."
+      "reinforced": [
+        ["keyword","string"],
+        ["keyword","type"],
+        ["keyword","decorator"],
+        ["string","number"],
+        ["string","constant"],
+        ["number","function"],
+        ["function","constant"],
+        ["type","decorator"]
+      ],
+      "by": "style: keyword is bold, number, constant and type are italic, the rest upright",
+      "note": "Lamplight caps every text colour near luminance 0.05, which leaves little room to tell hues apart under CVD. Pairs with a style difference are reinforced; the rest are reported."
     },
     {
       "id": "ansi-hues",
       "set": "ansi-hues",
-      "min": 0.043,
       "cvd": "report",
-      "note": "Baseline of Try-Works 1.0.0, whose light terminals reuse the dark slots. The repositioning authors new sets and must beat this floor."
-    }
-  ],
-  "exceptions": [
-    {
-      "profile": "editor",
-      "id": "syntax.keyword on surfaces.editor-line",
-      "mode": "dark",
-      "why": "Jungfrau's dark keyword is the fire mark and reaches 4.15:1 on the current line. The shipped theme draws that line in the surface colour. Options: lighten the keyword, soften the line highlight, or accept. Decision needed at checkpoint 2."
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
     }
   ]
 }
