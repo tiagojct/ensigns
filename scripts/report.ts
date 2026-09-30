@@ -7,7 +7,7 @@
 //   node scripts/report.ts pequod goney      only these families
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { buildReport } from "../lib/harness/index.ts";
 import { loadFamilies, repoRoot } from "../lib/model/load.ts";
 import { resolveFamily } from "../lib/model/resolve.ts";
@@ -15,8 +15,8 @@ import { resolveFamily } from "../lib/model/resolve.ts";
 const root = repoRoot();
 const args = process.argv.slice(2);
 const outIndex = args.indexOf("--out");
-const outDir = outIndex >= 0 ? join(process.cwd(), args[outIndex + 1]!) : join(root, "reports");
-const wanted = args.filter((a, i) => !a.startsWith("--") && i !== outIndex + 1);
+const outDir = outIndex >= 0 ? resolve(process.cwd(), args[outIndex + 1]!) : join(root, "reports");
+const wanted = args.filter((a, i) => !a.startsWith("--") && !(outIndex >= 0 && i === outIndex + 1));
 
 const thresholds = JSON.parse(readFileSync(join(root, "tests/environments.json"), "utf8"));
 mkdirSync(outDir, { recursive: true });

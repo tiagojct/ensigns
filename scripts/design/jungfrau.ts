@@ -510,7 +510,7 @@ function lightReinforced(): [string, string][] {
       const a = roles[i]!;
       const b = roles[j]!;
       if (colourOf(a) === colourOf(b)) continue;
-      const short = VIEWS.slice(1).some((v) => oklabDistance(simulateCvd(colourOf(a), v, 1), simulateCvd(colourOf(b), v, 1)) < 0.06);
+      const short = (["protan", "deutan", "tritan"] as const).some((v) => oklabDistance(simulateCvd(colourOf(a), v, 1), simulateCvd(colourOf(b), v, 1)) < 0.06);
       if (short && (STYLE[a] ?? "upright") !== (STYLE[b] ?? "upright")) out.push([a, b]);
     }
   }
