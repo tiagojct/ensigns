@@ -36,7 +36,12 @@ function specimenFor(id: string, scheme: string): string | undefined {
 }
 
 const SCHEMES = ["light", "dark"] as const;
-const STATUS_LEVELS = ["neutral", "success", "warning", "critical"];
+
+/** The status levels a family defines, by the names in its status block: Rosebud's are neutral, success, warning and critical. */
+function statusLevels(family: ResolvedFamily): string[] {
+  const status = family.source.modes.dark.status as Record<string, unknown> | undefined;
+  return status ? Object.keys(status).filter((k) => k !== "policy") : ["neutral", "success", "warning", "critical"];
+}
 const MAX_TAB_STOPS = 20;
 const ARTEFACTS = join(repoRoot(), "reports", "forced-colors");
 
@@ -212,7 +217,8 @@ describe("forced-colors", () => {
           expect(alike, "current items that match a sibling in border, underline and weight").toEqual([]);
         }));
 
-        it("status: the four levels differ by border or icon, and each carries words", async () => {
+        it("status: the levels differ by border or icon, and each carries words", async () => {
+          const STATUS_LEVELS = statusLevels(family);
           const looks = new Map<string, { border: string; icon: string }[]>();
           const wordless: string[] = [];
           for (const chip of await page.locator("[data-status]").elementHandles()) {
