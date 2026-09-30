@@ -496,7 +496,7 @@
       "min": 0.1124,
       "reinforced": [["ishmael", "tashtego"], ["ahab", "pip"], ["pip", "stubb"], ["ahab", "tashtego"], ["ahab", "daggoo"], ["starbuck", "tashtego"]],
       "by": "token shape and position in code: strings are quoted, numbers are digits, keywords are fixed words, parameters sit in signatures and calls, comments are set in italic",
-      "note": "The floor is the original minimum, Ishmael and Tashtego. Ahab and Daggoo (protan) and Starbuck and Tashtego (tritan) joined the list when the corrections darkened the light crew to reach AA; the original had five pairs, the corrected set has seven."
+      "note": "The floor is the original minimum, Ishmael and Tashtego. Ahab and Daggoo (protan), Pip and Stubb (protan) and Starbuck and Tashtego (tritan) joined the list when the corrections darkened the light crew to reach AA, and Stubb and Tashtego left it; the original had four pairs, the corrected set has six."
     },
     {
       "id": "syntax-hues",
