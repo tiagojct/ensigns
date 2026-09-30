@@ -6,7 +6,7 @@
 //         tests/fixtures/legacy/<old>.json        the frozen legacy token files
 //         tests/parity/**                         the committed outputs the old repositories shipped
 // Output: families/<id>/<id>.tokens.json
-//         tests/shared/expected-changes.json      every value that differs from the original, with a reason
+//         tests/shared/expected-changes/<id>.json every value that differs from the original, with a reason
 //
 // Rules the conversion follows:
 //  - The palette is the only place a hex value appears. A colour that already has a palette name is
@@ -872,8 +872,7 @@ for (const id of ids) {
   console.log(`${id}: ${Object.keys(file.palette).length} palette groups, ${entries} entries, ${changes.length} recorded changes`);
 }
 
-const changesPath = join(ROOT, "tests/shared/expected-changes.json");
-mkdirSync(dirname(changesPath), { recursive: true });
-let existing: Record<string, Change[]> = {};
-try { existing = JSON.parse(readFileSync(changesPath, "utf8")); } catch { /* first run */ }
-writeFileSync(changesPath, pretty({ ...existing, ...allChanges }) + "\n");
+// One file per family, so that work on one family never collides with work on another.
+const changesDir = join(ROOT, "tests/shared/expected-changes");
+mkdirSync(changesDir, { recursive: true });
+for (const [id, list] of Object.entries(allChanges)) writeFileSync(join(changesDir, `${id}.json`), pretty(list) + "\n");

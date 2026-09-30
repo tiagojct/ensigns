@@ -1,5 +1,5 @@
 // Every migrated value equals the original, except the changes listed in
-// tests/shared/expected-changes.json, each with a reason.
+// tests/shared/expected-changes/<family>.json, each with a reason.
 //
 // "The original" is the normalised model the old gam adapters produced from the
 // frozen legacy token files and the committed outputs (tests/fixtures/legacy/model/).
@@ -19,7 +19,6 @@ const root = repoRoot();
 const read = (p: string): any => JSON.parse(readFileSync(join(root, p), "utf8"));
 
 interface Change { mode: ModeName; address: string; from: string; to: string; why: string }
-const expected: Record<string, Change[]> = read("tests/shared/expected-changes.json");
 const dropped: Record<string, Record<string, string>> = read("tests/shared/migration-dropped.json");
 
 const SOURCE: Record<string, { snapshot: string; legacy: string }> = {
@@ -87,7 +86,7 @@ describe("migration equality", () => {
       if (!loaded) return;
       const snapshot = read(`tests/fixtures/legacy/model/${source.snapshot}.json`);
       const resolved = resolveFamily(loaded.file);
-      const changes = expected[id] ?? [];
+      const changes: Change[] = read(`tests/shared/expected-changes/${id}.json`);
 
       it("holds every colour of the original, or records why it changed", () => {
         const used = new Set<Change>();
