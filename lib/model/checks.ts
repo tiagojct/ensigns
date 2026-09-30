@@ -104,13 +104,15 @@ export function runRuleChecks(family: ResolvedFamily): RuleResult[] {
   const results: RuleResult[] = [];
   for (const rule of family.source.rules ?? []) {
     if (!rule.check) continue;
-    const [name, rest] = rule.check.split(":");
-    const fn = RULE_CHECKS[name ?? ""];
-    if (!fn) {
-      results.push({ id: rule.id, check: rule.check, failures: [`no check named ${name}`] });
-      continue;
+    for (const check of Array.isArray(rule.check) ? rule.check : [rule.check]) {
+      const [name, rest] = check.split(":");
+      const fn = RULE_CHECKS[name ?? ""];
+      if (!fn) {
+        results.push({ id: rule.id, check, failures: [`no check named ${name}`] });
+        continue;
+      }
+      results.push({ id: rule.id, check, failures: fn({ family, args: rest ? rest.split(",") : [] }) });
     }
-    results.push({ id: rule.id, check: rule.check, failures: fn({ family, args: rest ? rest.split(",") : [] }) });
   }
   return results;
 }

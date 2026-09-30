@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "note": "Every threshold has a why. A value that proves infeasible or wrong changes here, with a written reason, in the same commit that needs the change.",
+  "common": {
+    "wcag": {
+      "text": { "value": 4.5, "why": "WCAG 2.x success criterion 1.4.3, level AA, for text below 18 pt (14 pt bold)." },
+      "large": { "value": 3, "why": "WCAG 2.x 1.4.3 for large text." },
+      "component": { "value": 3, "why": "WCAG 2.x 1.4.11 for interface components and graphical objects." },
+      "aaaText": { "value": 7, "why": "WCAG 2.x 1.4.6, level AAA. Reported for every text pair and never a gate." }
+    },
+    "distinct": {
+      "minDistance": { "value": 0.06, "why": "Smallest pairwise OKLab distance that keeps two roles of a distinct set apart under normal vision. It is the brief's value; Okabe-Ito's own minimum is 0.156 under normal vision." }
+    },
+    "cvd": {
+      "method": "Machado, Oliveira and Fernandes (2009) matrices at severity 1.0, applied in linear light, for protan, deutan and tritan. One method for every family.",
+      "severity": { "value": 1, "why": "Complete dichromacy is the hardest case a gate can name; partial severities pass when this passes." },
+      "minDistance": { "value": 0.06, "why": "The same OKLab distance as under normal vision, so a declared reinforced pair is the only way out." }
+    },
+    "flare": {
+      "darkRoom": { "value": 0.02, "why": "Ambient light added to both luminances for a projector in a dark room (the brief's value)." },
+      "litRoom": { "value": 0.08, "why": "The same for a projector in a lit room." },
+      "sunlight": { "value": 0.06, "why": "Screen glare in daylight." }
+    }
+  },
+  "profiles": {
+    "office-screen": {
+      "status": "implemented",
+      "why": "A reader at a desk on an ordinary monitor. The gate is the declared pairs at WCAG AA; AAA and APCA are reported.",
+      "apca": { "reported": true, "why": "APCA Lc is reported for web-UI profiles only (office-screen, editor, night). The apca-w3 licence excludes clinical, human-safety and non-web use." }
+    },
+    "editor": {
+      "status": "implemented",
+      "why": "Code on the editor background, the current line and the selection, as the shipped themes draw them.",
+      "textOnBackground": { "min": 4.5, "why": "Every syntax role is body text on the editor background: WCAG AA." },
+      "textOnCurrentLine": { "min": 4.5, "why": "The caret sits on the current line most of the time, so syntax roles must clear AA there too." },
+      "textOnSelection": { "min": 3, "why": "Selected text is transient and editors draw the selection translucent; the brief sets 3:1." }
+    },
+    "cvd": {
+      "status": "implemented",
+      "why": "Colour vision deficiency. A distinct set keeps its pairs apart under each simulation, except declared reinforced pairs."
+    },
+    "night": {
+      "status": "implemented",
+      "why": "Reading, writing and code in a dark room. The argument is glare, halation and dark adaptation, not sleep.",
+      "darkBackgroundLuminance": { "min": 0.004, "max": 0.012, "why": "Relative luminance of the dark ground: between sRGB greys of about 13 and 29, off black without turning grey." },
+      "darkBackgroundTarget": { "min": 0.01, "max": 0.012, "why": "Decision D11: the upper half of the band, keeping the sea hue. Reported as a warning when missed." },
+      "bodyContrast": { "min": 7, "max": 11, "why": "Body text at 7:1 to 11:1. With the brightness cap below, the upper bound is out of reach and the usable range is 7:1 to about 8.6:1." },
+      "mutedContrast": { "min": 4.5, "why": "Muted text still meets AA." },
+      "maxTokenLuminance": { "max": 0.45, "why": "No token brighter than a relative luminance of 0.45, so nothing blooms in a dark-adapted eye." },
+      "textHue": { "hueMin": 230, "hueMax": 290, "chromaAbove": 0.04, "why": "No text role in the blue to violet hue range at visible chroma: short wavelengths scatter more and blur text in the dark." },
+      "lamplightPaperLuminance": { "min": 0.35, "max": 0.45, "why": "The light mode is dimmed paper for night reading, about half the luminance of a daytime paper." },
+      "lamplightBodyContrast": { "min": 7, "why": "Body text on the dimmed paper." }
+    },
+    "forced-colors": {
+      "status": "implemented",
+      "why": "Windows High Contrast and other forced-colours modes replace every colour. Focus, selection and state markers must survive. Checked by DOM assertions on a Playwright render with forcedColors active; screenshots are kept as artefacts.",
+      "markers": { "value": ["focus", "selection", "current", "status"], "why": "The four states the family relies on. Each needs a marker that is not colour alone (outline, border, underline or weight)." }
+    },
+    "projector": {
+      "status": "starting value, implemented in phase 3",
+      "why": "Slides in a room with ambient light. Flare is added to both luminances.",
+      "bodyText": { "min": 4.5, "why": "Body text after flare (brief)." },
+      "titles": { "min": 3, "why": "Titles after flare (brief)." },
+      "flagFields": { "minDistance": 0.08, "why": "Flag fields stay apart after flare (brief)." }
+    },
+    "sunlight": {
+      "status": "starting value, implemented in phase 3",
+      "why": "A phone or tablet in daylight.",
+      "bodyText": { "min": 4.5, "why": "Body text after glare (brief)." }
+    },
+    "aged-eye": {
+      "status": "starting value, implemented in phase 3",
+      "why": "A reader whose lens has yellowed. An approximation: Machado tritanomaly at severity 0.5, then flare 0.02. The spectral route is the Pokorny, Smith and Lutze (1987) lens density model.",
+      "bodyText": { "min": 7, "why": "Body text after the simulation (brief)." },
+      "meaningfulPairs": { "minDistance": 0.06, "why": "Pairs that carry meaning stay apart after the simulation (brief)." }
+    },
+    "print-grey": {
+      "status": "starting value, implemented in phase 3",
+      "why": "Greyscale laser print. CIE L* from luminance.",
+      "distinctLstar": { "min": 12, "why": "Members of a distinct set differ by at least 12 L*, unless they carry a pattern or line style (brief)." },
+      "text": { "min": 7, "why": "Text after conversion (brief)." }
+    },
+    "eink": {
+      "status": "starting value, implemented in phase 3",
+      "why": "E-ink readers and tablets: sixteen grey levels.",
+      "levels": { "value": 16, "why": "Typical e-ink controller depth." },
+      "levelGap": { "min": 2, "why": "Distinct roles land at least two levels apart (brief)." }
+    },
+    "photocopy": {
+      "status": "starting value, implemented in phase 3",
+      "why": "A photocopy clips highlights and shadows.",
+      "whiteAbove": { "value": 88, "why": "L* above 88 becomes white (brief)." },
+      "blackBelow": { "value": 18, "why": "L* below 18 becomes black (brief)." },
+      "fills": { "min": 25, "max": 80, "why": "Meaningful fills sit between L* 25 and 80 or carry a pattern (brief)." }
+    },
+    "overlay": {
+      "status": "starting value, implemented in phase 3",
+      "why": "Annotation fills composited at their declared opacity over every family's ground.",
+      "textOnFillLight": { "min": 7, "why": "Text on a fill over a light ground (brief)." },
+      "textOnFillDark": { "min": 4.5, "why": "Text on a fill over a dark ground (brief)." },
+      "fillFromGround": { "minDistance": 0.05, "why": "A fill is visible against the ground (brief)." },
+      "fillsApart": { "minDistance": 0.06, "why": "Fills differ from one another, normal and CVD (brief)." }
+    },
+    "clinical": {
+      "status": "starting value, implemented in phase 3",
+      "why": "Clinical status for professionals.",
+      "severityStepLstar": { "min": 8, "why": "Adjacent severity levels differ by 8 L* (brief)." },
+      "severityStepDistance": { "minDistance": 0.06, "why": "And by 0.06 under each CVD simulation (brief)." },
+      "foregroundOnFill": { "min": 4.5, "why": "Foreground on each fill (brief)." },
+      "badgeBorder": { "min": 3, "why": "Badge borders against the background (brief)." },
+      "criticalRedExclusion": { "minDistance": 0.1, "why": "No non-status role within 0.10 of the critical red (brief)." }
+    },
+    "figure": {
+      "status": "starting value, implemented in phase 3",
+      "why": "Charts. The categorical scale must match or beat Okabe-Ito's minimum pairwise OKLab distance under normal vision and each CVD simulation, and beat it on one of three further measures. See the Enderby section of the brief."
+    }
+  }
+}

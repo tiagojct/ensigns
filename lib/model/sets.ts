@@ -1,6 +1,6 @@
 // The members of a distinct set inside one resolved mode: the colours that
 // must be told apart, each with a name that a reinforced pair can use.
-import { ANSI_HUES, ANSI_SLOTS, SYNTAX_ROLES } from "./types.ts";
+import { ANSI_HUES, ANSI_SLOTS, SYNTAX_HUES, SYNTAX_ROLES } from "./types.ts";
 import type { Distinct, Resolved, ResolvedMode } from "./types.ts";
 
 export interface SetMember {
@@ -30,6 +30,8 @@ export function distinctMembers(mode: ResolvedMode, d: Distinct): SetMember[] {
   switch (d.set) {
     case "syntax":
       return fromNames(mode, "syntax", SYNTAX_ROLES);
+    case "syntax-hues":
+      return fromNames(mode, "syntax", SYNTAX_HUES);
     case "accents": {
       const prefix = "accents.";
       const out: SetMember[] = [];

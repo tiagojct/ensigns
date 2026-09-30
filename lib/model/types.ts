@@ -61,6 +61,9 @@ export const ANSI_SLOTS = [
 ] as const;
 export type AnsiSlot = (typeof ANSI_SLOTS)[number];
 
+/** The syntax roles whose hue carries meaning. The others are told apart by lightness and style. */
+export const SYNTAX_HUES = ["keyword", "string", "number", "function", "type", "constant", "decorator"] as const;
+
 /** The six hue slots of the eight normal ANSI colours (black and white are neutrals). */
 export const ANSI_HUES = ["red", "green", "yellow", "blue", "magenta", "cyan"] as const;
 
@@ -189,12 +192,12 @@ export interface Pair {
 export interface Rule {
   id: string;
   text: string;
-  check?: string;
+  check?: string | string[];
 }
 
 export interface Distinct {
   id: string;
-  set?: "syntax" | "accents" | "ansi-hues" | "ansi" | "status" | "data.categorical";
+  set?: "syntax" | "syntax-hues" | "accents" | "ansi-hues" | "ansi" | "status" | "data.categorical";
   members?: Address[];
   modes?: ModeName[];
   min?: number;
@@ -203,6 +206,13 @@ export interface Distinct {
   aliases?: [string, string][];
   by?: string;
   note?: string;
+}
+
+export interface Exception {
+  profile: Environment;
+  id: string;
+  mode?: ModeName;
+  why: string;
 }
 
 export interface FamilyFile {
@@ -215,6 +225,7 @@ export interface FamilyFile {
   pairs?: Pair[];
   rules?: Rule[];
   distinct?: Distinct[];
+  exceptions?: Exception[];
   derived?: ("syntax" | "ansi" | "terminal" | "status" | "data")[];
   targets?: { exclude?: string[] };
 }
