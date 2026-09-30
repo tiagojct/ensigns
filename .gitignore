@@ -1,0 +1,29 @@
+# Node
+node_modules/
+*.tsbuildinfo
+coverage/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# R
+*.Rcheck/
+/packages/r/*.tar.gz
+.Rproj.user/
+
+# Build output and reports
+/site/dist/
+/reports/
+/dist/
+
+# Editors and operating system
+/.vscode/
+.idea/
+.DS_Store
+
+# Local scratch
+/.scratch/
+*.log

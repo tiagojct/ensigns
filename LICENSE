@@ -1,0 +1,11 @@
+Ensigns has three licence regimes.
+
+Code: MIT License. See LICENSE-MIT. It covers the libraries, generators,
+tests, scripts, site code and deployment files.
+
+Colour tokens and documentation: Creative Commons Attribution 4.0
+International. See LICENSE-CC-BY-4.0. It covers the token files in
+families/ and the prose in README files, changelogs and docs/.
+
+Third-party files keep their own licences. Each one ships with its licence
+text next to it.
