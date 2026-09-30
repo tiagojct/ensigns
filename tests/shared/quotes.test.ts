@@ -1,7 +1,7 @@
 // Every quotation is verbatim from sources/moby-dick.txt and sits in the
 // chapter the family names.
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadFamilies, repoRoot } from "../../lib/model/load.ts";
 import { normaliseQuote, parseChapters, quoteIsIn } from "../../lib/model/quotes.ts";
@@ -74,4 +74,38 @@ describe("family quotations", () => {
       }
     });
   }
+});
+
+// Quotation marks promise the reader Melville's words. In a README or a model document, any quoted
+// span of four words or more is found in the text or listed, with a reason, in quotes-allowlist.json.
+describe("quotations in documents", () => {
+  const root = repoRoot();
+  const allow = JSON.parse(readFileSync(join(root, "tests/shared/quotes-allowlist.json"), "utf8")) as Record<string, string>;
+  const body = normaliseQuote(raw);
+
+  const documents = ["README.md", "CLAUDE.md", "docs/model.md", "legacy/README.md", "scripts/migrate/README.md"];
+  for (const dir of readdirSync(join(root, "families"))) {
+    const readme = join("families", dir, "README.md");
+    if (existsSync(join(root, readme))) documents.push(readme);
+  }
+
+  function quotedSpans(markdown: string): string[] {
+    const plain = markdown.replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, " ");
+    const spans: string[] = [];
+    for (const m of plain.matchAll(/"([^"\n]{10,})"|\u201c([^\u201d\n]{10,})\u201d/g)) spans.push((m[1] ?? m[2])!);
+    return spans.filter((s) => s.trim().split(/\s+/).length >= 4);
+  }
+
+  for (const doc of documents) {
+    it(`${doc} quotes only Moby-Dick verbatim, or says why not`, () => {
+      const offenders = quotedSpans(readFileSync(join(root, doc), "utf8"))
+        .filter((s) => !body.includes(normaliseQuote(s).replace(/[.,;:!?]+$/, "")) && !(s in allow))
+        .map((s) => `${relative(root, join(root, doc))}: "${s}"`);
+      expect(offenders).toEqual([]);
+    });
+  }
+
+  it("gives every allowlist entry a reason", () => {
+    for (const [quote, why] of Object.entries(allow)) expect(why.length, quote).toBeGreaterThan(20);
+  });
 });
