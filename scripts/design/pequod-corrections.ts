@@ -12,7 +12,7 @@
 // that leaves Ahab alone.
 //
 //   node scripts/design/pequod-corrections.ts             print both routes
-//   node scripts/design/pequod-corrections.ts --apply     write route A or B (--route A|B, default the one with less change)
+//   node scripts/design/pequod-corrections.ts --apply     write a route (--route A|E, default: the feasible one with the least change)
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { minPairwise } from "../../lib/colour/distinct.ts";
@@ -20,7 +20,7 @@ import { fromOklch, oklabDistance, toOklch } from "../../lib/colour/oklab.ts";
 import { contrastRatio } from "../../lib/colour/wcag.ts";
 import { loadFamilies, repoRoot } from "../../lib/model/load.ts";
 import { resolveFamily } from "../../lib/model/resolve.ts";
-import { differences } from "../../tests/shared/legacy.ts";
+import { differences, snapshotOf } from "../../tests/shared/legacy.ts";
 import type { Change } from "../../tests/shared/legacy.ts";
 
 type Mode = "dark" | "light";
@@ -65,7 +65,12 @@ function fit(mode: Mode, origL: number, C: number, h: number, surfaces: Surface[
   return null;
 }
 
+// The originals are the colours the old repository held (the frozen snapshot), so the search gives the same
+// answer whatever the token file holds now. current() is what the token file holds now.
+const snapshot = snapshotOf("pequod");
 const originals = (m: Mode): Record<string, string> =>
+  Object.fromEntries(CREW.map((n) => [n, (snapshot.accents.find((a: { id: string }) => a.id === n)![m].hex as string).toUpperCase()]));
+const current = (m: Mode): Record<string, string> =>
   Object.fromEntries(CREW.map((n) => [n, resolved.modes[m].colours.get(`accents.${n}`)!.hex]));
 
 function floorOf(m: Mode): number {
@@ -179,19 +184,57 @@ for (const [key, route] of Object.entries(ROUTES)) {
   report(route, results[key]);
 }
 
+// The brief's own starting values, for comparison. They are typed here because they come from the brief, not from a token file.
+const BRIEF: Record<Mode, Record<string, string>> = {
+  light: { starbuck: "#066C93", ishmael: "#69645F", tashtego: "#04744D", stubb: "#A74605", ahab: "#932038" },
+  dark: { daggoo: "#A4736C" },
+};
+
+if (args.includes("--export")) {
+  const out = args[args.indexOf("--export") + 1]!;
+  const routes: Record<string, unknown> = {};
+  for (const [key, route] of Object.entries(ROUTES)) {
+    routes[key] = { name: route.name };
+    for (const m of ["light", "dark"] as const) {
+      const set = results[key]![m];
+      const surf = surfacesOf(m);
+      (routes[key] as Record<string, unknown>)[m] = {
+        colours: set,
+        floor: floorOf(m),
+        minimum: minPairwise(CREW.map((n) => set[n]!)).min,
+        contrast: Object.fromEntries(CREW.map((n) => [n, Object.fromEntries(surf.map((s) => [s.name, contrastRatio(set[n]!, s.hex)]))])),
+      };
+    }
+  }
+  const briefSet = Object.fromEntries((["light", "dark"] as const).map((m) => [m, { ...originals(m), ...BRIEF[m] }]));
+  routes.brief = {
+    name: "the brief's starting values",
+    ...Object.fromEntries((["light", "dark"] as const).map((m) => [m, {
+      colours: briefSet[m],
+      floor: floorOf(m),
+      minimum: minPairwise(CREW.map((n) => briefSet[m]![n]!)).min,
+      contrast: Object.fromEntries(CREW.map((n) => [n, Object.fromEntries(surfacesOf(m).map((s) => [s.name, contrastRatio(briefSet[m]![n]!, s.hex)]))])),
+    }])),
+  };
+  writeFileSync(out, JSON.stringify({ original: { light: originals("light"), dark: originals("dark") }, surfaces: { light: surfacesOf("light"), dark: surfacesOf("dark") }, routes }, null, 2) + "\n");
+  console.log("exported", out);
+}
+
 const total = (key: string) => (["light", "dark"] as const).reduce((t, m) => t + CREW.reduce((u, n) => u + oklabDistance(originals(m)[n]!, results[key]![m][n]!), 0), 0);
 console.log(`\ntotal change: route A ${total("A").toFixed(3)}, route B ${total("B").toFixed(3)}`);
 
 if (apply) {
-  const key = routeArg ?? (total("B") <= total("A") ? "B" : "A");
+  // The default is the feasible route (distance floors held) with the least total change.
+  const feasible = Object.keys(ROUTES).filter((k) => (["light", "dark"] as const).every((m) => minPairwise(CREW.map((n) => results[k]![m][n]!)).min >= floorOf(m)));
+  const key = routeArg ?? feasible.sort((a, b) => total(a) - total(b))[0]!;
   const chosen = results[key]!;
   console.log(`\napplying route ${key}`);
   // Replace the values in the text, so the file keeps its formatting and the diff shows only the colours.
   let text = readFileSync(tokenPath, "utf8");
   const palette = file.palette as Record<string, Record<string, unknown>>;
   for (const n of CREW) {
-    const lightOld = originals("light")[n]!;
-    const darkOld = originals("dark")[n]!;
+    const lightOld = current("light")[n]!;
+    const darkOld = current("dark")[n]!;
     if (chosen.light[n] !== lightOld) {
       const re = new RegExp(`("${n}": \\{\\s+"light": \\{"hex":")${lightOld}"`);
       if (!re.test(text)) throw new Error(`cannot find ${n} light ${lightOld} in the token file`);
