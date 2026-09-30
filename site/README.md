@@ -1,3 +1,5 @@
+> Dormant. This is the Gam site as it was imported into the Ensigns repository. It does not build here: the adapters that read the four old repositories were deleted in phase 2, because the token files are now in `families/` and the model the adapters produced is kept as a snapshot in `tests/fixtures/legacy/model`. Phase 4 rebuilds the site on the token files as the Ensigns site. The text below describes the old site.
+
 # Gam
 
 Where the four Moby-Dick colour families meet. A static site at
