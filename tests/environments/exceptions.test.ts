@@ -1,7 +1,7 @@
 // An exception is a check a family is allowed to fail, with a reason. It must
 // not outlive its cause: each one has to match a check that still fails.
 import { describe, expect, it } from "vitest";
-import { runProfile } from "../../lib/harness/index.ts";
+import { PROFILE_RUNNERS, runProfile } from "../../lib/harness/index.ts";
 import { resolvedFamilies, thresholds } from "./helpers.ts";
 
 describe("exceptions", () => {
@@ -9,7 +9,8 @@ describe("exceptions", () => {
     const exceptions = family.source.exceptions ?? [];
     if (exceptions.length === 0) continue;
     describe(family.meta.id, () => {
-      for (const profile of new Set(exceptions.map((e) => e.profile))) {
+      // forced-colors exceptions are checked by the browser test itself, which fails when one goes stale.
+      for (const profile of new Set(exceptions.map((e) => e.profile).filter((p) => p in PROFILE_RUNNERS))) {
         it(`every ${profile} exception matches a failing check`, () => {
           const { unused } = runProfile(family, profile, thresholds);
           expect(unused.map((e) => `${e.profile}: ${e.id}${e.mode ? ` (${e.mode})` : ""}`)).toEqual([]);
