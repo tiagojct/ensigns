@@ -6,20 +6,34 @@
 // result. A whole-page screenshot per family and scheme goes to
 // reports/forced-colors/. The DOM types above are for the functions that run
 // in the page.
+import { existsSync, mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { BrowserContext, ElementHandle, Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { repoRoot } from "../../lib/model/load.ts";
+import { buildPages } from "../../scripts/pages/generate.ts";
 import { launchChromium } from "./browser.ts";
 import type { ResolvedFamily } from "../../lib/model/types.ts";
 import { withProfile } from "./helpers.ts";
 
-// Family id to specimen, relative to the repository root. Phase 4 points these
-// at the specimens the site generates.
-const SPECIMENS: Record<string, string> = {
+// A family with a specimen of its own (families/<id>/specimen) is tested on the standalone page the page
+// builder writes for each mode. Rosebud's own specimen comes in phase 4; until then the old generated one
+// stands in, relative to the repository root.
+const LEGACY_SPECIMENS: Record<string, string> = {
   rosebud: "tests/parity/rosebud/specimen.html",
 };
+const pages = mkdtempSync(join(tmpdir(), "ensigns-pages-"));
+buildPages(repoRoot(), pages);
+
+/** The specimen file for a family in a colour scheme, or undefined when the family has none. */
+function specimenFor(id: string, scheme: string): string | undefined {
+  const built = join(pages, "specimen", `${id}--${scheme}.html`);
+  if (existsSync(built)) return built;
+  const legacy = LEGACY_SPECIMENS[id];
+  return legacy === undefined ? undefined : join(repoRoot(), legacy);
+}
 
 const SCHEMES = ["light", "dark"] as const;
 const STATUS_LEVELS = ["neutral", "success", "warning", "critical"];
@@ -109,15 +123,15 @@ describe("forced-colors", () => {
 
   for (const family of families) {
     const id = family.meta.id;
-    const specimen = SPECIMENS[id];
-    if (specimen === undefined) {
+    if (SCHEMES.some((scheme) => specimenFor(id, scheme) === undefined)) {
       it(`${id} has a specimen`, () => {
-        throw new Error(`${id} lists forced-colors but SPECIMENS names no specimen for it`);
+        throw new Error(`${id} lists forced-colors but has no specimen: add families/${id}/specimen/specimen.html`);
       });
       continue;
     }
 
     for (const scheme of SCHEMES) {
+      const specimen = specimenFor(id, scheme)!;
       describe(`${id} ${scheme}`, () => {
         let context: BrowserContext | undefined;
         let page: Page;
@@ -129,7 +143,7 @@ describe("forced-colors", () => {
           await context.route((url) => url.protocol !== "file:", (route) => route.abort());
           page = await context.newPage();
           page.on("request", (request) => requests.push(request.url()));
-          await page.goto(pathToFileURL(join(repoRoot(), specimen)).href);
+          await page.goto(pathToFileURL(specimen).href);
           await page.screenshot({ path: join(ARTEFACTS, `${id}-${scheme}.png`), fullPage: true, animations: "disabled" });
         }, 60_000);
 
