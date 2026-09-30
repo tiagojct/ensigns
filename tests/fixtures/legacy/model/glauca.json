@@ -1,0 +1,1841 @@
+{
+  "id": "glauca",
+  "name": "Glauca",
+  "version": "0.1.0",
+  "scale": {
+    "name": "Frost",
+    "steps": [
+      {
+        "id": "pruina.charta",
+        "label": "Charta (pruina)",
+        "hex": "#F0F4F6",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.pruina.charta"
+        },
+        "group": "pruina"
+      },
+      {
+        "id": "pruina.pruina",
+        "label": "Pruina (pruina)",
+        "hex": "#E8EEF2",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.pruina.pruina"
+        },
+        "group": "pruina"
+      },
+      {
+        "id": "glaucum.nebula",
+        "label": "Nebula (glaucum)",
+        "hex": "#93B7C9",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.glaucum.nebula"
+        },
+        "group": "glaucum"
+      },
+      {
+        "id": "pruina.cinis",
+        "label": "Cinis (pruina)",
+        "hex": "#8C8C8C",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.pruina.cinis"
+        },
+        "group": "pruina"
+      },
+      {
+        "id": "glaucum.spuma",
+        "label": "Spuma (glaucum)",
+        "hex": "#4D7391",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.glaucum.spuma"
+        },
+        "group": "glaucum"
+      },
+      {
+        "id": "glaucum.vadum",
+        "label": "Vadum (glaucum)",
+        "hex": "#2B4356",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.glaucum.vadum"
+        },
+        "group": "glaucum"
+      },
+      {
+        "id": "saxum.petra",
+        "label": "Petra (saxum)",
+        "hex": "#1F2932",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.saxum.petra"
+        },
+        "group": "saxum"
+      },
+      {
+        "id": "glaucum.caligo",
+        "label": "Caligo (glaucum)",
+        "hex": "#142430",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.glaucum.caligo"
+        },
+        "group": "glaucum"
+      },
+      {
+        "id": "saxum.umbra",
+        "label": "Umbra (saxum)",
+        "hex": "#171F26",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.saxum.umbra"
+        },
+        "group": "saxum"
+      },
+      {
+        "id": "saxum.pix",
+        "label": "Pix (saxum)",
+        "hex": "#10161C",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.saxum.pix"
+        },
+        "group": "saxum"
+      },
+      {
+        "id": "saxum.ferrum",
+        "label": "Ferrum (saxum)",
+        "hex": "#0B1218",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.saxum.ferrum"
+        },
+        "group": "saxum"
+      }
+    ]
+  },
+  "extraScales": [],
+  "accents": [
+    {
+      "id": "dies",
+      "label": "Dies",
+      "hue": "blue",
+      "tier": "core",
+      "group": "caelum",
+      "dark": {
+        "id": "caelum.dies",
+        "label": "Dies",
+        "hex": "#007AFF",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.caelum.dies"
+        }
+      },
+      "light": {
+        "id": "caelum.dies.light",
+        "label": "Dies light",
+        "hex": "#0B62CF",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "modes.light.accent"
+        },
+        "alias": "light.accent"
+      }
+    },
+    {
+      "id": "aer",
+      "label": "Aer",
+      "hue": "blue",
+      "tier": "core",
+      "group": "caelum",
+      "dark": {
+        "id": "caelum.aer",
+        "label": "Aer",
+        "hex": "#6CB2FF",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.caelum.aer"
+        }
+      },
+      "light": {
+        "id": "caelum.aer.light",
+        "label": "Aer light",
+        "hex": "#084B96",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "modes.light.accent-deep"
+        },
+        "alias": "light.accent-deep"
+      }
+    },
+    {
+      "id": "imum",
+      "label": "Imum",
+      "hue": "blue",
+      "tier": "core",
+      "group": "caelum",
+      "dark": {
+        "id": "caelum.imum",
+        "label": "Imum",
+        "hex": "#084B96",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.caelum.imum"
+        }
+      },
+      "light": {
+        "id": "caelum.imum.light",
+        "label": "Imum light",
+        "hex": "#084B96",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "modes.light.accent-deep"
+        },
+        "alias": "light.accent-deep"
+      }
+    },
+    {
+      "id": "folium",
+      "label": "Folium",
+      "hue": "green",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.folium",
+        "label": "Folium",
+        "hex": "#62BA46",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.extended.folium"
+        }
+      },
+      "light": {
+        "id": "extended.folium.light",
+        "label": "Folium light",
+        "hex": "#3C6E38",
+        "origin": {
+          "derived": "mix(extended.folium, light.text, 0.5)",
+          "from": [
+            "extended.folium",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bacca",
+      "label": "Bacca",
+      "hue": "red",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.bacca",
+        "label": "Bacca",
+        "hex": "#C96A6A",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.extended.bacca"
+        }
+      },
+      "light": {
+        "id": "extended.bacca.light",
+        "label": "Bacca light",
+        "hex": "#784A4D",
+        "origin": {
+          "derived": "mix(extended.bacca, light.text, 0.45)",
+          "from": [
+            "extended.bacca",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "viola",
+      "label": "Viola",
+      "hue": "violet",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.viola",
+        "label": "Viola",
+        "hex": "#B184DB",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.extended.viola"
+        }
+      },
+      "light": {
+        "id": "extended.viola.light",
+        "label": "Viola light",
+        "hex": "#6B588B",
+        "origin": {
+          "derived": "mix(extended.viola, light.text, 0.45)",
+          "from": [
+            "extended.viola",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "lacus",
+      "label": "Lacus",
+      "hue": "blue",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.lacus",
+        "label": "Lacus",
+        "hex": "#4A9EDB",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.extended.lacus"
+        }
+      },
+      "light": {
+        "id": "extended.lacus.light",
+        "label": "Lacus light",
+        "hex": "#33668B",
+        "origin": {
+          "derived": "mix(extended.lacus, light.text, 0.45)",
+          "from": [
+            "extended.lacus",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "unda",
+      "label": "Unda",
+      "hue": "cyan",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.unda",
+        "label": "Unda",
+        "hex": "#45A3AD",
+        "origin": {
+          "file": "src/glauca.json",
+          "path": "palette.extended.unda"
+        }
+      },
+      "light": {
+        "id": "extended.unda.light",
+        "label": "Unda light",
+        "hex": "#306972",
+        "origin": {
+          "derived": "mix(extended.unda, light.text, 0.45)",
+          "from": [
+            "extended.unda",
+            "light.text"
+          ]
+        }
+      }
+    }
+  ],
+  "rules": null,
+  "modes": {
+    "dark": {
+      "label": "Profundum",
+      "scheme": "dark",
+      "roles": {
+        "bg": {
+          "id": "dark.bg",
+          "label": "Dark bg",
+          "hex": "#10161C",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.bg"
+          }
+        },
+        "surface": {
+          "id": "dark.surface",
+          "label": "Dark surface",
+          "hex": "#171F26",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.surface"
+          }
+        },
+        "text": {
+          "id": "dark.text",
+          "label": "Dark text",
+          "hex": "#E8EEF2",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.text"
+          }
+        },
+        "textMuted": {
+          "id": "dark.text-muted",
+          "label": "Dark text-muted",
+          "hex": "#8C8C8C",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.text-muted"
+          }
+        },
+        "textSubtle": {
+          "id": "dark.text-subtle",
+          "label": "dark.text-subtle",
+          "hex": "#8C8C8C",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.text-muted"
+          },
+          "alias": "dark.text-muted",
+          "fallback": "textMuted"
+        },
+        "border": {
+          "id": "dark.border",
+          "label": "Dark border",
+          "hex": "#2A3540",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.border"
+          }
+        },
+        "link": {
+          "id": "dark.link",
+          "label": "dark.link",
+          "hex": "#3D97FF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.accent"
+          },
+          "alias": "dark.accent"
+        },
+        "linkHover": {
+          "id": "dark.link-hover",
+          "label": "Dark link-hover",
+          "hex": "#6CB2FF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.accent-bright"
+          }
+        },
+        "accent": {
+          "id": "dark.accent",
+          "label": "Dark accent",
+          "hex": "#3D97FF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.accent"
+          }
+        },
+        "onAccent": {
+          "id": "dark.on-accent",
+          "label": "Dark on-accent",
+          "hex": "#0B1218",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.on-accent"
+          }
+        },
+        "button": {
+          "id": "dark.button",
+          "label": "dark.button",
+          "hex": "#3D97FF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.accent"
+          },
+          "alias": "dark.accent"
+        },
+        "onButton": {
+          "id": "dark.on-button",
+          "label": "dark.on-button",
+          "hex": "#0B1218",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.on-accent"
+          },
+          "alias": "dark.on-accent"
+        },
+        "focus": {
+          "id": "dark.focus",
+          "label": "Dark focus",
+          "hex": "#6CB2FF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "a11y.focus.dark"
+          }
+        },
+        "selection": {
+          "id": "dark.selection",
+          "label": "Dark selection",
+          "hex": "#2B4356",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.dark.tint"
+          }
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "dark.syntax.keyword",
+          "label": "Dark keyword",
+          "hex": "#007AFF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.keyword.color"
+          },
+          "style": "bold"
+        },
+        "string": {
+          "id": "dark.syntax.string",
+          "label": "Dark string",
+          "hex": "#62BA46",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.string.color"
+          }
+        },
+        "number": {
+          "id": "dark.syntax.number",
+          "label": "Dark number",
+          "hex": "#B184DB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.number.color"
+          },
+          "style": "italic"
+        },
+        "comment": {
+          "id": "dark.syntax.comment",
+          "label": "Dark comment",
+          "hex": "#8C8C8C",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.comment.color"
+          },
+          "style": "italic"
+        },
+        "function": {
+          "id": "dark.syntax.function",
+          "label": "Dark function",
+          "hex": "#4A9EDB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.function.color"
+          }
+        },
+        "type": {
+          "id": "dark.syntax.type",
+          "label": "Dark type",
+          "hex": "#45A3AD",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.type.color"
+          },
+          "style": "italic"
+        },
+        "constant": {
+          "id": "dark.syntax.constant",
+          "label": "dark.syntax.constant",
+          "hex": "#B184DB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.number.color"
+          },
+          "style": "italic",
+          "alias": "dark.syntax.number",
+          "fallback": "number"
+        },
+        "variable": {
+          "id": "dark.syntax.variable",
+          "label": "Dark variable",
+          "hex": "#E8EEF2",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.variable.color"
+          }
+        },
+        "operator": {
+          "id": "dark.syntax.operator",
+          "label": "Dark operator",
+          "hex": "#A7B1B8",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.operator.color"
+          }
+        },
+        "punctuation": {
+          "id": "dark.syntax.punctuation",
+          "label": "Dark punctuation",
+          "hex": "#86929A",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.punctuation.color"
+          }
+        },
+        "decorator": {
+          "id": "dark.syntax.decorator",
+          "label": "Dark decorator",
+          "hex": "#C96A6A",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.decorator.color"
+          }
+        },
+        "parameter": {
+          "id": "dark.syntax.parameter",
+          "label": "Dark parameter",
+          "hex": "#C3CDD3",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "code.parameter.color"
+          }
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "dark.terminal.bg",
+          "label": "dark.terminal bg",
+          "hex": "#10161C",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "dark.terminal.fg",
+          "label": "dark.terminal fg",
+          "hex": "#E8EEF2",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "dark.terminal.cursor",
+          "label": "dark.terminal cursor",
+          "hex": "#007AFF",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "dark.terminal.cursor-text",
+          "label": "dark.terminal cursor-text",
+          "hex": "#0B1218",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "dark.terminal.selection-bg",
+          "label": "dark.terminal selection-bg",
+          "hex": "#2B4356",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "dark.terminal.selection-fg",
+          "label": "dark.terminal selection-fg",
+          "hex": "#E8EEF2",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "dark.terminal.ansi.black",
+            "label": "dark.terminal black",
+            "hex": "#171F26",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.red",
+            "label": "dark.terminal red",
+            "hex": "#B85F5F",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.green",
+            "label": "dark.terminal green",
+            "hex": "#4F9E3F",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.yellow",
+            "label": "dark.terminal yellow",
+            "hex": "#C79A3D",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.blue",
+            "label": "dark.terminal blue",
+            "hex": "#4981C4",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.magenta",
+            "label": "dark.terminal magenta",
+            "hex": "#8E74AB",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.cyan",
+            "label": "dark.terminal cyan",
+            "hex": "#3F93A0",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.white",
+            "label": "dark.terminal white",
+            "hex": "#C6CED4",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-black",
+            "label": "dark.terminal bright-black",
+            "hex": "#3A4754",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-red",
+            "label": "dark.terminal bright-red",
+            "hex": "#C96A6A",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-green",
+            "label": "dark.terminal bright-green",
+            "hex": "#62BA46",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-yellow",
+            "label": "dark.terminal bright-yellow",
+            "hex": "#D9AE4A",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-blue",
+            "label": "dark.terminal bright-blue",
+            "hex": "#007AFF",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-magenta",
+            "label": "dark.terminal bright-magenta",
+            "hex": "#B184DB",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-cyan",
+            "label": "dark.terminal bright-cyan",
+            "hex": "#7FC4CF",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-white",
+            "label": "dark.terminal bright-white",
+            "hex": "#E8EEF2",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca-Dark.ghostty",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "dataviz.categorical.1",
+            "label": "Categorical 1",
+            "hex": "#E69F00",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.categorical.2",
+            "label": "Categorical 2",
+            "hex": "#0072B2",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.categorical.3",
+            "label": "Categorical 3",
+            "hex": "#009E73",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.categorical.4",
+            "label": "Categorical 4",
+            "hex": "#CC79A7",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.categorical.5",
+            "label": "Categorical 5",
+            "hex": "#D55E00",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.categorical.6",
+            "label": "Categorical 6",
+            "hex": "#56B4E9",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.categorical.7",
+            "label": "Categorical 7",
+            "hex": "#F0E442",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.6"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "dataviz.sequential.1",
+            "label": "Sequential 1",
+            "hex": "#EAF2FC",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.sequential.2",
+            "label": "Sequential 2",
+            "hex": "#C3DCF5",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.sequential.3",
+            "label": "Sequential 3",
+            "hex": "#92C0EA",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.sequential.4",
+            "label": "Sequential 4",
+            "hex": "#5B9EDB",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.sequential.5",
+            "label": "Sequential 5",
+            "hex": "#2F7CC4",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.sequential.6",
+            "label": "Sequential 6",
+            "hex": "#0B5AA0",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.sequential.7",
+            "label": "Sequential 7",
+            "hex": "#063A6B",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.6"
+            }
+          }
+        ],
+        "diverging": [
+          {
+            "id": "dataviz.diverging.1",
+            "label": "Diverging 1",
+            "hex": "#084B96",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.diverging.2",
+            "label": "Diverging 2",
+            "hex": "#3672B4",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.diverging.3",
+            "label": "Diverging 3",
+            "hex": "#7BA1CD",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.diverging.4",
+            "label": "Diverging 4",
+            "hex": "#C0D3E6",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.diverging.5",
+            "label": "Diverging 5",
+            "hex": "#F0EFE9",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.diverging.6",
+            "label": "Diverging 6",
+            "hex": "#E6CDB0",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.diverging.7",
+            "label": "Diverging 7",
+            "hex": "#D3A26E",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.6"
+            }
+          },
+          {
+            "id": "dataviz.diverging.8",
+            "label": "Diverging 8",
+            "hex": "#B97435",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.7"
+            }
+          },
+          {
+            "id": "dataviz.diverging.9",
+            "label": "Diverging 9",
+            "hex": "#8F4F16",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.8"
+            }
+          }
+        ],
+        "categoricalNote": "Okabe-Ito (CVD-safe), brand-free by design",
+        "plot": {
+          "bg": {
+            "id": "dark.plot.bg",
+            "label": "Dark plot bg",
+            "hex": "#10161C",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.dark.bg"
+            }
+          },
+          "grid": {
+            "id": "dark.plot.grid",
+            "label": "Dark plot grid",
+            "hex": "#2A3540",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.dark.grid"
+            }
+          },
+          "text": {
+            "id": "dark.plot.text",
+            "label": "Dark plot text",
+            "hex": "#E8EEF2",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.dark.text"
+            }
+          },
+          "muted": {
+            "id": "dark.plot.muted",
+            "label": "Dark plot muted",
+            "hex": "#8C8C8C",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.dark.muted"
+            }
+          }
+        }
+      }
+    },
+    "light": {
+      "label": "Pruina",
+      "scheme": "light",
+      "roles": {
+        "bg": {
+          "id": "light.bg",
+          "label": "Light bg",
+          "hex": "#F0F4F6",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.bg"
+          }
+        },
+        "surface": {
+          "id": "light.surface",
+          "label": "Light surface",
+          "hex": "#F7FAFB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.surface"
+          }
+        },
+        "text": {
+          "id": "light.text",
+          "label": "Light text",
+          "hex": "#16222A",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text"
+          }
+        },
+        "textMuted": {
+          "id": "light.text-muted",
+          "label": "Light text-muted",
+          "hex": "#55646D",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text-muted"
+          }
+        },
+        "textSubtle": {
+          "id": "light.text-subtle",
+          "label": "light.text-subtle",
+          "hex": "#55646D",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text-muted"
+          },
+          "alias": "light.text-muted",
+          "fallback": "textMuted"
+        },
+        "border": {
+          "id": "light.border",
+          "label": "Light border",
+          "hex": "#CDD7DC",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.border"
+          }
+        },
+        "link": {
+          "id": "light.link",
+          "label": "light.link",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.accent"
+          },
+          "alias": "light.accent"
+        },
+        "linkHover": {
+          "id": "light.link-hover",
+          "label": "Light link-hover",
+          "hex": "#084B96",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.accent-deep"
+          }
+        },
+        "accent": {
+          "id": "light.accent",
+          "label": "Light accent",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.accent"
+          }
+        },
+        "onAccent": {
+          "id": "light.on-accent",
+          "label": "Light on-accent",
+          "hex": "#F2F7FB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.on-accent"
+          }
+        },
+        "button": {
+          "id": "light.button",
+          "label": "light.button",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.accent"
+          },
+          "alias": "light.accent"
+        },
+        "onButton": {
+          "id": "light.on-button",
+          "label": "light.on-button",
+          "hex": "#F2F7FB",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.on-accent"
+          },
+          "alias": "light.on-accent"
+        },
+        "focus": {
+          "id": "light.focus",
+          "label": "Light focus",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "a11y.focus.light"
+          }
+        },
+        "selection": {
+          "id": "light.selection",
+          "label": "Light selection",
+          "hex": "#B7CDD6",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.tint-pale"
+          }
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "light.syntax.keyword",
+          "label": "Light keyword",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.accent"
+          },
+          "alias": "caelum.dies.light",
+          "style": "bold"
+        },
+        "string": {
+          "id": "light.syntax.string",
+          "label": "Light string",
+          "hex": "#3C6E38",
+          "origin": {
+            "derived": "mix(extended.folium, light.text, 0.5)",
+            "from": [
+              "extended.folium",
+              "light.text"
+            ]
+          },
+          "alias": "extended.folium.light"
+        },
+        "number": {
+          "id": "light.syntax.number",
+          "label": "Light number",
+          "hex": "#6B588B",
+          "origin": {
+            "derived": "mix(extended.viola, light.text, 0.45)",
+            "from": [
+              "extended.viola",
+              "light.text"
+            ]
+          },
+          "alias": "extended.viola.light",
+          "style": "italic"
+        },
+        "comment": {
+          "id": "light.syntax.comment",
+          "label": "Light comment",
+          "hex": "#55646D",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text-muted"
+          },
+          "alias": "light.text-muted",
+          "style": "italic"
+        },
+        "function": {
+          "id": "light.syntax.function",
+          "label": "Light function",
+          "hex": "#33668B",
+          "origin": {
+            "derived": "mix(extended.lacus, light.text, 0.45)",
+            "from": [
+              "extended.lacus",
+              "light.text"
+            ]
+          },
+          "alias": "extended.lacus.light"
+        },
+        "type": {
+          "id": "light.syntax.type",
+          "label": "Light type",
+          "hex": "#306972",
+          "origin": {
+            "derived": "mix(extended.unda, light.text, 0.45)",
+            "from": [
+              "extended.unda",
+              "light.text"
+            ]
+          },
+          "alias": "extended.unda.light",
+          "style": "italic"
+        },
+        "constant": {
+          "id": "light.syntax.constant",
+          "label": "light.syntax.constant",
+          "hex": "#6B588B",
+          "origin": {
+            "derived": "mix(extended.viola, light.text, 0.45)",
+            "from": [
+              "extended.viola",
+              "light.text"
+            ]
+          },
+          "alias": "light.syntax.number",
+          "style": "italic",
+          "fallback": "number"
+        },
+        "variable": {
+          "id": "light.syntax.variable",
+          "label": "Light variable",
+          "hex": "#16222A",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text"
+          },
+          "alias": "light.text"
+        },
+        "operator": {
+          "id": "light.syntax.operator",
+          "label": "Light operator",
+          "hex": "#55646D",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text-muted"
+          },
+          "alias": "light.text-muted"
+        },
+        "punctuation": {
+          "id": "light.syntax.punctuation",
+          "label": "Light punctuation",
+          "hex": "#55646D",
+          "origin": {
+            "file": "src/glauca.json",
+            "path": "modes.light.text-muted"
+          },
+          "alias": "light.text-muted"
+        },
+        "decorator": {
+          "id": "light.syntax.decorator",
+          "label": "Light decorator",
+          "hex": "#784A4D",
+          "origin": {
+            "derived": "mix(extended.bacca, light.text, 0.45)",
+            "from": [
+              "extended.bacca",
+              "light.text"
+            ]
+          },
+          "alias": "extended.bacca.light"
+        },
+        "parameter": {
+          "id": "light.syntax.parameter",
+          "label": "Light parameter",
+          "hex": "#2C3941",
+          "origin": {
+            "derived": "mix(light.text, light.text-muted, 0.35)",
+            "from": [
+              "light.text",
+              "light.text-muted"
+            ]
+          }
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "light.terminal.bg",
+          "label": "light.terminal bg",
+          "hex": "#F0F4F6",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "light.terminal.fg",
+          "label": "light.terminal fg",
+          "hex": "#16222A",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "light.terminal.cursor",
+          "label": "light.terminal cursor",
+          "hex": "#0B62CF",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "light.terminal.cursor-text",
+          "label": "light.terminal cursor-text",
+          "hex": "#F2F7FB",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "light.terminal.selection-bg",
+          "label": "light.terminal selection-bg",
+          "hex": "#35576B",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "light.terminal.selection-fg",
+          "label": "light.terminal selection-fg",
+          "hex": "#F2F7FB",
+          "origin": {
+            "file": "dist/themes/terminals/Glauca.ghostty",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "light.terminal.ansi.black",
+            "label": "light.terminal black",
+            "hex": "#0B1218",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.red",
+            "label": "light.terminal red",
+            "hex": "#A55859",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.green",
+            "label": "light.terminal green",
+            "hex": "#3F7B39",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.yellow",
+            "label": "light.terminal yellow",
+            "hex": "#846C36",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.blue",
+            "label": "light.terminal blue",
+            "hex": "#4070A8",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.magenta",
+            "label": "light.terminal magenta",
+            "hex": "#786594",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.cyan",
+            "label": "light.terminal cyan",
+            "hex": "#357884",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.white",
+            "label": "light.terminal white",
+            "hex": "#3E4D55",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-black",
+            "label": "light.terminal bright-black",
+            "hex": "#55646D",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-red",
+            "label": "light.terminal bright-red",
+            "hex": "#B06061",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-green",
+            "label": "light.terminal bright-green",
+            "hex": "#47833C",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-yellow",
+            "label": "light.terminal bright-yellow",
+            "hex": "#87733D",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-blue",
+            "label": "light.terminal bright-blue",
+            "hex": "#0273EE",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-magenta",
+            "label": "light.terminal bright-magenta",
+            "hex": "#8669A9",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-cyan",
+            "label": "light.terminal bright-cyan",
+            "hex": "#517D86",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-white",
+            "label": "light.terminal bright-white",
+            "hex": "#16222A",
+            "origin": {
+              "file": "dist/themes/terminals/Glauca.ghostty",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "dataviz.categorical.1",
+            "label": "Categorical 1",
+            "hex": "#E69F00",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.categorical.2",
+            "label": "Categorical 2",
+            "hex": "#0072B2",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.categorical.3",
+            "label": "Categorical 3",
+            "hex": "#009E73",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.categorical.4",
+            "label": "Categorical 4",
+            "hex": "#CC79A7",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.categorical.5",
+            "label": "Categorical 5",
+            "hex": "#D55E00",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.categorical.6",
+            "label": "Categorical 6",
+            "hex": "#56B4E9",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.categorical.7",
+            "label": "Categorical 7",
+            "hex": "#F0E442",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.categorical.colors.6"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "dataviz.sequential.1",
+            "label": "Sequential 1",
+            "hex": "#EAF2FC",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.sequential.2",
+            "label": "Sequential 2",
+            "hex": "#C3DCF5",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.sequential.3",
+            "label": "Sequential 3",
+            "hex": "#92C0EA",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.sequential.4",
+            "label": "Sequential 4",
+            "hex": "#5B9EDB",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.sequential.5",
+            "label": "Sequential 5",
+            "hex": "#2F7CC4",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.sequential.6",
+            "label": "Sequential 6",
+            "hex": "#0B5AA0",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.sequential.7",
+            "label": "Sequential 7",
+            "hex": "#063A6B",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.sequential.colors.6"
+            }
+          }
+        ],
+        "diverging": [
+          {
+            "id": "dataviz.diverging.1",
+            "label": "Diverging 1",
+            "hex": "#084B96",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.diverging.2",
+            "label": "Diverging 2",
+            "hex": "#3672B4",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.diverging.3",
+            "label": "Diverging 3",
+            "hex": "#7BA1CD",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.diverging.4",
+            "label": "Diverging 4",
+            "hex": "#C0D3E6",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.diverging.5",
+            "label": "Diverging 5",
+            "hex": "#F0EFE9",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.diverging.6",
+            "label": "Diverging 6",
+            "hex": "#E6CDB0",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.diverging.7",
+            "label": "Diverging 7",
+            "hex": "#D3A26E",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.6"
+            }
+          },
+          {
+            "id": "dataviz.diverging.8",
+            "label": "Diverging 8",
+            "hex": "#B97435",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.7"
+            }
+          },
+          {
+            "id": "dataviz.diverging.9",
+            "label": "Diverging 9",
+            "hex": "#8F4F16",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.diverging.colors.8"
+            }
+          }
+        ],
+        "categoricalNote": "Okabe-Ito (CVD-safe), brand-free by design",
+        "plot": {
+          "bg": {
+            "id": "light.plot.bg",
+            "label": "Light plot bg",
+            "hex": "#FFFFFF",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.light.bg"
+            }
+          },
+          "grid": {
+            "id": "light.plot.grid",
+            "label": "Light plot grid",
+            "hex": "#DDE6EA",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.light.grid"
+            }
+          },
+          "text": {
+            "id": "light.plot.text",
+            "label": "Light plot text",
+            "hex": "#16222A",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.light.text"
+            }
+          },
+          "muted": {
+            "id": "light.plot.muted",
+            "label": "Light plot muted",
+            "hex": "#55646D",
+            "origin": {
+              "file": "src/glauca.json",
+              "path": "dataviz.plot.light.muted"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1630 @@
+{
+  "id": "ambergris",
+  "name": "Ambergris",
+  "version": "0.3.0",
+  "scale": {
+    "name": "Grey",
+    "steps": [
+      {
+        "id": "grey.000",
+        "label": "Grey 000",
+        "hex": "#FAFBFD",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.000"
+        }
+      },
+      {
+        "id": "grey.050",
+        "label": "Grey 050",
+        "hex": "#F3F5F7",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.050"
+        }
+      },
+      {
+        "id": "grey.100",
+        "label": "Grey 100",
+        "hex": "#EAEDEF",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.100"
+        }
+      },
+      {
+        "id": "grey.200",
+        "label": "Grey 200",
+        "hex": "#DCDFE3",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.200"
+        }
+      },
+      {
+        "id": "grey.300",
+        "label": "Grey 300",
+        "hex": "#C8CBD0",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.300"
+        }
+      },
+      {
+        "id": "grey.400",
+        "label": "Grey 400",
+        "hex": "#AEB2B7",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.400"
+        }
+      },
+      {
+        "id": "grey.500",
+        "label": "Grey 500",
+        "hex": "#8D9298",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.500"
+        }
+      },
+      {
+        "id": "grey.600",
+        "label": "Grey 600",
+        "hex": "#72777D",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.600"
+        }
+      },
+      {
+        "id": "grey.700",
+        "label": "Grey 700",
+        "hex": "#5C6168",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.700"
+        }
+      },
+      {
+        "id": "grey.800",
+        "label": "Grey 800",
+        "hex": "#42484E",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.800"
+        }
+      },
+      {
+        "id": "grey.900",
+        "label": "Grey 900",
+        "hex": "#2B3037",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.900"
+        }
+      },
+      {
+        "id": "grey.950",
+        "label": "Grey 950",
+        "hex": "#1A1F26",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.950"
+        }
+      },
+      {
+        "id": "grey.1000",
+        "label": "Grey 1000",
+        "hex": "#0C1117",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.grey.1000"
+        }
+      }
+    ]
+  },
+  "extraScales": [
+    {
+      "name": "Accent",
+      "steps": [
+        {
+          "id": "accent.050",
+          "label": "Accent 050",
+          "hex": "#E7F8F6",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.050"
+          }
+        },
+        {
+          "id": "accent.100",
+          "label": "Accent 100",
+          "hex": "#D1EFEC",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.100"
+          }
+        },
+        {
+          "id": "accent.200",
+          "label": "Accent 200",
+          "hex": "#AEE0DC",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.200"
+          }
+        },
+        {
+          "id": "accent.300",
+          "label": "Accent 300",
+          "hex": "#86CDC8",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.300"
+          }
+        },
+        {
+          "id": "accent.400",
+          "label": "Accent 400",
+          "hex": "#5BB6B1",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.400"
+          }
+        },
+        {
+          "id": "accent.500",
+          "label": "Accent 500",
+          "hex": "#2F9F99",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.500"
+          }
+        },
+        {
+          "id": "accent.600",
+          "label": "Accent 600",
+          "hex": "#1E807B",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.600"
+          }
+        },
+        {
+          "id": "accent.700",
+          "label": "Accent 700",
+          "hex": "#1B6864",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.700"
+          }
+        },
+        {
+          "id": "accent.800",
+          "label": "Accent 800",
+          "hex": "#164F4C",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.800"
+          }
+        },
+        {
+          "id": "accent.900",
+          "label": "Accent 900",
+          "hex": "#0E3937",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.900"
+          }
+        }
+      ]
+    }
+  ],
+  "accents": [
+    {
+      "id": "accent",
+      "label": "Accent",
+      "hue": "teal",
+      "tier": "core",
+      "note": "Interaction only: links, the current item, selection. Never severity, never decoration.",
+      "dark": {
+        "id": "accent.dark",
+        "label": "Accent dark",
+        "hex": "#5BB6B1",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.accent.400"
+        },
+        "alias": "dark.link"
+      },
+      "light": {
+        "id": "accent.light",
+        "label": "Accent light",
+        "hex": "#1E807B",
+        "origin": {
+          "file": "tokens.json",
+          "path": "color.accent.600"
+        },
+        "alias": "light.link"
+      }
+    },
+    {
+      "id": "sweep-1",
+      "label": "Sweep 1",
+      "hue": "teal",
+      "tier": "extended",
+      "note": "The data sweep is sequential only; the family rules it out for unordered groups.",
+      "dark": {
+        "id": "data.dark.1",
+        "label": "Sweep 1 (dark)",
+        "hex": "#13998D",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-dark.1"
+        }
+      },
+      "light": {
+        "id": "data.light.1",
+        "label": "Sweep 1 (light)",
+        "hex": "#2EA094",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-light.1"
+        }
+      }
+    },
+    {
+      "id": "sweep-2",
+      "label": "Sweep 2",
+      "hue": "teal",
+      "tier": "extended",
+      "dark": {
+        "id": "data.dark.2",
+        "label": "Sweep 2 (dark)",
+        "hex": "#2BA6C6",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-dark.2"
+        }
+      },
+      "light": {
+        "id": "data.light.2",
+        "label": "Sweep 2 (light)",
+        "hex": "#0587A4",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-light.2"
+        }
+      }
+    },
+    {
+      "id": "sweep-3",
+      "label": "Sweep 3",
+      "hue": "blue",
+      "tier": "extended",
+      "dark": {
+        "id": "data.dark.3",
+        "label": "Sweep 3 (dark)",
+        "hex": "#6FAEF3",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-dark.3"
+        }
+      },
+      "light": {
+        "id": "data.light.3",
+        "label": "Sweep 3 (light)",
+        "hex": "#236AAF",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-light.3"
+        }
+      }
+    },
+    {
+      "id": "sweep-4",
+      "label": "Sweep 4",
+      "hue": "indigo",
+      "tier": "extended",
+      "dark": {
+        "id": "data.dark.4",
+        "label": "Sweep 4 (dark)",
+        "hex": "#A0BAFE",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-dark.4"
+        }
+      },
+      "light": {
+        "id": "data.light.4",
+        "label": "Sweep 4 (light)",
+        "hex": "#304BB0",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-light.4"
+        }
+      }
+    },
+    {
+      "id": "sweep-5",
+      "label": "Sweep 5",
+      "hue": "indigo",
+      "tier": "extended",
+      "dark": {
+        "id": "data.dark.5",
+        "label": "Sweep 5 (dark)",
+        "hex": "#C3CCFE",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-dark.5"
+        }
+      },
+      "light": {
+        "id": "data.light.5",
+        "label": "Sweep 5 (light)",
+        "hex": "#3428AA",
+        "origin": {
+          "file": "tokens.json",
+          "path": "data.sequence-on-light.5"
+        }
+      }
+    }
+  ],
+  "rules": [
+    "Accent marks interaction only: links, current item, selection, accent rules. Never severity, never decoration.",
+    "Status is achromatic. Severity is carried by border weight, edge style and fill density, plus an icon and explicit copy.",
+    "The data sweep never appears in interface chrome, and the interface accent never appears in a chart.",
+    "Functional hues exist for terminal and editor content only: ANSI slots, diffs, diagnostics. Never interface chrome."
+  ],
+  "modes": {
+    "dark": {
+      "label": "Dark",
+      "scheme": "dark",
+      "roles": {
+        "bg": {
+          "id": "dark.bg",
+          "label": "Dark bg",
+          "hex": "#1A1F26",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.950"
+          },
+          "alias": "grey.950"
+        },
+        "surface": {
+          "id": "dark.surface",
+          "label": "Dark surface",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.1000"
+          },
+          "alias": "grey.1000"
+        },
+        "text": {
+          "id": "dark.text",
+          "label": "Dark text",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.100"
+          },
+          "alias": "grey.100"
+        },
+        "textMuted": {
+          "id": "dark.text-muted",
+          "label": "Dark text-muted",
+          "hex": "#AEB2B7",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.400"
+          },
+          "alias": "grey.400"
+        },
+        "textSubtle": {
+          "id": "dark.text-subtle",
+          "label": "Dark text-subtle",
+          "hex": "#8D9298",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.500"
+          },
+          "alias": "grey.500"
+        },
+        "border": {
+          "id": "dark.border",
+          "label": "Dark border",
+          "hex": "#42484E",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.800"
+          },
+          "alias": "grey.800"
+        },
+        "link": {
+          "id": "dark.link",
+          "label": "Dark link",
+          "hex": "#5BB6B1",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.400"
+          },
+          "alias": "accent.400"
+        },
+        "linkHover": {
+          "id": "dark.link-hover",
+          "label": "Dark link-hover",
+          "hex": "#86CDC8",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.300"
+          },
+          "alias": "accent.300"
+        },
+        "accent": {
+          "id": "dark.accent",
+          "label": "Dark accent",
+          "hex": "#2F9F99",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.500"
+          },
+          "alias": "accent.500"
+        },
+        "onAccent": {
+          "id": "dark.on-accent",
+          "label": "dark.on-accent",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "higher-contrast(dark.bg | dark.text) on dark.accent",
+            "from": [
+              "accent.500",
+              "grey.950",
+              "grey.100"
+            ]
+          }
+        },
+        "button": {
+          "id": "dark.button",
+          "label": "Dark button",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.100"
+          },
+          "alias": "grey.100"
+        },
+        "onButton": {
+          "id": "dark.on-button",
+          "label": "Dark on-button",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.1000"
+          },
+          "alias": "grey.1000"
+        },
+        "focus": {
+          "id": "dark.focus",
+          "label": "Dark focus",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.000"
+          },
+          "alias": "grey.000"
+        },
+        "selection": {
+          "id": "dark.selection",
+          "label": "Dark selection",
+          "hex": "#0E3937",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.900"
+          },
+          "alias": "accent.900"
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "dark.syntax.keyword",
+          "label": "Dark keyword",
+          "hex": "#DCDFE3",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.keyword.color",
+            "official": true
+          },
+          "style": "bold"
+        },
+        "string": {
+          "id": "dark.syntax.string",
+          "label": "Dark string",
+          "hex": "#C8CBD0",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.string.color",
+            "official": true
+          },
+          "style": "italic"
+        },
+        "number": {
+          "id": "dark.syntax.number",
+          "label": "Dark number",
+          "hex": "#DCDFE3",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.number.color",
+            "official": true
+          }
+        },
+        "comment": {
+          "id": "dark.syntax.comment",
+          "label": "Dark comment",
+          "hex": "#8D9298",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.comment.color",
+            "official": true
+          },
+          "style": "italic"
+        },
+        "function": {
+          "id": "dark.syntax.function",
+          "label": "Dark function",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.function.color",
+            "official": true
+          }
+        },
+        "type": {
+          "id": "dark.syntax.type",
+          "label": "Dark type",
+          "hex": "#DCDFE3",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.type.color",
+            "official": true
+          }
+        },
+        "constant": {
+          "id": "dark.syntax.constant",
+          "label": "Dark constant",
+          "hex": "#DCDFE3",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.constant.color",
+            "official": true
+          }
+        },
+        "variable": {
+          "id": "dark.syntax.variable",
+          "label": "Dark variable",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.variable.color",
+            "official": true
+          }
+        },
+        "operator": {
+          "id": "dark.syntax.operator",
+          "label": "Dark operator",
+          "hex": "#AEB2B7",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.operator.color",
+            "official": true
+          }
+        },
+        "punctuation": {
+          "id": "dark.syntax.punctuation",
+          "label": "Dark punctuation",
+          "hex": "#8D9298",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.punctuation.color",
+            "official": true
+          }
+        },
+        "decorator": {
+          "id": "dark.syntax.decorator",
+          "label": "dark.syntax.decorator",
+          "hex": "#C8CBD0",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.attribute.color",
+            "official": true
+          },
+          "alias": "dark.syntax.decorator",
+          "fallback": "attribute"
+        },
+        "parameter": {
+          "id": "dark.syntax.parameter",
+          "label": "dark.syntax.parameter",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "ports/zed/ambergris.json",
+            "path": "syntax.variable.color",
+            "official": true
+          },
+          "alias": "dark.syntax.parameter",
+          "fallback": "variable"
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "dark.terminal.bg",
+          "label": "dark.terminal bg",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "dark.terminal.fg",
+          "label": "dark.terminal fg",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "dark.terminal.cursor",
+          "label": "dark.terminal cursor",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "dark.terminal.cursor-text",
+          "label": "dark.terminal cursor-text",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "dark.terminal.selection-bg",
+          "label": "dark.terminal selection-bg",
+          "hex": "#143336",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "dark.terminal.selection-fg",
+          "label": "dark.terminal selection-fg",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "ports/ghostty/ambergris-dark",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "dark.terminal.ansi.black",
+            "label": "dark.terminal black",
+            "hex": "#1A1F26",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.red",
+            "label": "dark.terminal red",
+            "hex": "#CF7F79",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.green",
+            "label": "dark.terminal green",
+            "hex": "#7BB587",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.yellow",
+            "label": "dark.terminal yellow",
+            "hex": "#D4BC79",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.blue",
+            "label": "dark.terminal blue",
+            "hex": "#72A5DE",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.magenta",
+            "label": "dark.terminal magenta",
+            "hex": "#B893D4",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.cyan",
+            "label": "dark.terminal cyan",
+            "hex": "#5BB6B1",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.white",
+            "label": "dark.terminal white",
+            "hex": "#C8CBD0",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-black",
+            "label": "dark.terminal bright-black",
+            "hex": "#5C6168",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-red",
+            "label": "dark.terminal bright-red",
+            "hex": "#E7958E",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-green",
+            "label": "dark.terminal bright-green",
+            "hex": "#91CB9C",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-yellow",
+            "label": "dark.terminal bright-yellow",
+            "hex": "#E8CF8C",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-blue",
+            "label": "dark.terminal bright-blue",
+            "hex": "#88BCF6",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-magenta",
+            "label": "dark.terminal bright-magenta",
+            "hex": "#CEA9EB",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-cyan",
+            "label": "dark.terminal bright-cyan",
+            "hex": "#86CDC8",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-white",
+            "label": "dark.terminal bright-white",
+            "hex": "#FAFBFD",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [],
+        "categoricalNote": "none by rule: the sweep is sequential only",
+        "sequential": [
+          {
+            "id": "data.dark.1",
+            "label": "Sweep 1 (dark)",
+            "hex": "#13998D",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-dark.1"
+            }
+          },
+          {
+            "id": "data.dark.2",
+            "label": "Sweep 2 (dark)",
+            "hex": "#2BA6C6",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-dark.2"
+            }
+          },
+          {
+            "id": "data.dark.3",
+            "label": "Sweep 3 (dark)",
+            "hex": "#6FAEF3",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-dark.3"
+            }
+          },
+          {
+            "id": "data.dark.4",
+            "label": "Sweep 4 (dark)",
+            "hex": "#A0BAFE",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-dark.4"
+            }
+          },
+          {
+            "id": "data.dark.5",
+            "label": "Sweep 5 (dark)",
+            "hex": "#C3CCFE",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-dark.5"
+            }
+          }
+        ],
+        "diverging": null,
+        "plot": {
+          "bg": {
+            "id": "dark.plot.bg",
+            "label": "dark.plot.bg",
+            "hex": "#1A1F26",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.950"
+            },
+            "alias": "dark.bg"
+          },
+          "grid": {
+            "id": "dark.plot.grid",
+            "label": "dark.plot.grid",
+            "hex": "#2B3037",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.900"
+            },
+            "alias": "dark.rule-faint"
+          },
+          "text": {
+            "id": "dark.plot.text",
+            "label": "dark.plot.text",
+            "hex": "#EAEDEF",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.100"
+            },
+            "alias": "dark.text"
+          },
+          "muted": {
+            "id": "dark.plot.muted",
+            "label": "dark.plot.muted",
+            "hex": "#AEB2B7",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.400"
+            },
+            "alias": "dark.text-muted"
+          }
+        }
+      }
+    },
+    "light": {
+      "label": "Light",
+      "scheme": "light",
+      "roles": {
+        "bg": {
+          "id": "light.bg",
+          "label": "Light bg",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.000"
+          },
+          "alias": "grey.000"
+        },
+        "surface": {
+          "id": "light.surface",
+          "label": "Light surface",
+          "hex": "#EAEDEF",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.100"
+          },
+          "alias": "grey.100"
+        },
+        "text": {
+          "id": "light.text",
+          "label": "Light text",
+          "hex": "#1A1F26",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.950"
+          },
+          "alias": "grey.950"
+        },
+        "textMuted": {
+          "id": "light.text-muted",
+          "label": "Light text-muted",
+          "hex": "#5C6168",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.700"
+          },
+          "alias": "grey.700"
+        },
+        "textSubtle": {
+          "id": "light.text-subtle",
+          "label": "Light text-subtle",
+          "hex": "#72777D",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.600"
+          },
+          "alias": "grey.600"
+        },
+        "border": {
+          "id": "light.border",
+          "label": "Light border",
+          "hex": "#C8CBD0",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.300"
+          },
+          "alias": "grey.300"
+        },
+        "link": {
+          "id": "light.link",
+          "label": "Light link",
+          "hex": "#1E807B",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.600"
+          },
+          "alias": "accent.600"
+        },
+        "linkHover": {
+          "id": "light.link-hover",
+          "label": "Light link-hover",
+          "hex": "#1B6864",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.700"
+          },
+          "alias": "accent.700"
+        },
+        "accent": {
+          "id": "light.accent",
+          "label": "Light accent",
+          "hex": "#2F9F99",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.500"
+          },
+          "alias": "accent.500"
+        },
+        "onAccent": {
+          "id": "light.on-accent",
+          "label": "light.on-accent",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "higher-contrast(light.bg | light.text) on light.accent",
+            "from": [
+              "accent.500",
+              "grey.000",
+              "grey.950"
+            ]
+          }
+        },
+        "button": {
+          "id": "light.button",
+          "label": "Light button",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.1000"
+          },
+          "alias": "grey.1000"
+        },
+        "onButton": {
+          "id": "light.on-button",
+          "label": "Light on-button",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.000"
+          },
+          "alias": "grey.000"
+        },
+        "focus": {
+          "id": "light.focus",
+          "label": "Light focus",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.1000"
+          },
+          "alias": "grey.1000"
+        },
+        "selection": {
+          "id": "light.selection",
+          "label": "Light selection",
+          "hex": "#E7F8F6",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.accent.050"
+          },
+          "alias": "accent.050"
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "light.syntax.keyword",
+          "label": "Light keyword",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.keyword) on light.ground",
+            "from": [
+              "dark.syntax.keyword",
+              "grey.1000",
+              "grey.050"
+            ]
+          },
+          "style": "bold"
+        },
+        "string": {
+          "id": "light.syntax.string",
+          "label": "Light string",
+          "hex": "#2B3037",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.string) on light.ground",
+            "from": [
+              "dark.syntax.string",
+              "grey.1000",
+              "grey.050"
+            ]
+          },
+          "style": "italic"
+        },
+        "number": {
+          "id": "light.syntax.number",
+          "label": "Light number",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.number) on light.ground",
+            "from": [
+              "dark.syntax.number",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "comment": {
+          "id": "light.syntax.comment",
+          "label": "Light comment",
+          "hex": "#5C6168",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.comment) on light.ground",
+            "from": [
+              "dark.syntax.comment",
+              "grey.1000",
+              "grey.050"
+            ]
+          },
+          "style": "italic"
+        },
+        "function": {
+          "id": "light.syntax.function",
+          "label": "Light function",
+          "hex": "#0C1117",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.function) on light.ground",
+            "from": [
+              "dark.syntax.function",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "type": {
+          "id": "light.syntax.type",
+          "label": "Light type",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.type) on light.ground",
+            "from": [
+              "dark.syntax.type",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "constant": {
+          "id": "light.syntax.constant",
+          "label": "Light constant",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.constant) on light.ground",
+            "from": [
+              "dark.syntax.constant",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "variable": {
+          "id": "light.syntax.variable",
+          "label": "Light variable",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.variable) on light.ground",
+            "from": [
+              "dark.syntax.variable",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "operator": {
+          "id": "light.syntax.operator",
+          "label": "Light operator",
+          "hex": "#42484E",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.operator) on light.ground",
+            "from": [
+              "dark.syntax.operator",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "punctuation": {
+          "id": "light.syntax.punctuation",
+          "label": "Light punctuation",
+          "hex": "#5C6168",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.punctuation) on light.ground",
+            "from": [
+              "dark.syntax.punctuation",
+              "grey.1000",
+              "grey.050"
+            ]
+          }
+        },
+        "decorator": {
+          "id": "light.syntax.decorator",
+          "label": "light.syntax.decorator",
+          "hex": "#2B3037",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.decorator) on light.ground",
+            "from": [
+              "dark.syntax.decorator",
+              "grey.1000",
+              "grey.050"
+            ]
+          },
+          "alias": "light.syntax.decorator",
+          "fallback": "attribute"
+        },
+        "parameter": {
+          "id": "light.syntax.parameter",
+          "label": "light.syntax.parameter",
+          "hex": "#1A1F26",
+          "origin": {
+            "derived": "mirror-contrast(dark.syntax.parameter) on light.ground",
+            "from": [
+              "dark.syntax.parameter",
+              "grey.1000",
+              "grey.050"
+            ]
+          },
+          "alias": "light.syntax.parameter",
+          "fallback": "variable"
+        }
+      },
+      "terminal": {
+        "origin": "generated",
+        "bg": {
+          "id": "light.terminal.bg",
+          "label": "light.terminal.bg",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.000"
+          },
+          "alias": "light.bg"
+        },
+        "fg": {
+          "id": "light.terminal.fg",
+          "label": "light.terminal.fg",
+          "hex": "#1A1F26",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.950"
+          },
+          "alias": "light.text"
+        },
+        "cursor": {
+          "id": "light.terminal.cursor",
+          "label": "light.terminal.cursor",
+          "hex": "#0C1117",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.1000"
+          },
+          "alias": "light.surface-inverse"
+        },
+        "cursorText": {
+          "id": "light.terminal.cursor-text",
+          "label": "light.terminal.cursor-text",
+          "hex": "#FAFBFD",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.000"
+          },
+          "alias": "light.bg"
+        },
+        "selectionBg": {
+          "id": "light.terminal.selection-bg",
+          "label": "light.terminal.selection-bg",
+          "hex": "#C9E5E5",
+          "origin": {
+            "derived": "blend(accent.500, 0.24, light.bg)",
+            "from": [
+              "accent.500",
+              "grey.000"
+            ]
+          }
+        },
+        "selectionFg": {
+          "id": "light.terminal.selection-fg",
+          "label": "light.terminal.selection-fg",
+          "hex": "#1A1F26",
+          "origin": {
+            "file": "tokens.json",
+            "path": "color.grey.950"
+          },
+          "alias": "light.text"
+        },
+        "ansi": [
+          {
+            "id": "light.terminal.ansi.black",
+            "label": "light.terminal.ansi.black",
+            "hex": "#1A1F26",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 0",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.black"
+          },
+          {
+            "id": "light.terminal.ansi.red",
+            "label": "light.terminal.ansi.red",
+            "hex": "#CF7F79",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 1",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.red"
+          },
+          {
+            "id": "light.terminal.ansi.green",
+            "label": "light.terminal.ansi.green",
+            "hex": "#7BB587",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 2",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.green"
+          },
+          {
+            "id": "light.terminal.ansi.yellow",
+            "label": "light.terminal.ansi.yellow",
+            "hex": "#D4BC79",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 3",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.yellow"
+          },
+          {
+            "id": "light.terminal.ansi.blue",
+            "label": "light.terminal.ansi.blue",
+            "hex": "#72A5DE",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 4",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.blue"
+          },
+          {
+            "id": "light.terminal.ansi.magenta",
+            "label": "light.terminal.ansi.magenta",
+            "hex": "#B893D4",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 5",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.magenta"
+          },
+          {
+            "id": "light.terminal.ansi.cyan",
+            "label": "light.terminal.ansi.cyan",
+            "hex": "#5BB6B1",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 6",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.cyan"
+          },
+          {
+            "id": "light.terminal.ansi.white",
+            "label": "light.terminal.ansi.white",
+            "hex": "#C8CBD0",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 7",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.white"
+          },
+          {
+            "id": "light.terminal.ansi.bright-black",
+            "label": "light.terminal.ansi.bright-black",
+            "hex": "#5C6168",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 8",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-black"
+          },
+          {
+            "id": "light.terminal.ansi.bright-red",
+            "label": "light.terminal.ansi.bright-red",
+            "hex": "#E7958E",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 9",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-red"
+          },
+          {
+            "id": "light.terminal.ansi.bright-green",
+            "label": "light.terminal.ansi.bright-green",
+            "hex": "#91CB9C",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 10",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-green"
+          },
+          {
+            "id": "light.terminal.ansi.bright-yellow",
+            "label": "light.terminal.ansi.bright-yellow",
+            "hex": "#E8CF8C",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 11",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-yellow"
+          },
+          {
+            "id": "light.terminal.ansi.bright-blue",
+            "label": "light.terminal.ansi.bright-blue",
+            "hex": "#88BCF6",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 12",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-blue"
+          },
+          {
+            "id": "light.terminal.ansi.bright-magenta",
+            "label": "light.terminal.ansi.bright-magenta",
+            "hex": "#CEA9EB",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 13",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-magenta"
+          },
+          {
+            "id": "light.terminal.ansi.bright-cyan",
+            "label": "light.terminal.ansi.bright-cyan",
+            "hex": "#86CDC8",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 14",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-cyan"
+          },
+          {
+            "id": "light.terminal.ansi.bright-white",
+            "label": "light.terminal.ansi.bright-white",
+            "hex": "#FAFBFD",
+            "origin": {
+              "file": "ports/ghostty/ambergris-dark",
+              "path": "palette 15",
+              "official": true
+            },
+            "alias": "dark.terminal.ansi.bright-white"
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [],
+        "categoricalNote": "none by rule: the sweep is sequential only",
+        "sequential": [
+          {
+            "id": "data.light.1",
+            "label": "Sweep 1 (light)",
+            "hex": "#2EA094",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-light.1"
+            }
+          },
+          {
+            "id": "data.light.2",
+            "label": "Sweep 2 (light)",
+            "hex": "#0587A4",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-light.2"
+            }
+          },
+          {
+            "id": "data.light.3",
+            "label": "Sweep 3 (light)",
+            "hex": "#236AAF",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-light.3"
+            }
+          },
+          {
+            "id": "data.light.4",
+            "label": "Sweep 4 (light)",
+            "hex": "#304BB0",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-light.4"
+            }
+          },
+          {
+            "id": "data.light.5",
+            "label": "Sweep 5 (light)",
+            "hex": "#3428AA",
+            "origin": {
+              "file": "tokens.json",
+              "path": "data.sequence-on-light.5"
+            }
+          }
+        ],
+        "diverging": null,
+        "plot": {
+          "bg": {
+            "id": "light.plot.bg",
+            "label": "light.plot.bg",
+            "hex": "#FAFBFD",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.000"
+            },
+            "alias": "light.bg"
+          },
+          "grid": {
+            "id": "light.plot.grid",
+            "label": "light.plot.grid",
+            "hex": "#DCDFE3",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.200"
+            },
+            "alias": "light.rule-faint"
+          },
+          "text": {
+            "id": "light.plot.text",
+            "label": "light.plot.text",
+            "hex": "#1A1F26",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.950"
+            },
+            "alias": "light.text"
+          },
+          "muted": {
+            "id": "light.plot.muted",
+            "label": "light.plot.muted",
+            "hex": "#5C6168",
+            "origin": {
+              "file": "tokens.json",
+              "path": "color.grey.700"
+            },
+            "alias": "light.text-muted"
+          }
+        }
+      }
+    }
+  }
+}

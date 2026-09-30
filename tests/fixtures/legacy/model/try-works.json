@@ -1,0 +1,1837 @@
+{
+  "id": "try-works",
+  "name": "Try-Works",
+  "version": "1.0.0",
+  "scale": {
+    "name": "Sea",
+    "steps": [
+      {
+        "id": "whale.whale",
+        "label": "Whale (whale)",
+        "hex": "#F1EFE9",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.whale.whale"
+        },
+        "group": "whale"
+      },
+      {
+        "id": "whale.bone",
+        "label": "Bone (whale)",
+        "hex": "#DEE7E4",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.whale.bone"
+        },
+        "group": "whale"
+      },
+      {
+        "id": "sea.foam",
+        "label": "Foam (sea)",
+        "hex": "#8FB6BD",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.sea.foam"
+        },
+        "group": "sea"
+      },
+      {
+        "id": "whale.gull",
+        "label": "Gull (whale)",
+        "hex": "#97A0A4",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.whale.gull"
+        },
+        "group": "whale"
+      },
+      {
+        "id": "sea.spray",
+        "label": "Spray (sea)",
+        "hex": "#4D7680",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.sea.spray"
+        },
+        "group": "sea"
+      },
+      {
+        "id": "sea.swell",
+        "label": "Swell (sea)",
+        "hex": "#2C4953",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.sea.swell"
+        },
+        "group": "sea"
+      },
+      {
+        "id": "ground.deck",
+        "label": "Deck (ground)",
+        "hex": "#232B32",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.ground.deck"
+        },
+        "group": "ground"
+      },
+      {
+        "id": "sea.trough",
+        "label": "Trough (sea)",
+        "hex": "#14242C",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.sea.trough"
+        },
+        "group": "sea"
+      },
+      {
+        "id": "ground.hold",
+        "label": "Hold (ground)",
+        "hex": "#1B2127",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.ground.hold"
+        },
+        "group": "ground"
+      },
+      {
+        "id": "ground.pitch",
+        "label": "Pitch (ground)",
+        "hex": "#12161B",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.ground.pitch"
+        },
+        "group": "ground"
+      },
+      {
+        "id": "ground.iron",
+        "label": "Iron (ground)",
+        "hex": "#11151A",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.ground.iron"
+        },
+        "group": "ground"
+      }
+    ]
+  },
+  "extraScales": [],
+  "accents": [
+    {
+      "id": "ember",
+      "label": "Ember",
+      "hue": "orange",
+      "tier": "core",
+      "group": "fire",
+      "dark": {
+        "id": "fire.ember",
+        "label": "Ember",
+        "hex": "#C9651D",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.fire.ember"
+        }
+      },
+      "light": {
+        "id": "fire.ember.light",
+        "label": "Ember light",
+        "hex": "#9E5017",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "modes.cold.accent"
+        },
+        "alias": "light.accent"
+      }
+    },
+    {
+      "id": "flame",
+      "label": "Flame",
+      "hue": "orange",
+      "tier": "core",
+      "group": "fire",
+      "dark": {
+        "id": "fire.flame",
+        "label": "Flame",
+        "hex": "#E0832A",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.fire.flame"
+        }
+      },
+      "light": {
+        "id": "fire.flame.light",
+        "label": "Flame light",
+        "hex": "#7A3A10",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "modes.cold.accent-deep"
+        },
+        "alias": "light.accent-deep"
+      }
+    },
+    {
+      "id": "oil",
+      "label": "Oil",
+      "hue": "orange",
+      "tier": "core",
+      "group": "fire",
+      "dark": {
+        "id": "fire.oil",
+        "label": "Oil",
+        "hex": "#9A4A16",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.fire.oil"
+        }
+      },
+      "light": {
+        "id": "fire.oil.light",
+        "label": "Oil light",
+        "hex": "#7A3A10",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "modes.cold.accent-deep"
+        },
+        "alias": "light.accent-deep"
+      }
+    },
+    {
+      "id": "kelp",
+      "label": "Kelp",
+      "hue": "green",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.kelp",
+        "label": "Kelp",
+        "hex": "#86A87F",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.extended.kelp"
+        }
+      },
+      "light": {
+        "id": "extended.kelp.light",
+        "label": "Kelp light",
+        "hex": "#4F6855",
+        "origin": {
+          "derived": "mix(extended.kelp, light.text, 0.5)",
+          "from": [
+            "extended.kelp",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "brick",
+      "label": "Brick",
+      "hue": "red",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.brick",
+        "label": "Brick",
+        "hex": "#D06A52",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.extended.brick"
+        }
+      },
+      "light": {
+        "id": "extended.brick.light",
+        "label": "Brick light",
+        "hex": "#7D4C40",
+        "origin": {
+          "derived": "mix(extended.brick, light.text, 0.45)",
+          "from": [
+            "extended.brick",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "dusk",
+      "label": "Dusk",
+      "hue": "violet",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.dusk",
+        "label": "Dusk",
+        "hex": "#A487BA",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.extended.dusk"
+        }
+      },
+      "light": {
+        "id": "extended.dusk.light",
+        "label": "Dusk light",
+        "hex": "#655C7A",
+        "origin": {
+          "derived": "mix(extended.dusk, light.text, 0.45)",
+          "from": [
+            "extended.dusk",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "tide",
+      "label": "Tide",
+      "hue": "blue",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.tide",
+        "label": "Tide",
+        "hex": "#5F93B0",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.extended.tide"
+        }
+      },
+      "light": {
+        "id": "extended.tide.light",
+        "label": "Tide light",
+        "hex": "#3F6274",
+        "origin": {
+          "derived": "mix(extended.tide, light.text, 0.45)",
+          "from": [
+            "extended.tide",
+            "light.text"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shoal",
+      "label": "Shoal",
+      "hue": "cyan",
+      "tier": "extended",
+      "group": "extended",
+      "dark": {
+        "id": "extended.shoal",
+        "label": "Shoal",
+        "hex": "#5F97A0",
+        "origin": {
+          "file": "src/try-works.json",
+          "path": "palette.extended.shoal"
+        }
+      },
+      "light": {
+        "id": "extended.shoal.light",
+        "label": "Shoal light",
+        "hex": "#3F656B",
+        "origin": {
+          "derived": "mix(extended.shoal, light.text, 0.45)",
+          "from": [
+            "extended.shoal",
+            "light.text"
+          ]
+        }
+      }
+    }
+  ],
+  "rules": null,
+  "modes": {
+    "dark": {
+      "label": "Try-Fire",
+      "scheme": "dark",
+      "roles": {
+        "bg": {
+          "id": "dark.bg",
+          "label": "Dark bg",
+          "hex": "#12161B",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.bg"
+          }
+        },
+        "surface": {
+          "id": "dark.surface",
+          "label": "Dark surface",
+          "hex": "#1B2127",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.surface"
+          }
+        },
+        "text": {
+          "id": "dark.text",
+          "label": "Dark text",
+          "hex": "#F1EFE9",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.text"
+          }
+        },
+        "textMuted": {
+          "id": "dark.text-muted",
+          "label": "Dark text-muted",
+          "hex": "#97A0A4",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.text-muted"
+          }
+        },
+        "textSubtle": {
+          "id": "dark.text-subtle",
+          "label": "dark.text-subtle",
+          "hex": "#97A0A4",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.text-muted"
+          },
+          "alias": "dark.text-muted",
+          "fallback": "textMuted"
+        },
+        "border": {
+          "id": "dark.border",
+          "label": "Dark border",
+          "hex": "#2C3640",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.border"
+          }
+        },
+        "link": {
+          "id": "dark.link",
+          "label": "dark.link",
+          "hex": "#C9651D",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.accent"
+          },
+          "alias": "dark.accent"
+        },
+        "linkHover": {
+          "id": "dark.link-hover",
+          "label": "Dark link-hover",
+          "hex": "#E0832A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.accent-bright"
+          }
+        },
+        "accent": {
+          "id": "dark.accent",
+          "label": "Dark accent",
+          "hex": "#C9651D",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.accent"
+          }
+        },
+        "onAccent": {
+          "id": "dark.on-accent",
+          "label": "Dark on-accent",
+          "hex": "#11151A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.on-accent"
+          }
+        },
+        "button": {
+          "id": "dark.button",
+          "label": "dark.button",
+          "hex": "#C9651D",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.accent"
+          },
+          "alias": "dark.accent"
+        },
+        "onButton": {
+          "id": "dark.on-button",
+          "label": "dark.on-button",
+          "hex": "#11151A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.on-accent"
+          },
+          "alias": "dark.on-accent"
+        },
+        "focus": {
+          "id": "dark.focus",
+          "label": "Dark focus",
+          "hex": "#E0832A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "a11y.focus.lit"
+          }
+        },
+        "selection": {
+          "id": "dark.selection",
+          "label": "Dark selection",
+          "hex": "#2C4953",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.lit.sea"
+          }
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "dark.syntax.keyword",
+          "label": "Dark keyword",
+          "hex": "#C9651D",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.keyword.color"
+          },
+          "style": "bold"
+        },
+        "string": {
+          "id": "dark.syntax.string",
+          "label": "Dark string",
+          "hex": "#86A87F",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.string.color"
+          }
+        },
+        "number": {
+          "id": "dark.syntax.number",
+          "label": "Dark number",
+          "hex": "#A487BA",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.number.color"
+          }
+        },
+        "comment": {
+          "id": "dark.syntax.comment",
+          "label": "Dark comment",
+          "hex": "#97A0A4",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.comment.color"
+          },
+          "style": "italic"
+        },
+        "function": {
+          "id": "dark.syntax.function",
+          "label": "Dark function",
+          "hex": "#5F93B0",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.function.color"
+          }
+        },
+        "type": {
+          "id": "dark.syntax.type",
+          "label": "Dark type",
+          "hex": "#5F97A0",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.type.color"
+          },
+          "style": "italic"
+        },
+        "constant": {
+          "id": "dark.syntax.constant",
+          "label": "dark.syntax.constant",
+          "hex": "#A487BA",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.number.color"
+          },
+          "alias": "dark.syntax.number",
+          "fallback": "number"
+        },
+        "variable": {
+          "id": "dark.syntax.variable",
+          "label": "Dark variable",
+          "hex": "#F1EFE9",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.variable.color"
+          }
+        },
+        "operator": {
+          "id": "dark.syntax.operator",
+          "label": "Dark operator",
+          "hex": "#AEB6B8",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.operator.color"
+          }
+        },
+        "punctuation": {
+          "id": "dark.syntax.punctuation",
+          "label": "Dark punctuation",
+          "hex": "#8A9296",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.punctuation.color"
+          }
+        },
+        "decorator": {
+          "id": "dark.syntax.decorator",
+          "label": "Dark decorator",
+          "hex": "#D06A52",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.decorator.color"
+          }
+        },
+        "parameter": {
+          "id": "dark.syntax.parameter",
+          "label": "Dark parameter",
+          "hex": "#CDD2D3",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "code.parameter.color"
+          }
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "dark.terminal.bg",
+          "label": "dark.terminal bg",
+          "hex": "#12161B",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "dark.terminal.fg",
+          "label": "dark.terminal fg",
+          "hex": "#F1EFE9",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "dark.terminal.cursor",
+          "label": "dark.terminal cursor",
+          "hex": "#C9651D",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "dark.terminal.cursor-text",
+          "label": "dark.terminal cursor-text",
+          "hex": "#11151A",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "dark.terminal.selection-bg",
+          "label": "dark.terminal selection-bg",
+          "hex": "#2C4953",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "dark.terminal.selection-fg",
+          "label": "dark.terminal selection-fg",
+          "hex": "#F1EFE9",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works.ghostty",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "dark.terminal.ansi.black",
+            "label": "dark.terminal black",
+            "hex": "#1B2127",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.red",
+            "label": "dark.terminal red",
+            "hex": "#C05A3A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.green",
+            "label": "dark.terminal green",
+            "hex": "#6F8F6A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.yellow",
+            "label": "dark.terminal yellow",
+            "hex": "#C9651D",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.blue",
+            "label": "dark.terminal blue",
+            "hex": "#46708A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.magenta",
+            "label": "dark.terminal magenta",
+            "hex": "#8A6F9E",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.cyan",
+            "label": "dark.terminal cyan",
+            "hex": "#5F97A0",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.white",
+            "label": "dark.terminal white",
+            "hex": "#C9CCCE",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-black",
+            "label": "dark.terminal bright-black",
+            "hex": "#3A4754",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-red",
+            "label": "dark.terminal bright-red",
+            "hex": "#D06A52",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-green",
+            "label": "dark.terminal bright-green",
+            "hex": "#86A87F",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-yellow",
+            "label": "dark.terminal bright-yellow",
+            "hex": "#E0832A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-blue",
+            "label": "dark.terminal bright-blue",
+            "hex": "#5F93B0",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-magenta",
+            "label": "dark.terminal bright-magenta",
+            "hex": "#A487BA",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-cyan",
+            "label": "dark.terminal bright-cyan",
+            "hex": "#8FB6BD",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-white",
+            "label": "dark.terminal bright-white",
+            "hex": "#F1EFE9",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works.ghostty",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "dataviz.categorical.1",
+            "label": "Categorical 1",
+            "hex": "#E69F00",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.categorical.2",
+            "label": "Categorical 2",
+            "hex": "#0072B2",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.categorical.3",
+            "label": "Categorical 3",
+            "hex": "#009E73",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.categorical.4",
+            "label": "Categorical 4",
+            "hex": "#CC79A7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.categorical.5",
+            "label": "Categorical 5",
+            "hex": "#D55E00",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.categorical.6",
+            "label": "Categorical 6",
+            "hex": "#56B4E9",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.categorical.7",
+            "label": "Categorical 7",
+            "hex": "#F0E442",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.6"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "dataviz.sequential.1",
+            "label": "Sequential 1",
+            "hex": "#E4F5FB",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.sequential.2",
+            "label": "Sequential 2",
+            "hex": "#B3E0EE",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.sequential.3",
+            "label": "Sequential 3",
+            "hex": "#7EC4D7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.sequential.4",
+            "label": "Sequential 4",
+            "hex": "#48A0B7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.sequential.5",
+            "label": "Sequential 5",
+            "hex": "#0A7B93",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.sequential.6",
+            "label": "Sequential 6",
+            "hex": "#00576C",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.sequential.7",
+            "label": "Sequential 7",
+            "hex": "#003542",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.6"
+            }
+          }
+        ],
+        "diverging": [
+          {
+            "id": "dataviz.diverging.1",
+            "label": "Diverging 1",
+            "hex": "#00576E",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.diverging.2",
+            "label": "Diverging 2",
+            "hex": "#287D93",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.diverging.3",
+            "label": "Diverging 3",
+            "hex": "#72A9B4",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.diverging.4",
+            "label": "Diverging 4",
+            "hex": "#BBD7D9",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.diverging.5",
+            "label": "Diverging 5",
+            "hex": "#F1EEE6",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.diverging.6",
+            "label": "Diverging 6",
+            "hex": "#E7CCAE",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.diverging.7",
+            "label": "Diverging 7",
+            "hex": "#DA9B6A",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.6"
+            }
+          },
+          {
+            "id": "dataviz.diverging.8",
+            "label": "Diverging 8",
+            "hex": "#C26D32",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.7"
+            }
+          },
+          {
+            "id": "dataviz.diverging.9",
+            "label": "Diverging 9",
+            "hex": "#984A1A",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.8"
+            }
+          }
+        ],
+        "categoricalNote": "Okabe-Ito (CVD-safe), brand-led",
+        "plot": {
+          "bg": {
+            "id": "dark.plot.bg",
+            "label": "Dark plot bg",
+            "hex": "#12161B",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.dark.bg"
+            }
+          },
+          "grid": {
+            "id": "dark.plot.grid",
+            "label": "Dark plot grid",
+            "hex": "#2C3640",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.dark.grid"
+            }
+          },
+          "text": {
+            "id": "dark.plot.text",
+            "label": "Dark plot text",
+            "hex": "#F1EFE9",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.dark.text"
+            }
+          },
+          "muted": {
+            "id": "dark.plot.muted",
+            "label": "Dark plot muted",
+            "hex": "#97A0A4",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.dark.muted"
+            }
+          }
+        }
+      }
+    },
+    "light": {
+      "label": "True Lamp",
+      "scheme": "light",
+      "roles": {
+        "bg": {
+          "id": "light.bg",
+          "label": "Light bg",
+          "hex": "#DEE7E4",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.bg"
+          }
+        },
+        "surface": {
+          "id": "light.surface",
+          "label": "Light surface",
+          "hex": "#E7EFEB",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.surface"
+          }
+        },
+        "text": {
+          "id": "light.text",
+          "label": "Light text",
+          "hex": "#18272B",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text"
+          }
+        },
+        "textMuted": {
+          "id": "light.text-muted",
+          "label": "Light text-muted",
+          "hex": "#52646A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text-muted"
+          }
+        },
+        "textSubtle": {
+          "id": "light.text-subtle",
+          "label": "light.text-subtle",
+          "hex": "#52646A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text-muted"
+          },
+          "alias": "light.text-muted",
+          "fallback": "textMuted"
+        },
+        "border": {
+          "id": "light.border",
+          "label": "Light border",
+          "hex": "#C4D2CD",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.border"
+          }
+        },
+        "link": {
+          "id": "light.link",
+          "label": "light.link",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.accent"
+          },
+          "alias": "light.accent"
+        },
+        "linkHover": {
+          "id": "light.link-hover",
+          "label": "Light link-hover",
+          "hex": "#7A3A10",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.accent-deep"
+          }
+        },
+        "accent": {
+          "id": "light.accent",
+          "label": "Light accent",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.accent"
+          }
+        },
+        "onAccent": {
+          "id": "light.on-accent",
+          "label": "Light on-accent",
+          "hex": "#EEF3F0",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.on-accent"
+          }
+        },
+        "button": {
+          "id": "light.button",
+          "label": "light.button",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.accent"
+          },
+          "alias": "light.accent"
+        },
+        "onButton": {
+          "id": "light.on-button",
+          "label": "light.on-button",
+          "hex": "#EEF3F0",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.on-accent"
+          },
+          "alias": "light.on-accent"
+        },
+        "focus": {
+          "id": "light.focus",
+          "label": "Light focus",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "a11y.focus.cold"
+          }
+        },
+        "selection": {
+          "id": "light.selection",
+          "label": "Light selection",
+          "hex": "#B4CCC9",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.sea-pale"
+          }
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "light.syntax.keyword",
+          "label": "Light keyword",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.accent"
+          },
+          "alias": "fire.ember.light",
+          "style": "bold"
+        },
+        "string": {
+          "id": "light.syntax.string",
+          "label": "Light string",
+          "hex": "#4F6855",
+          "origin": {
+            "derived": "mix(extended.kelp, light.text, 0.5)",
+            "from": [
+              "extended.kelp",
+              "light.text"
+            ]
+          },
+          "alias": "extended.kelp.light"
+        },
+        "number": {
+          "id": "light.syntax.number",
+          "label": "Light number",
+          "hex": "#655C7A",
+          "origin": {
+            "derived": "mix(extended.dusk, light.text, 0.45)",
+            "from": [
+              "extended.dusk",
+              "light.text"
+            ]
+          },
+          "alias": "extended.dusk.light"
+        },
+        "comment": {
+          "id": "light.syntax.comment",
+          "label": "Light comment",
+          "hex": "#52646A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text-muted"
+          },
+          "alias": "light.text-muted",
+          "style": "italic"
+        },
+        "function": {
+          "id": "light.syntax.function",
+          "label": "Light function",
+          "hex": "#3F6274",
+          "origin": {
+            "derived": "mix(extended.tide, light.text, 0.45)",
+            "from": [
+              "extended.tide",
+              "light.text"
+            ]
+          },
+          "alias": "extended.tide.light"
+        },
+        "type": {
+          "id": "light.syntax.type",
+          "label": "Light type",
+          "hex": "#3F656B",
+          "origin": {
+            "derived": "mix(extended.shoal, light.text, 0.45)",
+            "from": [
+              "extended.shoal",
+              "light.text"
+            ]
+          },
+          "alias": "extended.shoal.light",
+          "style": "italic"
+        },
+        "constant": {
+          "id": "light.syntax.constant",
+          "label": "light.syntax.constant",
+          "hex": "#655C7A",
+          "origin": {
+            "derived": "mix(extended.dusk, light.text, 0.45)",
+            "from": [
+              "extended.dusk",
+              "light.text"
+            ]
+          },
+          "alias": "light.syntax.number",
+          "fallback": "number"
+        },
+        "variable": {
+          "id": "light.syntax.variable",
+          "label": "Light variable",
+          "hex": "#18272B",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text"
+          },
+          "alias": "light.text"
+        },
+        "operator": {
+          "id": "light.syntax.operator",
+          "label": "Light operator",
+          "hex": "#52646A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text-muted"
+          },
+          "alias": "light.text-muted"
+        },
+        "punctuation": {
+          "id": "light.syntax.punctuation",
+          "label": "Light punctuation",
+          "hex": "#52646A",
+          "origin": {
+            "file": "src/try-works.json",
+            "path": "modes.cold.text-muted"
+          },
+          "alias": "light.text-muted"
+        },
+        "decorator": {
+          "id": "light.syntax.decorator",
+          "label": "Light decorator",
+          "hex": "#7D4C40",
+          "origin": {
+            "derived": "mix(extended.brick, light.text, 0.45)",
+            "from": [
+              "extended.brick",
+              "light.text"
+            ]
+          },
+          "alias": "extended.brick.light"
+        },
+        "parameter": {
+          "id": "light.syntax.parameter",
+          "label": "Light parameter",
+          "hex": "#2C3C41",
+          "origin": {
+            "derived": "mix(light.text, light.text-muted, 0.35)",
+            "from": [
+              "light.text",
+              "light.text-muted"
+            ]
+          }
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "light.terminal.bg",
+          "label": "light.terminal bg",
+          "hex": "#DEE7E4",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "light.terminal.fg",
+          "label": "light.terminal fg",
+          "hex": "#18272B",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "light.terminal.cursor",
+          "label": "light.terminal cursor",
+          "hex": "#9E5017",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "light.terminal.cursor-text",
+          "label": "light.terminal cursor-text",
+          "hex": "#EEF3F0",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "light.terminal.selection-bg",
+          "label": "light.terminal selection-bg",
+          "hex": "#264852",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "light.terminal.selection-fg",
+          "label": "light.terminal selection-fg",
+          "hex": "#EEF3F0",
+          "origin": {
+            "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "light.terminal.ansi.black",
+            "label": "light.terminal black",
+            "hex": "#1B2127",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.red",
+            "label": "light.terminal red",
+            "hex": "#C05A3A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.green",
+            "label": "light.terminal green",
+            "hex": "#6F8F6A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.yellow",
+            "label": "light.terminal yellow",
+            "hex": "#C9651D",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.blue",
+            "label": "light.terminal blue",
+            "hex": "#46708A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.magenta",
+            "label": "light.terminal magenta",
+            "hex": "#8A6F9E",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.cyan",
+            "label": "light.terminal cyan",
+            "hex": "#5F97A0",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.white",
+            "label": "light.terminal white",
+            "hex": "#C9CCCE",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-black",
+            "label": "light.terminal bright-black",
+            "hex": "#3A4754",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-red",
+            "label": "light.terminal bright-red",
+            "hex": "#D06A52",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-green",
+            "label": "light.terminal bright-green",
+            "hex": "#86A87F",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-yellow",
+            "label": "light.terminal bright-yellow",
+            "hex": "#E0832A",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-blue",
+            "label": "light.terminal bright-blue",
+            "hex": "#5F93B0",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-magenta",
+            "label": "light.terminal bright-magenta",
+            "hex": "#A487BA",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-cyan",
+            "label": "light.terminal bright-cyan",
+            "hex": "#8FB6BD",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-white",
+            "label": "light.terminal bright-white",
+            "hex": "#F1EFE9",
+            "origin": {
+              "file": "dist/themes/terminals/Try-Works-Cold.ghostty",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "dataviz.categorical.1",
+            "label": "Categorical 1",
+            "hex": "#E69F00",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.categorical.2",
+            "label": "Categorical 2",
+            "hex": "#0072B2",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.categorical.3",
+            "label": "Categorical 3",
+            "hex": "#009E73",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.categorical.4",
+            "label": "Categorical 4",
+            "hex": "#CC79A7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.categorical.5",
+            "label": "Categorical 5",
+            "hex": "#D55E00",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.categorical.6",
+            "label": "Categorical 6",
+            "hex": "#56B4E9",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.categorical.7",
+            "label": "Categorical 7",
+            "hex": "#F0E442",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.categorical.colors.6"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "dataviz.sequential.1",
+            "label": "Sequential 1",
+            "hex": "#E4F5FB",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.sequential.2",
+            "label": "Sequential 2",
+            "hex": "#B3E0EE",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.sequential.3",
+            "label": "Sequential 3",
+            "hex": "#7EC4D7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.sequential.4",
+            "label": "Sequential 4",
+            "hex": "#48A0B7",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.sequential.5",
+            "label": "Sequential 5",
+            "hex": "#0A7B93",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.sequential.6",
+            "label": "Sequential 6",
+            "hex": "#00576C",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.sequential.7",
+            "label": "Sequential 7",
+            "hex": "#003542",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.sequential.colors.6"
+            }
+          }
+        ],
+        "diverging": [
+          {
+            "id": "dataviz.diverging.1",
+            "label": "Diverging 1",
+            "hex": "#00576E",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.0"
+            }
+          },
+          {
+            "id": "dataviz.diverging.2",
+            "label": "Diverging 2",
+            "hex": "#287D93",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.1"
+            }
+          },
+          {
+            "id": "dataviz.diverging.3",
+            "label": "Diverging 3",
+            "hex": "#72A9B4",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.2"
+            }
+          },
+          {
+            "id": "dataviz.diverging.4",
+            "label": "Diverging 4",
+            "hex": "#BBD7D9",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.3"
+            }
+          },
+          {
+            "id": "dataviz.diverging.5",
+            "label": "Diverging 5",
+            "hex": "#F1EEE6",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.4"
+            }
+          },
+          {
+            "id": "dataviz.diverging.6",
+            "label": "Diverging 6",
+            "hex": "#E7CCAE",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.5"
+            }
+          },
+          {
+            "id": "dataviz.diverging.7",
+            "label": "Diverging 7",
+            "hex": "#DA9B6A",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.6"
+            }
+          },
+          {
+            "id": "dataviz.diverging.8",
+            "label": "Diverging 8",
+            "hex": "#C26D32",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.7"
+            }
+          },
+          {
+            "id": "dataviz.diverging.9",
+            "label": "Diverging 9",
+            "hex": "#984A1A",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.diverging.colors.8"
+            }
+          }
+        ],
+        "categoricalNote": "Okabe-Ito (CVD-safe), brand-led",
+        "plot": {
+          "bg": {
+            "id": "light.plot.bg",
+            "label": "Light plot bg",
+            "hex": "#FFFFFF",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.light.bg"
+            }
+          },
+          "grid": {
+            "id": "light.plot.grid",
+            "label": "Light plot grid",
+            "hex": "#DCE5E1",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.light.grid"
+            }
+          },
+          "text": {
+            "id": "light.plot.text",
+            "label": "Light plot text",
+            "hex": "#18272B",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.light.text"
+            }
+          },
+          "muted": {
+            "id": "light.plot.muted",
+            "label": "Light plot muted",
+            "hex": "#52646A",
+            "origin": {
+              "file": "src/try-works.json",
+              "path": "dataviz.plot.light.muted"
+            }
+          }
+        }
+      }
+    }
+  }
+}

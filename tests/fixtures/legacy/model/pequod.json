@@ -1,0 +1,1804 @@
+{
+  "id": "pequod",
+  "name": "Pequod",
+  "version": "0.2.0-alpha",
+  "scale": {
+    "name": "Log",
+    "steps": [
+      {
+        "id": "log.50",
+        "label": "Log 50",
+        "hex": "#F7F3EE",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.50"
+        }
+      },
+      {
+        "id": "log.100",
+        "label": "Log 100",
+        "hex": "#EAE1D7",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.100"
+        }
+      },
+      {
+        "id": "log.150",
+        "label": "Log 150",
+        "hex": "#DBC9B6",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.150"
+        }
+      },
+      {
+        "id": "log.200",
+        "label": "Log 200",
+        "hex": "#CFAD8E",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.200"
+        }
+      },
+      {
+        "id": "log.300",
+        "label": "Log 300",
+        "hex": "#BD8C68",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.300"
+        }
+      },
+      {
+        "id": "log.400",
+        "label": "Log 400",
+        "hex": "#A16E50",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.400"
+        }
+      },
+      {
+        "id": "log.500",
+        "label": "Log 500",
+        "hex": "#835A49",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.500"
+        }
+      },
+      {
+        "id": "log.600",
+        "label": "Log 600",
+        "hex": "#335260",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.600"
+        }
+      },
+      {
+        "id": "log.700",
+        "label": "Log 700",
+        "hex": "#163F54",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.700"
+        }
+      },
+      {
+        "id": "log.800",
+        "label": "Log 800",
+        "hex": "#0D2F42",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.800"
+        }
+      },
+      {
+        "id": "log.900",
+        "label": "Log 900",
+        "hex": "#0C222F",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.900"
+        }
+      },
+      {
+        "id": "log.950",
+        "label": "Log 950",
+        "hex": "#0B1720",
+        "origin": {
+          "file": "pequod.json",
+          "path": "log.950"
+        }
+      }
+    ]
+  },
+  "extraScales": [],
+  "accents": [
+    {
+      "id": "ahab",
+      "label": "Ahab",
+      "hue": "red",
+      "tier": "core",
+      "note": "Obsession, fire, the wound.",
+      "dark": {
+        "id": "ahab.dark",
+        "label": "Ahab dark",
+        "hex": "#E3877C",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.ahab.dark"
+        }
+      },
+      "light": {
+        "id": "ahab.light",
+        "label": "Ahab light",
+        "hex": "#A83732",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.ahab.light"
+        }
+      }
+    },
+    {
+      "id": "starbuck",
+      "label": "Starbuck",
+      "hue": "blue",
+      "tier": "core",
+      "note": "The steady mate; sea and storm.",
+      "dark": {
+        "id": "starbuck.dark",
+        "label": "Starbuck dark",
+        "hex": "#A6DFFF",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.starbuck.dark"
+        }
+      },
+      "light": {
+        "id": "starbuck.light",
+        "label": "Starbuck light",
+        "hex": "#0082B1",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.starbuck.light"
+        }
+      }
+    },
+    {
+      "id": "queequeg",
+      "label": "Queequeg",
+      "hue": "indigo",
+      "tier": "core",
+      "note": "Tattoo ink; loyalty and strangeness.",
+      "dark": {
+        "id": "queequeg.dark",
+        "label": "Queequeg dark",
+        "hex": "#838CCF",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.queequeg.dark"
+        }
+      },
+      "light": {
+        "id": "queequeg.light",
+        "label": "Queequeg light",
+        "hex": "#253E82",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.queequeg.light"
+        }
+      }
+    },
+    {
+      "id": "pip",
+      "label": "Pip",
+      "hue": "yellow",
+      "tier": "core",
+      "note": "Child of the sun; the lost soul.",
+      "dark": {
+        "id": "pip.dark",
+        "label": "Pip dark",
+        "hex": "#DEC577",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.pip.dark"
+        }
+      },
+      "light": {
+        "id": "pip.light",
+        "label": "Pip light",
+        "hex": "#6A4A00",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.pip.light"
+        }
+      }
+    },
+    {
+      "id": "ishmael",
+      "label": "Ishmael",
+      "hue": "grey",
+      "tier": "core",
+      "note": "The narrator; observer, transparent.",
+      "dark": {
+        "id": "ishmael.dark",
+        "label": "Ishmael dark",
+        "hex": "#BFBBB6",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.ishmael.dark"
+        }
+      },
+      "light": {
+        "id": "ishmael.light",
+        "label": "Ishmael light",
+        "hex": "#76716B",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.ishmael.light"
+        }
+      }
+    },
+    {
+      "id": "stubb",
+      "label": "Stubb",
+      "hue": "orange",
+      "tier": "core",
+      "note": "The pipe-smoking second mate; amber and flame.",
+      "dark": {
+        "id": "stubb.dark",
+        "label": "Stubb dark",
+        "hex": "#FFD9BB",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.stubb.dark"
+        }
+      },
+      "light": {
+        "id": "stubb.light",
+        "label": "Stubb light",
+        "hex": "#CA6435",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.stubb.light"
+        }
+      }
+    },
+    {
+      "id": "tashtego",
+      "label": "Tashtego",
+      "hue": "green",
+      "tier": "core",
+      "note": "Gay Head harpooneer; woods and moss.",
+      "dark": {
+        "id": "tashtego.dark",
+        "label": "Tashtego dark",
+        "hex": "#82C4A2",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.tashtego.dark"
+        }
+      },
+      "light": {
+        "id": "tashtego.light",
+        "label": "Tashtego light",
+        "hex": "#177C55",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.tashtego.light"
+        }
+      }
+    },
+    {
+      "id": "daggoo",
+      "label": "Daggoo",
+      "hue": "brown",
+      "tier": "core",
+      "note": "African-born harpooneer; earth and mahogany.",
+      "dark": {
+        "id": "daggoo.dark",
+        "label": "Daggoo dark",
+        "hex": "#A17069",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.daggoo.dark"
+        }
+      },
+      "light": {
+        "id": "daggoo.light",
+        "label": "Daggoo light",
+        "hex": "#552823",
+        "origin": {
+          "file": "pequod.json",
+          "path": "accents.daggoo.light"
+        }
+      }
+    }
+  ],
+  "rules": null,
+  "modes": {
+    "dark": {
+      "label": "Below deck",
+      "scheme": "dark",
+      "roles": {
+        "bg": {
+          "id": "dark.bg",
+          "label": "Dark bg",
+          "hex": "#0B1720",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.950"
+          },
+          "alias": "log.950"
+        },
+        "surface": {
+          "id": "dark.surface",
+          "label": "Dark surface",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.800"
+          },
+          "alias": "log.800"
+        },
+        "text": {
+          "id": "dark.text",
+          "label": "Dark text",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.100"
+          },
+          "alias": "log.100"
+        },
+        "textMuted": {
+          "id": "dark.text-muted",
+          "label": "Dark text-muted",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "log.300"
+        },
+        "textSubtle": {
+          "id": "dark.text-subtle",
+          "label": "Dark text-subtle",
+          "hex": "#A16E50",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.400"
+          },
+          "alias": "log.400"
+        },
+        "border": {
+          "id": "dark.border",
+          "label": "Dark border",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "log.700"
+        },
+        "link": {
+          "id": "dark.link",
+          "label": "Dark link",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "log.300"
+        },
+        "linkHover": {
+          "id": "dark.link-hover",
+          "label": "dark.link-hover",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "dark.link",
+          "fallback": "link"
+        },
+        "accent": {
+          "id": "dark.accent",
+          "label": "Dark accent",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "log.300"
+        },
+        "onAccent": {
+          "id": "dark.on-accent",
+          "label": "dark.on-accent",
+          "hex": "#0B1720",
+          "origin": {
+            "derived": "higher-contrast(dark.bg | dark.text) on dark.accent",
+            "from": [
+              "log.300",
+              "log.950",
+              "log.100"
+            ]
+          }
+        },
+        "button": {
+          "id": "dark.button",
+          "label": "dark.button",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "dark.accent"
+        },
+        "onButton": {
+          "id": "dark.on-button",
+          "label": "dark.on-button",
+          "hex": "#0B1720",
+          "origin": {
+            "derived": "higher-contrast(dark.bg | dark.text) on dark.accent",
+            "from": [
+              "log.300",
+              "log.950",
+              "log.100"
+            ]
+          },
+          "alias": "dark.on-accent"
+        },
+        "focus": {
+          "id": "dark.focus",
+          "label": "Dark focus",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.300"
+          },
+          "alias": "log.300"
+        },
+        "selection": {
+          "id": "dark.selection",
+          "label": "dark.selection",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.800"
+          },
+          "alias": "log.800"
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "dark.syntax.keyword",
+          "label": "Dark keyword",
+          "hex": "#E3877C",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ahab.dark"
+          },
+          "alias": "ahab.dark"
+        },
+        "string": {
+          "id": "dark.syntax.string",
+          "label": "Dark string",
+          "hex": "#82C4A2",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.tashtego.dark"
+          },
+          "alias": "tashtego.dark"
+        },
+        "number": {
+          "id": "dark.syntax.number",
+          "label": "Dark number",
+          "hex": "#DEC577",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.pip.dark"
+          },
+          "alias": "pip.dark"
+        },
+        "comment": {
+          "id": "dark.syntax.comment",
+          "label": "Dark comment",
+          "hex": "#BFBBB6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.dark"
+          },
+          "alias": "ishmael.dark",
+          "style": "italic"
+        },
+        "function": {
+          "id": "dark.syntax.function",
+          "label": "Dark function",
+          "hex": "#A6DFFF",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.starbuck.dark"
+          },
+          "alias": "starbuck.dark"
+        },
+        "type": {
+          "id": "dark.syntax.type",
+          "label": "Dark type",
+          "hex": "#838CCF",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.queequeg.dark"
+          },
+          "alias": "queequeg.dark"
+        },
+        "constant": {
+          "id": "dark.syntax.constant",
+          "label": "Dark constant",
+          "hex": "#FFD9BB",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.stubb.dark"
+          },
+          "alias": "stubb.dark"
+        },
+        "variable": {
+          "id": "dark.syntax.variable",
+          "label": "Dark variable",
+          "hex": "#A17069",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.daggoo.dark"
+          },
+          "alias": "daggoo.dark"
+        },
+        "operator": {
+          "id": "dark.syntax.operator",
+          "label": "Dark operator",
+          "hex": "#BFBBB6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.dark"
+          },
+          "alias": "ishmael.dark"
+        },
+        "punctuation": {
+          "id": "dark.syntax.punctuation",
+          "label": "Dark punctuation",
+          "hex": "#BFBBB6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.dark"
+          },
+          "alias": "ishmael.dark"
+        },
+        "decorator": {
+          "id": "dark.syntax.decorator",
+          "label": "dark.syntax.decorator",
+          "hex": "#FFD9BB",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.stubb.dark"
+          },
+          "alias": "stubb.dark",
+          "fallback": "constant"
+        },
+        "parameter": {
+          "id": "dark.syntax.parameter",
+          "label": "dark.syntax.parameter",
+          "hex": "#A17069",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.daggoo.dark"
+          },
+          "alias": "daggoo.dark",
+          "fallback": "variable"
+        }
+      },
+      "terminal": {
+        "origin": "official",
+        "bg": {
+          "id": "dark.terminal.bg",
+          "label": "dark.terminal bg",
+          "hex": "#0B1720",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "background",
+            "official": true
+          }
+        },
+        "fg": {
+          "id": "dark.terminal.fg",
+          "label": "dark.terminal fg",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "foreground",
+            "official": true
+          }
+        },
+        "cursor": {
+          "id": "dark.terminal.cursor",
+          "label": "dark.terminal cursor",
+          "hex": "#BD8C68",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "cursor-color",
+            "official": true
+          }
+        },
+        "cursorText": {
+          "id": "dark.terminal.cursor-text",
+          "label": "dark.terminal cursor-text",
+          "hex": "#0B1720",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "cursor-text",
+            "official": true
+          }
+        },
+        "selectionBg": {
+          "id": "dark.terminal.selection-bg",
+          "label": "dark.terminal selection-bg",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "selection-background",
+            "official": true
+          }
+        },
+        "selectionFg": {
+          "id": "dark.terminal.selection-fg",
+          "label": "dark.terminal selection-fg",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "themes/terminals/Pequod.ghostty",
+            "path": "selection-foreground",
+            "official": true
+          }
+        },
+        "ansi": [
+          {
+            "id": "dark.terminal.ansi.black",
+            "label": "dark.terminal black",
+            "hex": "#0C222F",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 0",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.red",
+            "label": "dark.terminal red",
+            "hex": "#E3877C",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 1",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.green",
+            "label": "dark.terminal green",
+            "hex": "#82C4A2",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 2",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.yellow",
+            "label": "dark.terminal yellow",
+            "hex": "#DEC577",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 3",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.blue",
+            "label": "dark.terminal blue",
+            "hex": "#A6DFFF",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 4",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.magenta",
+            "label": "dark.terminal magenta",
+            "hex": "#838CCF",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 5",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.cyan",
+            "label": "dark.terminal cyan",
+            "hex": "#9DC2C5",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 6",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.white",
+            "label": "dark.terminal white",
+            "hex": "#EAE1D7",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 7",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-black",
+            "label": "dark.terminal bright-black",
+            "hex": "#335260",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 8",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-red",
+            "label": "dark.terminal bright-red",
+            "hex": "#E99C93",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 9",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-green",
+            "label": "dark.terminal bright-green",
+            "hex": "#AFCCA6",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 10",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-yellow",
+            "label": "dark.terminal bright-yellow",
+            "hex": "#E8CB8C",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 11",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-blue",
+            "label": "dark.terminal bright-blue",
+            "hex": "#A0C2D4",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 12",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-magenta",
+            "label": "dark.terminal bright-magenta",
+            "hex": "#AAADDA",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 13",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-cyan",
+            "label": "dark.terminal bright-cyan",
+            "hex": "#BCD9DB",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 14",
+              "official": true
+            }
+          },
+          {
+            "id": "dark.terminal.ansi.bright-white",
+            "label": "dark.terminal bright-white",
+            "hex": "#F7F3EE",
+            "origin": {
+              "file": "themes/terminals/Pequod.ghostty",
+              "path": "palette 15",
+              "official": true
+            }
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "ahab.dark",
+            "label": "Ahab dark",
+            "hex": "#E3877C",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.ahab.dark"
+            }
+          },
+          {
+            "id": "starbuck.dark",
+            "label": "Starbuck dark",
+            "hex": "#A6DFFF",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.starbuck.dark"
+            }
+          },
+          {
+            "id": "queequeg.dark",
+            "label": "Queequeg dark",
+            "hex": "#838CCF",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.queequeg.dark"
+            }
+          },
+          {
+            "id": "pip.dark",
+            "label": "Pip dark",
+            "hex": "#DEC577",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.pip.dark"
+            }
+          },
+          {
+            "id": "ishmael.dark",
+            "label": "Ishmael dark",
+            "hex": "#BFBBB6",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.ishmael.dark"
+            }
+          },
+          {
+            "id": "stubb.dark",
+            "label": "Stubb dark",
+            "hex": "#FFD9BB",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.stubb.dark"
+            }
+          },
+          {
+            "id": "tashtego.dark",
+            "label": "Tashtego dark",
+            "hex": "#82C4A2",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.tashtego.dark"
+            }
+          },
+          {
+            "id": "daggoo.dark",
+            "label": "Daggoo dark",
+            "hex": "#A17069",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.daggoo.dark"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "log.50",
+            "label": "Log 50",
+            "hex": "#F7F3EE",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.50"
+            }
+          },
+          {
+            "id": "log.100",
+            "label": "Log 100",
+            "hex": "#EAE1D7",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.100"
+            }
+          },
+          {
+            "id": "log.150",
+            "label": "Log 150",
+            "hex": "#DBC9B6",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.150"
+            }
+          },
+          {
+            "id": "log.200",
+            "label": "Log 200",
+            "hex": "#CFAD8E",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.200"
+            }
+          },
+          {
+            "id": "log.300",
+            "label": "Log 300",
+            "hex": "#BD8C68",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.300"
+            }
+          },
+          {
+            "id": "log.400",
+            "label": "Log 400",
+            "hex": "#A16E50",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.400"
+            }
+          },
+          {
+            "id": "log.500",
+            "label": "Log 500",
+            "hex": "#835A49",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.500"
+            }
+          },
+          {
+            "id": "log.600",
+            "label": "Log 600",
+            "hex": "#335260",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.600"
+            }
+          },
+          {
+            "id": "log.700",
+            "label": "Log 700",
+            "hex": "#163F54",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.700"
+            }
+          },
+          {
+            "id": "log.800",
+            "label": "Log 800",
+            "hex": "#0D2F42",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.800"
+            }
+          },
+          {
+            "id": "log.900",
+            "label": "Log 900",
+            "hex": "#0C222F",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.900"
+            }
+          },
+          {
+            "id": "log.950",
+            "label": "Log 950",
+            "hex": "#0B1720",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.950"
+            }
+          }
+        ],
+        "diverging": null,
+        "plot": {
+          "bg": {
+            "id": "dark.plot.bg",
+            "label": "dark.plot.bg",
+            "hex": "#0B1720",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.950"
+            },
+            "alias": "dark.bg"
+          },
+          "grid": {
+            "id": "dark.plot.grid",
+            "label": "dark.plot.grid",
+            "hex": "#163F54",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.700"
+            },
+            "alias": "dark.border"
+          },
+          "text": {
+            "id": "dark.plot.text",
+            "label": "dark.plot.text",
+            "hex": "#EAE1D7",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.100"
+            },
+            "alias": "dark.text"
+          },
+          "muted": {
+            "id": "dark.plot.muted",
+            "label": "dark.plot.muted",
+            "hex": "#BD8C68",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.300"
+            },
+            "alias": "dark.text-muted"
+          }
+        }
+      }
+    },
+    "light": {
+      "label": "Parchment",
+      "scheme": "light",
+      "roles": {
+        "bg": {
+          "id": "light.bg",
+          "label": "Light bg",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.100"
+          },
+          "alias": "log.100"
+        },
+        "surface": {
+          "id": "light.surface",
+          "label": "Light surface",
+          "hex": "#DBC9B6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.150"
+          },
+          "alias": "log.150"
+        },
+        "text": {
+          "id": "light.text",
+          "label": "Light text",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.800"
+          },
+          "alias": "log.800"
+        },
+        "textMuted": {
+          "id": "light.text-muted",
+          "label": "Light text-muted",
+          "hex": "#335260",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.600"
+          },
+          "alias": "log.600"
+        },
+        "textSubtle": {
+          "id": "light.text-subtle",
+          "label": "Light text-subtle",
+          "hex": "#835A49",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.500"
+          },
+          "alias": "log.500"
+        },
+        "border": {
+          "id": "light.border",
+          "label": "Light border",
+          "hex": "#CFAD8E",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.200"
+          },
+          "alias": "log.200"
+        },
+        "link": {
+          "id": "light.link",
+          "label": "Light link",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "log.700"
+        },
+        "linkHover": {
+          "id": "light.link-hover",
+          "label": "light.link-hover",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "light.link",
+          "fallback": "link"
+        },
+        "accent": {
+          "id": "light.accent",
+          "label": "Light accent",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "log.700"
+        },
+        "onAccent": {
+          "id": "light.on-accent",
+          "label": "light.on-accent",
+          "hex": "#EAE1D7",
+          "origin": {
+            "derived": "higher-contrast(light.bg | light.text) on light.accent",
+            "from": [
+              "log.700",
+              "log.100",
+              "log.800"
+            ]
+          }
+        },
+        "button": {
+          "id": "light.button",
+          "label": "light.button",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "light.accent"
+        },
+        "onButton": {
+          "id": "light.on-button",
+          "label": "light.on-button",
+          "hex": "#EAE1D7",
+          "origin": {
+            "derived": "higher-contrast(light.bg | light.text) on light.accent",
+            "from": [
+              "log.700",
+              "log.100",
+              "log.800"
+            ]
+          },
+          "alias": "light.on-accent"
+        },
+        "focus": {
+          "id": "light.focus",
+          "label": "Light focus",
+          "hex": "#A16E50",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.400"
+          },
+          "alias": "log.400"
+        },
+        "selection": {
+          "id": "light.selection",
+          "label": "light.selection",
+          "hex": "#DBC9B6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.150"
+          },
+          "alias": "log.150"
+        }
+      },
+      "syntax": {
+        "keyword": {
+          "id": "light.syntax.keyword",
+          "label": "Light keyword",
+          "hex": "#A83732",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ahab.light"
+          },
+          "alias": "ahab.light"
+        },
+        "string": {
+          "id": "light.syntax.string",
+          "label": "Light string",
+          "hex": "#177C55",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.tashtego.light"
+          },
+          "alias": "tashtego.light"
+        },
+        "number": {
+          "id": "light.syntax.number",
+          "label": "Light number",
+          "hex": "#6A4A00",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.pip.light"
+          },
+          "alias": "pip.light"
+        },
+        "comment": {
+          "id": "light.syntax.comment",
+          "label": "Light comment",
+          "hex": "#76716B",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.light"
+          },
+          "alias": "ishmael.light",
+          "style": "italic"
+        },
+        "function": {
+          "id": "light.syntax.function",
+          "label": "Light function",
+          "hex": "#0082B1",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.starbuck.light"
+          },
+          "alias": "starbuck.light"
+        },
+        "type": {
+          "id": "light.syntax.type",
+          "label": "Light type",
+          "hex": "#253E82",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.queequeg.light"
+          },
+          "alias": "queequeg.light"
+        },
+        "constant": {
+          "id": "light.syntax.constant",
+          "label": "Light constant",
+          "hex": "#CA6435",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.stubb.light"
+          },
+          "alias": "stubb.light"
+        },
+        "variable": {
+          "id": "light.syntax.variable",
+          "label": "Light variable",
+          "hex": "#552823",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.daggoo.light"
+          },
+          "alias": "daggoo.light"
+        },
+        "operator": {
+          "id": "light.syntax.operator",
+          "label": "Light operator",
+          "hex": "#76716B",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.light"
+          },
+          "alias": "ishmael.light"
+        },
+        "punctuation": {
+          "id": "light.syntax.punctuation",
+          "label": "Light punctuation",
+          "hex": "#76716B",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.ishmael.light"
+          },
+          "alias": "ishmael.light"
+        },
+        "decorator": {
+          "id": "light.syntax.decorator",
+          "label": "light.syntax.decorator",
+          "hex": "#CA6435",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.stubb.light"
+          },
+          "alias": "stubb.light",
+          "fallback": "constant"
+        },
+        "parameter": {
+          "id": "light.syntax.parameter",
+          "label": "light.syntax.parameter",
+          "hex": "#552823",
+          "origin": {
+            "file": "pequod.json",
+            "path": "accents.daggoo.light"
+          },
+          "alias": "daggoo.light",
+          "fallback": "variable"
+        }
+      },
+      "terminal": {
+        "origin": "generated",
+        "bg": {
+          "id": "light.terminal.bg",
+          "label": "light.terminal.bg",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.100"
+          },
+          "alias": "light.bg"
+        },
+        "fg": {
+          "id": "light.terminal.fg",
+          "label": "light.terminal.fg",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.800"
+          },
+          "alias": "light.text"
+        },
+        "cursor": {
+          "id": "light.terminal.cursor",
+          "label": "light.terminal.cursor",
+          "hex": "#163F54",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.700"
+          },
+          "alias": "light.accent"
+        },
+        "cursorText": {
+          "id": "light.terminal.cursor-text",
+          "label": "light.terminal.cursor-text",
+          "hex": "#EAE1D7",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.100"
+          },
+          "alias": "light.bg"
+        },
+        "selectionBg": {
+          "id": "light.terminal.selection-bg",
+          "label": "light.terminal.selection-bg",
+          "hex": "#DBC9B6",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.150"
+          },
+          "alias": "light.surface"
+        },
+        "selectionFg": {
+          "id": "light.terminal.selection-fg",
+          "label": "light.terminal.selection-fg",
+          "hex": "#0D2F42",
+          "origin": {
+            "file": "pequod.json",
+            "path": "log.800"
+          },
+          "alias": "light.text"
+        },
+        "ansi": [
+          {
+            "id": "light.terminal.ansi.black",
+            "label": "light.terminal.ansi.black",
+            "hex": "#0C222F",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.900"
+            },
+            "alias": "log.900"
+          },
+          {
+            "id": "light.terminal.ansi.red",
+            "label": "light.terminal.ansi.red",
+            "hex": "#A83732",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.ahab.light"
+            },
+            "alias": "ahab.light"
+          },
+          {
+            "id": "light.terminal.ansi.green",
+            "label": "light.terminal.ansi.green",
+            "hex": "#177C55",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.tashtego.light"
+            },
+            "alias": "tashtego.light"
+          },
+          {
+            "id": "light.terminal.ansi.yellow",
+            "label": "light.terminal.ansi.yellow",
+            "hex": "#6A4A00",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.pip.light"
+            },
+            "alias": "pip.light"
+          },
+          {
+            "id": "light.terminal.ansi.blue",
+            "label": "light.terminal.ansi.blue",
+            "hex": "#0082B1",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.starbuck.light"
+            },
+            "alias": "starbuck.light"
+          },
+          {
+            "id": "light.terminal.ansi.magenta",
+            "label": "light.terminal.ansi.magenta",
+            "hex": "#253E82",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.queequeg.light"
+            },
+            "alias": "queequeg.light"
+          },
+          {
+            "id": "light.terminal.ansi.cyan",
+            "label": "light.terminal.ansi.cyan",
+            "hex": "#0C7F83",
+            "origin": {
+              "derived": "mix(starbuck.light, tashtego.light, 0.5)",
+              "from": [
+                "starbuck.light",
+                "tashtego.light"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.white",
+            "label": "light.terminal.ansi.white",
+            "hex": "#835A49",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.500"
+            },
+            "alias": "light.text-subtle"
+          },
+          {
+            "id": "light.terminal.ansi.bright-black",
+            "label": "light.terminal.ansi.bright-black",
+            "hex": "#335260",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.600"
+            },
+            "alias": "light.text-muted"
+          },
+          {
+            "id": "light.terminal.ansi.bright-red",
+            "label": "light.terminal.ansi.bright-red",
+            "hex": "#893535",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.red, light.text, 0.2)",
+              "from": [
+                "ahab.light",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-green",
+            "label": "light.terminal.ansi.bright-green",
+            "hex": "#156D51",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.green, light.text, 0.2)",
+              "from": [
+                "tashtego.light",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-yellow",
+            "label": "light.terminal.ansi.bright-yellow",
+            "hex": "#57450D",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.yellow, light.text, 0.2)",
+              "from": [
+                "pip.light",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-blue",
+            "label": "light.terminal.ansi.bright-blue",
+            "hex": "#03719B",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.blue, light.text, 0.2)",
+              "from": [
+                "starbuck.light",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-magenta",
+            "label": "light.terminal.ansi.bright-magenta",
+            "hex": "#203B75",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.magenta, light.text, 0.2)",
+              "from": [
+                "queequeg.light",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-cyan",
+            "label": "light.terminal.ansi.bright-cyan",
+            "hex": "#0C6F76",
+            "origin": {
+              "derived": "mix(light.terminal.ansi.cyan, light.text, 0.2)",
+              "from": [
+                "light.terminal.ansi.cyan",
+                "log.800"
+              ]
+            }
+          },
+          {
+            "id": "light.terminal.ansi.bright-white",
+            "label": "light.terminal.ansi.bright-white",
+            "hex": "#0D2F42",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.800"
+            },
+            "alias": "light.text"
+          }
+        ]
+      },
+      "dataviz": {
+        "categorical": [
+          {
+            "id": "ahab.light",
+            "label": "Ahab light",
+            "hex": "#A83732",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.ahab.light"
+            }
+          },
+          {
+            "id": "starbuck.light",
+            "label": "Starbuck light",
+            "hex": "#0082B1",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.starbuck.light"
+            }
+          },
+          {
+            "id": "queequeg.light",
+            "label": "Queequeg light",
+            "hex": "#253E82",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.queequeg.light"
+            }
+          },
+          {
+            "id": "pip.light",
+            "label": "Pip light",
+            "hex": "#6A4A00",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.pip.light"
+            }
+          },
+          {
+            "id": "ishmael.light",
+            "label": "Ishmael light",
+            "hex": "#76716B",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.ishmael.light"
+            }
+          },
+          {
+            "id": "stubb.light",
+            "label": "Stubb light",
+            "hex": "#CA6435",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.stubb.light"
+            }
+          },
+          {
+            "id": "tashtego.light",
+            "label": "Tashtego light",
+            "hex": "#177C55",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.tashtego.light"
+            }
+          },
+          {
+            "id": "daggoo.light",
+            "label": "Daggoo light",
+            "hex": "#552823",
+            "origin": {
+              "file": "pequod.json",
+              "path": "accents.daggoo.light"
+            }
+          }
+        ],
+        "sequential": [
+          {
+            "id": "log.50",
+            "label": "Log 50",
+            "hex": "#F7F3EE",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.50"
+            }
+          },
+          {
+            "id": "log.100",
+            "label": "Log 100",
+            "hex": "#EAE1D7",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.100"
+            }
+          },
+          {
+            "id": "log.150",
+            "label": "Log 150",
+            "hex": "#DBC9B6",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.150"
+            }
+          },
+          {
+            "id": "log.200",
+            "label": "Log 200",
+            "hex": "#CFAD8E",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.200"
+            }
+          },
+          {
+            "id": "log.300",
+            "label": "Log 300",
+            "hex": "#BD8C68",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.300"
+            }
+          },
+          {
+            "id": "log.400",
+            "label": "Log 400",
+            "hex": "#A16E50",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.400"
+            }
+          },
+          {
+            "id": "log.500",
+            "label": "Log 500",
+            "hex": "#835A49",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.500"
+            }
+          },
+          {
+            "id": "log.600",
+            "label": "Log 600",
+            "hex": "#335260",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.600"
+            }
+          },
+          {
+            "id": "log.700",
+            "label": "Log 700",
+            "hex": "#163F54",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.700"
+            }
+          },
+          {
+            "id": "log.800",
+            "label": "Log 800",
+            "hex": "#0D2F42",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.800"
+            }
+          },
+          {
+            "id": "log.900",
+            "label": "Log 900",
+            "hex": "#0C222F",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.900"
+            }
+          },
+          {
+            "id": "log.950",
+            "label": "Log 950",
+            "hex": "#0B1720",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.950"
+            }
+          }
+        ],
+        "diverging": null,
+        "plot": {
+          "bg": {
+            "id": "light.plot.bg",
+            "label": "light.plot.bg",
+            "hex": "#EAE1D7",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.100"
+            },
+            "alias": "light.bg"
+          },
+          "grid": {
+            "id": "light.plot.grid",
+            "label": "light.plot.grid",
+            "hex": "#CFAD8E",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.200"
+            },
+            "alias": "light.border"
+          },
+          "text": {
+            "id": "light.plot.text",
+            "label": "light.plot.text",
+            "hex": "#0D2F42",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.800"
+            },
+            "alias": "light.text"
+          },
+          "muted": {
+            "id": "light.plot.muted",
+            "label": "light.plot.muted",
+            "hex": "#335260",
+            "origin": {
+              "file": "pequod.json",
+              "path": "log.600"
+            },
+            "alias": "light.text-muted"
+          }
+        }
+      }
+    }
+  }
+}
