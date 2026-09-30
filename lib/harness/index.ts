@@ -72,7 +72,11 @@ export function runProfile(family: ResolvedFamily, profile: string, thresholds: 
 
 export function buildReport(family: ResolvedFamily, thresholds: Thresholds): FamilyReport {
   const profiles: Record<string, ProfileReport> = {};
-  for (const env of family.meta.environments) {
+  // Declared pairs and distinct sets are shared tests: they run for every family that declares them.
+  const envs = new Set<string>(family.meta.environments);
+  if ((family.source.pairs?.length ?? 0) > 0) envs.add("office-screen");
+  if ((family.source.distinct?.length ?? 0) > 0) envs.add("cvd");
+  for (const env of envs) {
     if (!PROFILE_RUNNERS[env]) {
       profiles[env] = { status: EXTERNAL.has(env) ? "external" : "not-implemented", errors: 0, warnings: 0, waived: 0, checks: [] };
       continue;
