@@ -3,7 +3,7 @@
 // few colours of its own, so the profile code is tested apart from any family
 // that lists it.
 import { describe, expect, it } from "vitest";
-import { agedEyeProfile, clinical, eink, failures, figure, overlay, photocopyProfile, printGrey, projector, sunlight } from "../../lib/harness/index.ts";
+import { agedEyeProfile, clinical, eink, failures, figure, officeScreen, overlay, photocopyProfile, printGrey, projector, sunlight } from "../../lib/harness/index.ts";
 import type { Check } from "../../lib/harness/index.ts";
 import { fromOklch } from "../../lib/colour/oklab.ts";
 import { resolveFamily } from "../../lib/model/resolve.ts";
@@ -27,6 +27,22 @@ const set = (members: string[], forProfiles: NonNullable<Distinct["for"]>, more:
 });
 const byId = (checks: Check[], id: string) => checks.filter((c) => c.id === id);
 const first = (checks: Check[], id: string) => byId(checks, id)[0]!;
+
+describe("APCA and the apca-w3 licence", () => {
+  const withPair = (environments: FamilyFile["meta"]["environments"]) =>
+    family({ ink: "#202020", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; f.meta.environments = environments; });
+
+  it("reports APCA for an ordinary family", () => {
+    const checks = officeScreen(withPair(["office-screen"]), thresholds);
+    expect(checks.some((c) => c.id.startsWith("apca "))).toBe(true);
+  });
+
+  it("reports none for a family that lists clinical, because the licence excludes clinical use", () => {
+    const checks = officeScreen(withPair(["office-screen", "clinical"]), thresholds);
+    expect(checks.some((c) => c.id.startsWith("apca "))).toBe(false);
+    expect(checks.some((c) => c.id.startsWith("aaa "))).toBe(true);
+  });
+});
 
 describe("projector", () => {
   const colours = { ink: "#666666", paper: "#FFFFFF", grey: "#8A8A8A" };
