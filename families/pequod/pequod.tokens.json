@@ -4,7 +4,7 @@
     "id": "pequod",
     "name": "Pequod",
     "host": true,
-    "version": "0.2.0",
+    "version": "0.3.0",
     "tagline": "Warm paper, deep ink, the crew as accents.",
     "goal": "Reading and code in editors, terminals and long documents on screen.",
     "environments": ["office-screen","editor","cvd"],
@@ -29,11 +29,11 @@
       "950": "#0B1720"
     },
     "ahab": {
-      "light": {"hex":"#A83732","note":"Ahab, red. Obsession, fire, the wound."},
+      "light": {"hex":"#931432","note":"Ahab, red. Obsession, fire, the wound."},
       "dark": "#E3877C"
     },
     "starbuck": {
-      "light": {"hex":"#0082B1","note":"Starbuck, blue. The steady mate; sea and storm."},
+      "light": {"hex":"#006A98","note":"Starbuck, blue. The steady mate; sea and storm."},
       "dark": "#A6DFFF"
     },
     "queequeg": {
@@ -45,20 +45,20 @@
       "dark": "#DEC577"
     },
     "ishmael": {
-      "light": {"hex":"#76716B","note":"Ishmael, grey. The narrator; observer, transparent."},
+      "light": {"hex":"#6A6164","note":"Ishmael, grey. The narrator; observer, transparent."},
       "dark": "#BFBBB6"
     },
     "stubb": {
-      "light": {"hex":"#CA6435","note":"Stubb, orange. The pipe-smoking second mate; amber and flame."},
+      "light": {"hex":"#AA430B","note":"Stubb, orange. The pipe-smoking second mate; amber and flame."},
       "dark": "#FFD9BB"
     },
     "tashtego": {
-      "light": {"hex":"#177C55","note":"Tashtego, green. Gay Head harpooneer; woods and moss."},
+      "light": {"hex":"#06724B","note":"Tashtego, green. Gay Head harpooneer; woods and moss."},
       "dark": "#82C4A2"
     },
     "daggoo": {
       "light": {"hex":"#552823","note":"Daggoo, brown. African-born harpooneer; earth and mahogany."},
-      "dark": "#A17069"
+      "dark": "#A7766F"
     },
     "ansi-dark": {
       "cyan": "#9DC2C5",
@@ -485,14 +485,18 @@
       "set": "accents",
       "modes": ["dark"],
       "min": 0.0879,
-      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original."
+      "reinforced": [["ishmael", "tashtego"], ["ahab", "tashtego"]],
+      "by": "token shape and position in code: strings are quoted, keywords are fixed words, comments are set in italic",
+      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original. The floor is the original minimum, Ishmael and Tashtego."
     },
     {
       "id": "crew-light",
       "set": "accents",
       "modes": ["light"],
       "min": 0.1124,
-      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original."
+      "reinforced": [["ishmael", "tashtego"], ["ahab", "pip"], ["pip", "stubb"], ["ahab", "tashtego"], ["ahab", "daggoo"], ["starbuck", "tashtego"]],
+      "by": "token shape and position in code: strings are quoted, numbers are digits, keywords are fixed words, parameters sit in signatures and calls, comments are set in italic",
+      "note": "The floor is the original minimum, Ishmael and Tashtego. Ahab and Daggoo (protan) and Starbuck and Tashtego (tritan) joined the list when the corrections darkened the light crew to reach AA; the original had five pairs, the corrected set has seven."
     },
     {
       "id": "syntax-hues",
