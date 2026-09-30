@@ -1,1 +1,107 @@
-[]
+[
+  {
+    "mode": "light",
+    "address": "ansi.red",
+    "from": "#CF7F79",
+    "to": "#AA5E59",
+    "why": "P12: the old site reused the dark slot (ansi-dark.red), 2.9:1 on the light terminal; D3: ansi-light.red, 4.6:1, the dark hue and chroma with the lightness lowered until it clears 4.5:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.green",
+    "from": "#7BB587",
+    "to": "#488055",
+    "why": "P12: the old site reused the dark slot (ansi-dark.green), 2.3:1 on the light terminal; D3: ansi-light.green, 4.5:1, the dark hue and chroma with the lightness lowered until it clears 4.5:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.yellow",
+    "from": "#D4BC79",
+    "to": "#88722F",
+    "why": "P12: the old site reused the dark slot (ansi-dark.yellow), 1.8:1 on the light terminal; D3: ansi-light.yellow, 4.5:1, the dark hue and chroma with the lightness lowered until it clears 4.5:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.blue",
+    "from": "#72A5DE",
+    "to": "#4577AD",
+    "why": "P12: the old site reused the dark slot (ansi-dark.blue), 2.5:1 on the light terminal; D3: ansi-light.blue, 4.5:1, the dark hue and chroma with the lightness lowered until it clears 4.5:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.magenta",
+    "from": "#B893D4",
+    "to": "#8966A3",
+    "why": "P12: the old site reused the dark slot (ansi-dark.magenta), 2.5:1 on the light terminal; D3: ansi-light.magenta, 4.5:1, the dark hue and chroma with the lightness lowered until it clears 4.5:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.cyan",
+    "from": "#5BB6B1",
+    "to": "#1B6864",
+    "why": "P12: the old site reused the dark slot (accent.400), 2.3:1 on the light terminal; D3: accent.700, 6.3:1; cyan and bright cyan are the lightest pair of accent steps that clears 4.5:1 and 3:1 with a bright step of 0.04 to 0.08"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.white",
+    "from": "#C8CBD0",
+    "to": "#5C6168",
+    "why": "P12: the old site reused the dark slot (grey.300), 1.6:1 on the light terminal; D3: grey.700, 6.0:1, the lightest grey step that clears 4.5:1, so white text stays readable"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-black",
+    "from": "#5C6168",
+    "to": "#72777D",
+    "why": "the old site reused the dark slot (grey.700), 6.0:1 on the light terminal; D3: grey.600, 4.4:1, grey.700 is now white, so bright black takes the next step: dimmer than the foreground, distinct from white and bright white"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-red",
+    "from": "#E7958E",
+    "to": "#C2736D",
+    "why": "P12: the old site reused the dark slot (ansi-dark.bright-red), 2.2:1 on the light terminal; D3: ansi-light.bright-red, 3.4:1, the dark hue and chroma, 0.07 lighter than red as in the dark set; bright slots are emphasis colours, held at 3:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-green",
+    "from": "#91CB9C",
+    "to": "#5D9569",
+    "why": "P12: the old site reused the dark slot (ansi-dark.bright-green), 1.8:1 on the light terminal; D3: ansi-light.bright-green, 3.4:1, the dark hue and chroma, 0.07 lighter than green as in the dark set; bright slots are emphasis colours, held at 3:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-yellow",
+    "from": "#E8CF8C",
+    "to": "#9B8341",
+    "why": "P12: the old site reused the dark slot (ansi-dark.bright-yellow), 1.5:1 on the light terminal; D3: ansi-light.bright-yellow, 3.5:1, the dark hue and chroma, 0.06 lighter than yellow as in the dark set; bright slots are emphasis colours, held at 3:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-blue",
+    "from": "#88BCF6",
+    "to": "#5A8DC4",
+    "why": "P12: the old site reused the dark slot (ansi-dark.bright-blue), 1.9:1 on the light terminal; D3: ansi-light.bright-blue, 3.4:1, the dark hue and chroma, 0.07 lighter than blue as in the dark set; bright slots are emphasis colours, held at 3:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-magenta",
+    "from": "#CEA9EB",
+    "to": "#9E7BB9",
+    "why": "P12: the old site reused the dark slot (ansi-dark.bright-magenta), 1.9:1 on the light terminal; D3: ansi-light.bright-magenta, 3.4:1, the dark hue and chroma, 0.07 lighter than magenta as in the dark set; bright slots are emphasis colours, held at 3:1"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-cyan",
+    "from": "#86CDC8",
+    "to": "#1E807B",
+    "why": "P12: the old site reused the dark slot (accent.300), 1.8:1 on the light terminal; D3: accent.600, 4.6:1; cyan and bright cyan are the lightest pair of accent steps that clears 4.5:1 and 3:1 with a bright step of 0.04 to 0.08"
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-white",
+    "from": "#FAFBFD",
+    "to": "#8D9298",
+    "why": "P12: the old site reused the dark slot (grey.000), 1.0:1 on the light terminal; D3: grey.500, 3.0:1, the lightest grey step that clears 3:1"
+  }
+]

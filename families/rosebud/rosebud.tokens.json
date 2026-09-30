@@ -8,10 +8,14 @@
       "name": "Ambergris",
       "version": "0.3.0"
     },
-    "version": "0.3.0",
+    "version": "0.4.0",
     "chapter": [91,92],
     "chapterTitle": "The Pequod Meets the Rose-Bud; Ambergris",
     "quote": "the romantic name of this aromatic ship",
+    "quotes": [
+      {"chapter": 91, "text": "a sleepy, vapory, mid-day sea"},
+      {"chapter": 92, "text": "the French compound for grey amber"}
+    ],
     "tagline": "Near-monochrome, one teal for interaction, a hue sweep for data.",
     "goal": "Quiet application chrome for tools used for hours: dashboards, admin tools, editors' chrome, Loomings' interface.",
     "environments": ["office-screen","cvd","forced-colors"],
@@ -117,6 +121,18 @@
       "bright-yellow": "#E8CF8C",
       "bright-blue": "#88BCF6",
       "bright-magenta": "#CEA9EB"
+    },
+    "ansi-light": {
+      "red": "#AA5E59",
+      "green": "#488055",
+      "yellow": "#88722F",
+      "blue": "#4577AD",
+      "magenta": "#8966A3",
+      "bright-red": "#C2736D",
+      "bright-green": "#5D9569",
+      "bright-yellow": "#9B8341",
+      "bright-blue": "#5A8DC4",
+      "bright-magenta": "#9E7BB9"
     },
     "terminal-dark": {
       "selection-bg": "#143336"
@@ -312,21 +328,21 @@
       },
       "ansi": {
         "black": "{palette.grey.950}",
-        "red": "{palette.ansi-dark.red}",
-        "green": "{palette.ansi-dark.green}",
-        "yellow": "{palette.ansi-dark.yellow}",
-        "blue": "{palette.ansi-dark.blue}",
-        "magenta": "{palette.ansi-dark.magenta}",
-        "cyan": "{palette.accent.400}",
-        "white": "{palette.grey.300}",
-        "bright-black": "{palette.grey.700}",
-        "bright-red": "{palette.ansi-dark.bright-red}",
-        "bright-green": "{palette.ansi-dark.bright-green}",
-        "bright-yellow": "{palette.ansi-dark.bright-yellow}",
-        "bright-blue": "{palette.ansi-dark.bright-blue}",
-        "bright-magenta": "{palette.ansi-dark.bright-magenta}",
-        "bright-cyan": "{palette.accent.300}",
-        "bright-white": "{palette.grey.000}"
+        "red": "{palette.ansi-light.red}",
+        "green": "{palette.ansi-light.green}",
+        "yellow": "{palette.ansi-light.yellow}",
+        "blue": "{palette.ansi-light.blue}",
+        "magenta": "{palette.ansi-light.magenta}",
+        "cyan": "{palette.accent.700}",
+        "white": "{palette.grey.700}",
+        "bright-black": "{palette.grey.600}",
+        "bright-red": "{palette.ansi-light.bright-red}",
+        "bright-green": "{palette.ansi-light.bright-green}",
+        "bright-yellow": "{palette.ansi-light.bright-yellow}",
+        "bright-blue": "{palette.ansi-light.bright-blue}",
+        "bright-magenta": "{palette.ansi-light.bright-magenta}",
+        "bright-cyan": "{palette.accent.600}",
+        "bright-white": "{palette.grey.500}"
       },
       "terminal": {
         "background": "{palette.grey.000}",
@@ -425,7 +441,7 @@
     {
       "id": "functional-hues-in-content",
       "text": "Functional hues exist for terminal and editor content only: ANSI slots, diffs, diagnostics. Never interface chrome.",
-      "check": "group-not-in-chrome:ansi-dark"
+      "check": "group-not-in-chrome:ansi-dark,ansi-light"
     }
   ],
   "pairs": [
@@ -573,6 +589,118 @@
       "kind": "text",
       "modes": ["dark"],
       "why": "ANSI bright cyan, dark"
+    },
+    {
+      "fg": "ansi.red",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI red, light: authored for light grounds (D3)"
+    },
+    {
+      "fg": "ansi.green",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI green, light: authored for light grounds (D3)"
+    },
+    {
+      "fg": "ansi.yellow",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI yellow, light: authored for light grounds (D3)"
+    },
+    {
+      "fg": "ansi.blue",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI blue, light: authored for light grounds (D3)"
+    },
+    {
+      "fg": "ansi.magenta",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI magenta, light: authored for light grounds (D3)"
+    },
+    {
+      "fg": "ansi.cyan",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI cyan, light: accent 700 (D3)"
+    },
+    {
+      "fg": "ansi.bright-red",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright red, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-green",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright green, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-yellow",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright yellow, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-blue",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright blue, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-magenta",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright magenta, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-cyan",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright cyan, light: bright slots are emphasis colours, held at 3:1"
+    },
+    {
+      "fg": "ansi.black",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI black, light: the terminal foreground"
+    },
+    {
+      "fg": "ansi.white",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "ANSI white, light: a mid grey, so white text stays readable"
+    },
+    {
+      "fg": "ansi.bright-black",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright black, light: dim text; bright slots are held at 3:1"
+    },
+    {
+      "fg": "ansi.bright-white",
+      "bg": "terminal.background",
+      "kind": "large",
+      "modes": ["light"],
+      "why": "ANSI bright white, light: bright slots are emphasis colours, held at 3:1"
     }
   ],
   "distinct": [
@@ -581,6 +709,23 @@
       "set": "ansi-hues",
       "cvd": "report",
       "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
+    }
+  ],
+  "exceptions": [
+    {
+      "profile": "forced-colors",
+      "id": "focus",
+      "why": "The old specimen draws the focus ring as a box-shadow with outline none, and forced colours removes box-shadow, so focus is lost. A finding about the old generated CSS, not about the tokens: the generated CSS in phase 4 draws the ring with a transparent outline that forced colours paints."
+    },
+    {
+      "profile": "forced-colors",
+      "id": "current",
+      "why": "The old specimen marks the current navigation item with a colour change on a transparent border, which forced colours paints on all four sides. Another finding about the old CSS: phase 4 marks the current item with weight or an underline."
+    },
+    {
+      "profile": "forced-colors",
+      "id": "network",
+      "why": "The old specimen loads a Google Fonts stylesheet, which the site's rules forbid. The phase 4 specimens embed their fonts and make no request."
     }
   ]
 }
