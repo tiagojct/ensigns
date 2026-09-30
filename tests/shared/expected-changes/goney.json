@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "mode": "light",
+    "address": "accents.imum",
+    "from": "#084B96",
+    "to": "#002E73",
+    "why": "Goney alias decision (brief section 7): Imum light gets its own value. It shared #084B96 with Aer light. OKLab lightness 0.32, 0.099 from Aer light, at least 0.092 under every CVD simulation."
+  }
+]

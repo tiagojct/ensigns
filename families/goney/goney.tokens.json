@@ -8,7 +8,7 @@
       "name": "Glauca",
       "version": "0.1.0"
     },
-    "version": "0.1.0",
+    "version": "0.2.0",
     "chapter": 52,
     "chapterTitle": "The Albatross",
     "quote": "bleached like the skeleton of a stranded walrus",
@@ -40,6 +40,9 @@
       "dies": "#007AFF",
       "aer": "#6CB2FF",
       "imum": "#084B96"
+    },
+    "caelum-light": {
+      "imum": {"hex":"#002E73","note":"Imum in light mode. It had no value of its own: it shared #084B96 with Aer, which link hover and accent-deep also use. Decision at checkpoint 2: an own value (this) or a declared alias."}
     },
     "pruina": {
       "pruina": "#E8EEF2",
@@ -326,7 +329,7 @@
       "accents": {
         "dies": "{palette.light.accent}",
         "aer": "{palette.caelum.imum}",
-        "imum": "{palette.caelum.imum}",
+        "imum": "{palette.caelum-light.imum}",
         "folium": "{palette.extended-light.folium}",
         "bacca": "{palette.extended-light.bacca}",
         "viola": "{palette.extended-light.viola}",
@@ -549,6 +552,11 @@
     }
   ],
   "distinct": [
+    {
+      "id": "blue-trio",
+      "members": ["accents.dies", "accents.aer", "accents.imum"],
+      "note": "Dies, Aer and Imum are one ramp in two modes. In light mode Aer and Imum both used to be #084B96; Imum now has its own value, so the trio is a distinct set again."
+    },
     {
       "id": "syntax-hues-dark",
       "set": "syntax-hues",
