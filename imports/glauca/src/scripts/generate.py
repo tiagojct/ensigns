@@ -1,0 +1,2283 @@
+#!/usr/bin/env python3
+"""Generate every Glauca surface from src/glauca.json (the single source of truth).
+
+Usage:
+  python3 src/scripts/generate.py            write generated files into dist/
+  python3 src/scripts/generate.py --check    verify files match the json; exit 1 on drift
+
+`--check` is what CI runs: it regenerates in memory and diffs against the committed
+files, so any hand-edit of a generated file fails the build.
+
+Layout: authoring inputs live under src/; generated tokens are written under dist/
+(committed). The web app embeds its generated CSS in place at src/web/src/css.
+"""
+import json, pathlib, re, sys, uuid
+from generate_obsidian import build_obsidian, _mix
+
+SRC = pathlib.Path(__file__).resolve().parent.parent   # src/ (authoring inputs)
+REPO = SRC.parent                                       # repo root (holds dist/)
+
+def load():
+    return json.loads((SRC / "glauca.json").read_text())
+
+SKIP = {"label", "scheme"}
+
+def fluid(min_rem, max_rem, min_vw, max_vw):
+    """A tuned clamp: linear interpolation between min_vw and max_vw (rem units)."""
+    slope = (max_rem - min_rem) / (max_vw - min_vw)
+    inter = min_rem - slope * min_vw
+    return "clamp(%grem, %.4frem + %.4fvw, %grem)" % (min_rem, inter, slope * 100, max_rem)
+
+def build_typography(D):
+    t = D["typography"]; feats = t["features"]; meas = t["measure"]; fl = t["fluid"]; roles = t["roles"]
+    fv = {"serif": "--gl-font-serif", "sans": "--gl-font-sans", "mono": "--gl-font-mono", "reading": "--gl-font-reading"}
+    def features_decl(preset):
+        # Prefer high-level font-variant-* (robust, does not clobber kerning/locl).
+        if preset == "text":    return ["font-variant-numeric: oldstyle-nums proportional-nums;", "font-variant-ligatures: common-ligatures;"]
+        if preset == "tabular": return ["font-variant-numeric: lining-nums tabular-nums;"]
+        if preset == "display": return ["font-variant-ligatures: common-ligatures discretionary-ligatures;"]
+        if preset == "code":    return ['font-feature-settings: "liga" 1, "calt" 1;']
+        return ["font-feature-settings: %s;" % feats.get(preset, preset)]
+    out = ["/* Generated typographic roles from glauca.json. Use as .gl-<role>. */", ":root {"]
+    out += ["  --gl-measure-%s: %s;" % (k, v) for k, v in meas.items()]
+    out.append("}")
+    for name, r in roles.items():
+        d = ["  font-family: var(%s);" % fv[r["font"]]]
+        d.append("  font-size: %s;" % (fluid(r["fluid"][0], r["fluid"][1], fl["min-vw"], fl["max-vw"]) if "fluid" in r else r["size"]))
+        d.append("  font-weight: %d;" % r.get("weight", 400))
+        d.append("  line-height: %s;" % r["leading"])
+        if r.get("tracking") and r["tracking"] != "0": d.append("  letter-spacing: %s;" % r["tracking"])
+        if r.get("transform"): d.append("  text-transform: %s;" % r["transform"])
+        axes = t["fonts"][r["font"]].get("axes", {})
+        parts = []
+        if "opsz" in axes and "opsz" in r: parts.append('"opsz" %d' % r["opsz"])
+        if "wght" in axes: parts.append('"wght" %d' % r.get("weight", 400))
+        if "SOFT" in axes and "soft" in r: parts.append('"SOFT" %d' % r["soft"])
+        if "WONK" in axes and "wonk" in r: parts.append('"WONK" %d' % r["wonk"])
+        if parts: d.append("  font-variation-settings: %s;" % ", ".join(parts))
+        if r.get("features"): d += ["  " + x for x in features_decl(r["features"])]
+        if r.get("wrap"): d.append("  text-wrap: %s;" % r["wrap"])
+        if r.get("measure"): d.append("  max-inline-size: var(--gl-measure-%s);" % r["measure"])
+        out.append(".gl-%s {" % name); out += d; out.append("}")
+    return "\n".join(out) + "\n"
+
+# ---------------- builders (each returns file text) ----------------
+def build_css(D):
+    typ, sp = D["type"], D["spacing"]; dark, light = D["modes"]["dark"], D["modes"]["light"]
+    def fam2(D):
+        r = D["typography"]["fonts"].get("reading")
+        return ('"%s", "%s fallback", system-ui, sans-serif' % (r["family"], r["family"])) if r else 'var(--gl-font-sans)'
+    fam = lambda r: '"%s", "%s fallback", %s' % (typ[r]["family"], typ[r]["family"], {"serif":"Georgia, serif","sans":"system-ui, sans-serif","mono":"ui-monospace, monospace"}[r])
+    out = ["/* Generated from glauca.json. Edit the json, then `make generate`. */", ":root {",
+           "  --gl-font-serif: %s;" % fam("serif"), "  --gl-font-sans: %s;" % fam("sans"), "  --gl-font-mono: %s;" % fam("mono"), "  --gl-font-reading: %s;" % fam2(D)]
+    for k, v in typ["scale"]["steps"].items():   out.append("  --gl-text-%s: %s;" % (k, v))
+    for k, v in typ["scale"]["leading"].items(): out.append("  --gl-leading-%s: %s;" % (k, v))
+    for k, v in typ["scale"]["weight"].items():  out.append("  --gl-weight-%s: %s;" % (k, v))
+    for k, v in sp["scale"].items():             out.append("  --gl-space-%s: %s;" % (k, v))
+    for k, v in sp["radius"].items():            out.append("  --gl-radius-%s: %s;" % (k, v))
+    # Named -width: the bare --gl-border is the per-mode border COLOUR below; emitting
+    # the width under the same name let the colour shadow it and consumers lost both.
+    out += ["  --gl-border-width: %s;" % sp["border"], "}", "",
+            # Light-first: Pruina (light) is the default at :root; Profundum (dark) is the opt-in.
+            '/* %s is the light default; %s is dark. */' % (light["label"], dark["label"]),
+            ':root,\n[data-mode="light"] {'] + ["  --gl-%s: %s;" % (k, v) for k, v in light.items() if k not in SKIP] + ["}", "",
+            '[data-mode="dark"] {'] + ["  --gl-%s: %s;" % (k, v) for k, v in dark.items() if k not in SKIP] + ["}"]
+    return "\n".join(out) + "\n"
+
+def _js(o, ind="  "):
+    def key(k):
+        # Quote anything that is not a valid bare JS identifier ("2xl", "foo-bar", "DEFAULT").
+        return k if re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", k) and k != "DEFAULT" else '"%s"' % k
+    if isinstance(o, dict):
+        body = ",\n".join('%s  %s: %s' % (ind, key(k), _js(v, ind+"  ")) for k, v in o.items())
+        return "{\n" + body + "\n" + ind + "}"
+    if isinstance(o, list):
+        return "[" + ", ".join(_js(x, ind) for x in o) + "]"
+    return '"%s"' % o
+
+def build_tailwind(D):
+    pal, typ, sp, tg = D["palette"], D["type"], D["spacing"], D["typography"]
+    sea, fire, gr, wh = pal["glaucum"], pal["caelum"], pal["saxum"], pal["pruina"]
+    # Extended-tier hues (folium, bacca, viola, lacus, unda) are deliberately absent:
+    # Tailwind is a web surface, and the tier rule keeps them to code/terminal only.
+    colors = {
+        "glaucum": {"DEFAULT": sea["vadum"], "caligo": sea["caligo"], "vadum": sea["vadum"],
+                    "spuma": sea["spuma"], "nebula": sea["nebula"]},
+        "caelum": {"DEFAULT": fire["dies"], "dies": fire["dies"], "aer": fire["aer"], "imum": fire["imum"]},
+        "pruina": wh["pruina"], "charta": wh["charta"], "cinis": wh["cinis"],
+        "pix": gr["pix"], "umbra": gr["umbra"], "petra": gr["petra"], "ferrum": gr["ferrum"],
+    }
+    fontFamily = {"serif": [tg["fonts"]["serif"]["family"], "Georgia", "serif"],
+                  "sans": [tg["fonts"]["sans"]["family"], "system-ui", "sans-serif"],
+                  "mono": [tg["fonts"]["mono"]["family"], "ui-monospace", "monospace"]}
+    lineHeight = typ["scale"]["leading"]
+    # Single-sourced from typography.roles tracking values.
+    roles = tg["roles"]
+    letterSpacing = {"display": roles["display"]["tracking"], "headline": roles["headline"]["tracking"],
+                     "title": roles["title"]["tracking"], "normal": "0",
+                     "caption": roles["caption"]["tracking"], "eyebrow": roles["eyebrow"]["tracking"]}
+    md = D["motion"]
+    transitionDuration = dict(md["durations"])
+    transitionTimingFunction = dict(md["easings"])
+    return ("// Generated from glauca.json. Edit the json, then `make generate`.\n"
+            "module.exports = {\n  colors: %s,\n  fontFamily: %s,\n  fontSize: %s,\n"
+            "  lineHeight: %s,\n  letterSpacing: %s,\n  spacing: %s,\n  borderRadius: %s,\n"
+            "  transitionDuration: %s,\n  transitionTimingFunction: %s,\n};\n"
+            % (_js(colors), _js(fontFamily), _js(typ["scale"]["steps"]),
+               _js(lineHeight), _js(letterSpacing), _js(sp["scale"]), _js(sp["radius"]),
+               _js(transitionDuration), _js(transitionTimingFunction)))
+
+def _ghostty(label, note, bg, fg, cursor, cursor_text, sel_bg, sel_fg,
+             search_fg, search_bg, sel_search_fg, sel_search_bg, divider, split_fill,
+             titlebar_bg, titlebar_fg, ansi):
+    """One Ghostty theme file. A theme file is an ordinary Ghostty config, so it may
+    set any option except `theme` and `config-file`; this one stays strictly to colour,
+    leaving behaviour to the user's own config (see dist/themes/terminals/glauca.conf
+    for the optional wiring).
+
+    Beyond the chrome and the sixteen ANSI slots: search matches split in two, which is
+    where the blue-rare rule earns its keep -- candidate matches take the quiet sea so a
+    screenful of hits stays calm, and only the focused match takes dies. Ghostty's stock
+    search colours are golden yellow and peach, which are off-system in both modes. The
+    split divider and the unfocused-split fill follow the border and the field; the
+    titlebar pair is read only by the GTK app runtime under `window-theme = ghostty`,
+    and is ignored elsewhere.
+
+    Minimum Ghostty: 1.3 (search-* landed with terminal search; split-divider-color
+    needs 1.1). On an older build, drop the search-* lines."""
+    return "\n".join([
+        "# Glauca (%s) — Ghostty theme%s. Generated from glauca.json." % (label, note),
+        "# Colour only; needs Ghostty >= 1.3 for the search-* keys.",
+        "background = %s" % bg, "foreground = %s" % fg,
+        "cursor-color = %s" % cursor, "cursor-text = %s" % cursor_text,
+        "selection-background = %s" % sel_bg, "selection-foreground = %s" % sel_fg,
+        "search-foreground = %s" % search_fg, "search-background = %s" % search_bg,
+        "search-selected-foreground = %s" % sel_search_fg,
+        "search-selected-background = %s" % sel_search_bg,
+        "split-divider-color = %s" % divider, "unfocused-split-fill = %s" % split_fill,
+        "# GTK only, and only under `window-theme = ghostty`; ignored elsewhere.",
+        "window-titlebar-background = %s" % titlebar_bg,
+        "window-titlebar-foreground = %s" % titlebar_fg,
+    ] + ["palette = %d=%s" % (i, c) for i, c in enumerate(ansi)]) + "\n"
+
+def build_ghostty(D):
+    """Profundum (dark) Ghostty theme: the identity ANSI palette and dark chrome."""
+    t, dark = D["terminal"], D["modes"]["dark"]
+    return _ghostty(dark["label"], "", t["background"], t["foreground"],
+        t["cursor"], t["cursor-text"], t["selection-bg"], t["selection-fg"],
+        # Both modes put candidates on tint-pale and the focused match on the mode
+        # accent, so the polarity flips against the selection (pale ink on the sea) and
+        # a hit is unmistakable. Measured: 8.49:1 and 6.35:1 here, 9.81:1 and 5.32:1 light.
+        search_fg=dark["on-tint"], search_bg=dark["tint-pale"],
+        sel_search_fg=dark["on-accent"], sel_search_bg=dark["accent"],
+        divider=dark["border"], split_fill=dark["bg"],
+        titlebar_bg=dark["surface"], titlebar_fg=dark["text"], ansi=t["ansi"])
+
+def _contrast(a, b):
+    """WCAG contrast ratio between two hex colours."""
+    def lum(hx):
+        h = hx.lstrip("#"); r, g, bl = (int(h[i:i+2], 16) / 255 for i in (0, 2, 4))
+        f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(bl)
+    l1, l2 = sorted((lum(a), lum(b)), reverse=True)
+    return (l1 + 0.05) / (l2 + 0.05)
+
+def _light_ansi(D):
+    """A light-tuned ANSI palette for the light (Pruina) terminals. The dark palette
+    is bright-for-dark; reused flat on the frost bg, 8 of 16 slots fall below 3:1 --
+    white and bright-white (1.4:1, 1.1:1) go invisible, the bright hues wash out. So
+    the twelve coloured slots are darkened toward the light ink until they clear the
+    light bg (>=4.5 normal, >=4.0 bright). The four greyscale slots use the mode's
+    semantic inks rather than literal white: terminal applications frequently emit
+    ANSI white for ordinary text, so a pale white would disappear on the frost
+    field. Each grey register stays distinct: black (0) is the deep saxum anchor,
+    bright-white (15) the ink, white (7) the higher-contrast muted ink, and
+    bright-black (8) the ordinary muted ink -- so dim text (8) and strong text (7)
+    still read as two levels. Hues stay put; only luminance moves. Ghostty and
+    iTerm share this; the dark themes keep the identity palette."""
+    light, ansi = D["modes"]["light"], D["terminal"]["ansi"]
+    ink, bg = light["text"], light["bg"]
+    def darken(c, target):
+        t = 0.0
+        while t < 0.9:
+            cc = _mix(c, ink, t)
+            if _contrast(cc, bg) >= target:
+                return cc
+            t += 0.02
+        return _mix(c, ink, 0.9)
+    cm = D["a11y"]["contrast_more"]["light"]
+    grey = {0: D["palette"]["saxum"]["ferrum"], 7: cm["text-muted"],
+            8: light["text-muted"], 15: light["text"]}
+    return [grey[i] if i in grey else darken(c, 4.5 if i < 8 else 4.0) for i, c in enumerate(ansi)]
+
+def build_ghostty_light(D):
+    """Pruina (light) Ghostty theme: bg/fg/cursor/selection from modes.light, with a
+    light-tuned ANSI palette (see _light_ansi) so every colour reads on the frost bg.
+    Search candidates sit on the pale tint with the ink on top; the focused match takes
+    the light accent with on-accent text (the validate.py-locked button pair)."""
+    light, ansi = D["modes"]["light"], _light_ansi(D)
+    return _ghostty(light["label"], " (light)", light["bg"], light["text"],
+        light["accent"], light["on-accent"], light["tint"], light["on-tint"],
+        search_fg=light["text"], search_bg=light["tint-pale"],
+        sel_search_fg=light["on-accent"], sel_search_bg=light["accent"],
+        divider=light["border"], split_fill=light["bg"],
+        titlebar_bg=light["surface"], titlebar_fg=light["text"], ansi=ansi)
+
+
+def build_ghostty_conf(D):
+    """The optional companion config for the Ghostty presets: not a theme file, but the
+    two or three lines that make the pair behave as one system. `theme = light:...,dark:...`
+    follows the desktop appearance, so Pruina and Profundum swap with the OS; the contrast
+    floor of 1.1 is Ghostty's own recommendation against a program painting text the same
+    colour as its background, and is well under any value that would start flattening the
+    palette. The macOS icon block is left commented because Ghostty documents
+    `macos-icon = custom-style` as experimental."""
+    light, dark, pal = D["modes"]["light"], D["modes"]["dark"], D["palette"]
+    return "\n".join([
+        "# Glauca for Ghostty -- optional companion config. Generated from glauca.json.",
+        "# Append to ~/.config/ghostty/config, or keep it separate and add",
+        "#   config-file = ?glauca.conf",
+        "# to your config. Install the two themes first (see README.md).",
+        "",
+        "# Follow the desktop appearance: Pruina by day, Profundum by night.",
+        "theme = light:Glauca,dark:Glauca-Dark",
+        "",
+        "# Never let a program paint text the same colour as its background.",
+        "minimum-contrast = 1.1",
+        "",
+        "# Linux/GTK: paint the titlebar from the theme's window-titlebar-* colours.",
+        "# window-theme = ghostty",
+        "",
+        "# macOS: the app icon in the Glauca register -- one blue mark on a frost screen.",
+        "# Ghostty documents custom-style as experimental, so this is opt-in.",
+        "# macos-icon = custom-style",
+        "# macos-icon-ghost-color = %s" % pal["caelum"]["dies"],
+        "# macos-icon-screen-color = %s,%s" % (light["bg"], pal["glaucum"]["nebula"]),
+        "",
+    ])
+
+def _iterm_color(hexv):
+    """One iTerm2 colour <dict>: sRGB components as 0-1 floats (repr is
+    deterministic, so the drift gate stays stable), keys in iTerm's own
+    alphabetical export order."""
+    h = hexv.lstrip("#")
+    r, g, b = (int(h[i:i+2], 16) / 255 for i in (0, 2, 4))
+    return ("\t<dict>\n"
+            "\t\t<key>Alpha Component</key>\n\t\t<real>1</real>\n"
+            "\t\t<key>Blue Component</key>\n\t\t<real>%r</real>\n"
+            "\t\t<key>Color Space</key>\n\t\t<string>sRGB</string>\n"
+            "\t\t<key>Green Component</key>\n\t\t<real>%r</real>\n"
+            "\t\t<key>Red Component</key>\n\t\t<real>%r</real>\n"
+            "\t</dict>" % (b, g, r))
+
+def _iterm_plist(pairs):
+    body = "\n".join("\t<key>%s</key>\n%s" % (k, _iterm_color(v)) for k, v in pairs)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n'
+            '<plist version="1.0">\n<dict>\n' + body + "\n</dict>\n</plist>\n")
+
+def build_iterm(D):
+    """Profundum (dark) iTerm2 preset: same sources as build_ghostty. Bold reuses
+    the foreground and Link is ANSI 12 (dies, the bright blue) -- iTerm falls back to its
+    own defaults for any key a preset omits, so both are pinned explicitly."""
+    t = D["terminal"]
+    pairs = [("Ansi %d Color" % i, c) for i, c in enumerate(t["ansi"])]
+    pairs += [("Background Color", t["background"]), ("Bold Color", t["foreground"]),
+              ("Cursor Color", t["cursor"]), ("Cursor Text Color", t["cursor-text"]),
+              ("Foreground Color", t["foreground"]), ("Link Color", t["ansi"][12]),
+              ("Selected Text Color", t["selection-fg"]), ("Selection Color", t["selection-bg"])]
+    return _iterm_plist(pairs)
+
+def build_iterm_light(D):
+    """Pruina (light) iTerm2 preset: chrome from modes.light, light-tuned ANSI palette
+    (mirrors build_ghostty_light via _light_ansi). Link uses light tint-bright, not the
+    ANSI bright blue -- it must stay readable on the light background (tint-bright/bg
+    is a validate.py-locked pair)."""
+    light, ansi = D["modes"]["light"], _light_ansi(D)
+    pairs = [("Ansi %d Color" % i, c) for i, c in enumerate(ansi)]
+    pairs += [("Background Color", light["bg"]), ("Bold Color", light["text"]),
+              ("Cursor Color", light["accent"]), ("Cursor Text Color", light["on-accent"]),
+              ("Foreground Color", light["text"]), ("Link Color", light["tint-bright"]),
+              ("Selected Text Color", light["on-tint"]), ("Selection Color", light["tint"])]
+    return _iterm_plist(pairs)
+
+def _omz_theme(label, note, path_cur, path_dim, paren, branch, dirty, caret_ok, caret_err, err, venv, dur):
+    """One oh-my-zsh .zsh-theme. Truecolor (%F{#hex}, zsh >= 5.7) so the prompt
+    carries the exact brand hues in any terminal, and pairs cleanly with the Glauca
+    terminal preset.
+
+    Single line: an active Python venv, the cwd, git, and the caret sit together on
+    the cursor's line. The right side is quiet reportage -- a command that ran two
+    seconds or longer shows its runtime, and a failed command shows its exit code.
+
+    Discipline holds: the field is cool bloom, the blue mark (dies) lights in exactly
+    one place -- the git-dirty mark -- and red (bacca) is the failure signal, never
+    the brand blue. The venv name and runtime stay muted so they report without
+    competing. Command timing uses zsh/datetime + add-zsh-hook, both namespaced
+    (_glauca_*), so re-sourcing the theme never double-registers."""
+    F = lambda h: "%F{" + h + "}"
+    return "\n".join([
+        "# Glauca (%s) -- oh-my-zsh theme. Generated from glauca.json." % label,
+        "# %s" % note,
+        "# Truecolor single-line prompt (needs zsh >= 5.7): venv + cwd + git + caret,",
+        "# with a slow command's runtime and a failed command's exit code on the right.",
+        "",
+        "zmodload zsh/datetime 2>/dev/null",
+        "autoload -Uz add-zsh-hook 2>/dev/null",
+        "_glauca_preexec() { _glauca_start=$EPOCHREALTIME }",
+        "# The venv and runtime segments are coloured here, in plain shell, not in the",
+        "# prompt string: a %F{...} inside a ${x:+...} confuses prompt brace-matching.",
+        "_glauca_precmd() {",
+        "  _glauca_dur=''",
+        "  if (( ${_glauca_start:-0} )); then",
+        "    local e=$(( EPOCHREALTIME - _glauca_start ))",
+        "    (( e >= 2 )) && _glauca_dur=\"" + F(dur) + "$(printf '%.1fs' $e)%f\"",
+        "    _glauca_start=0",
+        "  fi",
+        "  if [[ -n $VIRTUAL_ENV ]]; then _glauca_venv=\"" + F(venv) + "${VIRTUAL_ENV:t} %f\"; else _glauca_venv=''; fi",
+        "  local p=${${(%):-%~}//\\%/%%}",
+        "  if [[ $p == */?* ]]; then _glauca_path=\"" + F(path_dim) + "${p%/*}/%f" + F(path_cur) + "${p##*/}%f\";"
+        " else _glauca_path=\"" + F(path_cur) + "${p}%f\"; fi",
+        "}",
+        "# Register defensively: if add-zsh-hook is unavailable (broken fpath), skip the timing",
+        "# feature silently rather than spilling 'function definition file not found' at every prompt.",
+        "if (( $+functions[add-zsh-hook] )); then",
+        "  add-zsh-hook preexec _glauca_preexec 2>/dev/null",
+        "  add-zsh-hook precmd _glauca_precmd 2>/dev/null",
+        "fi",
+        "",
+        'ZSH_THEME_GIT_PROMPT_PREFIX=" ' + F(paren) + "(" + F(branch) + '"',
+        'ZSH_THEME_GIT_PROMPT_SUFFIX="' + F(paren) + ')%f"',
+        'ZSH_THEME_GIT_PROMPT_DIRTY="' + F(dirty) + '*"',
+        'ZSH_THEME_GIT_PROMPT_CLEAN=""',
+        "",
+        "PROMPT='${_glauca_venv}${_glauca_path}$(git_prompt_info) "
+        + "%(?." + F(caret_ok) + "." + F(caret_err) + ")❯%f '",
+        "RPROMPT='${_glauca_dur}%(?.. " + F(err) + "%?%f)'",
+        "",
+    ])
+
+def build_omz(D):
+    """Profundum (dark) oh-my-zsh prompt: brand hues straight from the palette."""
+    pal, dark = D["palette"], D["modes"]["dark"]
+    return _omz_theme("Profundum", "Dark.",
+        path_cur=pal["glaucum"]["nebula"], path_dim=_mix(pal["glaucum"]["nebula"], dark["bg"], 0.5),
+        paren=dark["tint-bright"], branch=pal["extended"]["unda"],
+        dirty=pal["caelum"]["dies"], caret_ok=dark["tint-bright"],
+        caret_err=pal["extended"]["bacca"], err=pal["extended"]["bacca"],
+        venv=dark["text-muted"], dur=dark["text-muted"])
+
+def build_omz_light(D):
+    """Pruina (light) oh-my-zsh prompt: light-mode chrome plus the extended
+    hues darkened toward the light ink (t=0.45, the shared light-safe ratio) so
+    branch/error read on a light terminal background."""
+    light, ex = D["modes"]["light"], D["palette"]["extended"]
+    ls = lambda h: _mix(h, light["text"], 0.45)
+    # path_dim mixes only 0.3 toward the bg (the dark sibling uses 0.5): at 0.5 the
+    # dim segment measured 2.29:1 on the frost bg, under the 3:1 UI floor; 0.3 reads 3.45:1.
+    return _omz_theme("Pruina", "Light.",
+        path_cur=light["tint"], path_dim=_mix(light["tint"], light["bg"], 0.3),
+        paren=light["text-muted"], branch=ls(ex["unda"]),
+        dirty=light["accent"], caret_ok=light["tint-bright"],
+        caret_err=ls(ex["bacca"]), err=ls(ex["bacca"]),
+        venv=light["text-muted"], dur=light["text-muted"])
+
+def build_vivaldi(D, modekey):
+    """Vivaldi browser theme (settings.json). Schema matches a current exported
+    Vivaldi theme (engineVersion 1, verified against installed themes): five base
+    colours -- Vivaldi derives the rest -- plus behaviour flags and a stable id.
+    assemble.sh zips this into an importable .zip per mode. The id is derived
+    deterministically (uuid5) so regeneration does not drift.
+
+    - contrast 5, not Vivaldi's looser 2: it is the minimum-contrast floor Vivaldi
+      enforces on the UI text it DERIVES from these colours (active-tab titles on
+      the sea highlight, text on the fire accent). 2 under-enforces; 5 holds the
+      AA-ish floor this system guarantees everywhere else. Our own colorFg is 12:1
+      on colorBg, so it is never the one Vivaldi has to override.
+    - radius 6 = the system's `lg` radius token (spacing.radius.lg).
+    - opaque (alpha 1, blur 0): no translucency gimmick; chrome stays legible.
+    - accentOnWindow false keeps the fire off the whole window -- it marks only the
+      accent elements Vivaldi paints with colorAccentBg, so the fire stays rare.
+    - colorHighlightBg is both the active-tab background and the URL-field text selection. Dark mode
+      takes the brighter tint-bright so a selection reads against the near-black chrome (plain tint is
+      barely lighter there, so a highlighted URL looked unselected); light keeps the darker tint,
+      already clear on the pale field."""
+    m = D["modes"][modekey]
+    up = lambda h: h.upper()
+    # Light-first: the plain name is the light flagship; the dark one carries its label.
+    name = "Glauca Dark" if modekey == "dark" else "Glauca Light"
+    tid = str(uuid.uuid5(uuid.NAMESPACE_URL, "glauca.vivaldi." + modekey))
+    theme = {
+        "accentFromPage": False, "accentOnWindow": False, "accentSaturationLimit": 1,
+        "alpha": 1, "backgroundImage": "", "backgroundPosition": "stretch", "backgroundSource": "",
+        "blur": 0, "colorAccentBg": up(m["accent"]), "colorBg": up(m["bg"]), "colorFg": up(m["text"]),
+        "colorHighlightBg": up(m["tint-bright"] if m["scheme"] == "dark" else m["tint"]),
+        "colorPosition": "unified", "colorWindowBg": up(m["surface"]),
+        "contrast": 5, "dimBlurred": False, "engineVersion": 1, "id": tid, "name": name,
+        "preferSystemAccent": False, "radius": 6, "simpleScrollbar": False,
+        "transparencyTabBar": False, "transparencyTabs": False, "url": "", "version": 1,
+    }
+    return json.dumps(theme, indent=2) + "\n"
+
+def build_miniflux(D):
+    """Glauca custom CSS for Miniflux (Settings > Settings > Custom CSS). Miniflux
+    themes are pure CSS-variable sets, so this overrides them per mode: light
+    (Pruina) in :root, dark (Profundum) under prefers-color-scheme: dark -- so a
+    "System" appearance in Miniflux follows the OS. Colours are the semantic
+    Glauca tokens (blue link + logo mark, folium/bacca/amber for alert borders);
+    a few structural rules the variables can't reach round it out. Fonts: IBM
+    Plex, installed on the machine (see src/fonts/README.md)."""
+    ext = D["palette"]["extended"]
+    folium, bacca = ext["folium"], ext["bacca"]
+    amber = D["terminal"]["ansi"][3]          # #c79a3d, the warning hue
+
+    def block(m):
+        accent, bright, deep = m["accent"], m["accent-bright"], m["accent-deep"]
+        text, muted, bg = m["text"], m["text-muted"], m["bg"]
+        surf, raised, border, tint = m["surface"], m["surface-raised"], m["border"], m["tint"]
+        onacc = m["on-accent"]
+        # Category labels read GREEN -- the same folium as the Obsidian tag/link, so "tag" is one
+        # colour across surfaces. Light darkens it (as the Obsidian link does) to clear AA on the
+        # green tint; dark keeps folium. Green text on the 12% green tint measures 5.3-6.2:1.
+        light = m["scheme"] == "light"
+        green = _mix(_mix(folium, text, 0.45), text, 0.14) if light else folium
+        green_hover = _mix(green, text, 0.3)
+        green_tint = folium + "1f"
+        V = {
+            "font-family": '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+            "body-color": text, "body-background": bg, "hr-border-color": border,
+            "title-color": text,
+            "link-color": accent, "link-focus-color": bright, "link-hover-color": bright,
+            "link-visited-color": muted,
+            "header-list-border-color": border, "header-link-color": muted,
+            "header-link-focus-color": accent, "header-link-hover-color": accent,
+            "header-active-link-color": text,
+            "page-header-title-color": text, "page-header-title-border-color": border,
+            "logo-color": accent, "logo-hover-color-span": bright,
+            "table-border-color": border, "table-th-background": surf, "table-th-color": text,
+            "table-tr-hover-background-color": surf, "table-tr-hover-color": text,
+            "button-primary-border-color": deep, "button-primary-background": accent,
+            "button-primary-color": onacc, "button-primary-focus-border-color": deep,
+            "button-primary-focus-background": bright,
+            "input-border": "1px solid " + border, "input-background": raised,
+            "input-color": text, "input-placeholder-color": muted,
+            "input-focus-color": text, "input-focus-border-color": accent,
+            "input-focus-box-shadow": "0 0 0 3px " + accent + "33",
+            "alert-color": text, "alert-background-color": surf, "alert-border-color": amber,
+            "alert-success-color": text, "alert-success-background-color": surf,
+            "alert-success-border-color": folium,
+            "alert-error-color": text, "alert-error-background-color": surf,
+            "alert-error-border-color": bacca,
+            "alert-info-color": text, "alert-info-background-color": surf,
+            "alert-info-border-color": accent,
+            "panel-background": surf, "panel-border-color": border, "panel-color": text,
+            "pagination-link-color": text, "pagination-border-color": border,
+            "category-color": green, "category-background-color": green_tint,
+            "category-border-color": folium, "category-link-color": green,
+            "category-link-hover-color": green_hover,
+            "item-border-color": border, "item-padding": "8px",
+            "item-title-link-font-weight": "600",
+            "item-status-read-title-link-color": muted,
+            "item-status-read-title-focus-color": accent,
+            "item-meta-focus-color": accent, "item-meta-li-color": muted,
+            "current-item-border-width": "3px", "current-item-border-color": accent,
+            "current-item-box-shadow": "none",
+            "entry-header-border-color": border, "entry-header-title-link-color": text,
+            "entry-content-color": text, "entry-content-code-color": text,
+            "entry-content-code-background": surf, "entry-content-code-border-color": border,
+            "entry-content-quote-color": muted, "entry-content-abbr-border-color": muted,
+            "entry-content-aside-border-color": border, "entry-enclosure-border-color": border,
+            "parsing-error-color": text, "feed-parsing-error-background-color": surf,
+            "feed-parsing-error-border-style": "solid", "feed-parsing-error-border-color": bacca,
+            "feed-has-unread-background-color": accent + "14",
+            "feed-has-unread-border-style": "solid", "feed-has-unread-border-color": accent + "55",
+            "category-has-unread-background-color": accent + "14",
+            "category-has-unread-border-style": "solid",
+            "category-has-unread-border-color": accent + "55",
+            "keyboard-shortcuts-li-color": text, "counter-color": muted,
+        }
+        return "".join("  --%s: %s;\n" % (k, v) for k, v in V.items())
+
+    light, dark = block(D["modes"]["light"]), block(D["modes"]["dark"])
+    out = [
+        "/* Glauca for Miniflux -- generated from glauca.json. Paste into",
+        "   Settings > Settings > Custom CSS. Light (Pruina) is the base; dark",
+        '   (Profundum) applies under a dark OS appearance, so a "System" theme',
+        "   in Miniflux follows the OS. Fonts: install IBM Plex (see fonts README). */",
+        ":root {\n" + light + "}",
+        "@media (prefers-color-scheme: dark) {\n:root {\n" + dark + "}\n}",
+        "/* Structural polish the theme variables cannot reach. */",
+        ".entry-content { line-height: 1.7; }",
+        "pre, code { font-family: \"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace; }",
+        "button, .button, input, textarea, select { border-radius: 6px; }",
+    ]
+    return "\n".join(out) + "\n"
+
+def _webext_theme_manifest(D, name, description, addon_id, min_version, colors_for):
+    """One Gecko static theme (Firefox or Thunderbird). Both apps read the same
+    `theme` manifest key, so the two surfaces differ only in which colour keys the
+    host supports -- `colors_for(mode)` supplies that per app.
+
+    manifest_version is 2: that is the version Mozilla's own static-theme
+    documentation still specifies, and both hosts accept it, where MV3 static
+    themes would raise the floor to Thunderbird 128 for no gain. Light-first, and
+    the scheme is stated rather than inferred: `theme` carries Pruina with
+    color_scheme "light", `dark_theme` carries Profundum with "dark", so the
+    built-in pages follow the chrome instead of guessing from the frame colour.
+    The version is the system's own, so a release stamps every surface at once."""
+    def block(modekey, scheme):
+        return {"colors": colors_for(D["modes"][modekey]), "properties": {"color_scheme": scheme}}
+    manifest = {
+        "manifest_version": 2,
+        "name": name,
+        "version": D["version"],
+        "description": description,
+        "author": "tiagojct",
+        "homepage_url": "https://github.com/tiagojct/glauca",
+        # data_collection_permissions has been mandatory for new addons.mozilla.org
+        # submissions since 3 November 2025, and a static theme is the easy case: it is
+        # a colour table, it collects nothing, so "none" stands alone as the spec
+        # requires. Older hosts ignore the key rather than choking on it.
+        "browser_specific_settings": {"gecko": {
+            "id": addon_id, "strict_min_version": min_version,
+            "data_collection_permissions": {"required": ["none"]},
+        }},
+        "icons": {"48": "icon.svg", "96": "icon.svg"},
+        "theme": block("light", "light"),
+        "dark_theme": block("dark", "dark"),
+    }
+    return json.dumps(manifest, indent=2) + "\n"
+
+
+def _chrome_colors(D, m):
+    """The colour keys Firefox and Thunderbird share, in one table so the two
+    themes cannot drift apart.
+
+    The window is the frost field: `frame` is the mode background, the toolbars sit
+    one surface above it, and the URL/search field sits one above that, so depth
+    reads as three flat steps rather than shadow. Blue stays rare -- it marks the
+    selected tab's line, the focused field's border, the text selection inside that
+    field, and the attention state of an icon; nothing else. Hover and active states
+    are mixes of the surface toward the ink, so they hold in both modes without a
+    second table. Popup highlight is the sea, not the blue: a keyboard cursor moving
+    down a menu is not an accent."""
+    hover = _mix(m["surface"], m["text"], 0.08)
+    active = _mix(m["surface"], m["text"], 0.14)
+    # In dark the sea is a dark fill under pale text; in light it must be the pale
+    # end of the ramp under dark text. Both then pair with the mode's own text.
+    sea = m["tint"] if m["scheme"] == "dark" else m["tint-pale"]
+    return {
+        "frame": m["bg"], "frame_inactive": m["bg"],
+        "toolbar": m["surface"], "toolbar_text": m["text"],
+        "toolbar_top_separator": m["border"], "toolbar_bottom_separator": m["border"],
+        "toolbar_vertical_separator": m["border"],
+        "toolbar_field": m["surface-raised"], "toolbar_field_text": m["text"],
+        "toolbar_field_border": m["border"],
+        "toolbar_field_focus": m["surface-raised"], "toolbar_field_text_focus": m["text"],
+        "toolbar_field_border_focus": m["accent"],
+        "toolbar_field_highlight": m["accent"], "toolbar_field_highlight_text": m["on-accent"],
+        "button_background_hover": hover, "button_background_active": active,
+        "tab_selected": m["surface"], "tab_text": m["text"],
+        "tab_background_text": m["text-muted"],
+        "tab_line": m["accent"], "tab_loading": m["accent"],
+        "icons": m["text-muted"], "icons_attention": m["accent"],
+        "popup": m["surface"], "popup_text": m["text"], "popup_border": m["border"],
+        "popup_highlight": sea, "popup_highlight_text": m["text"],
+        "sidebar": m["surface"], "sidebar_text": m["text"], "sidebar_border": m["border"],
+        "sidebar_highlight": m["accent"], "sidebar_highlight_text": m["on-accent"],
+    }
+
+
+def build_firefox(D):
+    """Glauca for Firefox: a static theme. Adds the browser-only keys on top of the
+    shared chrome table -- `bookmark_text` (the documented alias for toolbar_text, kept
+    for Chrome-compatible readers) and the new-tab trio, which is the one full-page
+    surface a theme controls, so it takes the field, a card on the surface above it,
+    and the mode's ink."""
+    def colors_for(m):
+        c = _chrome_colors(D, m)
+        c.update({"bookmark_text": m["text"], "ntp_background": m["bg"],
+                  "ntp_card_background": m["surface"], "ntp_text": m["text"]})
+        return c
+    return _webext_theme_manifest(
+        D, "Glauca",
+        "Glauca: a frost-bloom browser theme. Pruina by day, Profundum by night, with "
+        "one sky-blue mark on the selected tab and the focused address field.",
+        "glauca-theme@tiagojct.eu", "115.0", colors_for)
+
+
+def build_thunderbird(D):
+    """Glauca for Thunderbird: the same static theme against Thunderbird's key set.
+    The Firefox-only keys (bookmark_text, ntp_*) are dropped -- Thunderbird documents
+    them as unused -- and one key is added that Firefox has no equivalent for:
+    `sidebar_highlight_border`, which outlines the selected row of the folder tree and
+    message list. `sidebar_text` is what switches tree theming on at all, so the shared
+    table already carries the important half."""
+    def colors_for(m):
+        c = _chrome_colors(D, m)
+        # A deeper edge on the accent fill: accent-deep is darker than accent in light
+        # and more saturated than it in dark, so the row reads as bounded either way.
+        c["sidebar_highlight_border"] = m["accent-deep"]
+        return c
+    return _webext_theme_manifest(
+        D, "Glauca",
+        "Glauca: a frost-bloom Thunderbird theme. Pruina by day, Profundum by night, "
+        "with one sky-blue mark on the selected tab, folder, and message.",
+        "glauca-theme@thunderbird.tiagojct.eu", "115.0", colors_for)
+
+
+def build_markedit(D):
+    """Glauca colours for a MarkEdit theme (MarkEdit-theming's `Colors` set). MarkEdit
+    is an editor, so it lives in the code tier: syntax maps to D['code'] like the VS Code
+    and Zed themes (light darkened through the shared _light_remap), and the editor chrome
+    reads the mode tokens -- blue caret and selection, muted gutter, seamless background.
+    Markdown links take folium green, matching the Obsidian/Miniflux tag+link green.
+    Emits an ES module (light + dark) that src/markedit/glauca.mjs feeds to overrideThemes;
+    `make markedit` bundles that with esbuild into dist/markedit/glauca.js."""
+    codem = D["code"]
+    remap, _deep = _light_remap(D)
+
+    def colors_for(m, is_dark):
+        cc = (lambda role: codem[role]["color"]) if is_dark else (lambda role: remap(codem[role]["color"]))
+        a = m["accent"]
+        editor = {
+            "textColor": m["text"], "backgroundColor": m["bg"],
+            "activeLineBackground": m["surface"], "caretColor": a,
+            "selectionBackground": a + "33", "matchingBracketBackground": a + "40",
+            "gutterText": m["text-muted"], "gutterBackground": m["bg"],
+            "foldPlaceholderText": m["text-muted"], "foldPlaceholderBackground": m["surface"],
+            "searchMatchBackground": a + "55", "selectionMatchBackground": a + "2a",
+            "visibleSpaceColor": m["border"],
+        }
+        highlight = {
+            "heading": cc("keyword"), "bold": m["text"], "italic": m["text"],
+            "strikethrough": m["text-muted"], "quote": m["text-muted"],
+            "link": cc("string"), "divider": m["border"], "comment": cc("comment"),
+            "meta": m["text-muted"], "keyword": cc("keyword"), "atom": cc("number"),
+            "literal": cc("number"), "string": cc("string"), "special": cc("decorator"),
+            "variable": cc("variable"), "local": cc("parameter"), "type": cc("type"),
+            "class": cc("type"), "macro": cc("decorator"), "property": cc("function"),
+            "label": cc("decorator"), "operator": cc("operator"), "constant": cc("number"),
+            "instruction": cc("keyword"), "invalid": cc("decorator"),
+        }
+        return {"editor": editor, "highlight": highlight, "allowsFallback": True}
+
+    light = colors_for(D["modes"]["light"], False)
+    dark = colors_for(D["modes"]["dark"], True)
+    return ("// Generated from glauca.json -- Glauca colours for MarkEdit-theming.\n"
+            "// Do not edit by hand; run `make generate`.\n"
+            "export const light = " + json.dumps(light, indent=2) + ";\n"
+            "export const dark = " + json.dumps(dark, indent=2) + ";\n")
+
+# Zotero's tag swatches, in source order. Tag colours are categorical marks a user
+# assigns by name, so they are treated the way this system treats every other
+# categorical encoding: the CVD-safe Okabe-Ito set carries the hues that have one,
+# and the extended tier fills the rest. The names are Zotero's and cannot change --
+# only the hue behind each one does.
+_ZOTERO_TAGS = {
+    "tag-red":     "#D55E00",   # Okabe-Ito vermillion
+    "tag-orange":  "#E69F00",   # Okabe-Ito orange
+    "tag-yellow":  "#F0E442",   # Okabe-Ito yellow
+    "tag-green":   "#009E73",   # Okabe-Ito bluish green
+    "tag-teal":    "unda",      # extended tier
+    "tag-blue":    "#56B4E9",   # Okabe-Ito sky blue
+    "tag-indigo":  "#0072B2",   # Okabe-Ito blue
+    "tag-purple":  "viola",     # extended tier
+    "tag-magenta": "#CC79A7",   # Okabe-Ito reddish purple
+    "tag-plum":    "bacca",     # extended tier
+    "tag-gray":    "cinis",     # the neutral anchor
+}
+
+
+def build_zotero(D):
+    """Glauca for Zotero 7, as a userChrome.css drop-in.
+
+    Zotero 7 is Gecko-based and paints its whole interface from a flat set of CSS
+    custom properties (`--accent-*`, `--fill-*`, `--color-*`, `--tag-*`), declared on
+    :root inside a prefers-color-scheme query -- so re-declaring that set is the whole
+    theme, and Zotero's own Appearance preference (which forces the scheme) keeps
+    working. Two consequences shape this file:
+
+    - userChrome.css loads as a USER stylesheet, and a normal user declaration loses
+      to a normal author declaration in the cascade. Every declaration here therefore
+      carries !important; without it Zotero's own values win and nothing changes.
+    - Zotero derives six composite colours and eleven opaque tag swatches from the
+      base set at build time (the `derive-colors` mixin). Overriding only the base
+      would leave those composites on Zotero's grey, so they are recomputed here from
+      the Glauca values -- alpha fills flattened onto the surface they sit on.
+
+    The panes are three flat steps of the field, in the order Zotero uses them: the
+    item pane is the highest surface, the toolbar sits below it, the sidepane below
+    that. In light that runs paper -> surface -> field; in dark it inverts, which is
+    exactly how the mode tokens are already stacked. The fill-* ladder is the mode's
+    ink at Zotero's own six alphas, so text, icons, and dividers keep their intended
+    weights."""
+    pal, ext = D["palette"], D["palette"]["extended"]
+    named = {"unda": ext["unda"], "viola": ext["viola"], "bacca": ext["bacca"],
+             "cinis": pal["pruina"]["cinis"]}
+    amber = D["terminal"]["ansi"][3]                # #c79a3d, the shared warning hue
+    copper = D["dataviz"]["diverging"]["colors"][7]  # #b97435, the warm end of the axis
+
+    def over(fg_hex8, bg):
+        """Flatten an 8-digit #rrggbbaa over an opaque background -- Zotero's derived
+        composites are opaque colours, so the alpha has to be resolved here."""
+        return _mix(bg, fg_hex8[:7], int(fg_hex8[7:], 16) / 255)
+
+    def block(m):
+        dark = m["scheme"] == "dark"
+        ink, field = m["text"], m["bg"]
+        # background = the top surface, sidepane = the bottom one; toolbar sits between.
+        background = m["bg"] if dark else m["surface-raised"]
+        sidepane = m["surface-raised"] if dark else m["bg"]
+        toolbar = m["surface"]
+
+        def legible(hue, target=4.5):
+            """Nudge a categorical hue toward the mode's ink until it clears `target`
+            on the content background: that darkens it in light and lightens it in
+            dark, so one rule serves both modes. The hue itself does not move."""
+            t = 0.0
+            while t < 0.9:
+                cc = _mix(hue, ink, t)
+                if _contrast(cc, background) >= target:
+                    return cc
+                t += 0.02
+            return _mix(hue, ink, 0.9)
+
+        def min_alpha(target, floor):
+            """The smallest alpha (as a byte) at which the ink clears `target` on the
+            content background, never going below Zotero's own step. Zotero's ladder is
+            calibrated to pure black and pure white; the Glauca inks are softer than
+            both, so the same alpha renders lighter, and in light mode the secondary
+            rung lands at 3.7:1 -- under AA for the field labels it paints. Solving for
+            the ratio instead of copying the alpha keeps the guarantee."""
+            a = floor
+            while a < 255:
+                if _contrast(_mix(background, ink, a / 255), background) >= target:
+                    return a
+                a += 1
+            return 255
+
+        # Zotero's own alpha ladders, kept per mode: dark needs a touch more opacity
+        # for the same apparent weight against a dark field. The two text-bearing rungs
+        # are then lifted to clear AA; tertiary and below are dividers, faint icons, and
+        # disabled states, and stay on the ladder exactly as Zotero draws them.
+        fills = ["d9", "8c", "40", "1a", "0d", "05"] if not dark else ["e5", "8c", "4d", "1f", "0f", "08"]
+        fills[0] = "%02x" % min_alpha(10.0, int(fills[0], 16))
+        fills[1] = "%02x" % min_alpha(4.5, int(fills[1], 16))
+        names = ["primary", "secondary", "tertiary", "quarternary", "quinary", "senary"]
+        V = {}
+        # accents
+        V["accent-blue"] = m["accent"]
+        for suffix, la, da in (("10", "1a", "4d"), ("30", "4d", "73"), ("50", "80", "99")):
+            V["accent-blue" + suffix] = m["accent"] + (da if dark else la)
+        V["accent-azure"] = m["accent-bright"]
+        # accent-white means white, in both of Zotero's modes: it strokes icons sitting
+        # on an accent fill and paints one half of the Windows focus ring. It is the
+        # pale ink here rather than the mode's on-accent, which in dark is near-black.
+        V["accent-white"] = D["modes"]["light"]["on-accent"]
+        # Selection. Zotero takes --color-accent from the OS (SelectedItem) on macOS and
+        # Linux, so a user with an orange system accent gets orange rows in a frost-bloom
+        # window. Pinning it to a mode blue puts the selection back on the one mark
+        # everywhere. Dark takes accent-deep rather than accent, because the selected row
+        # carries both the on-accent ink (4.7:1 there) and white icon strokes drawn with
+        # accent-white -- on the lighter accent those strokes measure 2.8:1, under the
+        # 3:1 floor for a graphical object; on accent-deep they reach 4.5:1.
+        V["color-accent"] = m["accent-deep"] if dark else m["accent"]
+        V["color-accent-text"] = m["on-accent"]
+        V["accent-green"] = legible(ext["folium"])
+        V["accent-red"] = legible(ext["bacca"])
+        V["accent-teal"] = legible(ext["unda"])
+        V["accent-yellow"] = legible(amber)
+        V["accent-gold"] = legible(amber, 5.0)
+        V["accent-orange"] = legible(copper)
+        V["accent-wood"] = legible(copper, 5.0)
+        V["accent-wood-dark"] = legible(copper, 6.0)
+        # The reader's text highlight sits behind body text, so it stays a wash.
+        V["accent-highlight"] = amber + ("26" if dark else "80")
+        # ink ladder
+        for name, alpha in zip(names, fills):
+            V["fill-" + name] = ink + alpha
+        # surfaces
+        V["color-background"] = background
+        for suffix, alpha in (("30", "4d"), ("50", "80"), ("70", "b2")):
+            V["color-background" + suffix] = background + alpha
+        V["color-border"] = m["border"]
+        V["color-border50"] = _mix(m["border"], background, 0.5)
+        V["color-button"] = m["surface-raised"]
+        V["color-control"] = m["surface-raised"] if not dark else ink
+        V["color-invalid"] = legible(ext["bacca"], 5.0)
+        V["color-invalid-background"] = _mix(background, ext["bacca"], 0.18 if dark else 0.12)
+        V["color-menu"] = toolbar + ("94" if dark else "b8")
+        V["color-panedivider"] = m["border"]
+        V["color-sidepane"] = sidepane
+        V["color-tabbar"] = field
+        V["color-toolbar"] = toolbar
+        V["color-scrollbar"] = _mix(m["text-muted"], background, 0.35)
+        V["color-scrollbar-hover"] = m["text-muted"]
+        V["color-scrollbar-background"] = "transparent"
+        V["color-stripe"] = ink + ("0d" if dark else "0a")
+        # Tags clear 3:1, not 4.5:1. A tag is a swatch first and a short bold label
+        # second -- both are non-body marks -- and holding them to the body floor
+        # would drag the yellow to olive and the sky blue to slate, losing the very
+        # hue identity a categorical scale exists to carry.
+        for key, spec in _ZOTERO_TAGS.items():
+            V[key] = legible(named.get(spec, spec), 3.0)
+        # Zotero's derived composites, recomputed rather than inherited.
+        V["color-quinary-on-background"] = over(V["fill-quinary"], background)
+        V["color-quarternary-on-background"] = over(V["fill-quarternary"], background)
+        V["color-quinary-on-sidepane"] = over(V["fill-quinary"], sidepane)
+        V["color-quarternary-on-sidepane"] = over(V["fill-quarternary"], sidepane)
+        V["color-stripe-on-background"] = over(V["color-stripe"], background)
+        V["color-menu-opaque"] = toolbar
+        for key in _ZOTERO_TAGS:
+            V[key + "-opaque"] = V[key]
+        return "".join("    --%s: %s !important;\n" % (k, v) for k, v in V.items())
+
+    out = ["/* Glauca for Zotero 7 -- generated from glauca.json. Copy to the `chrome`",
+           "   folder of your Zotero profile as userChrome.css and restart; see README.md",
+           "   for the profile path and the one pref Zotero needs to load it.",
+           "",
+           "   Zotero paints its interface from these custom properties, so re-declaring",
+           "   them is the whole theme. !important is required, not decorative:",
+           "   userChrome.css is a user stylesheet, and a normal user declaration loses",
+           "   to Zotero's own author declaration. Zotero's Appearance preference forces",
+           '   the colour scheme, so "Automatic" still follows the OS. */']
+    for modekey, scheme in (("light", "light"), ("dark", "dark")):
+        m = D["modes"][modekey]
+        out.append("\n/* %s */\n@media (prefers-color-scheme: %s) {\n  :root {\n%s  }\n}"
+                   % (m["label"], scheme, block(m)))
+    out += ["",
+            "/* The one thing the variables cannot reach: monospace. Zotero renders code",
+            "   and the citation-key field in the platform default. */",
+            'pre, code, textarea.code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important; }',
+            "",
+            "/* Optional: put the whole interface on IBM Plex Sans. Zotero sizes its rows",
+            "   from the system font, so try it before keeping it. */",
+            '/* :root { font-family: "IBM Plex Sans", system-ui, sans-serif !important; } */']
+    return "\n".join(out) + "\n"
+
+
+def build_vscode(D):
+    dark, pal, codem, t = D["modes"]["dark"], D["palette"], D["code"], D["terminal"]
+    fire, sea, ext = pal["caelum"], pal["glaucum"], pal["extended"]; ansi = t["ansi"]
+    c = lambda r: codem[r]["color"]; stl = lambda r: codem[r].get("style")
+    SC = {
+     "comment": ["comment", "punctuation.definition.comment"],
+     "keyword": ["keyword", "keyword.control", "storage.type", "storage.modifier", "keyword.other", "keyword.operator.arrow.r", "keyword.operator.assignment.r"],
+     "string": ["string", "string.quoted", "punctuation.definition.string", "constant.character.escape", "string.regexp"],
+     "number": ["constant.numeric", "constant.language", "constant.language.boolean", "constant.language.python"],
+     "function": ["entity.name.function", "meta.function-call", "support.function", "entity.name.function.r"],
+     "type": ["entity.name.type", "entity.name.class", "support.type", "support.class", "storage.type.class.python", "entity.name.type.class.python", "support.function.builtin"],
+     "decorator": ["meta.decorator", "punctuation.definition.decorator", "entity.name.function.decorator.python", "entity.name.tag", "keyword.other.namespace", "support.other.namespace"],
+     "variable": ["variable", "variable.other", "meta.definition.variable", "variable.other.r"],
+     "parameter": ["variable.parameter", "variable.parameter.python"],
+     "operator": ["keyword.operator", "keyword.operator.r"],
+     "punctuation": ["punctuation", "meta.brace", "punctuation.separator", "punctuation.terminator"],
+    }
+    tokenColors = []
+    for role, scopes in SC.items():
+        s = {"foreground": c(role)}
+        if stl(role): s["fontStyle"] = stl(role)
+        tokenColors.append({"scope": scopes, "settings": s})
+    tokenColors += [
+     {"scope": ["markup.heading", "entity.name.section"], "settings": {"foreground": fire["dies"], "fontStyle": "bold"}},
+     {"scope": ["markup.bold"], "settings": {"foreground": dark["text"], "fontStyle": "bold"}},
+     {"scope": ["markup.italic"], "settings": {"foreground": dark["text"], "fontStyle": "italic"}},
+     {"scope": ["markup.underline.link", "string.other.link"], "settings": {"foreground": c("function"), "fontStyle": "underline"}},
+     {"scope": ["markup.inline.raw", "markup.fenced_code.block", "markup.raw.block"], "settings": {"foreground": c("type")}},
+     {"scope": ["markup.quote"], "settings": {"foreground": c("comment"), "fontStyle": "italic"}},
+     {"scope": ["beginning.punctuation.definition.list", "markup.list punctuation.definition.list.begin"], "settings": {"foreground": fire["dies"]}},
+     {"scope": ["invalid"], "settings": {"foreground": c("decorator")}},
+     # data-format keys (JSON/YAML/TOML) and CSS/SCSS properties
+     {"scope": ["support.type.property-name", "support.type.property-name.json", "support.type.property-name.toml",
+                "entity.name.tag.yaml", "meta.object-literal.key", "support.type.property-name.css"], "settings": {"foreground": c("function")}},
+     # markup/template/JSX attribute names and tag punctuation
+     {"scope": ["entity.other.attribute-name"], "settings": {"foreground": c("type")}},
+     {"scope": ["punctuation.definition.tag", "punctuation.definition.tag.begin", "punctuation.definition.tag.end"], "settings": {"foreground": c("punctuation")}},
+     {"scope": ["punctuation.definition.template-expression", "punctuation.section.embedded"], "settings": {"foreground": fire["dies"]}},
+     # this/self/super and other language constants
+     {"scope": ["variable.language", "variable.language.this", "variable.language.self", "variable.language.super"], "settings": {"foreground": c("type"), "fontStyle": "italic"}},
+     {"scope": ["constant.other", "support.constant", "variable.other.constant"], "settings": {"foreground": c("number")}},
+     # regex anchors and quantifiers read as operators
+     {"scope": ["keyword.control.anchor.regexp", "keyword.operator.quantifier.regexp", "punctuation.definition.group.regexp"], "settings": {"foreground": c("operator")}},
+     # string interpolation / format placeholders read as accents inside strings
+     {"scope": ["constant.character.format.placeholder", "constant.other.placeholder", "punctuation.definition.interpolation"], "settings": {"foreground": fire["dies"]}},
+     {"scope": ["meta.embedded", "source.embedded"], "settings": {"foreground": dark["text"]}},
+     # builtins, primitives, namespaces
+     {"scope": ["support.type.primitive", "storage.type.primitive", "support.type.builtin"], "settings": {"foreground": c("type"), "fontStyle": "italic"}},
+     {"scope": ["entity.name.namespace", "entity.name.scope-resolution"], "settings": {"foreground": c("decorator")}},
+     {"scope": ["storage.type.function.arrow", "storage.type.function"], "settings": {"foreground": c("keyword"), "fontStyle": "bold"}},
+     # deprecated symbols get a strikethrough cue
+     {"scope": ["markup.strikethrough"], "settings": {"fontStyle": "strikethrough"}},
+     {"scope": ["markup.inserted"], "settings": {"foreground": ext["folium"]}},
+     {"scope": ["markup.deleted"], "settings": {"foreground": ext["bacca"]}},
+     {"scope": ["markup.changed"], "settings": {"foreground": fire["dies"]}},
+     # LaTeX and BibTeX: the academic half of the audience. Commands read as keywords,
+     # environments as types, maths and cross-references as the number hue, entry types
+     # as decorators -- the same role logic the code map uses everywhere else.
+     {"scope": ["support.function.general.tex", "keyword.control.preamble.tex",
+                "punctuation.definition.keyword.latex"], "settings": {"foreground": c("keyword"), "fontStyle": "bold"}},
+     {"scope": ["support.class.latex", "entity.name.function.environment.latex",
+                "variable.parameter.function.latex"], "settings": {"foreground": c("type"), "fontStyle": "italic"}},
+     {"scope": ["meta.math.block.latex", "string.other.math.tex",
+                "constant.other.reference.citation.latex", "constant.other.reference.label.latex"], "settings": {"foreground": c("number")}},
+     {"scope": ["entity.name.type.entry.bibtex", "entity.name.type.entry-key.bibtex"], "settings": {"foreground": c("decorator")}},
+     {"scope": ["support.variable.bibtex", "constant.other.key.bibtex"], "settings": {"foreground": c("function")}},
+     # diff hunks and git commit messages
+     {"scope": ["meta.diff.header", "meta.diff.range", "meta.diff.index"], "settings": {"foreground": c("comment"), "fontStyle": "italic"}},
+     {"scope": ["meta.diff.header.from-file", "punctuation.definition.deleted"], "settings": {"foreground": ext["bacca"]}},
+     {"scope": ["meta.diff.header.to-file", "punctuation.definition.inserted"], "settings": {"foreground": ext["folium"]}},
+    ]
+    semantic = {"keyword": c("keyword"), "string": c("string"), "number": c("number"),
+     "function": c("function"), "method": c("function"), "function.defaultLibrary": c("type"),
+     "class": c("type"), "type": c("type"), "struct": c("type"), "interface": c("type"), "enum": c("type"),
+     "typeParameter": {"foreground": c("type"), "fontStyle": "italic"},
+     "namespace": c("decorator"), "decorator": c("decorator"), "macro": c("number"),
+     "property": c("variable"), "property.readonly": c("number"), "enumMember": c("number"), "event": c("function"),
+     "variable": c("variable"), "variable.defaultLibrary": c("type"), "parameter": c("parameter"),
+     "variable.readonly": c("number"), "selfKeyword": {"foreground": c("type"), "fontStyle": "italic"},
+     "selfParameter": {"foreground": c("type"), "fontStyle": "italic"}, "clsParameter": {"foreground": c("type"), "fontStyle": "italic"},
+     "builtinConstant": c("number"), "magicFunction": c("function"), "boolean": c("number"),
+     "regexp": c("string"), "escapeSequence": pal["glaucum"]["nebula"], "formatSpecifier": c("operator"),
+     "annotation": c("decorator"), "type.defaultLibrary": c("type"), "class.defaultLibrary": c("type"),
+     "operator": c("operator"), "comment": {"foreground": c("comment"), "fontStyle": "italic"}}
+    a = lambda x: x + "66"
+    # The blue splits by job, exactly as the palette says it should. The anchor #007AFF
+    # is the mark -- cursors, fills, focus rings, the active tab's line -- and it is
+    # audited against the editor field (4.5:1) where marks live. As *text* on the
+    # chrome surfaces it measures 4.15:1 on the sidebar and 3.68:1 on the raised
+    # surface, under AA, which is why the mode carries a separate text blue: dark
+    # accent, the pair validate.py locks at 6.1:1. Both remap to the same light accent,
+    # so this distinction exists only on the dark side.
+    accent_text = dark["accent"]
+    wb = {
+     "editor.background": dark["bg"], "editor.foreground": dark["text"],
+     "editorLineNumber.foreground": dark["text-muted"], "editorLineNumber.activeForeground": dark["text"],
+     "editorCursor.foreground": fire["dies"], "editor.selectionBackground": a(dark["tint"]),
+     "editor.lineHighlightBackground": dark["surface"], "editor.findMatchHighlightBackground": fire["aer"] + "33",
+     "editorBracketHighlight.foreground1": sea["nebula"], "editorBracketHighlight.foreground2": fire["dies"],
+     "editorBracketHighlight.foreground3": ext["viola"], "editorBracketHighlight.foreground4": ext["folium"],
+     "editorBracketHighlight.foreground5": ext["lacus"], "editorBracketHighlight.foreground6": ext["bacca"],
+     "editorError.foreground": ext["bacca"], "editorWarning.foreground": accent_text, "editorInfo.foreground": ext["lacus"],
+     "focusBorder": fire["dies"], "button.background": fire["dies"], "button.foreground": dark["on-accent"],
+     "button.hoverBackground": fire["aer"], "badge.background": fire["dies"], "badge.foreground": dark["on-accent"],
+     "input.background": dark["surface"], "input.border": dark["border"], "inputOption.activeBorder": fire["dies"],
+     "list.activeSelectionBackground": dark["surface-raised"], "list.highlightForeground": accent_text, "list.hoverBackground": "#1b242c",
+     "sideBar.background": dark["surface"], "sideBar.foreground": "#c3cdd3", "sideBar.border": dark["border"],
+     "sideBarTitle.foreground": dark["text-muted"], "sideBarSectionHeader.background": dark["bg"],
+     "activityBar.background": dark["bg"], "activityBar.foreground": dark["text"],
+     "activityBarBadge.background": fire["dies"], "activityBarBadge.foreground": dark["on-accent"],
+     "statusBar.background": dark["surface"], "statusBar.foreground": dark["text-muted"], "statusBar.border": dark["border"],
+     "statusBar.debuggingBackground": fire["dies"], "statusBar.debuggingForeground": dark["on-accent"],
+     "titleBar.activeBackground": dark["bg"], "titleBar.activeForeground": dark["text"], "titleBar.border": dark["border"],
+     # Tabs: ONE blue line, on top of the active tab only. tab.activeBorder (bottom)
+     # and tab.border (vertical separators) are explicitly transparent -- letting
+     # either default in gives the active tab a second accent line and a boxed-in
+     # look. The active tab shares the editor bg so it reads as attached to it.
+     "tab.activeBackground": dark["bg"], "tab.inactiveBackground": dark["surface"], "tab.activeForeground": dark["text"],
+     "tab.inactiveForeground": dark["text-muted"], "tab.activeBorderTop": fire["dies"], "tab.border": "#00000000",
+     "editorGroupHeader.tabsBackground": dark["surface"], "panel.background": dark["bg"], "panel.border": dark["border"],
+     "panelTitle.activeBorder": fire["dies"],
+     "terminal.background": dark["bg"], "terminal.foreground": dark["text"], "terminalCursor.foreground": fire["dies"],
+     "gitDecoration.modifiedResourceForeground": fire["dies"], "gitDecoration.untrackedResourceForeground": ext["folium"],
+     "gitDecoration.deletedResourceForeground": ext["bacca"],
+     "textLink.foreground": ext["lacus"], "textLink.activeForeground": fire["aer"],
+    }
+    # Extended workbench coverage so every surface stays on-system instead of
+    # falling back to the default dark theme. All values are palette-derived.
+    ember, flame, oil = fire["dies"], fire["aer"], fire["imum"]
+    kelp, brick, dusk, tide, shoal = ext["folium"], ext["bacca"], ext["viola"], ext["lacus"], ext["unda"]
+    spray, foam = sea["spuma"], sea["nebula"]
+    bg, surf, raised, text, muted, border, onacc = (dark["bg"], dark["surface"], dark["surface-raised"],
+        dark["text"], dark["text-muted"], dark["border"], dark["on-accent"])
+    seab, dim = dark["tint-bright"], "#5b656d"
+    wb.update({
+     # general chrome
+     "foreground": "#c3cdd3", "descriptionForeground": muted, "disabledForeground": dim,
+     "errorForeground": brick, "icon.foreground": muted, "widget.border": border,
+     "widget.shadow": "#0000004d", "sash.hoverBorder": ember, "selection.background": a(dark["tint"]),
+     "progressBar.background": ember,
+     "scrollbar.shadow": "#00000066", "scrollbarSlider.background": seab + "40",
+     "scrollbarSlider.hoverBackground": seab + "66", "scrollbarSlider.activeBackground": seab + "99",
+     "toolbar.hoverBackground": "#1b242c",
+     # editor highlights and gutters
+     "editor.selectionHighlightBackground": spray + "26", "editor.wordHighlightBackground": tide + "26",
+     "editor.wordHighlightStrongBackground": kelp + "26", "editor.findMatchBackground": ember + "66",
+     "editor.findRangeHighlightBackground": spray + "1a", "editor.rangeHighlightBackground": spray + "1a",
+     "editor.hoverHighlightBackground": spray + "26", "editorWhitespace.foreground": "#3a4754",
+     "editorIndentGuide.background1": "#1d262f", "editorIndentGuide.activeBackground1": "#3a4754",
+     "editorRuler.foreground": border, "editorBracketMatch.background": spray + "26",
+     "editorBracketMatch.border": spray, "editorCodeLens.foreground": muted,
+     "editorInlayHint.foreground": muted, "editorInlayHint.background": "#00000000",
+     "editorLink.activeForeground": tide, "editorCursor.background": bg,
+     "editorGutter.modifiedBackground": ember, "editorGutter.addedBackground": kelp, "editorGutter.deletedBackground": brick,
+     "editorOverviewRuler.border": "#00000000", "editorOverviewRuler.modifiedForeground": ember + "cc",
+     "editorOverviewRuler.addedForeground": kelp + "cc", "editorOverviewRuler.deletedForeground": brick + "cc",
+     "editorOverviewRuler.errorForeground": brick, "editorOverviewRuler.warningForeground": ember, "editorOverviewRuler.infoForeground": tide,
+     # widgets: hover, suggest, find
+     "editorWidget.background": surf, "editorWidget.foreground": text, "editorWidget.border": border,
+     "editorHoverWidget.background": surf, "editorHoverWidget.foreground": text, "editorHoverWidget.border": border,
+     "editorSuggestWidget.background": surf, "editorSuggestWidget.foreground": text, "editorSuggestWidget.border": border,
+     "editorSuggestWidget.selectedBackground": raised, "editorSuggestWidget.highlightForeground": accent_text,
+     "editorSuggestWidget.focusHighlightForeground": flame,
+     "editorGroup.border": border, "editorGroupHeader.tabsBorder": border, "editorGroupHeader.noTabsBackground": surf,
+     # inputs, dropdowns, checkboxes, keybindings
+     "input.foreground": text, "input.placeholderForeground": muted,
+     "inputOption.activeBackground": ember + "33", "inputOption.activeForeground": text,
+     "inputValidation.errorBackground": "#2f1c1e", "inputValidation.errorBorder": brick,
+     "inputValidation.warningBackground": "#2d251a", "inputValidation.warningBorder": ember,
+     "inputValidation.infoBackground": "#132335", "inputValidation.infoBorder": tide,
+     "dropdown.background": surf, "dropdown.foreground": text, "dropdown.border": border, "dropdown.listBackground": surf,
+     "checkbox.background": raised, "checkbox.foreground": text, "checkbox.border": border,
+     # A keycap is content, not chrome: muted on the raised surface measures 4.39:1,
+     # just under AA, so the label takes the full ink and the chip carries the border.
+     "keybindingLabel.background": raised, "keybindingLabel.foreground": text, "keybindingLabel.border": border, "keybindingLabel.bottomBorder": border,
+     # lists and trees
+     "list.activeSelectionForeground": text, "list.inactiveSelectionBackground": surf, "list.inactiveSelectionForeground": text,
+     "list.focusBackground": raised, "list.focusForeground": text, "list.hoverForeground": text,
+     "list.errorForeground": brick, "list.warningForeground": ember,
+     "listFilterWidget.background": raised, "listFilterWidget.outline": ember, "listFilterWidget.noMatchesOutline": brick,
+     "tree.indentGuidesStroke": "#3a4754", "tree.inactiveIndentGuidesStroke": border,
+     # minimap
+     "minimap.background": bg, "minimap.selectionHighlight": spray + "66", "minimap.findMatchHighlight": ember + "99",
+     "minimap.errorHighlight": brick, "minimap.warningHighlight": ember,
+     "minimapSlider.background": seab + "40", "minimapSlider.hoverBackground": seab + "55", "minimapSlider.activeBackground": seab + "77",
+     "minimapGutter.modifiedBackground": ember, "minimapGutter.addedBackground": kelp, "minimapGutter.deletedBackground": brick,
+     # breadcrumbs
+     "breadcrumb.foreground": muted, "breadcrumb.focusForeground": text, "breadcrumb.activeSelectionForeground": accent_text,
+     "breadcrumb.background": bg, "breadcrumbPicker.background": surf,
+     # status bar extras
+     "statusBar.noFolderBackground": surf, "statusBar.noFolderForeground": muted,
+     "statusBarItem.hoverBackground": "#ffffff14", "statusBarItem.activeBackground": "#ffffff1f",
+     "statusBarItem.remoteBackground": ember, "statusBarItem.remoteForeground": onacc,
+     "statusBarItem.errorBackground": brick, "statusBarItem.errorForeground": onacc,
+     "statusBarItem.warningBackground": oil, "statusBarItem.warningForeground": text,
+     "statusBarItem.prominentBackground": raised,
+     # title bar / tabs / panel extras
+     "titleBar.inactiveBackground": bg, "titleBar.inactiveForeground": muted,
+     "tab.hoverBackground": raised, "tab.unfocusedHoverBackground": raised, "tab.activeBorder": "#00000000",
+     "tab.unfocusedActiveForeground": muted, "tab.lastPinnedBorder": border, "tab.activeModifiedBorder": ember,
+     "panelTitle.activeForeground": text, "panelTitle.inactiveForeground": muted, "panelInput.border": border,
+     "panelSectionHeader.background": surf,
+     # terminal extras
+     "terminal.selectionBackground": a(dark["tint"]), "terminal.border": border, "terminalCursor.background": bg,
+     # peek view
+     "peekView.border": ember, "peekViewEditor.background": surf, "peekViewEditor.matchHighlightBackground": ember + "44",
+     "peekViewResult.background": surf, "peekViewResult.fileForeground": text, "peekViewResult.lineForeground": muted,
+     "peekViewResult.matchHighlightBackground": ember + "44", "peekViewResult.selectionBackground": raised, "peekViewResult.selectionForeground": text,
+     "peekViewTitle.background": bg, "peekViewTitleLabel.foreground": text, "peekViewTitleDescription.foreground": muted,
+     # diff and merge
+     "diffEditor.insertedTextBackground": kelp + "22", "diffEditor.removedTextBackground": brick + "22",
+     "diffEditor.insertedLineBackground": kelp + "14", "diffEditor.removedLineBackground": brick + "14", "diffEditor.diagonalFill": border,
+     "merge.currentHeaderBackground": tide + "55", "merge.currentContentBackground": tide + "22",
+     "merge.incomingHeaderBackground": kelp + "55", "merge.incomingContentBackground": kelp + "22",
+     # notifications
+     "notificationCenter.border": border, "notificationCenterHeader.background": surf, "notificationCenterHeader.foreground": text,
+     "notifications.background": surf, "notifications.foreground": text, "notifications.border": border,
+     "notificationsErrorIcon.foreground": brick, "notificationsWarningIcon.foreground": ember, "notificationsInfoIcon.foreground": tide,
+     "notificationLink.foreground": tide,
+     # quick input / command palette
+     "quickInput.background": surf, "quickInput.foreground": text, "quickInputTitle.background": bg,
+     "quickInputList.focusBackground": raised, "quickInputList.focusForeground": text,
+     "pickerGroup.foreground": accent_text, "pickerGroup.border": border,
+     # menus
+     "menu.background": surf, "menu.foreground": text, "menu.border": border,
+     "menu.selectionBackground": raised, "menu.selectionForeground": text, "menu.separatorBackground": border,
+     "menubar.selectionBackground": "#ffffff14", "menubar.selectionForeground": text,
+     # git decoration extras
+     "gitDecoration.addedResourceForeground": kelp, "gitDecoration.renamedResourceForeground": tide,
+     "gitDecoration.stageModifiedResourceForeground": flame, "gitDecoration.stageDeletedResourceForeground": brick,
+     "gitDecoration.ignoredResourceForeground": dim, "gitDecoration.conflictingResourceForeground": dusk,
+     "gitDecoration.submoduleResourceForeground": shoal,
+     # settings UI
+     "settings.headerForeground": text, "settings.modifiedItemIndicator": ember,
+     "settings.dropdownBackground": surf, "settings.dropdownBorder": border,
+     "settings.checkboxBackground": raised, "settings.checkboxBorder": border,
+     "settings.textInputBackground": surf, "settings.textInputBorder": border,
+     "settings.numberInputBackground": surf, "settings.numberInputBorder": border, "settings.focusedRowBackground": "#ffffff0a",
+     # debug / testing / charts
+     "debugToolBar.background": surf, "debugToolBar.border": border, "debugIcon.breakpointForeground": brick,
+     "editor.stackFrameHighlightBackground": ember + "22", "editor.focusedStackFrameHighlightBackground": kelp + "22",
+     "debugConsole.errorForeground": brick, "debugConsole.warningForeground": ember, "debugConsole.infoForeground": tide, "debugConsole.sourceForeground": muted,
+     "testing.iconPassed": kelp, "testing.iconFailed": brick, "testing.iconQueued": ember,
+     "charts.foreground": text, "charts.lines": muted, "charts.red": brick, "charts.blue": tide,
+     "charts.green": kelp, "charts.orange": ember, "charts.purple": dusk, "charts.yellow": flame,
+     # extension button / banner
+     "extensionButton.prominentBackground": ember, "extensionButton.prominentForeground": onacc, "extensionButton.prominentHoverBackground": flame,
+     "banner.background": raised, "banner.foreground": text, "banner.iconForeground": ember,
+    })
+    param = c("parameter")
+    wb.update({
+     # inline suggestions, sticky scroll, light bulb, hints
+     "editorGhostText.foreground": dim, "editorGhostText.border": "#00000000",
+     "editorStickyScroll.background": surf, "editorStickyScrollHover.background": "#1b242c",
+     "editorStickyScroll.border": border, "editorStickyScroll.shadow": "#0000004d",
+     # dim is for states WCAG exempts or that are previews of text you have not
+     # accepted: disabled controls, placeholders, ghost text, ignored files. Code lens,
+     # blame annotations, and inline debug values are content you read and click, so
+     # they take muted -- which is also the relationship VS Code's own defaults draw.
+     "editorLightBulb.foreground": flame, "editorLightBulbAutoFix.foreground": tide, "editorLightBulbAi.foreground": dusk,
+     "editorHint.foreground": shoal, "editorGutter.commentRangeForeground": dim, "editorGutter.foldingControlForeground": muted,
+     "editorInlayHint.typeForeground": shoal, "editorInlayHint.typeBackground": "#00000000",
+     "editorInlayHint.parameterForeground": muted, "editorInlayHint.parameterBackground": "#00000000",
+     "editorUnnecessaryCode.opacity": "#0000007f",
+     "editor.snippetTabstopHighlightBackground": tide + "22", "editor.snippetFinalTabstopHighlightBorder": ember,
+     # bracket-pair colourization guides (match the six bracket colours, faint)
+     "editorBracketPairGuide.background1": foam + "33", "editorBracketPairGuide.background2": ember + "33",
+     "editorBracketPairGuide.background3": dusk + "33", "editorBracketPairGuide.background4": kelp + "33",
+     "editorBracketPairGuide.background5": tide + "33", "editorBracketPairGuide.background6": brick + "33",
+     "editorBracketPairGuide.activeBackground1": foam + "99", "editorBracketPairGuide.activeBackground2": ember + "99",
+     "editorBracketPairGuide.activeBackground3": dusk + "99", "editorBracketPairGuide.activeBackground4": kelp + "99",
+     "editorBracketPairGuide.activeBackground5": tide + "99", "editorBracketPairGuide.activeBackground6": brick + "99",
+     # overview ruler highlight markers
+     "editorOverviewRuler.findMatchForeground": ember + "99", "editorOverviewRuler.selectionHighlightForeground": spray + "66",
+     "editorOverviewRuler.wordHighlightForeground": tide + "88", "editorOverviewRuler.wordHighlightStrongForeground": kelp + "88",
+     "editorOverviewRuler.bracketMatchForeground": spray, "editorOverviewRuler.rangeHighlightForeground": spray + "66",
+     # problems icons, command center, window border, resize handles
+     "problemsErrorIcon.foreground": brick, "problemsWarningIcon.foreground": ember, "problemsInfoIcon.foreground": tide,
+     "commandCenter.background": surf, "commandCenter.foreground": text, "commandCenter.border": border,
+     "commandCenter.activeBackground": raised, "commandCenter.activeForeground": text, "commandCenter.activeBorder": ember,
+     "commandCenter.inactiveForeground": muted, "commandCenter.inactiveBorder": border,
+     "window.activeBorder": border, "window.inactiveBorder": border,
+     "editorWidget.resizeBorder": ember, "editorSuggestWidgetStatus.foreground": muted, "editorHoverWidget.statusBarBackground": surf,
+     # notebooks
+     "notebook.editorBackground": bg, "notebook.cellEditorBackground": surf, "notebook.cellBorderColor": border,
+     "notebook.focusedCellBorder": ember, "notebook.focusedEditorBorder": ember, "notebook.selectedCellBackground": raised,
+     "notebook.cellHoverBackground": surf, "notebook.cellStatusBarItemHoverBackground": "#1b242c",
+     "notebook.cellToolbarSeparator": border, "notebook.outputContainerBackgroundColor": surf,
+     "notebookStatusSuccessIcon.foreground": kelp, "notebookStatusErrorIcon.foreground": brick, "notebookStatusRunningIcon.foreground": ember,
+     # terminal extras
+     "terminal.findMatchBackground": ember + "66", "terminal.findMatchHighlightBackground": flame + "33",
+     "terminalCommandDecoration.defaultBackground": muted, "terminalCommandDecoration.successBackground": kelp,
+     "terminalCommandDecoration.errorBackground": brick, "terminalOverviewRuler.cursorForeground": ember,
+     "terminalStickyScroll.background": surf, "terminal.tab.activeBorder": ember,
+     # outline / suggest symbol icons
+     "symbolIcon.classForeground": shoal, "symbolIcon.interfaceForeground": shoal, "symbolIcon.structForeground": shoal,
+     "symbolIcon.enumeratorForeground": dusk, "symbolIcon.enumeratorMemberForeground": dusk, "symbolIcon.constantForeground": dusk,
+     "symbolIcon.functionForeground": tide, "symbolIcon.methodForeground": tide, "symbolIcon.constructorForeground": tide,
+     "symbolIcon.eventForeground": flame, "symbolIcon.operatorForeground": "#a7b1b8", "symbolIcon.keywordForeground": ember,
+     "symbolIcon.variableForeground": text, "symbolIcon.fieldForeground": param, "symbolIcon.propertyForeground": param,
+     "symbolIcon.stringForeground": kelp, "symbolIcon.numberForeground": dusk, "symbolIcon.booleanForeground": dusk,
+     "symbolIcon.moduleForeground": brick, "symbolIcon.namespaceForeground": brick, "symbolIcon.referenceForeground": tide,
+     "symbolIcon.typeParameterForeground": shoal, "symbolIcon.snippetForeground": foam, "symbolIcon.colorForeground": flame,
+     "symbolIcon.fileForeground": muted, "symbolIcon.folderForeground": muted, "symbolIcon.keyForeground": tide,
+     "symbolIcon.nullForeground": dim, "symbolIcon.arrayForeground": text, "symbolIcon.objectForeground": text,
+     "symbolIcon.textForeground": text, "symbolIcon.unitForeground": dusk, "symbolIcon.valueForeground": text,
+     # debug icons, token expressions, view, exception widget
+     "debugIcon.breakpointDisabledForeground": dim, "debugIcon.breakpointUnverifiedForeground": muted,
+     "debugIcon.startForeground": kelp, "debugIcon.pauseForeground": tide, "debugIcon.stopForeground": brick,
+     "debugIcon.disconnectForeground": brick, "debugIcon.restartForeground": kelp, "debugIcon.continueForeground": kelp,
+     "debugIcon.stepOverForeground": tide, "debugIcon.stepIntoForeground": tide, "debugIcon.stepOutForeground": tide, "debugIcon.stepBackForeground": tide,
+     "debugTokenExpression.name": tide, "debugTokenExpression.value": text, "debugTokenExpression.string": kelp,
+     "debugTokenExpression.boolean": dusk, "debugTokenExpression.number": dusk, "debugTokenExpression.error": brick,
+     "debugView.stateLabelForeground": text, "debugView.stateLabelBackground": raised, "debugView.valueChangedHighlight": ember + "55",
+     "debugConsoleInputIcon.foreground": ember, "debugExceptionWidget.background": surf, "debugExceptionWidget.border": brick,
+     "ports.iconRunningProcessForeground": kelp,
+     # scm, welcome / walkthrough
+     "scm.providerBorder": border, "welcomePage.background": bg, "welcomePage.progress.background": surf,
+     "welcomePage.progress.foreground": ember, "welcomePage.tileBackground": surf, "welcomePage.tileHoverBackground": raised,
+     "welcomePage.tileBorder": border, "walkThrough.embeddedEditorBackground": surf, "walkthrough.stepTitle.foreground": text,
+     # inline chat / chat (Copilot and similar)
+     "chat.requestBackground": surf, "chat.slashCommandBackground": ember + "22", "chat.slashCommandForeground": accent_text,
+     "chat.avatarBackground": raised, "inlineChat.background": surf, "inlineChat.border": border,
+     "inlineChatInput.background": bg, "inlineChatInput.border": border,
+    })
+    # Third pass: the keys the first two left to VS Code's built-in defaults. Anything
+    # unset falls back to the stock Dark+/Light+ value, which is off-system (stock blue
+    # focus rings, stock grey chrome), so the remaining documented surfaces are pinned
+    # here. Every value is palette-derived, so the light build's total remap covers them
+    # by construction. Unknown keys are ignored by VS Code, so forward-looking entries
+    # (agent/chat/inline-edit) cost nothing on older builds.
+    hover, faint = "#1b242c", "#ffffff0a"
+    wb.update({
+     # activity bar: the blue marks the active strip and the drop target, nothing else
+     "activityBar.border": border, "activityBar.inactiveForeground": muted,
+     "activityBar.activeBorder": ember, "activityBar.activeBackground": "#00000000",
+     "activityBar.activeFocusBorder": ember, "activityBar.dropBorder": ember,
+     "activityBarTop.background": bg, "activityBarTop.foreground": text,
+     "activityBarTop.inactiveForeground": muted, "activityBarTop.activeBorder": ember,
+     "activityBarTop.activeBackground": "#00000000", "activityBarTop.dropBorder": ember,
+     "activityErrorBadge.background": brick, "activityErrorBadge.foreground": onacc,
+     "activityWarningBadge.background": ember, "activityWarningBadge.foreground": onacc,
+     # side bar
+     "sideBar.dropBackground": seab + "22", "sideBarSectionHeader.foreground": muted,
+     "sideBarSectionHeader.border": border, "sideBarTitle.background": surf, "sideBarTitle.border": border,
+     "sideBarStickyScroll.background": surf, "sideBarStickyScroll.border": border,
+     "sideBarStickyScroll.shadow": "#0000004d", "sideBarActivityBarTop.border": border,
+     # tabs: the one blue line stays on top of the focused active tab. Every other tab
+     # border is transparent so nothing reads as a box (see tab.activeBorder above); the
+     # unfocused group's active tab gets the quiet sea line instead of the blue.
+     "tab.selectedBackground": bg, "tab.selectedForeground": text, "tab.selectedBorderTop": ember,
+     "tab.hoverForeground": text, "tab.hoverBorder": "#00000000",
+     # Hover is a pointer affordance, so it reveals the label fully in either group
+     # (muted on the raised surface is 4.39:1); the group is told apart by its line.
+     "tab.unfocusedHoverForeground": text, "tab.unfocusedHoverBorder": "#00000000",
+     "tab.unfocusedActiveBackground": bg, "tab.unfocusedActiveBorder": "#00000000",
+     # An unfocused group is signalled by its tab line going from blue to sea, not by
+     # its labels going illegible: muted already sits close to the AA floor on the tab
+     # surface, so there is no room to dim it further and still call it text.
+     "tab.unfocusedActiveBorderTop": seab, "tab.unfocusedInactiveBackground": surf,
+     "tab.unfocusedInactiveForeground": muted, "tab.inactiveModifiedBorder": seab,
+     "tab.unfocusedActiveModifiedBorder": seab, "tab.unfocusedInactiveModifiedBorder": border,
+     "tab.dragAndDropBorder": ember,
+     # editor groups and panes
+     "editorGroup.emptyBackground": bg, "editorGroup.focusedEmptyBorder": ember,
+     "editorGroup.dropBackground": seab + "22", "editorGroup.dropIntoPromptBackground": surf,
+     "editorGroup.dropIntoPromptForeground": text, "editorGroup.dropIntoPromptBorder": border,
+     "editorGroupHeader.border": border, "editorPane.background": bg,
+     "sideBySideEditor.horizontalBorder": border, "sideBySideEditor.verticalBorder": border,
+     # editor surface: the gutter shares the editor field, and the line highlight is a
+     # fill rather than a boxed border (lineHighlightBackground is already set above).
+     "editorGutter.background": bg, "editor.lineHighlightBorder": "#00000000",
+     "editor.foldBackground": spray + "1a", "editor.foldPlaceholderForeground": muted,
+     "editor.placeholder.foreground": dim, "editor.inactiveSelectionBackground": dark["tint"] + "33",
+     "editor.linkedEditingBackground": ember + "22", "editor.symbolHighlightBackground": ember + "33",
+     "editor.findMatchBorder": ember, "editorLineNumber.dimmedForeground": dim,
+     "editorOverviewRuler.background": bg, "editorUnnecessaryCode.border": "#00000000",
+     "editor.inactiveLineHighlightBackground": "#00000000",
+     "editor.wordHighlightTextBackground": spray + "26",
+     "editorOverviewRuler.wordHighlightTextForeground": spray + "88",
+     "minimap.chatEditHighlight": kelp + "66",
+     "editorUnicodeHighlight.background": brick + "22", "editorUnicodeHighlight.border": brick,
+     "editorStickyScrollGutter.background": surf, "editorHint.border": "#00000000",
+     "editor.compositionBorder": ember, "editorGhostText.background": "#00000000",
+     "editorHoverWidget.highlightForeground": ember,
+     "editorSuggestWidget.selectedForeground": text, "editorSuggestWidget.selectedIconForeground": ember,
+     "editorBracketHighlight.unexpectedBracket.foreground": brick,
+     "editorMultiCursor.primary.foreground": ember, "editorMultiCursor.primary.background": bg,
+     "editorMultiCursor.secondary.foreground": foam, "editorMultiCursor.secondary.background": bg,
+     "editorIndentGuide.background2": "#1d262f", "editorIndentGuide.background3": "#1d262f",
+     "editorIndentGuide.background4": "#1d262f", "editorIndentGuide.background5": "#1d262f",
+     "editorIndentGuide.background6": "#1d262f",
+     "editorIndentGuide.activeBackground2": "#3a4754", "editorIndentGuide.activeBackground3": "#3a4754",
+     "editorIndentGuide.activeBackground4": "#3a4754", "editorIndentGuide.activeBackground5": "#3a4754",
+     "editorIndentGuide.activeBackground6": "#3a4754",
+     # marker navigation and peek extras
+     "editorMarkerNavigation.background": surf,
+     "editorMarkerNavigationError.background": brick, "editorMarkerNavigationError.headerBackground": brick + "22",
+     "editorMarkerNavigationWarning.background": ember, "editorMarkerNavigationWarning.headerBackground": ember + "22",
+     "editorMarkerNavigationInfo.background": tide, "editorMarkerNavigationInfo.headerBackground": tide + "22",
+     "peekViewEditorGutter.background": surf, "peekViewEditor.matchHighlightBorder": ember,
+     "peekViewEditorStickyScroll.background": surf, "peekViewEditorStickyScrollGutter.background": surf,
+     # diff, merge, and the merge editor
+     "diffEditor.border": border, "diffEditor.insertedTextBorder": "#00000000",
+     "diffEditor.removedTextBorder": "#00000000", "diffEditor.unchangedRegionBackground": surf,
+     "diffEditor.unchangedRegionForeground": muted, "diffEditor.unchangedCodeBackground": bg,
+     "diffEditor.unchangedRegionShadow": "#0000004d",
+     "diffEditor.move.border": dusk, "diffEditor.moveActive.border": ember,
+     "diffEditorGutter.insertedLineBackground": kelp + "14", "diffEditorGutter.removedLineBackground": brick + "14",
+     "diffEditorOverview.insertedForeground": kelp + "cc", "diffEditorOverview.removedForeground": brick + "cc",
+     "multiDiffEditor.background": bg, "multiDiffEditor.border": border, "multiDiffEditor.headerBackground": surf,
+     "merge.border": "#00000000", "merge.commonHeaderBackground": dusk + "55",
+     "merge.commonContentBackground": dusk + "22",
+     "mergeEditor.change.background": kelp + "22", "mergeEditor.change.word.background": kelp + "44",
+     "mergeEditor.changeBase.background": dusk + "22", "mergeEditor.changeBase.word.background": dusk + "44",
+     "mergeEditor.conflict.input1.background": tide + "22", "mergeEditor.conflict.input2.background": kelp + "22",
+     "mergeEditor.conflict.unhandledFocused.border": brick, "mergeEditor.conflict.unhandledUnfocused.border": brick + "88",
+     "mergeEditor.conflict.handledFocused.border": seab, "mergeEditor.conflict.handledUnfocused.border": border,
+     "mergeEditor.conflict.handled.minimapOverViewRuler": kelp,
+     "mergeEditor.conflict.unhandled.minimapOverViewRuler": brick,
+     "mergeEditor.conflictingLines.background": brick + "22",
+     "editorOverviewRuler.commonContentForeground": dusk + "88",
+     "editorOverviewRuler.currentContentForeground": tide + "88",
+     "editorOverviewRuler.incomingContentForeground": kelp + "88",
+     # rendered markdown (hovers, walkthroughs, release notes, extension pages)
+     "textBlockQuote.background": surf, "textBlockQuote.border": ember, "textCodeBlock.background": surf,
+     "textPreformat.foreground": c("type"), "textPreformat.background": surf, "textPreformat.border": border,
+     "textSeparator.foreground": border,
+     "markdownAlert.note.foreground": tide, "markdownAlert.tip.foreground": kelp,
+     "markdownAlert.important.foreground": dusk, "markdownAlert.warning.foreground": accent_text,
+     "markdownAlert.caution.foreground": brick,
+     # lists and trees
+     "list.dropBackground": seab + "22", "list.dropBetweenBackground": ember,
+     "list.filterMatchBackground": ember + "33", "list.filterMatchBorder": ember + "66",
+     "list.focusOutline": ember, "list.focusAndSelectionOutline": ember,
+     "list.inactiveFocusBackground": surf, "list.inactiveFocusOutline": border,
+     "list.deemphasizedForeground": dim, "list.invalidItemForeground": brick,
+     "list.focusHighlightForeground": accent_text, "list.activeSelectionIconForeground": text,
+     "list.inactiveSelectionIconForeground": muted, "listFilterWidget.shadow": "#0000004d",
+     "tree.tableColumnsBorder": border, "tree.tableOddRowsBackground": faint,
+     "quickInputList.focusIconForeground": ember,
+     # buttons, inputs, checkboxes, radios, gauges
+     "button.border": "#00000000", "button.separator": onacc + "66",
+     "button.secondaryBackground": raised, "button.secondaryForeground": text,
+     "button.secondaryHoverBackground": surf, "button.secondaryBorder": border,
+     "checkbox.selectBackground": surf, "checkbox.selectBorder": ember,
+     "checkbox.disabled.background": surf, "checkbox.disabled.foreground": dim,
+     "radio.activeBackground": ember + "22", "radio.activeBorder": ember, "radio.activeForeground": text,
+     "radio.inactiveBackground": "#00000000", "radio.inactiveBorder": border,
+     "radio.inactiveForeground": muted, "radio.inactiveHoverBackground": faint,
+     "inputOption.hoverBackground": "#ffffff14",
+     "inputValidation.errorForeground": text, "inputValidation.warningForeground": text,
+     "inputValidation.infoForeground": text,
+     "gauge.background": ember + "33", "gauge.foreground": ember, "gauge.border": border,
+     "gauge.warningBackground": flame + "33", "gauge.warningForeground": flame,
+     "gauge.errorBackground": brick + "33", "gauge.errorForeground": brick,
+     # status bar extras. The hover pills reuse on-accent, which the light remap turns
+     # into the pale ink -- so pale-on-hue holds in both modes with no override.
+     "statusBar.debuggingBorder": ember, "statusBar.focusBorder": ember, "statusBar.noFolderBorder": border,
+     "statusBarItem.focusBorder": ember, "statusBarItem.hoverForeground": text,
+     "statusBarItem.compactHoverBackground": "#ffffff1f",
+     "statusBarItem.prominentForeground": text, "statusBarItem.prominentHoverBackground": "#ffffff14",
+     "statusBarItem.prominentHoverForeground": text,
+     "statusBarItem.errorHoverBackground": brick, "statusBarItem.errorHoverForeground": onacc,
+     # The warning pill is the one that cannot use on-accent: its fill is the deep blue,
+     # and near-black on deep blue measures 2.2:1. It takes the pale ink instead, and
+     # flips to on-accent in the light build alongside the non-hover pill above.
+     "statusBarItem.warningHoverBackground": oil, "statusBarItem.warningHoverForeground": text,
+     "statusBarItem.remoteHoverBackground": flame, "statusBarItem.remoteHoverForeground": onacc,
+     "statusBarItem.offlineBackground": brick, "statusBarItem.offlineForeground": onacc,
+     "statusBarItem.offlineHoverBackground": brick, "statusBarItem.offlineHoverForeground": onacc,
+     # panels and output
+     "panel.dropBorder": ember, "panelTitle.border": border,
+     "panelTitleBadge.background": ember, "panelTitleBadge.foreground": onacc,
+     "panelSection.border": border, "panelSection.dropBackground": seab + "22",
+     "panelSectionHeader.foreground": text, "panelSectionHeader.border": border,
+     "panelStickyScroll.background": surf, "panelStickyScroll.border": border,
+     "panelStickyScroll.shadow": "#0000004d",
+     "outputView.background": bg, "outputViewStickyScroll.background": surf,
+     # integrated terminal: selection matches the Ghostty/iTerm presets
+     "terminal.selectionForeground": text, "terminal.inactiveSelectionBackground": dark["tint"] + "33",
+     "terminal.dropBackground": seab + "22", "terminal.findMatchBorder": ember,
+     "terminal.findMatchHighlightBorder": flame, "terminal.hoverHighlightBackground": spray + "26",
+     "terminal.initialHintForeground": dim, "terminalOverviewRuler.border": border,
+     "terminalOverviewRuler.findMatchForeground": ember, "terminalStickyScroll.border": border,
+     "terminalStickyScrollHover.background": hover, "terminalCommandGuide.foreground": seab,
+     # terminal suggest icons, on the same hue logic as the editor's symbolIcon set
+     "terminalSymbolIcon.fileForeground": muted, "terminalSymbolIcon.folderForeground": muted,
+     "terminalSymbolIcon.methodForeground": tide, "terminalSymbolIcon.aliasForeground": shoal,
+     "terminalSymbolIcon.argumentForeground": param, "terminalSymbolIcon.flagForeground": dusk,
+     "terminalSymbolIcon.optionForeground": dusk, "terminalSymbolIcon.optionValueForeground": kelp,
+     "terminalSymbolIcon.branchForeground": ember, "terminalSymbolIcon.commitForeground": foam,
+     "terminalSymbolIcon.tagForeground": brick, "terminalSymbolIcon.stashForeground": dusk,
+     "terminalSymbolIcon.remoteForeground": shoal, "terminalSymbolIcon.pullRequestForeground": ember,
+     "terminalSymbolIcon.pullRequestDoneForeground": kelp,
+     "terminalSymbolIcon.inlineSuggestionForeground": dim,
+     "terminalSymbolIcon.symbolicLinkFileForeground": foam,
+     "terminalSymbolIcon.symbolicLinkFolderForeground": foam, "terminalSymbolIcon.symbolText": text,
+     # testing: pass/fail/skip and the coverage overlays
+     "testing.iconErrored": brick, "testing.iconSkipped": dusk, "testing.iconUnset": muted,
+     "testing.iconPassed.retired": kelp + "80", "testing.iconFailed.retired": brick + "80",
+     "testing.iconErrored.retired": brick + "80", "testing.iconQueued.retired": ember + "80",
+     "testing.iconSkipped.retired": dusk + "80", "testing.iconUnset.retired": muted + "80",
+     "testing.runAction": kelp, "testing.peekBorder": brick, "testing.peekHeaderBackground": surf,
+     "testing.messagePeekBorder": tide, "testing.messagePeekHeaderBackground": surf,
+     "testing.message.error.badgeBackground": brick, "testing.message.error.badgeForeground": onacc,
+     "testing.message.error.badgeBorder": brick, "testing.message.error.lineBackground": brick + "22",
+     "testing.message.info.decorationForeground": muted, "testing.message.info.lineBackground": tide + "22",
+     "testing.coveredBackground": kelp + "22", "testing.coveredBorder": kelp + "44",
+     "testing.coveredGutterBackground": kelp + "55", "testing.uncoveredBackground": brick + "22",
+     "testing.uncoveredBorder": brick + "44", "testing.uncoveredGutterBackground": brick + "55",
+     "testing.uncoveredBranchBackground": brick + "44",
+     "testing.coverCountBadgeBackground": raised, "testing.coverCountBadgeForeground": text,
+     # notebooks (the .ipynb surface this system exists for)
+     "notebook.focusedCellBackground": surf, "notebook.selectedCellBorder": seab,
+     "notebook.inactiveSelectedCellBorder": border, "notebook.inactiveFocusedCellBorder": border,
+     "notebook.cellInsertionIndicator": ember, "notebook.outputContainerBorderColor": border,
+     "notebook.symbolHighlightBackground": ember + "22",
+     "notebookEditorOverviewRuler.runningCellForeground": ember,
+     "notebookScrollbarSlider.background": seab + "40", "notebookScrollbarSlider.hoverBackground": seab + "66",
+     "notebookScrollbarSlider.activeBackground": seab + "99",
+     # settings UI extras
+     "settings.checkboxForeground": text, "settings.dropdownForeground": text,
+     "settings.dropdownListBorder": border, "settings.numberInputForeground": text,
+     "settings.textInputForeground": text, "settings.focusedRowBorder": ember,
+     "settings.headerBorder": border, "settings.rowHoverBackground": faint,
+     "settings.sashBorder": border, "settings.settingsHeaderHoverForeground": accent_text,
+     # source-control graph
+     "scmGraph.foreground1": ember, "scmGraph.foreground2": kelp, "scmGraph.foreground3": dusk,
+     "scmGraph.foreground4": tide, "scmGraph.foreground5": shoal,
+     "scmGraph.historyItemRefColor": ember, "scmGraph.historyItemRemoteRefColor": shoal,
+     "scmGraph.historyItemBaseRefColor": dusk, "scmGraph.historyItemHoverLabelForeground": onacc,
+     "scmGraph.historyItemHoverDefaultLabelBackground": raised,
+     "scmGraph.historyItemHoverDefaultLabelForeground": text,
+     "scmGraph.historyItemHoverAdditionsForeground": kelp,
+     "scmGraph.historyItemHoverDeletionsForeground": brick,
+     # extensions view
+     "extensionButton.background": ember, "extensionButton.foreground": onacc,
+     "extensionButton.hoverBackground": flame, "extensionButton.border": "#00000000",
+     "extensionButton.separator": onacc + "66",
+     "extensionBadge.remoteBackground": shoal, "extensionBadge.remoteForeground": onacc,
+     "extensionIcon.starForeground": flame, "extensionIcon.verifiedForeground": tide,
+     "extensionIcon.preReleaseForeground": dusk, "extensionIcon.sponsorForeground": brick,
+     "extensionIcon.privateForeground": muted, "mcpIcon.starForeground": flame,
+     # toolbars, menus, action lists, badges
+     "toolbar.activeBackground": raised, "toolbar.hoverOutline": "#00000000",
+     "actionBar.toggledBackground": raised,
+     "menu.selectionBorder": "#00000000", "menubar.selectionBorder": "#00000000",
+     "editorActionList.background": surf, "editorActionList.foreground": text,
+     "editorActionList.focusBackground": raised, "editorActionList.focusForeground": text,
+     "keybindingTable.headerBackground": surf, "keybindingTable.rowsBackground": faint,
+     "profileBadge.background": raised, "profileBadge.foreground": text, "profiles.sashBorder": border,
+     "simpleFindWidget.sashBorder": border, "notificationToast.border": border,
+     "searchEditor.findMatchBackground": ember + "33", "searchEditor.findMatchBorder": ember + "66",
+     "searchEditor.textInputBorder": border, "search.resultsInfoForeground": muted,
+     "scrollbar.background": "#00000000",
+     "minimap.infoHighlight": tide, "minimap.selectionOccurrenceHighlight": spray + "44",
+     # debug, inline values, and comments
+     "debugIcon.breakpointCurrentStackframeForeground": flame,
+     "debugIcon.breakpointStackframeForeground": muted, "debugTokenExpression.type": shoal,
+     "debugView.exceptionLabelBackground": brick, "debugView.exceptionLabelForeground": onacc,
+     "editor.inlineValuesForeground": muted, "editor.inlineValuesBackground": "#00000000",
+     "editorGutter.itemBackground": "#00000000", "editorGutter.itemGlyphForeground": muted,
+     "editorGutter.addedSecondaryBackground": kelp + "80",
+     "editorGutter.deletedSecondaryBackground": brick + "80",
+     "editorGutter.modifiedSecondaryBackground": ember + "80",
+     "editorGutter.commentGlyphForeground": muted,
+     "editorGutter.commentUnresolvedGlyphForeground": ember,
+     "editorGutter.commentDraftGlyphForeground": dim,
+     "editorOverviewRuler.commentForeground": muted,
+     "editorOverviewRuler.commentUnresolvedForeground": ember,
+     "editorOverviewRuler.commentDraftForeground": dim,
+     "commentsView.resolvedIcon": muted, "commentsView.unresolvedIcon": ember,
+     "editorCommentsWidget.rangeBackground": ember + "14",
+     "editorCommentsWidget.rangeActiveBackground": ember + "22",
+     "editorCommentsWidget.replyInputBackground": surf,
+     "editorCommentsWidget.resolvedBorder": border, "editorCommentsWidget.unresolvedBorder": ember,
+     "git.blame.editorDecorationForeground": muted, "symbolIcon.packageForeground": brick,
+     "commandCenter.debuggingBackground": ember + "33",
+     "chart.axis": muted, "chart.guide": border, "chart.line": ember,
+     # chat, inline chat, and inline edits
+     "chat.requestBorder": border, "chat.avatarForeground": text, "chat.editedFileForeground": accent_text,
+     "chat.linesAddedForeground": kelp, "chat.linesRemovedForeground": brick,
+     "chat.checkpointSeparator": border, "chat.requestBubbleBackground": surf,
+     "chat.requestBubbleHoverBackground": raised, "chat.requestCodeBorder": border,
+     "chat.thinkingShimmer": seab, "chatManagement.sashBorder": border,
+     "aiCustomizationManagement.sashBorder": border, "agentStatusIndicator.background": ember,
+     "agentSessionReadIndicator.foreground": ember, "agentSessionSelectedBadge.border": ember,
+     "agentSessionSelectedUnfocusedBadge.border": border,
+     "inlineChat.foreground": text, "inlineChat.shadow": "#0000004d",
+     "inlineChatInput.focusBorder": ember, "inlineChatInput.placeholderForeground": muted,
+     "inlineChatDiff.inserted": kelp + "22", "inlineChatDiff.removed": brick + "22",
+     "interactive.activeCodeBorder": ember, "interactive.inactiveCodeBorder": border,
+     "editorMinimap.inlineChatInserted": kelp + "66",
+     "editorOverviewRuler.inlineChatInserted": kelp + "99",
+     "editorOverviewRuler.inlineChatRemoved": brick + "99",
+     "inlineEdit.originalBackground": brick + "14", "inlineEdit.modifiedBackground": kelp + "14",
+     "inlineEdit.originalBorder": brick + "55", "inlineEdit.modifiedBorder": kelp + "55",
+     "inlineEdit.originalChangedLineBackground": brick + "22",
+     "inlineEdit.originalChangedTextBackground": brick + "33",
+     "inlineEdit.modifiedChangedLineBackground": kelp + "22",
+     "inlineEdit.modifiedChangedTextBackground": kelp + "33",
+     "inlineEdit.tabWillAcceptOriginalBorder": brick, "inlineEdit.tabWillAcceptModifiedBorder": kelp,
+     "inlineEdit.gutterIndicator.background": surf,
+     "inlineEdit.gutterIndicator.primaryBackground": ember,
+     "inlineEdit.gutterIndicator.primaryForeground": onacc,
+     "inlineEdit.gutterIndicator.primaryBorder": ember,
+     "inlineEdit.gutterIndicator.secondaryBackground": raised,
+     "inlineEdit.gutterIndicator.secondaryForeground": text,
+     "inlineEdit.gutterIndicator.secondaryBorder": border,
+     "inlineEdit.gutterIndicator.successfulBackground": kelp,
+     "inlineEdit.gutterIndicator.successfulForeground": onacc,
+     "inlineEdit.gutterIndicator.successfulBorder": kelp,
+    })
+    for i, k in enumerate(["Black","Red","Green","Yellow","Blue","Magenta","Cyan","White","BrightBlack","BrightRed","BrightGreen","BrightYellow","BrightBlue","BrightMagenta","BrightCyan","BrightWhite"]):
+        wb["terminal.ansi" + k] = ansi[i]
+    theme = {"name": "Glauca Dark", "type": "dark", "semanticHighlighting": True,
+             "semanticTokenColors": semantic, "colors": wb, "tokenColors": tokenColors}
+    return json.dumps(theme, indent=2) + "\n"
+
+def _light_remap(D):
+    """Shared dark->light colour remap for the code editors (VS Code + Zed light
+    variants). One table so both light themes stay identical in philosophy and
+    a colour with no mapping fails generation loudly in either. Mirrors the
+    system's other light surfaces: hues darken toward the ink (t=0.45, the ratio
+    the Obsidian/Quarto light builds use, verified >=4.5:1); ember->light accent
+    and flame->light accent-deep because light-mode hovers must darken, not
+    brighten; the "#ffffffNN" white overlays flip to black; pure-black alpha
+    shadows pass through. Terminal ANSI is handled separately by callers with
+    _light_ansi(), because retaining the dark palette on the frost background
+    makes several standard terminal colours unreadable. Returns (remap, deep)."""
+    dark, light, pal = D["modes"]["dark"], D["modes"]["light"], D["palette"]
+    fire, sea, ext = pal["caelum"], pal["glaucum"], pal["extended"]
+    ls = lambda h: _mix(h, light["text"], 0.45)
+    M6 = {
+        dark["bg"]: light["bg"], dark["surface"]: light["surface"], dark["surface-raised"]: light["surface-raised"],
+        dark["text"]: light["text"], dark["text-muted"]: light["text-muted"], dark["border"]: light["border"],
+        dark["on-accent"]: light["on-accent"], dark["tint"]: light["tint-pale"], dark["tint-bright"]: light["tint-bright"],
+        sea["nebula"]: ls(sea["nebula"]),
+        fire["dies"]: light["accent"], fire["aer"]: light["accent-deep"], fire["imum"]: light["accent-deep"],
+        # glauca's dark accents are distinct hexes from the caelum trio (try-works had accent==ember,
+        # so one entry covered both); hovers still darken in light mode.
+        dark["accent"]: light["accent"], dark["accent-bright"]: light["accent-deep"],
+        dark["tint-deep"]: light["tint-pale"],
+        # kelp gets t=0.5, not the shared 0.45: strings sit on the editor bg (light's darkest light
+        # surface, unlike Obsidian's lighter code surface) and 0.45 lands at 4.44:1 -- just under AA.
+        ext["folium"]: _mix(ext["folium"], light["text"], 0.5),
+        ext["bacca"]: ls(ext["bacca"]), ext["viola"]: ls(ext["viola"]),
+        ext["lacus"]: ls(ext["lacus"]), ext["unda"]: ls(ext["unda"]),
+        # code-map roles / UI literals that are not palette tokens
+        "#c3cdd3": _mix(light["text"], light["text-muted"], 0.35),   # parameter role + chrome fg
+        "#a7b1b8": light["text-muted"], "#86929a": light["text-muted"],  # operator, punctuation
+        "#5b656d": _mix(light["text-muted"], light["bg"], 0.35),     # dim
+        "#1b242c": _mix(light["surface"], light["border"], 0.5),     # hover
+        "#1d262f": _mix(light["border"], light["bg"], 0.5),          # faint guides
+        "#3a4754": _mix(light["border"], light["text-muted"], 0.35), # whitespace/tree strokes
+        "#2f1c1e": _mix(light["bg"], ext["bacca"], 0.18),           # validation error bg
+        # warning bg stays warm in both modes: the dark side tints toward the amber
+        # warning hue (terminal ANSI yellow), so the light side must too, not toward blue.
+        "#2d251a": _mix(light["bg"], D["terminal"]["ansi"][3], 0.18),  # validation warning bg
+        "#132335": _mix(light["bg"], ext["lacus"], 0.18),            # validation info bg
+    }
+    M8 = {"#ffffff14": "#00000010", "#ffffff1f": "#0000001a", "#ffffff0a": "#0000000a"}
+    KEEP = {"#00000000", "#0000004d", "#00000066", "#0000007f"}
+    def remap(v):
+        lv = v.lower()
+        if lv in M8: return M8[lv]
+        if lv in KEEP: return v
+        base, alpha = lv[:7], lv[7:]
+        if base in M6: return M6[base] + alpha
+        raise KeyError("no light mapping for colour %r in _light_remap" % v)
+    def deep(x):
+        if isinstance(x, str) and x.startswith("#"): return remap(x)
+        if isinstance(x, dict): return {k: deep(v) for k, v in x.items()}
+        if isinstance(x, list): return [deep(i) for i in x]
+        return x
+    return remap, deep
+
+def build_vscode_light(D):
+    """Pruina (light) VS Code theme, derived from the dark build by the shared
+    _light_remap total remap rather than a second hand-maintained builder: every
+    key the dark theme sets is covered by construction, and a future dark-side
+    colour with no light mapping fails generation loudly instead of shipping
+    wrong."""
+    light = D["modes"]["light"]
+    remap, deep = _light_remap(D)
+    theme = json.loads(build_vscode(D))
+    ansi_names = ["Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White",
+                  "BrightBlack", "BrightRed", "BrightGreen", "BrightYellow", "BrightBlue",
+                  "BrightMagenta", "BrightCyan", "BrightWhite"]
+    light_ansi = dict(zip(("terminal.ansi" + name for name in ansi_names), _light_ansi(D)))
+    colors = {k: (light_ansi[k] if k in light_ansi else remap(v)) for k, v in theme["colors"].items()}
+    colors.update({
+        # dark pairs these with near-white text; after the remap that text is ink over a dark
+        # hue, so the status pills flip to the light-on-dark on-accent instead.
+        "statusBarItem.warningForeground": light["on-accent"],
+        "statusBarItem.warningHoverForeground": light["on-accent"],
+        "statusBarItem.errorForeground": light["on-accent"],
+    })
+    out = {"name": "Glauca Light", "type": "light", "semanticHighlighting": True,
+           "semanticTokenColors": deep(theme["semanticTokenColors"]),
+           "colors": colors, "tokenColors": deep(theme["tokenColors"])}
+    return json.dumps(out, indent=2) + "\n"
+
+# Glauca Icons: monogram entries. (id, monogram, hue key, fileExtensions, fileNames, languageIds).
+# Typography is the icon: a two-letter mono monogram on a faint hue chip beats pseudo-logos and stays
+# single-source. Hues come from the extended tier (sanctioned on code surfaces) plus fire/neutrals;
+# README carries the one rare fire mark (the file you are told to read). File/folder NAME keys are
+# matched lowercased by VS Code, so tables list lowercase only.
+_ICON_MONO = [
+    ("py",    "Py", "lacus",  ["py", "pyi"], [], ["python"]),
+    ("r",     "R",  "unda", ["r"], [], ["r"]),
+    ("ipynb", "Nb", "viola",  ["ipynb"], [], []),
+    ("qmd",   "Qm", "folium",  ["qmd"], [], ["quarto"]),
+    ("rmd",   "Rm", "folium",  ["rmd"], [], ["rmd"]),
+    ("md",    "Md", "muted", ["md", "markdown"], [], ["markdown"]),
+    ("js",    "JS", "aer", ["js", "mjs", "cjs"], [], ["javascript"]),
+    ("ts",    "TS", "lacus",  ["ts", "mts"], [], ["typescript"]),
+    ("jsx",   "Jx", "unda", ["jsx", "tsx"], [], ["javascriptreact", "typescriptreact"]),
+    ("json",  "{}", "aer", ["json", "jsonc", "json5"], [], ["json", "jsonc"]),
+    ("yaml",  "Ym", "viola",  ["yaml", "yml"], [], ["yaml"]),
+    ("toml",  "Tm", "viola",  ["toml"], [], ["toml"]),
+    ("csv",   "Cv", "folium",  ["csv", "tsv"], [], []),
+    ("xml",   "Xm", "muted", ["xml"], [], ["xml"]),
+    ("html",  "<>", "bacca", ["html", "htm"], [], ["html"]),
+    ("css",   "#",  "lacus",  ["css", "scss", "sass", "less"], [], ["css", "scss"]),
+    ("svg",   "Sv", "viola",  ["svg"], [], []),
+    ("sh",    ">_", "folium",  ["sh", "zsh", "bash", "fish"], [".zshrc", ".zprofile", ".bashrc", ".bash_profile"], ["shellscript"]),
+    ("sql",   "Sq", "unda", ["sql"], [], ["sql"]),
+    ("tex",   "Tx", "viola",  ["tex", "sty", "cls"], [], ["latex"]),
+    ("bib",   "Bb", "viola",  ["bib"], [], ["bibtex"]),
+    ("typ",   "Ty", "lacus",  ["typ"], [], ["typst"]),
+    ("lua",   "Lu", "lacus",  ["lua"], [], ["lua"]),
+    ("rs",    "Rs", "bacca", ["rs"], [], ["rust"]),
+    ("go",    "Go", "unda", ["go"], [], ["go"]),
+    ("c",     "C",  "lacus",  ["c", "h"], [], ["c"]),
+    ("cpp",   "C+", "lacus",  ["cpp", "hpp", "cc", "hh"], [], ["cpp"]),
+    ("java",  "Jv", "bacca", ["java"], [], ["java"]),
+    ("rb",    "Rb", "bacca", ["rb"], [], ["ruby"]),
+    ("php",   "Ph", "viola",  ["php"], [], ["php"]),
+    ("swift", "Sw", "bacca", ["swift"], [], ["swift"]),
+    ("make",  "Mk", "muted", ["mk"], ["makefile", "justfile"], ["makefile"]),
+    ("docker", "Dk", "lacus", ["dockerfile"], ["dockerfile", ".dockerignore", "docker-compose.yml", "compose.yaml"], ["dockerfile"]),
+    ("license", "Li", "muted", [], ["license", "license.md", "license.txt", "licence", "copying",
+                                    "license-code", "license-design"], []),
+    ("readme", "Re", "dies", [], ["readme", "readme.md", "readme.txt"], []),
+    ("git",   "G",  "bacca", ["gitignore"], [".gitignore", ".gitattributes", ".gitmodules"], ["git-commit", "git-rebase"]),
+    ("env",   "Ev", "muted", ["env"], [".env", ".env.local", ".envrc"], []),
+    ("lock",  "Lk", "muted", ["lock"], ["package-lock.json", "renv.lock", "poetry.lock", "uv.lock", "cargo.lock"], []),
+    ("cff",   "Cf", "muted", ["cff"], ["citation.cff"], []),
+    ("txt",   "Tt", "muted", ["txt"], [], ["plaintext"]),
+    ("log",   "Lg", "muted", ["log"], [], ["log"]),
+    ("font",  "Aa", "nebula",  ["ttf", "otf", "woff", "woff2"], [], []),
+    ("xlsx",  "Xl", "folium",  ["xlsx", "xls", "ods"], [], []),
+    ("docx",  "Dc", "lacus",  ["docx", "doc", "odt"], [], []),
+    ("pptx",  "Pp", "bacca", ["pptx", "ppt", "odp"], [], []),
+    ("db",    "Db", "unda", ["db", "sqlite", "duckdb", "parquet", "feather"], [], []),
+]
+
+# Folder hue variants. (id suffix, hue key, folder names). Default folder is tint-bright.
+_ICON_FOLDERS = [
+    ("src",    "lacus",  ["src", "lib"]),
+    ("data",   "unda", ["data", "datasets", "raw"]),
+    ("docs",   "viola",  ["docs", "doc", "notes", "notebooks"]),
+    ("test",   "folium",  ["tests", "test", "__tests__", "spec"]),
+    ("scripts", "bacca", ["scripts", "bin", "tools", ".git"]),
+    ("assets", "nebula",  ["assets", "static", "public", "resources", "fonts", "img", "images", "figures"]),
+    ("meta",   "muted", ["config", ".config", ".github", ".vscode", "node_modules", "venv", ".venv",
+                          "renv", "dist", "build", "out", "target", "__pycache__", ".cache"]),
+]
+
+def build_vscode_icons(D):
+    """Glauca Icons: a VS Code file-icon theme, generated like every other
+    surface. Modeled on Material Icon Theme's JSON conventions (iconDefinitions
+    + fileExtensions/fileNames/folderNames/folderNamesExpanded/languageIds,
+    hidesExplorerArrows) but with a typographic design language: monogram-on-
+    chip file icons and lucide-outline folders (same folder/file/image/music
+    path data the Obsidian surface lifted from Obsidian's bundled icon map).
+    Returns {relpath: text} for the whole dist/vscode/icons/ tree; merged into
+    artifacts() with **, so the drift gate covers every SVG. Internal
+    consistency is asserted here so a broken table fails generation loudly."""
+    pal, dark = D["palette"], D["modes"]["dark"]
+    ex, fire, sea = pal["extended"], pal["caelum"], pal["glaucum"]
+    H = {"lacus": ex["lacus"], "unda": ex["unda"], "viola": ex["viola"], "folium": ex["folium"],
+         "bacca": ex["bacca"], "aer": fire["aer"], "dies": fire["dies"],
+         "muted": dark["text-muted"], "nebula": sea["nebula"], "seab": dark["tint-bright"]}
+    esc = lambda s: s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    def svg(body, stroke="none"):
+        return ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%s'"
+                " stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'>%s</svg>\n"
+                % (stroke, body))
+    def mono(mg, hue):
+        fs = "12.5" if len(mg) == 1 else "10.5"
+        return svg("<rect x='2.5' y='2.5' width='19' height='19' rx='4.5' fill='%s' fill-opacity='0.13'/>" % hue
+                   + "<text x='12' y='12.6' text-anchor='middle' dominant-baseline='central'"
+                     " font-family=\"ui-monospace,'SF Mono',Menlo,monospace\" font-weight='700'"
+                     " font-size='%s' fill='%s'>%s</text>" % (fs, hue, esc(mg)))
+    P = lambda d: "<path d='%s'/>" % d
+    page = P("M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706"
+             "l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z")
+    corner = P("M14 2v5a1 1 0 0 0 1 1h5")
+    fold_closed = P("M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9"
+                    "A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z")
+    fold_open = P("m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6"
+                  "a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9"
+                  "a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2")
+    out, defs = {}, {}
+    fe, fn, folders, folderso, li = {}, {}, {}, {}, {}
+    base = "dist/vscode/icons/"
+    def add(iid, svg_text):
+        assert iid not in defs, "duplicate icon id %r" % iid
+        defs[iid] = {"iconPath": "./gl-%s.svg" % iid}
+        out[base + "gl-%s.svg" % iid] = svg_text
+    # glyph icons (outline, stroke in hue)
+    add("file", svg(page + corner, stroke=H["muted"]))
+    add("pdf", svg(page + corner + P("M10 12H8") + P("M16 15H8") + P("M16 18H8"), stroke=H["bacca"]))
+    add("image", svg("<rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='9' cy='9' r='2'/>"
+                     + P("m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"), stroke=H["viola"]))
+    add("audio", svg(P("M9 18V5l12-2v13") + "<circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/>",
+                     stroke=H["unda"]))
+    add("video", svg("<rect x='2.5' y='4.5' width='19' height='15' rx='2'/><polygon points='10 9 15.5 12 10 15'/>",
+                     stroke=H["lacus"]))
+    add("archive", svg("<rect x='3' y='7' width='18' height='13' rx='2'/>" + P("M3 7l2-3.5h14L21 7")
+                       + P("M10 11.5h4"), stroke=H["muted"]))
+    for ext_list, iid in [(["png", "jpg", "jpeg", "webp", "gif", "avif", "bmp", "ico", "tiff", "heic"], "image"),
+                          (["pdf"], "pdf"),
+                          (["zip", "tar", "gz", "tgz", "7z", "rar"], "archive"),
+                          (["mp3", "wav", "m4a", "ogg", "flac"], "audio"),
+                          (["mp4", "mov", "mkv", "webm"], "video")]:
+        for e in ext_list: fe[e] = iid
+    # monogram icons
+    for iid, mg, hue, exts, names, langs in _ICON_MONO:
+        add(iid, mono(mg, H[hue]))
+        for e in exts: fe[e] = iid
+        for n in names: fn[n] = iid
+        for l in langs: li[l] = iid
+    # folders: default + hue variants, closed and open
+    def add_folder(iid, hue):
+        add(iid, svg(fold_closed, stroke=hue))
+        add(iid + "-open", svg(fold_open, stroke=hue))
+    add_folder("folder", H["seab"])
+    for suffix, hue, names in _ICON_FOLDERS:
+        add_folder("folder-" + suffix, H[hue])
+        for n in names:
+            folders[n] = "folder-" + suffix
+            folderso[n] = "folder-" + suffix + "-open"
+    theme = {
+        "hidesExplorerArrows": False,
+        "file": "file", "folder": "folder", "folderExpanded": "folder-open",
+        "rootFolder": "folder", "rootFolderExpanded": "folder-open",
+        "iconDefinitions": defs,
+        "fileExtensions": fe, "fileNames": fn,
+        "folderNames": folders, "folderNamesExpanded": folderso,
+        "languageIds": li,
+    }
+    for m, kind in ((fe, "extension"), (fn, "name"), (folders, "folder"), (folderso, "folder-open"), (li, "language")):
+        for k, v in m.items():
+            assert v in defs, "unknown icon id %r for %s %r" % (v, kind, k)
+    out[base + "glauca-icon-theme.json"] = json.dumps(theme, indent=2) + "\n"
+    return out
+
+def build_typst(D):
+    """Typst colour tokens for the slide theme. Two layers: the flat legacy names
+    (dark-mode values; dies is THE anchor #007aff, not a mode accent, and the
+    working blue for text on the dark slide field is `accent`, the audited
+    caelum-on-pix pair, 6.1:1), plus a `dark` and a `light` dict carrying every
+    mode token so the slide theme can run Pruina decks. Dict keys use underscores
+    (Typst identifiers cannot carry hyphens)."""
+    m, pal = D["modes"]["dark"], D["palette"]
+    pairs = [("pix", m["bg"]), ("umbra", m["surface"]), ("tint-deep", m["tint-deep"]), ("tint", m["tint"]),
+             ("tint-bright", m["tint-bright"]), ("tint-pale", m["tint-pale"]),
+             ("dies", pal["caelum"]["dies"]), ("accent", m["accent"]),
+             ("aer", m["accent-bright"]), ("pruina", m["text"]), ("cinis", m["text-muted"])]
+    out = ["// Glauca colours. Generated from glauca.json."]
+    out += ['#let %s = rgb("%s")' % (n, v) for n, v in pairs]
+    keys = [("bg", "bg"), ("surface", "surface"), ("raised", "surface-raised"),
+            ("text", "text"), ("muted", "text-muted"), ("border", "border"),
+            ("accent", "accent"), ("accent_bright", "accent-bright"),
+            ("accent_deep", "accent-deep"), ("on_accent", "on-accent"),
+            ("tint_deep", "tint-deep"), ("tint", "tint"),
+            ("tint_bright", "tint-bright"), ("tint_pale", "tint-pale"),
+            ("on_tint", "on-tint")]
+    for name in ("dark", "light"):
+        md = D["modes"][name]
+        body = ",\n".join('  %s: rgb("%s")' % (k, md[v]) for k, v in keys)
+        out.append("#let %s = (\n%s,\n)" % (name, body))
+    return "\n".join(out) + "\n"
+
+def build_zed(D):
+    """Zed theme family (schema v0.2.0). Ships both appearances in one family
+    file: dark Profundum (built from modes.dark + the audited code map), and light
+    Pruina, derived from the dark style by the same shared _light_remap total
+    remap the VS Code light theme uses. The light terminal uses the shared
+    light-tuned ANSI palette, matching Ghostty and iTerm, so every register
+    remains legible against the frost background."""
+    dark, pal, codem, t = D["modes"]["dark"], D["palette"], D["code"], D["terminal"]
+    fire, sea, ext, ansi = pal["caelum"], pal["glaucum"], pal["extended"], t["ansi"]
+    c = lambda r: codem[r]["color"]
+    def col(color, **extra):
+        e = {"color": color}; e.update(extra); return e
+    def syn(role, **extra):                         # syntax entry from a code-map role
+        e = {"color": c(role)}; st = codem[role].get("style")
+        if st == "italic": e["font_style"] = "italic"
+        if st == "bold":   e["font_weight"] = 700
+        e.update(extra); return e
+    ember, flame, oil = fire["dies"], fire["aer"], fire["imum"]
+    kelp, brick, dusk, tide, shoal = ext["folium"], ext["bacca"], ext["viola"], ext["lacus"], ext["unda"]
+    foam, spray = sea["nebula"], sea["spuma"]
+    bg, surf, raised, text, muted, border, onacc = (dark["bg"], dark["surface"], dark["surface-raised"],
+        dark["text"], dark["text-muted"], dark["border"], dark["on-accent"])
+    seab, dim = dark["tint-bright"], "#5b656d"
+    style = {
+     "border": border, "border.variant": "#1d262f", "border.focused": ember,
+     "border.selected": ember, "border.transparent": "#00000000", "border.disabled": "#1d262f",
+     "elevated_surface.background": raised, "surface.background": surf, "background": bg,
+     "element.background": surf, "element.hover": "#1b242c", "element.active": raised,
+     "element.selected": raised, "element.disabled": "#00000000", "drop_target.background": tide + "22",
+     "ghost_element.background": "#00000000", "ghost_element.hover": "#ffffff0a",
+     "ghost_element.active": "#ffffff14", "ghost_element.selected": raised, "ghost_element.disabled": "#00000000",
+     "text": text, "text.muted": muted, "text.placeholder": dim, "text.disabled": dim, "text.accent": ember,
+     "icon": text, "icon.muted": muted, "icon.disabled": dim, "icon.placeholder": muted, "icon.accent": ember,
+     "status_bar.background": surf, "title_bar.background": bg, "title_bar.inactive_background": bg,
+     "toolbar.background": bg, "tab_bar.background": surf,
+     "tab.inactive_background": surf, "tab.active_background": bg,
+     "search.match_background": ember + "55",
+     "panel.background": surf, "panel.focused_border": ember, "pane.focused_border": ember, "pane_group.border": border,
+     "scrollbar.thumb.background": seab + "40", "scrollbar.thumb.hover_background": seab + "66",
+     "scrollbar.thumb.border": "#00000000", "scrollbar.track.background": "#00000000", "scrollbar.track.border": border,
+     "editor.foreground": text, "editor.background": bg, "editor.gutter.background": bg,
+     "editor.subheader.background": surf, "editor.active_line.background": surf,
+     "editor.highlighted_line.background": surf, "editor.line_number": muted, "editor.active_line_number": text,
+     "editor.invisible": "#3a4754", "editor.wrap_guide": "#1d262f", "editor.active_wrap_guide": "#3a4754",
+     "editor.indent_guide": "#1d262f", "editor.indent_guide_active": "#3a4754",
+     "editor.document_highlight.read_background": tide + "26", "editor.document_highlight.write_background": kelp + "26",
+     "editor.document_highlight.bracket_background": seab + "33",
+     "editor.hover_line_number": text,
+     # Search: candidate matches take the quiet sea, the focused match takes the blue --
+     # the same split the Ghostty preset makes with search-* vs search-selected-*.
+     "search.active_match_background": ember + "88",
+     "terminal.background": bg, "terminal.foreground": text, "terminal.bright_foreground": text, "terminal.dim_foreground": muted,
+     "link_text.hover": flame,
+     "conflict": dusk, "conflict.background": dusk + "22", "conflict.border": dusk,
+     "created": kelp, "created.background": kelp + "22", "created.border": kelp,
+     "deleted": brick, "deleted.background": brick + "22", "deleted.border": brick,
+     "modified": ember, "modified.background": ember + "22", "modified.border": ember,
+     "renamed": tide, "renamed.background": tide + "22", "renamed.border": tide,
+     "error": brick, "error.background": brick + "22", "error.border": brick,
+     "warning": ember, "warning.background": ember + "22", "warning.border": ember,
+     "info": tide, "info.background": tide + "22", "info.border": tide,
+     "hint": shoal, "hint.background": shoal + "22", "hint.border": shoal,
+     "success": kelp, "success.background": kelp + "22", "success.border": kelp,
+     "predictive": dim, "predictive.background": dim + "22", "predictive.border": dim,
+     "unreachable": muted, "unreachable.background": muted + "22", "unreachable.border": muted,
+     "hidden": dim, "hidden.background": dim + "22", "hidden.border": dim,
+     "ignored": dim, "ignored.background": dim + "22", "ignored.border": dim,
+     "scrollbar.thumb.active_background": seab + "99",
+     "panel.indent_guide": "#1d262f", "panel.indent_guide_active": "#3a4754", "panel.indent_guide_hover": "#2a3540",
+     "version_control.added": kelp, "version_control.modified": ember, "version_control.deleted": brick,
+     "version_control.conflict": dusk, "version_control.renamed": tide, "version_control.ignored": dim,
+     "version_control.word_added": kelp + "3d", "version_control.word_deleted": brick + "3d",
+     "version_control.conflict_marker.ours": kelp + "22", "version_control.conflict_marker.theirs": tide + "22",
+    }
+    for i, n in enumerate(["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]):
+        style["terminal.ansi." + n] = ansi[i]
+        style["terminal.ansi.bright_" + n] = ansi[i + 8]
+        style["terminal.ansi.dim_" + n] = _mix(ansi[i], bg, 0.4)   # SGR-dim: normal register faded toward bg
+    style["terminal.ansi.background"] = bg
+    style["players"] = [{"cursor": h, "background": h, "selection": h + "3d"}
+                        for h in (ember, tide, kelp, dusk, shoal, brick, flame, foam)]
+    # accents: the palette Zed rotates through for collaborators and accent options. Same identity
+    # hues as the players, so cursors and accents read from one set; deep()-remapped for light below.
+    style["accents"] = [ember, tide, kelp, dusk, shoal, brick, flame, foam]
+    style["syntax"] = {
+     "attribute": col(shoal), "boolean": syn("number"), "comment": syn("comment"), "comment.doc": syn("comment"),
+     "constant": syn("number"), "constructor": col(shoal, font_style="italic"), "embedded": col(text),
+     "emphasis": col(text, font_style="italic"), "emphasis.strong": col(ember, font_weight=700),
+     "enum": col(shoal, font_style="italic"), "function": syn("function"), "function.method": syn("function"),
+     "hint": col(shoal), "keyword": syn("keyword"), "label": syn("decorator"),
+     "link_text": col(tide, font_style="italic"), "link_uri": col(tide), "number": syn("number"),
+     "operator": syn("operator"), "predictive": col(dim), "preproc": syn("decorator"), "primary": col(text),
+     "property": col(c("parameter")), "punctuation": syn("punctuation"), "punctuation.bracket": syn("punctuation"),
+     "punctuation.delimiter": syn("punctuation"), "punctuation.list_marker": col(ember), "punctuation.special": col(ember),
+     "string": syn("string"), "string.escape": col(foam), "string.regex": syn("string"),
+     "string.special": syn("string"), "string.special.symbol": syn("number"), "tag": syn("decorator"),
+     "text.literal": col(kelp), "title": col(ember, font_weight=700), "type": syn("type"),
+     "type.builtin": col(shoal, font_style="italic"), "variable": syn("variable"),
+     "variable.special": col(shoal, font_style="italic"), "variant": syn("number"),
+     "namespace": syn("decorator"), "module": syn("decorator"), "constant.builtin": syn("number"),
+     "function.builtin": col(shoal, font_style="italic"), "function.special": col(brick),
+     "variable.member": col(c("parameter")), "keyword.import": syn("keyword"), "tag.delimiter": syn("punctuation"),
+     "variable.parameter": col(c("parameter")), "punctuation.markup": col(ember),
+     "selector": col(shoal), "selector.pseudo": col(dusk, font_style="italic"),
+     "diff.plus": col(kelp), "diff.minus": col(brick),
+    }
+    remap, deep = _light_remap(D)
+    ansi_names = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
+    la, lbg = _light_ansi(D), D["modes"]["light"]["bg"]
+    light_ansi = {"terminal.ansi.background": lbg}
+    for i, name in enumerate(ansi_names):
+        light_ansi["terminal.ansi." + name] = la[i]
+        light_ansi["terminal.ansi.bright_" + name] = la[i + 8]
+        light_ansi["terminal.ansi.dim_" + name] = _mix(la[i], lbg, 0.4)
+    def light_style(s):
+        # Terminal ANSI follows the shared light-safe palette; syntax/players nest, so
+        # they recurse through deep(); every other value is a colour string to remap.
+        out = {}
+        for k, v in s.items():
+            if k in light_ansi: out[k] = light_ansi[k]
+            elif isinstance(v, (dict, list)): out[k] = deep(v)
+            else: out[k] = remap(v)
+        return out
+    theme = {"$schema": "https://zed.dev/schema/themes/v0.2.0.json",
+             "name": "Glauca", "author": "tiagojct",
+             "themes": [{"name": "Glauca Light", "appearance": "light", "style": light_style(style)},
+                        {"name": "Glauca Dark", "appearance": "dark", "style": style}]}
+    return json.dumps(theme, indent=2) + "\n"
+
+def stamp_version(rel, D):
+    obj = json.loads((SRC / rel).read_text())
+    obj["version"] = D["version"]
+    return json.dumps(obj, indent=2) + "\n"
+
+def build_p3(D):
+    g = D.get("gamut", {}).get("p3")
+    if not g:
+        return "/* no p3 block in json */\n"
+    dark, light = g["dark"], g["light"]
+    return ("/* Wide-gamut blue. Generated. Outside P3 the sRGB hexes in glauca.css apply. */\n"
+            "@media (color-gamut: p3) {\n"
+            '  :root,\n  [data-mode="light"] { --gl-accent: %s; --gl-accent-bright: %s; }\n'
+            '  [data-mode="dark"] { --gl-accent: %s; --gl-accent-bright: %s; }\n}\n'
+            % (light["accent"], light["accent-bright"], dark["accent"], dark["accent-bright"]))
+
+def artifacts(D):
+    css = build_css(D)
+    typo = build_typography(D)
+    return {
+        # standalone token surfaces under dist/
+        "dist/css/glauca.css": css,
+        "dist/css/typography.css": typo,
+        "dist/css/p3.css": build_p3(D),
+        "dist/css/a11y.css": build_a11y(D),
+        "dist/css/fallbacks.css": build_fallbacks(D),
+        "dist/css/motion.css": build_motion(D),
+        "dist/r/glauca.R": build_r(D),
+        "dist/python/glauca.mplstyle": build_mplstyle(D),
+        "dist/python/glauca.py": build_pyviz(D),
+        "dist/print/SPEC.md": build_print_md(D),
+        "dist/typst/poster.typ": build_poster_typ(D),
+        "dist/typst/colors.typ": build_typst(D),
+        "dist/quarto/glauca.scss": build_quarto_scss(D, "light"),
+        "dist/quarto/glauca-dark.scss": build_quarto_scss(D, "dark"),
+        "dist/quarto/glauca.theme": build_quarto_theme(D, "light"),
+        "dist/quarto/glauca-dark.theme": build_quarto_theme(D, "dark"),
+        "dist/quarto/typst-brand.typ": build_typst_brand(D),
+        "dist/tailwind/colors.generated.js": build_tailwind(D),
+        "dist/themes/terminals/Glauca-Dark.ghostty": build_ghostty(D),
+        "dist/themes/terminals/Glauca.ghostty": build_ghostty_light(D),
+        "dist/themes/terminals/Glauca-Dark.itermcolors": build_iterm(D),
+        "dist/themes/terminals/Glauca.itermcolors": build_iterm_light(D),
+        "dist/themes/terminals/glauca.conf": build_ghostty_conf(D),
+        "dist/omz/glauca-dark.zsh-theme": build_omz(D),
+        "dist/omz/glauca.zsh-theme": build_omz_light(D),
+        "dist/vscode/themes/Glauca-Dark-color-theme.json": build_vscode(D),
+        "dist/vscode/themes/Glauca-color-theme.json": build_vscode_light(D),
+        **build_vscode_icons(D),
+        "dist/zed/themes/Glauca.json": build_zed(D),
+        "dist/vivaldi/dark/settings.json": build_vivaldi(D, "dark"),
+        "dist/vivaldi/light/settings.json": build_vivaldi(D, "light"),
+        "dist/firefox/manifest.json": build_firefox(D),
+        "dist/thunderbird/manifest.json": build_thunderbird(D),
+        "dist/zotero/userChrome.css": build_zotero(D),
+        "dist/miniflux/glauca.css": build_miniflux(D),
+        "src/markedit/colors.generated.js": build_markedit(D),
+        "dist/obsidian/theme.css": build_obsidian(D),
+        # the slide theme embeds its generated colours in place (a src/ exception,
+        # like the web CSS below, so `make demo` compiles src/typst/demo.typ):
+        "src/typst/colors.typ": build_typst(D),
+        # version single-sourced from src/ manifests into dist/:
+        "dist/obsidian/manifest.json": stamp_version("obsidian/manifest.json", D),
+        "dist/vscode/package.json": stamp_version("vscode/package.json", D),
+        "dist/tailwind/package.json": stamp_version("tailwind/package.json", D),
+        # the web app embeds its generated CSS in place (the one src/ exception):
+        "src/web/src/css/glauca.css": css,
+        "src/web/src/css/typography.css": typo,
+        "src/web/src/css/p3.css": build_p3(D),
+        "src/web/src/css/a11y.css": build_a11y(D),
+        "src/web/src/css/fallbacks.css": build_fallbacks(D),
+        "src/web/src/css/motion.css": build_motion(D),
+    }
+
+def main(argv):
+    D = load()
+    arts = artifacts(D)
+    if "--check" in argv:
+        drift = []
+        for rel, content in arts.items():
+            p = REPO / rel
+            if not p.exists() or p.read_text() != content:
+                drift.append(rel)
+        if drift:
+            print("DRIFT: these files do not match src/glauca.json:")
+            for d in drift: print("  " + d)
+            print("Run `make generate` and commit.")
+            return 1
+        print("clean: %d generated files match the json" % len(arts))
+        return 0
+    for rel, content in arts.items():
+        p = REPO / rel; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(content)
+    print("generated %d files from src/glauca.json" % len(arts))
+    return 0
+
+
+
+def build_r(D):
+    dv = D["dataviz"]; pl = dv["plot"]; f = dv["fonts"]
+    rv = lambda xs: "c(" + ", ".join('"%s"' % x for x in xs) + ")"
+    L, K = pl["light"], pl["dark"]
+    t = R_TEMPLATE
+    repl = {"@@CAT@@": rv(dv["categorical"]["colors"]), "@@SEQ@@": rv(dv["sequential"]["colors"]),
+            "@@DIV@@": rv(dv["diverging"]["colors"]), "@@PCH@@": "c(" + ", ".join(str(x) for x in dv["shapes"]["ggplot_pch"]) + ")", "@@BASE@@": f["base"], "@@TITLE@@": f["title"],
+            "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"], "@@LACCENT@@": L["accent"],
+            "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"], "@@DACCENT@@": K["accent"]}
+    for k, v in repl.items(): t = t.replace(k, v)
+    return t
+
+
+def build_mplstyle(D):
+    f = D["dataviz"]["fonts"]
+    return ("# Generated from glauca.json. Glauca matplotlib base (non-colour keys only).\n"
+            "# Colours are applied by glauca.use_glauca(); hex values are not parsed here\n"
+            "# because the style-file parser treats '#' as a comment.\n"
+            "font.family: sans-serif\n"
+            "font.sans-serif: %s, DejaVu Sans\n"
+            "axes.grid: True\ngrid.linewidth: 0.6\n"
+            "axes.spines.top: False\naxes.spines.right: False\n"
+            "axes.titlelocation: left\n" % f["base"])
+
+
+def build_pyviz(D):
+    dv = D["dataviz"]; L = dv["plot"]["light"]; K = dv["plot"]["dark"]
+    pl = lambda xs: "[" + ", ".join('"%s"' % x for x in xs) + "]"
+    t = PY_TEMPLATE
+    for k, v in {"@@CAT@@": pl(dv["categorical"]["colors"]), "@@SEQ@@": pl(dv["sequential"]["colors"]),
+                 "@@DIV@@": pl(dv["diverging"]["colors"]), "@@MARK@@": pl(dv["shapes"]["matplotlib"]),
+                 "@@LBG@@": L["bg"], "@@LPANEL@@": L["panel"], "@@LTEXT@@": L["text"], "@@LGRID@@": L["grid"], "@@LMUTED@@": L["muted"], "@@LACCENT@@": L["accent"],
+                 "@@DBG@@": K["bg"], "@@DPANEL@@": K["panel"], "@@DTEXT@@": K["text"], "@@DGRID@@": K["grid"], "@@DMUTED@@": K["muted"], "@@DACCENT@@": K["accent"]}.items():
+        t = t.replace(k, v)
+    return t
+
+
+R_TEMPLATE = r'''# Generated from glauca.json - do not edit by hand.
+# Glauca: ggplot2 scales and theme. Source the file, then add the scales/theme to a plot.
+
+glauca_categorical <- @@CAT@@
+glauca_sequential  <- @@SEQ@@
+glauca_diverging   <- @@DIV@@
+glauca_shapes      <- @@PCH@@
+
+.glauca_plot <- list(
+  light = list(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@", accent="@@LACCENT@@"),
+  dark  = list(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@", accent="@@DACCENT@@")
+)
+
+# The mode's single accent, for one highlighted series or annotation.
+glauca_accent <- function(mode = c("light", "dark")) .glauca_plot[[match.arg(mode)]]$accent
+
+glauca_pal_d <- function(n) {
+  if (n > length(glauca_categorical))
+    warning("Glauca categorical has ", length(glauca_categorical), " colours; ", n, " requested.")
+  unname(glauca_categorical[seq_len(n)])
+}
+
+scale_colour_glauca_d   <- function(...) ggplot2::discrete_scale("colour", palette = glauca_pal_d, ...)
+scale_fill_glauca_d     <- function(...) ggplot2::discrete_scale("fill", palette = glauca_pal_d, ...)
+scale_colour_glauca_c   <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_sequential, ...)
+scale_fill_glauca_c     <- function(...) ggplot2::scale_fill_gradientn(colours = glauca_sequential, ...)
+scale_colour_glauca_div <- function(...) ggplot2::scale_colour_gradientn(colours = glauca_diverging, ...)
+scale_fill_glauca_div   <- function(...) ggplot2::scale_fill_gradientn(colours = glauca_diverging, ...)
+scale_color_glauca_d    <- scale_colour_glauca_d
+scale_color_glauca_c    <- scale_colour_glauca_c
+scale_color_glauca_div  <- scale_colour_glauca_div
+scale_shape_glauca_d    <- function(...) ggplot2::scale_shape_manual(values = glauca_shapes, ...)
+
+theme_glauca <- function(base_size = 12, base_family = "@@BASE@@", mode = c("light", "dark")) {
+  mode <- match.arg(mode); p <- .glauca_plot[[mode]]
+  ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+    ggplot2::theme(
+      plot.background  = ggplot2::element_rect(fill = p$bg, colour = NA),
+      panel.background = ggplot2::element_rect(fill = p$panel, colour = NA),
+      panel.grid.major = ggplot2::element_line(colour = p$grid, linewidth = 0.3),
+      panel.grid.minor = ggplot2::element_blank(),
+      axis.text   = ggplot2::element_text(colour = p$muted),
+      axis.title  = ggplot2::element_text(colour = p$text),
+      plot.title  = ggplot2::element_text(colour = p$text, family = "@@TITLE@@"),
+      plot.subtitle = ggplot2::element_text(colour = p$muted),
+      legend.text  = ggplot2::element_text(colour = p$text),
+      legend.title = ggplot2::element_text(colour = p$text)
+    )
+}
+'''
+
+PY_TEMPLATE = r'''"""Generated from glauca.json - do not edit by hand.
+Glauca matplotlib colours, colormaps, and style helper."""
+import os
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from cycler import cycler
+from matplotlib.colors import LinearSegmentedColormap
+
+GLAUCA_CATEGORICAL = @@CAT@@
+GLAUCA_SEQUENTIAL  = @@SEQ@@
+GLAUCA_DIVERGING   = @@DIV@@
+GLAUCA_MARKERS     = @@MARK@@
+
+glauca_seq = LinearSegmentedColormap.from_list("glauca_seq", GLAUCA_SEQUENTIAL)
+glauca_div = LinearSegmentedColormap.from_list("glauca_div", GLAUCA_DIVERGING)
+for _cm in (glauca_seq, glauca_div):
+    try:
+        mpl.colormaps.register(_cm)
+    except (ValueError, AttributeError):
+        pass
+
+_LIGHT = dict(bg="@@LBG@@", panel="@@LPANEL@@", text="@@LTEXT@@", grid="@@LGRID@@", muted="@@LMUTED@@", accent="@@LACCENT@@")
+_DARK  = dict(bg="@@DBG@@", panel="@@DPANEL@@", text="@@DTEXT@@", grid="@@DGRID@@", muted="@@DMUTED@@", accent="@@DACCENT@@")
+
+def glauca_accent(mode="light"):
+    """The mode's single accent, for one highlighted series or annotation."""
+    return (_DARK if mode == "dark" else _LIGHT)["accent"]
+
+def _apply(p):
+    mpl.rcParams.update({
+        "axes.prop_cycle": (cycler(color=GLAUCA_CATEGORICAL) + cycler(marker=GLAUCA_MARKERS)),
+        "figure.facecolor": p["bg"], "axes.facecolor": p["panel"],
+        "text.color": p["text"], "axes.labelcolor": p["text"], "axes.titlecolor": p["text"],
+        "axes.edgecolor": p["muted"], "xtick.color": p["muted"], "ytick.color": p["muted"],
+        "grid.color": p["grid"],
+    })
+
+def use_glauca(mode="light"):
+    """Apply the Glauca style. mode='light' (default) or 'dark'."""
+    plt.style.use(os.path.join(os.path.dirname(__file__), "glauca.mplstyle"))
+    _apply(_DARK if mode == "dark" else _LIGHT)
+'''
+
+def build_print_md(D):
+    p = D["print"]
+    rows = "\n".join("| %s | %s |" % (k, v) for k, v in p["cmyk"].items())
+    sizes = "\n".join("- %s: %s mm (trim)" % (k, v) for k, v in p["sizes_mm"].items())
+    return ("# Glauca - print specification\n\n"
+            "Generated from glauca.json. %s\n\n"
+            "## Colour management\nProfile: %s\nInk limit: %s\n\n"
+            "## Rich black\n%s. %s\n\n"
+            "## CMYK starting values\n| token | CMYK |\n| --- | --- |\n%s\n\n"
+            "## Gamut risks\nThese desaturate in process; proof them or run as spot: %s.\n\n%s\n\n"
+            "## Geometry\nBleed: %d mm. Safe margin: %d mm from trim.\n\n%s\n"
+            % (p["note"], p["profile"], p["ink_limit"], p["rich_black"]["recipe"], p["rich_black"]["note"],
+               rows, ", ".join(p["gamut_risk"]), p["spot"], p["bleed_mm"], p["safe_mm"], sizes))
+
+
+def build_poster_typ(D):
+    L = D["modes"]["dark"]; C = D["modes"]["light"]
+    t = POSTER_TEMPLATE
+    for k, v in {"@@PIX@@": L["bg"], "@@PRUINA@@": L["text"], "@@DIES@@": C["accent-bright"],
+                 "@@IMUM@@": C["accent-deep"], "@@TINTDEEP@@": C["tint-deep"], "@@TINT@@": C["tint"],
+                 "@@PAPER@@": C["bg"], "@@INK@@": C["text"]}.items():
+        t = t.replace(k, v)
+    return t
+
+
+POSTER_TEMPLATE = r'''// Generated from glauca.json. Glauca poster preset (Typst).
+// Colours below are screen sRGB; substitute the CMYK in print/SPEC.md at output.
+
+#let gl = (
+  pix: rgb("@@PIX@@"), pruina: rgb("@@PRUINA@@"),
+  dies: rgb("@@DIES@@"), imum: rgb("@@IMUM@@"),
+  tintdeep: rgb("@@TINTDEEP@@"), tint: rgb("@@TINT@@"),
+  paper: rgb("@@PAPER@@"), ink: rgb("@@INK@@"),
+)
+
+// poster(trim, bleed, safe, fill, body): page = trim + 2*bleed, with crop marks
+// (top-left and bottom-right shown) and a non-printing safe-area guide.
+// Light-first: the default field is the paper, the ink writes on it, and the
+// one blue mark carries the emphasis.
+#let poster(trim: (420mm, 594mm), bleed: 3mm, safe: 5mm, fill: gl.paper, body) = {
+  set page(width: trim.at(0) + 2*bleed, height: trim.at(1) + 2*bleed, margin: 0pt, fill: fill)
+  let m = 4mm
+  place(top + left, dx: bleed, dy: 0mm, line(end: (0mm, m), stroke: 0.25pt + gl.ink))
+  place(top + left, dx: 0mm, dy: bleed, line(end: (m, 0mm), stroke: 0.25pt + gl.ink))
+  place(bottom + right, dx: -bleed, dy: 0mm, line(end: (0mm, -m), stroke: 0.25pt + gl.ink))
+  place(bottom + right, dx: 0mm, dy: -bleed, line(end: (-m, 0mm), stroke: 0.25pt + gl.ink))
+  place(top + left, dx: bleed + safe, dy: bleed + safe,
+    rect(width: trim.at(0) - 2*safe, height: trim.at(1) - 2*safe,
+      stroke: (paint: gl.dies, thickness: 0.25pt, dash: "dotted")))
+  place(top + left, dx: bleed, dy: bleed,
+    block(width: trim.at(0), height: trim.at(1), inset: safe + 10mm, body))
+}
+
+// Demo: one sky-blue mark on a frost-bloom field.
+#poster(fill: gl.paper)[
+  #set text(fill: gl.ink, font: "IBM Plex Serif")
+  #text(size: 13pt, fill: gl.imum, font: "IBM Plex Mono", tracking: 3pt)[A GLAUCOUS DESIGN SYSTEM]
+  #v(1fr)
+  #text(size: 110pt, weight: 600)[Glauca]
+  #v(6mm)
+  #text(size: 22pt)[Clear glass, cold light.]
+]
+'''
+
+
+def build_a11y(D):
+    a = D["a11y"]; f = a["focus"]; cm = a["contrast_more"]
+    return ("/* Generated accessibility layer: focus, forced-colors, higher-contrast, reduced-transparency. */\n"
+            ':root,\n[data-mode="light"] { --gl-focus: %s; }\n[data-mode="dark"] { --gl-focus: %s; }\n\n'
+            ":where(a, button, input, select, textarea, [tabindex]):focus-visible {\n"
+            "  outline: %s solid var(--gl-focus);\n  outline-offset: %s;\n}\n"
+            ":where(a, button, input, select, textarea, [tabindex]):focus:not(:focus-visible) { outline: none; }\n\n"
+            "@media (prefers-contrast: more) {\n"
+            '  :root,\n  [data-mode="light"] { --gl-text-muted: %s; --gl-border: %s; }\n'
+            '  [data-mode="dark"] { --gl-text-muted: %s; --gl-border: %s; }\n}\n\n'
+            "@media (forced-colors: active) {\n"
+            '  :where(button, .btn, [role="button"]) { border: 1px solid ButtonText; }\n'
+            "  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }\n}\n\n"
+            "@media (prefers-reduced-transparency: reduce) {\n  .hero::after { display: none; }\n}\n"
+            % (f["light"], f["dark"], f["width"], f["offset"],
+               cm["light"]["text-muted"], cm["light"]["border"], cm["dark"]["text-muted"], cm["dark"]["border"]))
+
+
+def build_fallbacks(D):
+    fb = D["performance"]["fallbacks"]
+    out = ["/* Generated metric-matched fallbacks. local() fallback with overrides so the swap does not shift text. */"]
+    for name, m in fb.items():
+        out += ['@font-face {',
+                '  font-family: "%s fallback";' % name,
+                '  src: local("%s");' % m["fallback"],
+                '  size-adjust: %s%%;' % m["size_adjust"],
+                '  ascent-override: %s%%;' % m["ascent"],
+                '  descent-override: %s%%;' % m["descent"],
+                '  line-gap-override: %s%%;' % m["line_gap"],
+                '}']
+    return "\n".join(out) + "\n"
+
+
+def build_motion(D):
+    m = D["motion"]
+    out = ["/* Generated motion tokens. Restrained by intent; reduced-motion respected. */", ":root {"]
+    out += ["  --gl-duration-%s: %s;" % (k, v) for k, v in m["durations"].items()]
+    out += ["  --gl-ease-%s: %s;" % (k, v) for k, v in m["easings"].items()]
+    out += ["}", "",
+            "@media (prefers-reduced-motion: reduce) {",
+            "  *, *::before, *::after {",
+            "    animation-duration: 0.01ms !important;",
+            "    animation-iteration-count: 1 !important;",
+            "    transition-duration: 0.01ms !important;",
+            "    scroll-behavior: auto !important;",
+            "  }", "}"]
+    return "\n".join(out) + "\n"
+
+
+def build_quarto_scss(D, modekey):
+    m = D["modes"][modekey]; fonts = D["typography"]["fonts"]
+    serif = fonts["serif"]["family"]; mono = fonts["mono"]["family"]; reading = fonts["reading"]["family"]
+    h1 = m["accent"]
+    return ("/*-- scss:defaults --*/\n"
+            "$body-bg: %s;\n$body-color: %s;\n$link-color: %s;\n$border-color: %s;\n"
+            '$font-family-base: "%s", system-ui, sans-serif;\n'
+            '$headings-font-family: "%s", Georgia, serif;\n'
+            '$font-family-monospace: "%s", ui-monospace, monospace;\n'
+            "$code-color: %s;\n$code-bg: %s;\n$blockquote-border-color: %s;\n\n"
+            "/*-- scss:rules --*/\n"
+            "body { font-variant-numeric: oldstyle-nums proportional-nums; line-height: 1.62; }\n"
+            'h1, h2, h3, h4 { font-variation-settings: "wght" 600; letter-spacing: -0.01em; text-wrap: balance; }\n'
+            "h1 { color: %s; }\n"
+            "a { text-underline-offset: 0.15em; }\n"
+            ".callout { border-inline-start-color: %s; }\n"
+            'pre, code { font-feature-settings: "liga" 1, "calt" 1; }\n'
+            % (m["bg"], m["text"], m["accent"], m["border"], reading, serif, mono,
+               m["accent-deep"], m["surface"], m["accent"], h1, m["accent"]))
+
+
+def build_quarto_theme(D, modekey="dark"):
+    """Pandoc/Quarto highlight theme per mode. The light build runs the code map
+    through the shared _light_remap (the same derivation as VS Code/Zed light),
+    so light pages get code on the light surface -- Quarto pairs them via
+    highlight-style: { light: glauca.theme, dark: glauca-dark.theme }."""
+    c, m = D["code"], D["modes"][modekey]
+    if modekey == "light":
+        remap, _ = _light_remap(D)
+        cc = lambda role: remap(c[role]["color"])
+    else:
+        cc = lambda role: c[role]["color"]
+    def st(role):
+        sty = c[role].get("style", "")
+        return {"text-color": cc(role), "background-color": None,
+                "bold": sty == "bold", "italic": sty == "italic", "underline": False}
+    role = {"Keyword": "keyword", "ControlFlow": "keyword", "Import": "keyword",
+            "DataType": "type", "BuiltIn": "type",
+            "DecVal": "number", "BaseN": "number", "Float": "number", "Constant": "number",
+            "Char": "string", "String": "string", "VerbatimString": "string", "SpecialString": "string",
+            "Comment": "comment", "CommentVar": "comment", "Documentation": "comment",
+            "Function": "function", "Operator": "operator", "Variable": "variable",
+            "Attribute": "decorator", "Annotation": "decorator", "Preprocessor": "decorator",
+            "Other": "variable", "Normal": "variable"}
+    theme = {"text-color": cc("variable"), "background-color": m["surface"],
+             "line-number-color": m["text-muted"], "line-number-background-color": None,
+             "text-styles": {k: st(v) for k, v in role.items()}}
+    return json.dumps(theme, indent=2) + "\n"
+
+
+def build_typst_brand(D):
+    c = D["modes"]["light"]; fonts = D["typography"]["fonts"]
+    return ("// Glauca brand for Quarto Typst output. Generated.\n"
+            "// _quarto.yml:  format: typst: { include-in-header: typst-brand.typ }\n"
+            '#set text(font: "%s", size: 11pt, fill: rgb("%s"))\n'
+            '#show heading: set text(font: "%s", fill: rgb("%s"))\n'
+            '#show heading.where(level: 1): set text(fill: rgb("%s"))\n'
+            '#show link: set text(fill: rgb("%s"))\n'
+            '#show raw: set text(font: "%s")\n'
+            % (fonts["reading"]["family"], c["text"], fonts["serif"]["family"], c["text"],
+               c["accent"], c["accent"], fonts["mono"]["family"]))
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

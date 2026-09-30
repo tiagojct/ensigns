@@ -1,0 +1,169 @@
+/* Glauca for Zotero 7 -- generated from glauca.json. Copy to the `chrome`
+   folder of your Zotero profile as userChrome.css and restart; see README.md
+   for the profile path and the one pref Zotero needs to load it.
+
+   Zotero paints its interface from these custom properties, so re-declaring
+   them is the whole theme. !important is required, not decorative:
+   userChrome.css is a user stylesheet, and a normal user declaration loses
+   to Zotero's own author declaration. Zotero's Appearance preference forces
+   the colour scheme, so "Automatic" still follows the OS. */
+
+/* Pruina */
+@media (prefers-color-scheme: light) {
+  :root {
+    --accent-blue: #0b62cf !important;
+    --accent-blue10: #0b62cf1a !important;
+    --accent-blue30: #0b62cf4d !important;
+    --accent-blue50: #0b62cf80 !important;
+    --accent-azure: #007aff !important;
+    --accent-white: #f2f7fb !important;
+    --color-accent: #0b62cf !important;
+    --color-accent-text: #f2f7fb !important;
+    --accent-green: #47833c !important;
+    --accent-red: #ac5e60 !important;
+    --accent-teal: #387f88 !important;
+    --accent-yellow: #8b7137 !important;
+    --accent-gold: #846c36 !important;
+    --accent-orange: #a26933 !important;
+    --accent-wood: #956233 !important;
+    --accent-wood-dark: #825831 !important;
+    --accent-highlight: #c79a3d80 !important;
+    --fill-primary: #16222ad9 !important;
+    --fill-secondary: #16222a9d !important;
+    --fill-tertiary: #16222a40 !important;
+    --fill-quarternary: #16222a1a !important;
+    --fill-quinary: #16222a0d !important;
+    --fill-senary: #16222a05 !important;
+    --color-background: #ffffff !important;
+    --color-background30: #ffffff4d !important;
+    --color-background50: #ffffff80 !important;
+    --color-background70: #ffffffb2 !important;
+    --color-border: #cdd7dc !important;
+    --color-border50: #e6ebee !important;
+    --color-button: #ffffff !important;
+    --color-control: #ffffff !important;
+    --color-invalid: #a25a5c !important;
+    --color-invalid-background: #f9eded !important;
+    --color-menu: #f7fafbb8 !important;
+    --color-panedivider: #cdd7dc !important;
+    --color-sidepane: #f0f4f6 !important;
+    --color-tabbar: #f0f4f6 !important;
+    --color-toolbar: #f7fafb !important;
+    --color-scrollbar: #909aa0 !important;
+    --color-scrollbar-hover: #55646d !important;
+    --color-scrollbar-background: transparent !important;
+    --color-stripe: #16222a0a !important;
+    --tag-red: #d55e00 !important;
+    --tag-orange: #c18808 !important;
+    --tag-yellow: #999638 !important;
+    --tag-green: #009e73 !important;
+    --tag-teal: #44a0aa !important;
+    --tag-blue: #4c9dca !important;
+    --tag-indigo: #0072b2 !important;
+    --tag-purple: #ae82d7 !important;
+    --tag-magenta: #cc79a7 !important;
+    --tag-plum: #c96a6a !important;
+    --tag-gray: #8c8c8c !important;
+    --color-quinary-on-background: #f3f4f4 !important;
+    --color-quarternary-on-background: #e7e8e9 !important;
+    --color-quinary-on-sidepane: #e5e9ec !important;
+    --color-quarternary-on-sidepane: #dadfe1 !important;
+    --color-stripe-on-background: #f6f6f7 !important;
+    --color-menu-opaque: #f7fafb !important;
+    --tag-red-opaque: #d55e00 !important;
+    --tag-orange-opaque: #c18808 !important;
+    --tag-yellow-opaque: #999638 !important;
+    --tag-green-opaque: #009e73 !important;
+    --tag-teal-opaque: #44a0aa !important;
+    --tag-blue-opaque: #4c9dca !important;
+    --tag-indigo-opaque: #0072b2 !important;
+    --tag-purple-opaque: #ae82d7 !important;
+    --tag-magenta-opaque: #cc79a7 !important;
+    --tag-plum-opaque: #c96a6a !important;
+    --tag-gray-opaque: #8c8c8c !important;
+  }
+}
+
+/* Profundum */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-blue: #3d97ff !important;
+    --accent-blue10: #3d97ff4d !important;
+    --accent-blue30: #3d97ff73 !important;
+    --accent-blue50: #3d97ff99 !important;
+    --accent-azure: #6cb2ff !important;
+    --accent-white: #f2f7fb !important;
+    --color-accent: #007aff !important;
+    --color-accent-text: #0b1218 !important;
+    --accent-green: #62ba46 !important;
+    --accent-red: #c96a6a !important;
+    --accent-teal: #45a3ad !important;
+    --accent-yellow: #c79a3d !important;
+    --accent-gold: #c79a3d !important;
+    --accent-orange: #b97435 !important;
+    --accent-wood: #bb793d !important;
+    --accent-wood-dark: #c18a57 !important;
+    --accent-highlight: #c79a3d26 !important;
+    --fill-primary: #e8eef2e5 !important;
+    --fill-secondary: #e8eef28c !important;
+    --fill-tertiary: #e8eef24d !important;
+    --fill-quarternary: #e8eef21f !important;
+    --fill-quinary: #e8eef20f !important;
+    --fill-senary: #e8eef208 !important;
+    --color-background: #10161c !important;
+    --color-background30: #10161c4d !important;
+    --color-background50: #10161c80 !important;
+    --color-background70: #10161cb2 !important;
+    --color-border: #2a3540 !important;
+    --color-border50: #1d262e !important;
+    --color-button: #1f2932 !important;
+    --color-control: #e8eef2 !important;
+    --color-invalid: #ca6d6d !important;
+    --color-invalid-background: #31252a !important;
+    --color-menu: #171f2694 !important;
+    --color-panedivider: #2a3540 !important;
+    --color-sidepane: #1f2932 !important;
+    --color-tabbar: #10161c !important;
+    --color-toolbar: #171f26 !important;
+    --color-scrollbar: #616365 !important;
+    --color-scrollbar-hover: #8c8c8c !important;
+    --color-scrollbar-background: transparent !important;
+    --color-stripe: #e8eef20d !important;
+    --tag-red: #d55e00 !important;
+    --tag-orange: #e69f00 !important;
+    --tag-yellow: #f0e442 !important;
+    --tag-green: #009e73 !important;
+    --tag-teal: #45a3ad !important;
+    --tag-blue: #56b4e9 !important;
+    --tag-indigo: #0072b2 !important;
+    --tag-purple: #b184db !important;
+    --tag-magenta: #cc79a7 !important;
+    --tag-plum: #c96a6a !important;
+    --tag-gray: #8c8c8c !important;
+    --color-quinary-on-background: #1d2329 !important;
+    --color-quarternary-on-background: #2a3036 !important;
+    --color-quinary-on-sidepane: #2b353d !important;
+    --color-quarternary-on-sidepane: #374149 !important;
+    --color-stripe-on-background: #1b2127 !important;
+    --color-menu-opaque: #171f26 !important;
+    --tag-red-opaque: #d55e00 !important;
+    --tag-orange-opaque: #e69f00 !important;
+    --tag-yellow-opaque: #f0e442 !important;
+    --tag-green-opaque: #009e73 !important;
+    --tag-teal-opaque: #45a3ad !important;
+    --tag-blue-opaque: #56b4e9 !important;
+    --tag-indigo-opaque: #0072b2 !important;
+    --tag-purple-opaque: #b184db !important;
+    --tag-magenta-opaque: #cc79a7 !important;
+    --tag-plum-opaque: #c96a6a !important;
+    --tag-gray-opaque: #8c8c8c !important;
+  }
+}
+
+/* The one thing the variables cannot reach: monospace. Zotero renders code
+   and the citation-key field in the platform default. */
+pre, code, textarea.code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important; }
+
+/* Optional: put the whole interface on IBM Plex Sans. Zotero sizes its rows
+   from the system font, so try it before keeping it. */
+/* :root { font-family: "IBM Plex Sans", system-ui, sans-serif !important; } */

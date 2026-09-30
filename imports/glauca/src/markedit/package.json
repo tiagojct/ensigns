@@ -1,0 +1,17 @@
+{
+  "name": "glauca-markedit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Glauca theme for MarkEdit (built with MarkEdit-theming).",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "markedit-theming": "https://github.com/MarkEdit-app/MarkEdit-theming#v0.16.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}
