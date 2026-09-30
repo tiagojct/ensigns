@@ -4,7 +4,7 @@ Date: 2026-09-30. Phase 2 of the Ensigns migration. The swatches for every chang
 
 ## 1. What changed
 
-Repository. `tiagojct/ensigns` exists and is private. It holds the histories of gam, pequod, glauca, try-works and ambergris: 91 commits, 61 of them imported under their original author addresses. Each repository was imported into `imports/<name>` and then moved into the layout by commits that only rename, so `git log --follow` works across the move. `imports/` is empty and a test keeps it empty. The work is on the branch `phase/2-repository-and-model`. Merge the pull request with a merge commit. A squash merge would erase the imported history.
+Repository. `tiagojct/ensigns` exists and is private. It holds the histories of gam, pequod, glauca, try-works and ambergris: 91 commits, 61 of them imported under their original author addresses. Each repository was imported into `imports/<name>` and then moved into the layout by commits that only rename, so `git log --follow` works across the move. No file is left in `imports/`, and a test keeps it that way. The work is on the branch `phase/2-repository-and-model`, in pull request [tiagojct/ensigns#1](https://github.com/tiagojct/ensigns/pull/1). Merge it with a merge commit. A squash merge would erase the imported history.
 
 Model. One token format serves all families. `schema/family.schema.json` defines it and docs/model.md describes it. A hex value is written only in a family's `palette` block. Every family has two modes, dark and light, with the same fifteen core roles in both. The code is in `lib/`:
 
@@ -59,7 +59,7 @@ Below deck keeps 0.0880 against a floor of 0.0879 in every route. The other 18 P
 
 Goney. One value changes. In Pruina, Imum and Aer both had #084B96, so the pair was 0.000 apart. Imum is now #002E73: 0.099 from Aer under normal vision, at least 0.092 under every simulation, and 11.58:1 on the ground.
 
-Jungfrau. The night profile reproduces the figures that made the old family a poor night palette, and the new values pass every check.
+Jungfrau. The night profile reproduces the old family's figures, and the new values pass every check.
 
 | Check | Try-Works 1.0.0 | Jungfrau 2.0.0 | Limit |
 |---|---|---|---|
@@ -81,7 +81,7 @@ Rosebud. The old site drew the dark terminal values on the light ground, at 1.0:
 
 | Check | Result |
 |---|---|
-| `npm test` | 28 files, 276 tests, all pass, 3.4 s. `npm run typecheck` is clean. |
+| `npm test` | 28 files, 276 tests, all pass in about 3 s. `npm run typecheck` is clean. |
 | Equality with the old model | Every value compared equals the original, or is listed in tests/shared/expected-changes/ with a reason. A difference that is not listed fails the test, and so does a listed change that no longer happens. |
 | Harness on the four families | No errors in any profile. Office-screen, editor and night pass. Colour vision passes its gates and lists warnings: Pequod 10, Goney 11, Jungfrau 8, Rosebud 6. Reports with every check and its measured value are in phase2/harness/. |
 | Forced colours | 13 tests in Chromium with forced colours active. The old Rosebud specimen fails three (focus ring, current item, a font request). They are recorded as exceptions with reasons. |
@@ -90,7 +90,7 @@ Rosebud. The old site drew the dark terminal values on the light ground, at 1.0:
 | Stray hex | No colour value outside a palette block in `lib/`, `packages/`, `families/`, `site/src`, `site/public` or the documents. The exemptions, each with a reason, are in tests/shared/hex-exemptions.json: the migration reports, the changelogs, one vendored template and one dormant site file. |
 | Colour library | 116 tests, including 552 comparisons with R colorspace::simulate_cvd. |
 | Prose | The writing-tropes checks ran over the READMEs, the model documents, the new changelog entries and this file. There is no chatbot residue, no em dash, no bold or italics, no contrast construction and no excess vocabulary. The one structural finding, repeated paragraph openings in the family READMEs, is fixed. |
-| Continuous integration | Not run yet. It starts when the pull request opens. |
+| Continuous integration | Runs on the pull request. The result was not in when I wrote this. |
 
 ## 4. What I could not do
 
