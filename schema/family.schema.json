@@ -1,0 +1,462 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ensigns.tiagojacinto.eu/schema/family.schema.json",
+  "title": "Ensigns family token file",
+  "description": "One file per family, families/<id>/<id>.tokens.json. The palette is the only place a colour value appears. Everything else refers to a palette entry as {palette.<group>.<name>}. Both modes, dark and light, define the same keys. Every field is described here; the prose rules are in docs/model.md.",
+  "type": "object",
+  "required": ["meta", "palette", "modes"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": { "$ref": "#/$defs/meta" },
+    "palette": {
+      "description": "Groups of named colours. A colour is a hex string, an object with a hex value and optional data (P3 and CMYK encodings, a note), or a translucent version of another entry.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/name" },
+      "additionalProperties": {
+        "type": "object",
+        "minProperties": 1,
+        "propertyNames": { "$ref": "#/$defs/name" },
+        "additionalProperties": { "$ref": "#/$defs/colour" }
+      }
+    },
+    "modes": {
+      "description": "Exactly two modes. Code, file names, CSS attributes and theme identifiers use only these two keys. A mode may carry a secondary display label.",
+      "type": "object",
+      "required": ["dark", "light"],
+      "additionalProperties": false,
+      "properties": {
+        "dark": { "$ref": "#/$defs/mode" },
+        "light": { "$ref": "#/$defs/mode" }
+      }
+    },
+    "typography": {
+      "description": "Font family names by role. Fonts must be under the SIL Open Font License or similar, with licence texts shipped.",
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "design": {
+      "description": "Non-colour tokens that a colour rule refers to (border widths, patterns, type scales). No colour literal may appear here; the model tests reject hex, rgb(), hsl() and oklch() strings.",
+      "type": "object"
+    },
+    "pairs": {
+      "description": "Declared foreground and background pairs. Each must meet its WCAG 2.x minimum in both modes, unless the entry lists one mode.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fg", "bg", "kind"],
+        "additionalProperties": false,
+        "properties": {
+          "fg": { "$ref": "#/$defs/address" },
+          "bg": { "$ref": "#/$defs/address" },
+          "kind": { "enum": ["text", "large", "component"] },
+          "min": { "type": "number", "minimum": 1, "maximum": 21, "description": "Overrides the default for the kind (text 4.5, large 3, component 3)." },
+          "modes": { "type": "array", "items": { "enum": ["dark", "light"] }, "minItems": 1, "uniqueItems": true },
+          "why": { "type": "string" }
+        }
+      }
+    },
+    "rules": {
+      "description": "The family's design rules. A rule with a check is run by the model tests; a rule without one is prose.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/name" },
+          "text": { "type": "string", "minLength": 1 },
+          "check": { "type": "string", "pattern": "^[a-z][a-z0-9-]*(:[A-Za-z0-9_.,@/-]+)?$", "description": "name or name:arg1,arg2, resolved in lib/model/checks.ts." }
+        }
+      }
+    },
+    "distinct": {
+      "description": "Sets of roles that must be told apart. Two members may not share a hex value, and every pair keeps a minimum OKLab distance under normal vision and each CVD simulation, unless it is a declared reinforced pair.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "additionalProperties": false,
+        "anyOf": [{ "required": ["set"] }, { "required": ["members"] }],
+        "properties": {
+          "id": { "$ref": "#/$defs/name" },
+          "set": { "enum": ["syntax", "accents", "ansi-hues", "ansi", "status", "data.categorical"], "description": "A named set inside each mode." },
+          "members": { "type": "array", "items": { "$ref": "#/$defs/address" }, "minItems": 2, "uniqueItems": true, "description": "An explicit set, by address." },
+          "modes": { "type": "array", "items": { "enum": ["dark", "light"] }, "minItems": 1, "uniqueItems": true },
+          "min": { "type": "number", "exclusiveMinimum": 0, "description": "Minimum pairwise OKLab distance under normal vision. Overrides the default in tests/environments.json. The CVD minimum stays the global one." },
+          "cvd": { "enum": ["gate", "report"], "description": "gate (the default) fails the build under each CVD simulation; report lists the result as a warning." },
+          "reinforced": {
+            "description": "Pairs that are told apart by something other than colour (weight, italics, underline, position, a label). They are exempt from the CVD distance gate; the normal-vision gate still applies.",
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 }
+          },
+          "aliases": {
+            "description": "Pairs that are meant to be the same colour. They are exempt from the shared-hex rule and from every distance gate.",
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 }
+          },
+          "by": { "type": "string", "description": "What reinforces the listed pairs." },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "derived": {
+      "description": "Groups the generators derive by a documented rule instead of the family tuning them. The site labels them derived, not tuned.",
+      "type": "array",
+      "items": { "enum": ["syntax", "ansi", "terminal", "status", "data"] },
+      "uniqueItems": true
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exclude": {
+          "description": "Bundles that make no sense for this family's goal.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/name" },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "hex": { "type": "string", "pattern": "^#[0-9A-F]{6}$", "description": "Uppercase six-digit sRGB." },
+    "paletteRef": { "type": "string", "pattern": "^\\{palette\\.[a-z0-9][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*\\}$" },
+    "designRef": { "type": "string", "pattern": "^\\{design(\\.[A-Za-z0-9_-]+)+\\}$" },
+    "address": {
+      "type": "string",
+      "pattern": "^(roles|extra|accents|surfaces|syntax|ansi|terminal|status|data)(\\.[A-Za-z0-9_-]+)+$",
+      "description": "A path inside one mode, for example roles.text, accents.ahab, syntax.keyword, ansi.red, surfaces.editor-line or data.categorical.ahab. extra.<name> is roles.extra.<name>."
+    },
+    "colour": {
+      "oneOf": [
+        { "$ref": "#/$defs/hex" },
+        {
+          "type": "object",
+          "required": ["hex"],
+          "additionalProperties": false,
+          "properties": {
+            "hex": { "$ref": "#/$defs/hex" },
+            "p3": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 }, "minItems": 3, "maxItems": 3, "description": "Display P3 components, when the family tunes a wide-gamut value." },
+            "cmyk": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 100 }, "minItems": 4, "maxItems": 4, "description": "Percentages, when the family tunes a print value." },
+            "note": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["ref", "alpha"],
+          "additionalProperties": false,
+          "properties": {
+            "ref": { "$ref": "#/$defs/paletteRef" },
+            "alpha": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "note": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "surface": {
+      "description": "A gated surface: a palette entry, or an entry drawn at an opacity over another surface or role in the same mode (how editors draw a current line).",
+      "oneOf": [
+        { "$ref": "#/$defs/paletteRef" },
+        {
+          "type": "object",
+          "required": ["ref", "alpha", "over"],
+          "additionalProperties": false,
+          "properties": {
+            "ref": { "$ref": "#/$defs/paletteRef" },
+            "alpha": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "over": { "$ref": "#/$defs/address" }
+          }
+        }
+      ]
+    },
+    "styled": {
+      "oneOf": [
+        { "$ref": "#/$defs/paletteRef" },
+        {
+          "type": "object",
+          "required": ["color"],
+          "additionalProperties": false,
+          "properties": {
+            "color": { "$ref": "#/$defs/paletteRef" },
+            "style": { "enum": ["italic", "bold", "bold italic", "underline", "strikethrough"] }
+          }
+        }
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "required": ["id", "name", "version", "goal", "environments", "licence"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z]+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "host": { "type": "boolean", "description": "True for the Pequod only. The host has no chapter of its own." },
+        "formerly": {
+          "type": "object",
+          "required": ["id", "name", "version"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$" }
+          }
+        },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$" },
+        "chapter": {
+          "description": "Chapter number in the 1851 text, or both numbers when two chapters carry the family.",
+          "oneOf": [
+            { "type": "integer", "minimum": 1, "maximum": 135 },
+            { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 135 }, "minItems": 2, "maxItems": 2 }
+          ]
+        },
+        "chapterTitle": { "type": "string" },
+        "quote": { "type": "string", "minLength": 1, "description": "Verbatim from sources/moby-dick.txt. A test enforces it." },
+        "quotes": {
+          "description": "Further quotations the family's README or page uses.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text"],
+            "additionalProperties": false,
+            "properties": {
+              "chapter": { "type": ["integer", "string"] },
+              "text": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "tagline": { "type": "string" },
+        "goal": { "type": "string", "minLength": 1 },
+        "environments": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["office-screen", "editor", "night", "projector", "sunlight", "aged-eye", "print-grey", "eink", "photocopy", "forced-colors", "overlay", "clinical", "figure", "cvd"] }
+        },
+        "licence": {
+          "type": "object",
+          "required": ["tokens", "code"],
+          "additionalProperties": false,
+          "properties": {
+            "tokens": { "const": "CC-BY-4.0" },
+            "code": { "const": "MIT" }
+          }
+        }
+      }
+    },
+    "roles": {
+      "description": "The 15 core roles, every one required in both modes, plus an extra group for roles only this family has.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bg", "surface", "surface-raised", "text", "text-muted", "text-subtle", "border", "link", "link-hover", "accent", "on-accent", "button", "on-button", "focus", "selection"],
+      "properties": {
+        "bg": { "$ref": "#/$defs/paletteRef" },
+        "surface": { "$ref": "#/$defs/paletteRef" },
+        "surface-raised": { "$ref": "#/$defs/paletteRef" },
+        "text": { "$ref": "#/$defs/paletteRef" },
+        "text-muted": { "$ref": "#/$defs/paletteRef" },
+        "text-subtle": { "$ref": "#/$defs/paletteRef" },
+        "border": { "$ref": "#/$defs/paletteRef" },
+        "link": { "$ref": "#/$defs/paletteRef" },
+        "link-hover": { "$ref": "#/$defs/paletteRef" },
+        "accent": { "$ref": "#/$defs/paletteRef" },
+        "on-accent": { "$ref": "#/$defs/paletteRef" },
+        "button": { "$ref": "#/$defs/paletteRef" },
+        "on-button": { "$ref": "#/$defs/paletteRef" },
+        "focus": { "$ref": "#/$defs/paletteRef" },
+        "selection": { "$ref": "#/$defs/paletteRef" },
+        "extra": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": { "$ref": "#/$defs/paletteRef" }
+        }
+      }
+    },
+    "syntax": {
+      "description": "All twelve roles, each a palette entry or an entry with a style. Required when the family's targets include editors.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyword", "string", "number", "comment", "function", "type", "constant", "variable", "operator", "punctuation", "decorator", "parameter"],
+      "properties": {
+        "keyword": { "$ref": "#/$defs/styled" },
+        "string": { "$ref": "#/$defs/styled" },
+        "number": { "$ref": "#/$defs/styled" },
+        "comment": { "$ref": "#/$defs/styled" },
+        "function": { "$ref": "#/$defs/styled" },
+        "type": { "$ref": "#/$defs/styled" },
+        "constant": { "$ref": "#/$defs/styled" },
+        "variable": { "$ref": "#/$defs/styled" },
+        "operator": { "$ref": "#/$defs/styled" },
+        "punctuation": { "$ref": "#/$defs/styled" },
+        "decorator": { "$ref": "#/$defs/styled" },
+        "parameter": { "$ref": "#/$defs/styled" }
+      }
+    },
+    "ansi": {
+      "description": "The sixteen terminal slots. Required when the family's targets include terminals.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white", "bright-black", "bright-red", "bright-green", "bright-yellow", "bright-blue", "bright-magenta", "bright-cyan", "bright-white"],
+      "properties": {
+        "black": { "$ref": "#/$defs/paletteRef" },
+        "red": { "$ref": "#/$defs/paletteRef" },
+        "green": { "$ref": "#/$defs/paletteRef" },
+        "yellow": { "$ref": "#/$defs/paletteRef" },
+        "blue": { "$ref": "#/$defs/paletteRef" },
+        "magenta": { "$ref": "#/$defs/paletteRef" },
+        "cyan": { "$ref": "#/$defs/paletteRef" },
+        "white": { "$ref": "#/$defs/paletteRef" },
+        "bright-black": { "$ref": "#/$defs/paletteRef" },
+        "bright-red": { "$ref": "#/$defs/paletteRef" },
+        "bright-green": { "$ref": "#/$defs/paletteRef" },
+        "bright-yellow": { "$ref": "#/$defs/paletteRef" },
+        "bright-blue": { "$ref": "#/$defs/paletteRef" },
+        "bright-magenta": { "$ref": "#/$defs/paletteRef" },
+        "bright-cyan": { "$ref": "#/$defs/paletteRef" },
+        "bright-white": { "$ref": "#/$defs/paletteRef" }
+      }
+    },
+    "terminal": {
+      "description": "Terminal chrome that goes with the sixteen slots.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["background", "foreground", "cursor", "cursor-text", "selection-background", "selection-foreground"],
+      "properties": {
+        "background": { "$ref": "#/$defs/paletteRef" },
+        "foreground": { "$ref": "#/$defs/paletteRef" },
+        "cursor": { "$ref": "#/$defs/paletteRef" },
+        "cursor-text": { "$ref": "#/$defs/paletteRef" },
+        "selection-background": { "$ref": "#/$defs/paletteRef" },
+        "selection-foreground": { "$ref": "#/$defs/paletteRef" }
+      }
+    },
+    "status": {
+      "description": "Chromatic families give one colour per level. An achromatic family (policy achromatic) carries status by border weight, edge style, fill density, an icon and words, so its levels hold tokens for each.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["policy", "danger", "warning", "success", "info"],
+          "additionalProperties": false,
+          "properties": {
+            "policy": { "const": "chromatic" },
+            "danger": { "$ref": "#/$defs/paletteRef" },
+            "warning": { "$ref": "#/$defs/paletteRef" },
+            "success": { "$ref": "#/$defs/paletteRef" },
+            "info": { "$ref": "#/$defs/paletteRef" },
+            "hint": { "$ref": "#/$defs/paletteRef" },
+            "conflict": { "$ref": "#/$defs/paletteRef" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["policy", "neutral", "success", "warning", "critical"],
+          "additionalProperties": false,
+          "properties": {
+            "policy": { "const": "achromatic" },
+            "neutral": { "$ref": "#/$defs/achromaticLevel" },
+            "success": { "$ref": "#/$defs/achromaticLevel" },
+            "warning": { "$ref": "#/$defs/achromaticLevel" },
+            "critical": { "$ref": "#/$defs/achromaticLevel" }
+          }
+        }
+      ]
+    },
+    "achromaticLevel": {
+      "type": "object",
+      "required": ["weight", "edge", "fill", "accent", "icon"],
+      "additionalProperties": false,
+      "properties": {
+        "weight": { "$ref": "#/$defs/designRef" },
+        "edge": { "enum": ["solid", "dashed", "dotted", "double"] },
+        "fill": { "$ref": "#/$defs/paletteRef" },
+        "accent": { "$ref": "#/$defs/paletteRef" },
+        "icon": { "type": "string", "minLength": 1 }
+      }
+    },
+    "colourScale": {
+      "type": "object",
+      "required": ["colors"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "colors": { "type": "array", "items": { "$ref": "#/$defs/paletteRef" }, "minItems": 2 }
+      }
+    },
+    "data": {
+      "description": "The family's own categorical, sequential and diverging scales and its chart chrome, or a reference to another family's data.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["ref"],
+          "additionalProperties": false,
+          "properties": { "ref": { "type": "string", "pattern": "^[a-z]+$" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "categorical": {
+              "type": "object",
+              "required": ["colors"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "type": "string" },
+                "colors": {
+                  "description": "Ordered, most separable first. The keys name the categories, so a distinct set can refer to them.",
+                  "type": "object",
+                  "minProperties": 2,
+                  "propertyNames": { "$ref": "#/$defs/name" },
+                  "additionalProperties": { "$ref": "#/$defs/paletteRef" }
+                }
+              }
+            },
+            "sequential": {
+              "type": "object",
+              "propertyNames": { "$ref": "#/$defs/name" },
+              "additionalProperties": { "$ref": "#/$defs/colourScale" }
+            },
+            "diverging": {
+              "type": "object",
+              "propertyNames": { "$ref": "#/$defs/name" },
+              "additionalProperties": { "$ref": "#/$defs/colourScale" }
+            },
+            "plot": {
+              "description": "Chart chrome: background, panel, text, grid, muted text, accent.",
+              "type": "object",
+              "propertyNames": { "$ref": "#/$defs/name" },
+              "additionalProperties": { "$ref": "#/$defs/paletteRef" }
+            }
+          }
+        }
+      ]
+    },
+    "mode": {
+      "type": "object",
+      "required": ["roles"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "minLength": 1, "description": "Secondary display name, shown after Dark or Light, for example Light (Parchment). Never used in code." },
+        "roles": { "$ref": "#/$defs/roles" },
+        "accents": {
+          "description": "The family's named hues in this mode: the crew of the Pequod, the blue trio and the code hues of Goney. Each hue has a value in both modes, so a distinct set can name it and a generator can carry it from one mode to the other.",
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": { "$ref": "#/$defs/paletteRef" }
+        },
+        "surfaces": {
+          "description": "Named surfaces that gates test text against: the editor background, the current line, the selection, panels. A surface may be an entry drawn at an opacity over another surface or a role.",
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": { "$ref": "#/$defs/surface" }
+        },
+        "syntax": { "$ref": "#/$defs/syntax" },
+        "ansi": { "$ref": "#/$defs/ansi" },
+        "terminal": { "$ref": "#/$defs/terminal" },
+        "status": { "$ref": "#/$defs/status" },
+        "data": { "$ref": "#/$defs/data" }
+      }
+    }
+  }
+}
