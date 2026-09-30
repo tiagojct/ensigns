@@ -1,21 +1,45 @@
 // The environment harness: run the profiles a family lists and collect the
 // results as a report, the same JSON the site renders on each family page.
+import { agedEyeProfile } from "./aged-eye.ts";
+import { clinical } from "./clinical.ts";
+import type { HarnessContext } from "./context.ts";
 import { cvd } from "./cvd.ts";
 import { editor } from "./editor.ts";
+import { eink } from "./eink.ts";
+import { figure } from "./figure.ts";
 import { night } from "./night.ts";
 import { officeScreen } from "./office-screen.ts";
+import { overlay } from "./overlay.ts";
+import { photocopyProfile } from "./photocopy.ts";
+import { printGrey } from "./print-grey.ts";
+import { projector } from "./projector.ts";
+import { sunlight } from "./sunlight.ts";
 import type { Exception, ResolvedFamily } from "../model/types.ts";
 import type { Check, Thresholds } from "./types.ts";
 
 export * from "./types.ts";
-export { cvd, editor, night, officeScreen };
+export { loadContext } from "./context.ts";
+export type { HarnessContext } from "./context.ts";
+export { agedEyeProfile, clinical, cvd, editor, eink, figure, night, officeScreen, overlay, photocopyProfile, printGrey, projector, sunlight };
+
+/** A profile reads the family, the thresholds and, for the profiles that compare families, every family. */
+export type ProfileRunner = (family: ResolvedFamily, t: Thresholds, ctx?: HarnessContext) => Check[];
 
 /** Profiles that run on tokens alone. forced-colors renders a specimen in a browser, so it runs elsewhere. */
-export const PROFILE_RUNNERS: Record<string, (family: ResolvedFamily, t: Thresholds) => Check[]> = {
+export const PROFILE_RUNNERS: Record<string, ProfileRunner> = {
   "office-screen": officeScreen,
   editor,
   cvd,
   night,
+  projector,
+  sunlight,
+  "aged-eye": agedEyeProfile,
+  "print-grey": printGrey,
+  eink,
+  photocopy: photocopyProfile,
+  overlay,
+  clinical,
+  figure,
 };
 
 export type ProfileStatus = "pass" | "warn" | "fail" | "external" | "not-implemented";
@@ -63,14 +87,14 @@ export function applyExceptions(checks: Check[], exceptions: Exception[]): { che
 }
 
 /** Run one profile for a family, with the family's exceptions for that profile applied. */
-export function runProfile(family: ResolvedFamily, profile: string, thresholds: Thresholds): { checks: Check[]; unused: Exception[] } {
+export function runProfile(family: ResolvedFamily, profile: string, thresholds: Thresholds, ctx?: HarnessContext): { checks: Check[]; unused: Exception[] } {
   const run = PROFILE_RUNNERS[profile];
   if (!run) throw new Error(`no runner for profile ${profile}`);
   const own = (family.source.exceptions ?? []).filter((e) => e.profile === profile);
-  return applyExceptions(run(family, thresholds), own);
+  return applyExceptions(run(family, thresholds, ctx), own);
 }
 
-export function buildReport(family: ResolvedFamily, thresholds: Thresholds): FamilyReport {
+export function buildReport(family: ResolvedFamily, thresholds: Thresholds, ctx?: HarnessContext): FamilyReport {
   const profiles: Record<string, ProfileReport> = {};
   // Declared pairs and distinct sets are shared tests: they run for every family that declares them.
   const envs = new Set<string>(family.meta.environments);
@@ -81,7 +105,7 @@ export function buildReport(family: ResolvedFamily, thresholds: Thresholds): Fam
       profiles[env] = { status: EXTERNAL.has(env) ? "external" : "not-implemented", errors: 0, warnings: 0, waived: 0, checks: [] };
       continue;
     }
-    const { checks } = runProfile(family, env, thresholds);
+    const { checks } = runProfile(family, env, thresholds, ctx);
     profiles[env] = {
       status: statusOf(checks),
       errors: checks.filter((c) => counts(c) && c.level === "error").length,

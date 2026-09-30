@@ -57,44 +57,45 @@
       "markers": { "value": ["focus", "selection", "current", "status"], "why": "The four states the family relies on. Each needs a marker that is not colour alone (outline, border, underline or weight)." }
     },
     "projector": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "Slides in a room with ambient light. Flare is added to both luminances.",
       "bodyText": { "min": 4.5, "why": "Body text after flare (brief)." },
       "titles": { "min": 3, "why": "Titles after flare (brief)." },
       "flagFields": { "minDistance": 0.08, "why": "Flag fields stay apart after flare (brief)." }
     },
     "sunlight": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "A phone or tablet in daylight.",
-      "bodyText": { "min": 4.5, "why": "Body text after glare (brief)." }
+      "bodyText": { "min": 4.5, "why": "Body text after glare (brief)." },
+      "meaningfulPairs": { "minDistance": 0.06, "why": "My addition: a distinct set that opts in to sunlight stays as far apart after glare as the normal-vision gate requires. The brief gives no set gate for this profile." }
     },
     "aged-eye": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "A reader whose lens has yellowed. An approximation: Machado tritanomaly at severity 0.5, then flare 0.02. The spectral route is the Pokorny, Smith and Lutze (1987) lens density model.",
       "bodyText": { "min": 7, "why": "Body text after the simulation (brief)." },
       "meaningfulPairs": { "minDistance": 0.06, "why": "Pairs that carry meaning stay apart after the simulation (brief)." }
     },
     "print-grey": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "Greyscale laser print. CIE L* from luminance.",
       "distinctLstar": { "min": 12, "why": "Members of a distinct set differ by at least 12 L*, unless they carry a pattern or line style (brief)." },
       "text": { "min": 7, "why": "Text after conversion (brief)." }
     },
     "eink": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "E-ink readers and tablets: sixteen grey levels.",
       "levels": { "value": 16, "why": "Typical e-ink controller depth." },
       "levelGap": { "min": 2, "why": "Distinct roles land at least two levels apart (brief)." }
     },
     "photocopy": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "A photocopy clips highlights and shadows.",
       "whiteAbove": { "value": 88, "why": "L* above 88 becomes white (brief)." },
       "blackBelow": { "value": 18, "why": "L* below 18 becomes black (brief)." },
       "fills": { "min": 25, "max": 80, "why": "Meaningful fills sit between L* 25 and 80 or carry a pattern (brief)." }
     },
     "overlay": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "Annotation fills composited at their declared opacity over every family's ground.",
       "textOnFillLight": { "min": 7, "why": "Text on a fill over a light ground (brief)." },
       "textOnFillDark": { "min": 4.5, "why": "Text on a fill over a dark ground (brief)." },
@@ -102,7 +103,7 @@
       "fillsApart": { "minDistance": 0.06, "why": "Fills differ from one another, normal and CVD (brief)." }
     },
     "clinical": {
-      "status": "starting value, implemented in phase 3",
+      "status": "implemented",
       "why": "Clinical status for professionals.",
       "severityStepLstar": { "min": 8, "why": "Adjacent severity levels differ by 8 L* (brief)." },
       "severityStepDistance": { "minDistance": 0.06, "why": "And by 0.06 under each CVD simulation (brief)." },
@@ -111,8 +112,16 @@
       "criticalRedExclusion": { "minDistance": 0.1, "why": "No non-status role within 0.10 of the critical red (brief)." }
     },
     "figure": {
-      "status": "starting value, implemented in phase 3",
-      "why": "Charts. The categorical scale must match or beat Okabe-Ito's minimum pairwise OKLab distance under normal vision and each CVD simulation, and beat it on one of three further measures. See the Enderby section of the brief."
+      "status": "implemented",
+      "why": "Charts. The categorical scale must match or beat Okabe-Ito's minimum pairwise OKLab distance under normal vision and each CVD simulation, and beat it on one of three further measures. See the Enderby section of the brief. The reference palettes are in tests/fixtures/reference/palettes.json.",
+      "categoricalCount": { "min": 8, "why": "An ordered categorical set of eight, most separable first (brief)." },
+      "markContrast": { "min": 3, "why": "WCAG 1.4.11 for graphical objects: a mark keeps 3:1 against the figure background, or has an outline token that does (brief)." },
+      "sequentialUniformity": { "max": 1.35, "why": "My starting value: the largest step of a sequential ramp is at most 1.35 times the smallest, in OKLab. Viridis and cividis sampled at 5 to 11 steps reach 1.14 to 1.27, so both pass." },
+      "divergingSymmetry": { "max": 0.03, "why": "My starting value: matched steps on either side of the centre differ by at most 0.03 of OKLab lightness, about three L* points, so neither side reads as the stronger one (brief: symmetric lightness at matched steps)." },
+      "divergingCentreChroma": { "max": 0.02, "why": "My starting value: the centre of a diverging ramp is a neutral, so its OKLCH chroma is at most 0.02 (brief: neutral light centre)." },
+      "divergingAxis": { "minDistance": 0.08, "why": "My starting value: the two sides of a diverging ramp stay 0.08 apart in OKLab under each CVD simulation, in the outer half of the ramp, where the two meanings are strongest (brief: CVD-safe axis). Okabe-Ito's own smallest distance under deutan is 0.075." },
+      "focusContext": { "minDistance": 0.12, "why": "My starting value: the one strong colour of a focus-and-context chart is at least 0.12 from the context grey, so the focus cannot be mistaken for context (brief: a focus-and-context pattern)." },
+      "contextChroma": { "max": 0.02, "why": "My starting value: the context colour is a grey, so its OKLCH chroma is at most 0.02 (brief: one strong colour plus greys)." }
     }
   }
 }
