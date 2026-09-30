@@ -446,7 +446,8 @@
   "rules": [
     {
       "id": "one-mark",
-      "text": "The bloom is the field; the blue is the mark."
+      "text": "The bloom is the field; the blue is the mark.",
+      "check": "accent-only-in-roles:link,button,focus"
     },
     {
       "id": "extended-hues",
@@ -454,7 +455,146 @@
     },
     {
       "id": "hover-direction",
-      "text": "Hovers darken in light mode and brighten in dark mode."
+      "text": "Hovers darken in light mode and brighten in dark mode.",
+      "check": "hover-direction"
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text",
+      "why": "button text"
+    },
+    {
+      "fg": "extra.tint-pale",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"]
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "extra.tint",
+      "kind": "component",
+      "modes": ["dark"],
+      "why": "UI mark on the tint"
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "hover text: dark hovers brighten"
+    },
+    {
+      "fg": "extra.accent-deep",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "hover text: light hovers darken"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.tint",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "the tint as a selection fill"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.tint-pale",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "the tint as a selection fill"
+    },
+    {
+      "fg": "extra.on-tint",
+      "bg": "extra.tint-pale",
+      "kind": "text",
+      "modes": ["dark"]
+    },
+    {
+      "fg": "extra.tint-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"]
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "extra.accent-deep",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "accent-deep as a fill (the Zotero selected row)"
+    },
+    {
+      "fg": "extra.accent-deep",
+      "bg": "roles.bg",
+      "kind": "component",
+      "modes": ["dark"]
+    }
+  ],
+  "distinct": [
+    {
+      "id": "syntax-hues-dark",
+      "set": "syntax-hues",
+      "modes": ["dark"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "cvd": "report",
+      "reinforced": [
+        ["number","function"],
+        ["function","constant"],
+        ["function","type"]
+      ],
+      "by": "italics: number, constant and type are set italic, function is upright",
+      "note": "Baseline. The old repository reported CVD and never gated it, and several close pairs here are both italic or both upright, so they cannot be reinforced. The floor stops the migrated colours getting worse; the report lists what misses the 0.06 target. Retuning the syntax hues is a decision for checkpoint 2."
+    },
+    {
+      "id": "syntax-hues-light",
+      "set": "syntax-hues",
+      "modes": ["light"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "min": 0.045,
+      "cvd": "report",
+      "reinforced": [
+        ["number","function"],
+        ["function","constant"],
+        ["function","type"]
+      ],
+      "by": "italics: number, constant and type are set italic, function is upright",
+      "note": "Baseline. The old repository reported CVD and never gated it, and several close pairs here are both italic or both upright, so they cannot be reinforced. The floor stops the migrated colours getting worse; the report lists what misses the 0.06 target. Retuning the syntax hues is a decision for checkpoint 2."
+    },
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "cvd": "report",
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
+    }
+  ],
+  "exceptions": [
+    {
+      "profile": "editor",
+      "id": "syntax.keyword on surfaces.editor-line",
+      "mode": "dark",
+      "why": "Goney's dark keyword is the blue mark and reaches 4.15:1 on the current line. The shipped theme draws that line in the surface colour. Options: lighten the keyword, soften the line highlight, or accept. Decision needed at checkpoint 2."
     }
   ]
 }

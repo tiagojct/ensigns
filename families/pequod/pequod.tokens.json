@@ -372,5 +372,142 @@
       "id": "warm-to-cool",
       "text": "The Log scale runs from warm paper to cool ink. The hue turns between Log 500 and Log 600, so it is a warm-to-cool scale and not a sequential colormap."
     }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface-raised",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.link-hover",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-button",
+      "bg": "roles.button",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.focus",
+      "bg": "roles.bg",
+      "kind": "component"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.bg",
+      "kind": "large",
+      "why": "subtle text is for large or de-emphasised text"
+    },
+    {
+      "fg": "accents.ahab",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.starbuck",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.queequeg",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.pip",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.ishmael",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.stubb",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.tashtego",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.daggoo",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    }
+  ],
+  "distinct": [
+    {
+      "id": "crew-dark",
+      "set": "accents",
+      "modes": ["dark"],
+      "min": 0.0879,
+      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original."
+    },
+    {
+      "id": "crew-light",
+      "set": "accents",
+      "modes": ["light"],
+      "min": 0.1124,
+      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original."
+    },
+    {
+      "id": "syntax-hues",
+      "set": "syntax-hues",
+      "aliases": [
+        ["constant","decorator"]
+      ],
+      "cvd": "report",
+      "note": "The crew sets above carry the CVD gate for these colours; this set reports the same pairs as seen through the syntax roles."
+    },
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "cvd": "report",
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
+    }
   ]
 }

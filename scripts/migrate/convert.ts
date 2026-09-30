@@ -21,6 +21,10 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { minPairwise } from "../../lib/colour/distinct.ts";
+import { resolveFamily } from "../../lib/model/resolve.ts";
+import { distinctMembers } from "../../lib/model/sets.ts";
+import type { Distinct, ResolvedFamily } from "../../lib/model/types.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const readJson = (p: string): any => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
@@ -625,6 +629,172 @@ function rosebud(): { file: any; changes: Change[] } {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Declarations: contrast pairs, distinct sets and rule checks. Added with --declare, in a
+// commit of their own, so the migration commit holds values only.
+// ---------------------------------------------------------------------------------------------
+type Kind = "text" | "large" | "component";
+const pair = (fg: string, bg: string, kind: Kind = "text", modes?: Mode[], why?: string) => ({
+  fg, bg, kind, ...(modes ? { modes } : {}), ...(why ? { why } : {}),
+});
+const DARK: Mode[] = ["dark"];
+const LIGHT: Mode[] = ["light"];
+
+/** Pairs of a set that share one hex value in a mode: same colour by design in the original. */
+function sharedAliases(resolved: ResolvedFamily, mode: Mode, set: Distinct["set"]): [string, string][] {
+  const members = distinctMembers(resolved.modes[mode], { id: "x", set });
+  const out: [string, string][] = [];
+  for (let i = 0; i < members.length; i++) {
+    for (let j = i + 1; j < members.length; j++) {
+      if (members[i]!.colour.hex === members[j]!.colour.hex) out.push([members[i]!.name, members[j]!.name]);
+    }
+  }
+  return out;
+}
+
+/**
+ * One distinct entry when both modes agree, one per mode when they do not. With `baseline`, a set whose
+ * closest pair is below the target gets a floor at its current minimum: a ratchet, not a pass. The report
+ * keeps listing what misses the target.
+ */
+function setEntries(resolved: ResolvedFamily, id: string, set: Distinct["set"], extra: Record<string, unknown> = {}, baseline = false): any[] {
+  const target = 0.06;
+  const per = MODES.map((m) => {
+    const aliases = sharedAliases(resolved, m, set);
+    let floor: number | undefined;
+    if (baseline) {
+      const skip = new Set(aliases.map(([a, b]) => [a, b].sort().join("|")));
+      const members = distinctMembers(resolved.modes[m], { id: "x", set });
+      let min = Infinity;
+      for (let i = 0; i < members.length; i++) {
+        for (let j = i + 1; j < members.length; j++) {
+          if (skip.has([members[i]!.name, members[j]!.name].sort().join("|"))) continue;
+          min = Math.min(min, minPairwise([members[i]!.colour.hex, members[j]!.colour.hex]).min);
+        }
+      }
+      if (min < target) floor = Math.floor(min * 1000) / 1000;
+    }
+    return { aliases, floor };
+  });
+  const entry = (p: { aliases: [string, string][]; floor: number | undefined }) => ({
+    ...(p.aliases.length ? { aliases: p.aliases } : {}),
+    ...(p.floor !== undefined ? { min: p.floor } : {}),
+  });
+  if (JSON.stringify(per[0]) === JSON.stringify(per[1])) return [{ id, set, ...entry(per[0]!), ...extra }];
+  return MODES.map((m, i) => ({ id: `${id}-${m}`, set, modes: [m], ...entry(per[i]!), ...extra }));
+}
+
+/** The dark keyword colour is the family mark and misses 4.5:1 on the current line by a whisker. */
+const keywordOnLine = (family: string, mark: string) => ({
+  profile: "editor",
+  id: "syntax.keyword on surfaces.editor-line",
+  mode: "dark",
+  why: `${family}'s dark keyword is ${mark} and reaches 4.15:1 on the current line. The shipped theme draws that line in the surface colour. Options: lighten the keyword, soften the line highlight, or accept. Decision needed at checkpoint 2.`,
+});
+
+const coreTextPairs = (): any[] => [
+  pair("roles.text", "roles.bg"),
+  pair("roles.text", "roles.surface"),
+  pair("roles.text", "roles.surface-raised"),
+  pair("roles.text-muted", "roles.bg"),
+  pair("roles.link", "roles.bg"),
+  pair("roles.link-hover", "roles.bg"),
+  pair("roles.accent", "roles.bg"),
+  pair("roles.on-accent", "roles.accent"),
+  pair("roles.on-button", "roles.button"),
+  pair("roles.focus", "roles.bg", "component"),
+];
+
+function declare(id: string, file: any): void {
+  const resolved = resolveFamily(file);
+  const ansi = setEntries(resolved, "ansi-hues", "ansi-hues", {
+    cvd: "report",
+    note: "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate.",
+  });
+
+  if (id === "pequod") {
+    const crew = Object.keys(file.modes.dark.accents);
+    file.pairs = [
+      ...coreTextPairs(),
+      pair("roles.text-subtle", "roles.bg", "large", undefined, "subtle text is for large or de-emphasised text"),
+      // The brief's failing set: every crew accent is a text colour on the page.
+      ...crew.map((n) => pair(`accents.${n}`, "roles.bg", "text", undefined, "the crew are text colours on the page")),
+    ];
+    file.distinct = [
+      ...MODES.map((m) => {
+        const hexes = crew.map((n) => resolved.modes[m].colours.get(`accents.${n}`)!.hex);
+        const min = Math.floor(minPairwise(hexes).min * 10000) / 10000;
+        return { id: `crew-${m}`, set: "accents", modes: [m], min, note: "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original." };
+      }),
+      ...setEntries(resolved, "syntax-hues", "syntax-hues", { cvd: "report", note: "The crew sets above carry the CVD gate for these colours; this set reports the same pairs as seen through the syntax roles." }),
+      ...ansi,
+    ];
+  } else if (id === "goney") {
+    file.pairs = [
+      pair("roles.text", "roles.bg"),
+      pair("roles.text-muted", "roles.bg"),
+      pair("roles.accent", "roles.bg"),
+      pair("roles.on-accent", "roles.accent", "text", undefined, "button text"),
+      pair("extra.tint-pale", "roles.bg", "text", DARK),
+      pair("extra.accent-bright", "extra.tint", "component", DARK, "UI mark on the tint"),
+      pair("extra.accent-bright", "roles.bg", "text", DARK, "hover text: dark hovers brighten"),
+      pair("extra.accent-deep", "roles.bg", "text", LIGHT, "hover text: light hovers darken"),
+      pair("roles.text", "extra.tint", "text", DARK, "the tint as a selection fill"),
+      pair("roles.text", "extra.tint-pale", "text", LIGHT, "the tint as a selection fill"),
+      pair("extra.on-tint", "extra.tint-pale", "text", DARK),
+      pair("extra.tint-bright", "roles.bg", "text", LIGHT),
+      pair("roles.on-accent", "extra.accent-deep", "text", DARK, "accent-deep as a fill (the Zotero selected row)"),
+      pair("extra.accent-deep", "roles.bg", "component", DARK),
+    ];
+    file.distinct = [
+      ...setEntries(resolved, "syntax-hues", "syntax-hues", { cvd: "report", reinforced: [["number", "function"], ["function", "constant"], ["function", "type"]], by: "italics: number, constant and type are set italic, function is upright", note: "Baseline. The old repository reported CVD and never gated it, and several close pairs here are both italic or both upright, so they cannot be reinforced. The floor stops the migrated colours getting worse; the report lists what misses the 0.06 target. Retuning the syntax hues is a decision for checkpoint 2." }, true),
+      ...ansi,
+    ];
+    file.exceptions = [keywordOnLine("Goney", "the blue mark")];
+    file.rules[0].check = "accent-only-in-roles:link,button,focus";
+    file.rules[2].check = "hover-direction";
+  } else if (id === "jungfrau") {
+    file.pairs = [
+      pair("roles.text", "roles.bg"),
+      pair("roles.text-muted", "roles.bg"),
+      pair("roles.accent", "roles.bg"),
+      pair("roles.on-accent", "roles.accent", "text", undefined, "button text"),
+      pair("extra.tint-pale", "roles.bg", "text", DARK),
+      pair("extra.accent-bright", "extra.tint", "component", DARK, "UI mark on the sea"),
+      pair("extra.accent-bright", "roles.bg", "text", DARK, "hover text: dark hovers brighten"),
+      pair("extra.accent-deep", "roles.bg", "text", LIGHT, "hover text: light hovers darken"),
+      pair("extra.tint-bright", "roles.bg", "text", LIGHT),
+    ];
+    file.distinct = [
+      ...setEntries(resolved, "syntax-hues", "syntax-hues", { cvd: "report", note: "Baseline of Try-Works 1.0.0. The repositioning retunes the code hues to the night band and must beat this floor." }, true),
+      ...setEntries(resolved, "ansi-hues", "ansi-hues", { cvd: "report", note: "Baseline of Try-Works 1.0.0, whose light terminals reuse the dark slots. The repositioning authors new sets and must beat this floor." }, true),
+    ];
+    file.exceptions = [keywordOnLine("Jungfrau", "the fire mark")];
+    file.rules[0].check = "accent-only-in-roles:link,button,focus";
+  } else if (id === "rosebud") {
+    // The old file's 23 assertions, by the roles they test.
+    file.pairs = [
+      pair("roles.text", "roles.bg", "text", LIGHT, "body text, light"),
+      { ...pair("roles.text-muted", "roles.bg", "text", LIGHT, "secondary text, light") },
+      pair("extra.border-strong", "roles.bg", "component", LIGHT, "input borders, light: the old file tested grey 500, which is the control border"),
+      pair("roles.text", "roles.surface", "text", DARK, "body text, dark, on the sunken surface the old file tested"),
+      pair("roles.text-subtle", "roles.surface", "text", DARK, "tertiary text, dark"),
+      pair("roles.link", "roles.bg", "text", undefined, "link"),
+      pair("roles.link-hover", "roles.bg", "text", undefined, "link hover"),
+      pair("roles.accent", "roles.bg", "component", LIGHT, "accent rule, light"),
+      pair("roles.accent", "roles.surface", "component", DARK, "accent rule, dark"),
+      ...["red", "green", "yellow", "blue", "magenta", "cyan", "bright-red", "bright-green", "bright-yellow", "bright-blue", "bright-magenta", "bright-cyan"]
+        .map((slot) => pair(`ansi.${slot}`, "terminal.background", "text", DARK, `ANSI ${slot.replace("-", " ")}, dark`)),
+    ];
+    file.distinct = [...ansi];
+    const byId = (rid: string) => file.rules.find((r: any) => r.id === rid);
+    byId("accent-marks-interaction").check = "accent-only-in-roles";
+    byId("status-achromatic").check = "status-achromatic";
+    byId("data-and-chrome-apart").check = ["accent-not-in-data:accent", "group-not-in-chrome:sweep-light,sweep-dark,sweep-supplied"];
+    byId("functional-hues-in-content").check = "group-not-in-chrome:ansi-dark";
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
 // Run
 // ---------------------------------------------------------------------------------------------
 const glauca = (): { file: any; changes: Change[] } => system({
@@ -685,13 +855,15 @@ const tryWorks = (): { file: any; changes: Change[] } => system({
 });
 
 const builders: Record<string, () => { file: any; changes: Change[] }> = { pequod, goney: glauca, jungfrau: tryWorks, rosebud };
-const wanted = process.argv.slice(2);
+const DECLARE = process.argv.includes("--declare");
+const wanted = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const ids = wanted.length ? wanted : Object.keys(builders);
 const allChanges: Record<string, Change[]> = {};
 for (const id of ids) {
   const build = builders[id];
   if (!build) throw new Error(`unknown family ${id}`);
   const { file, changes } = build();
+  if (DECLARE) declare(id, file);
   const dir = join(ROOT, "families", id);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, `${id}.tokens.json`), pretty(file) + "\n");

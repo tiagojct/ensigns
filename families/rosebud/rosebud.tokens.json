@@ -409,19 +409,178 @@
   "rules": [
     {
       "id": "accent-marks-interaction",
-      "text": "Accent marks interaction only: links, current item, selection, accent rules. Never severity, never decoration."
+      "text": "Accent marks interaction only: links, current item, selection, accent rules. Never severity, never decoration.",
+      "check": "accent-only-in-roles"
     },
     {
       "id": "status-achromatic",
-      "text": "Status is achromatic. Severity is carried by border weight, edge style and fill density, plus an icon and explicit copy."
+      "text": "Status is achromatic. Severity is carried by border weight, edge style and fill density, plus an icon and explicit copy.",
+      "check": "status-achromatic"
     },
     {
       "id": "data-and-chrome-apart",
-      "text": "The data sweep never appears in interface chrome, and the interface accent never appears in a chart."
+      "text": "The data sweep never appears in interface chrome, and the interface accent never appears in a chart.",
+      "check": ["accent-not-in-data:accent","group-not-in-chrome:sweep-light,sweep-dark,sweep-supplied"]
     },
     {
       "id": "functional-hues-in-content",
-      "text": "Functional hues exist for terminal and editor content only: ANSI slots, diffs, diagnostics. Never interface chrome."
+      "text": "Functional hues exist for terminal and editor content only: ANSI slots, diffs, diagnostics. Never interface chrome.",
+      "check": "group-not-in-chrome:ansi-dark"
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "body text, light"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "secondary text, light"
+    },
+    {
+      "fg": "extra.border-strong",
+      "bg": "roles.bg",
+      "kind": "component",
+      "modes": ["light"],
+      "why": "input borders, light: the old file tested grey 500, which is the control border"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "body text, dark, on the sunken surface the old file tested"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.surface",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "tertiary text, dark"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "link"
+    },
+    {
+      "fg": "roles.link-hover",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "link hover"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "component",
+      "modes": ["light"],
+      "why": "accent rule, light"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.surface",
+      "kind": "component",
+      "modes": ["dark"],
+      "why": "accent rule, dark"
+    },
+    {
+      "fg": "ansi.red",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI red, dark"
+    },
+    {
+      "fg": "ansi.green",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI green, dark"
+    },
+    {
+      "fg": "ansi.yellow",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI yellow, dark"
+    },
+    {
+      "fg": "ansi.blue",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI blue, dark"
+    },
+    {
+      "fg": "ansi.magenta",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI magenta, dark"
+    },
+    {
+      "fg": "ansi.cyan",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI cyan, dark"
+    },
+    {
+      "fg": "ansi.bright-red",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright red, dark"
+    },
+    {
+      "fg": "ansi.bright-green",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright green, dark"
+    },
+    {
+      "fg": "ansi.bright-yellow",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright yellow, dark"
+    },
+    {
+      "fg": "ansi.bright-blue",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright blue, dark"
+    },
+    {
+      "fg": "ansi.bright-magenta",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright magenta, dark"
+    },
+    {
+      "fg": "ansi.bright-cyan",
+      "bg": "terminal.background",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "ANSI bright cyan, dark"
+    }
+  ],
+  "distinct": [
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "cvd": "report",
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
     }
   ]
 }

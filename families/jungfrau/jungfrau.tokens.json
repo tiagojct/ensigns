@@ -436,11 +436,107 @@
   "rules": [
     {
       "id": "one-hot-mark",
-      "text": "Fire is rare: one hot mark per surface."
+      "text": "Fire is rare: one hot mark per surface.",
+      "check": "accent-only-in-roles:link,button,focus"
     },
     {
       "id": "cold-field",
       "text": "The cold sea is the field; fire is the mark."
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text",
+      "why": "button text"
+    },
+    {
+      "fg": "extra.tint-pale",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"]
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "extra.tint",
+      "kind": "component",
+      "modes": ["dark"],
+      "why": "UI mark on the sea"
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "hover text: dark hovers brighten"
+    },
+    {
+      "fg": "extra.accent-deep",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "hover text: light hovers darken"
+    },
+    {
+      "fg": "extra.tint-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"]
+    }
+  ],
+  "distinct": [
+    {
+      "id": "syntax-hues-dark",
+      "set": "syntax-hues",
+      "modes": ["dark"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "min": 0.03,
+      "cvd": "report",
+      "note": "Baseline of Try-Works 1.0.0. The repositioning retunes the code hues to the night band and must beat this floor."
+    },
+    {
+      "id": "syntax-hues-light",
+      "set": "syntax-hues",
+      "modes": ["light"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "min": 0.019,
+      "cvd": "report",
+      "note": "Baseline of Try-Works 1.0.0. The repositioning retunes the code hues to the night band and must beat this floor."
+    },
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "min": 0.043,
+      "cvd": "report",
+      "note": "Baseline of Try-Works 1.0.0, whose light terminals reuse the dark slots. The repositioning authors new sets and must beat this floor."
+    }
+  ],
+  "exceptions": [
+    {
+      "profile": "editor",
+      "id": "syntax.keyword on surfaces.editor-line",
+      "mode": "dark",
+      "why": "Jungfrau's dark keyword is the fire mark and reaches 4.15:1 on the current line. The shipped theme draws that line in the surface colour. Options: lighten the keyword, soften the line highlight, or accept. Decision needed at checkpoint 2."
     }
   ]
 }
