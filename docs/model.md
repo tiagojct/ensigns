@@ -19,7 +19,7 @@ Each mode holds these blocks. Only roles is always required.
 - surfaces: named surfaces that gates test text against. The editor background, the current line, the selection and panels. A surface may be an entry drawn at an opacity over another surface, which is how editors draw a current line; it is blended in gamma-encoded sRGB.
 - syntax: twelve roles, each an entry or an entry with a style (italic, bold, underline, strikethrough).
 - ansi and terminal: the sixteen terminal slots and the terminal chrome.
-- status: chromatic (one colour per level) or achromatic (border weight, edge style, fill density, an icon and words).
+- status: chromatic (danger, warning and success, and info where the family has a fourth level) or achromatic (border weight, edge style, fill density, an icon and words).
 - data: categorical, sequential and diverging scales and chart chrome, or a reference to another family's data.
 
 ## Addresses
@@ -30,13 +30,34 @@ Pairs, distinct sets, exceptions and the harness name a colour by its address in
 
 - pairs: foreground and background addresses with a kind (text 4.5:1, large 3:1, component 3:1) and optionally a mode and a reason. Every pair must meet its minimum. Every family that declares pairs is checked, whatever environments it lists.
 - distinct: sets of roles that must be told apart. A set is a named set (syntax, syntax-hues, accents, ansi-hues, ansi, status, data.categorical) or a list of addresses. Two members may not share a hex value unless the pair is declared an alias. Every pair keeps a minimum OKLab distance under normal vision (the set's min, default 0.06) and under protan, deutan and tritan simulation (0.06), except pairs declared reinforced, which are told apart by something other than colour. A set may report CVD results instead of gating them (cvd: report); a set whose min is below 0.06 is a baseline, and the report lists what misses the target.
+  Two more fields make a set count for the simulation profiles. for lists them (projector, sunlight, aged-eye, print-grey, eink, photocopy); a set without it is gated under normal vision and the CVD simulations only. patterned lists members that carry a pattern, line style or marker of their own, so a pair with one of them is exempt from every simulation gate, as a reinforced pair is.
 - rules: prose, each with an optional check that the model tests run (accent-only-in-roles, status-achromatic, accent-not-in-data, group-not-in-chrome, hover-direction).
+- design: non-colour tokens, free-form, and three declarations that profiles read. design.projector.rooms names the rooms a family is gated for (dark, lit; both when omitted). design.overlay.fills lists the translucent fills of an overlay family. design.clinical lists ordered severity levels, and optionally triage levels, each with fg, fill, border, icon and label, and names the critical level. The validator checks that every address they name exists in both modes.
 - exceptions: a check the family may fail, with a reason of some length. The report shows it as waived, and a test fails when an exception stops matching a failing check.
 - targets.exclude: bundles that make no sense for the family's goal.
 
 ## Environments
 
 meta.environments lists the profiles a family must pass. Each profile, its simulation and every threshold are in tests/environments.json, and each threshold has a reason. scripts/report.ts runs the profiles and writes reports/<family>.json, which the site renders on the family page. Errors fail the build. Warnings, and the AAA and APCA numbers, are listed and never fail it.
+
+## What each profile reads
+
+- office-screen: the declared pairs, at WCAG AA. Runs for every family that declares pairs.
+- editor: the syntax roles on surfaces.editor, surfaces.editor-line and surfaces.editor-selection.
+- cvd: the distinct sets, under normal vision and three simulations.
+- night: the roles, syntax, ANSI and terminal colours of both modes, against a luminance band and a brightness cap.
+- projector: the declared text and large-text pairs, and the distinct sets marked for it, after flare (0.02 in a dark room, 0.08 in a lit room).
+- sunlight: the declared text pairs and the sets marked for it, after glare (0.06).
+- aged-eye: the declared text pairs and the sets marked for it, after the aged-eye simulation.
+- print-grey: the declared text pairs, converted to grey, and the sets marked for it, in L*.
+- eink: the sets marked for it, quantised to sixteen grey levels.
+- photocopy: the sets marked for it, against the L* window of a copier.
+- overlay: design.overlay.fills, composited over the ground of every family in both modes. The profile reads the other families' roles.bg and roles.text.
+- clinical: design.clinical, and every colour of each mode against the critical red.
+- figure: the data block of each mode, against Okabe-Ito, viridis and cividis (tests/fixtures/reference/palettes.json).
+- forced-colors: a specimen rendered in a browser. It runs in the browser tests, not on tokens.
+
+A family that lists a profile and declares nothing for it fails that profile.
 
 ## Changing a value
 

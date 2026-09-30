@@ -37,8 +37,60 @@
       "additionalProperties": { "type": "string", "minLength": 1 }
     },
     "design": {
-      "description": "Non-colour tokens that a colour rule refers to (border widths, patterns, type scales). No colour literal may appear here; the model tests reject hex, rgb(), hsl() and oklch() strings.",
-      "type": "object"
+      "description": "Non-colour tokens that a colour rule refers to (border widths, patterns, type scales), and the declarations some profiles read. No colour literal may appear here; the model tests reject hex, rgb(), hsl() and oklch() strings. Keys other than the three below are free.",
+      "type": "object",
+      "properties": {
+        "projector": {
+          "description": "Options for the projector profile.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rooms": {
+              "description": "The rooms the family is gated for: dark (flare 0.02) and lit (flare 0.08). Both when omitted.",
+              "type": "array",
+              "items": { "enum": ["dark", "lit"] },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        },
+        "overlay": {
+          "description": "Read by the overlay profile: the fills that sit over other text.",
+          "type": "object",
+          "required": ["fills"],
+          "additionalProperties": false,
+          "properties": {
+            "fills": {
+              "description": "Addresses of translucent colours, each a palette entry with an alpha. The profile composites every fill over the ground of every family, in both modes, and tests the text that sits on it.",
+              "type": "array",
+              "items": { "$ref": "#/$defs/address" },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          }
+        },
+        "clinical": {
+          "description": "Read by the clinical profile: ordered severity levels and triage levels, each with a foreground, a subtle fill, a border, an icon and a word, so colour never stands alone.",
+          "type": "object",
+          "required": ["critical", "levels"],
+          "additionalProperties": false,
+          "properties": {
+            "critical": { "$ref": "#/$defs/name", "description": "The name of the level that is the critical red. No role outside the status tokens may come within 0.10 of its border." },
+            "levels": {
+              "description": "Severity levels, lowest first.",
+              "type": "array",
+              "minItems": 3,
+              "items": { "$ref": "#/$defs/clinicalLevel" }
+            },
+            "triage": {
+              "description": "Triage levels, least urgent first.",
+              "type": "array",
+              "minItems": 3,
+              "items": { "$ref": "#/$defs/clinicalLevel" }
+            }
+          }
+        }
+      }
     },
     "pairs": {
       "description": "Declared foreground and background pairs. Each must meet its WCAG 2.x minimum in both modes, unless the entry lists one mode.",
@@ -103,7 +155,21 @@
             "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 }
           },
           "by": { "type": "string", "description": "What reinforces the listed pairs." },
-          "note": { "type": "string" }
+          "note": { "type": "string" },
+          "for": {
+            "description": "Further profiles that gate this set after their own simulation: projector (flare), sunlight (flare), aged-eye, print-grey (L* distance), eink (grey levels) and photocopy (L* window). Without it the set is gated under normal vision and the CVD simulations only.",
+            "type": "array",
+            "items": { "enum": ["projector", "sunlight", "aged-eye", "print-grey", "eink", "photocopy"] },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "patterned": {
+            "description": "Members that carry a pattern, line style or marker of their own. A pair with a patterned member is exempt from every simulation gate, as a reinforced pair is, and from the photocopy window.",
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "uniqueItems": true
+          }
         }
       }
     },
@@ -354,11 +420,11 @@
       }
     },
     "status": {
-      "description": "Chromatic families give one colour per level. An achromatic family (policy achromatic) carries status by border weight, edge style, fill density, an icon and words, so its levels hold tokens for each.",
+      "description": "Chromatic families give one colour per level: danger, warning and success, and info where the family has a fourth level. An achromatic family (policy achromatic) carries status by border weight, edge style, fill density, an icon and words, so its levels hold tokens for each.",
       "oneOf": [
         {
           "type": "object",
-          "required": ["policy", "danger", "warning", "success", "info"],
+          "required": ["policy", "danger", "warning", "success"],
           "additionalProperties": false,
           "properties": {
             "policy": { "const": "chromatic" },
@@ -394,6 +460,19 @@
         "fill": { "$ref": "#/$defs/paletteRef" },
         "accent": { "$ref": "#/$defs/paletteRef" },
         "icon": { "type": "string", "minLength": 1 }
+      }
+    },
+    "clinicalLevel": {
+      "type": "object",
+      "required": ["name", "fg", "fill", "border", "icon", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/name" },
+        "fg": { "$ref": "#/$defs/address", "description": "Text and icon colour on the fill." },
+        "fill": { "$ref": "#/$defs/address", "description": "The subtle background of a badge, row or card." },
+        "border": { "$ref": "#/$defs/address", "description": "The badge border, and the colour that identifies the level against its neighbours." },
+        "icon": { "type": "string", "minLength": 1, "description": "The name of the icon token. Each level has its own, so colour never stands alone." },
+        "label": { "type": "string", "minLength": 1, "description": "The word the level is shown with." }
       }
     },
     "colourScale": {
