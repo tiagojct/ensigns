@@ -6,7 +6,7 @@ Version 0.4.0. Until 0.3.0 the family was called Ambergris. The tokens are in [r
 
 ## Environments
 
-The token file lists three test profiles. Their thresholds are in `tests/environments.json`, and `node scripts/report.ts rosebud` writes the current results to `reports/rosebud.json`.
+Three test profiles are listed in the token file. Their thresholds are in `tests/environments.json`, and `node scripts/report.ts rosebud` writes the current results to `reports/rosebud.json`.
 
 - office-screen: a reader at a desk on an ordinary monitor. Every declared pair meets its WCAG 2.x minimum in each mode it names, 4.5:1 for text and 3:1 for large text and components. AAA and APCA are reported and never gated.
 - cvd: the declared distinct set, the six ANSI hue slots, keeps its members apart under normal vision and under protan, deutan and tritan simulation. The measurements are in the section on colour vision below.

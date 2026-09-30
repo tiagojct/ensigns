@@ -1,382 +1,123 @@
 # Pequod
 
-A pigment-inspired colour palette for reading and code, rooted in *Moby-Dick*.
-Warm paper on one end, deep ink on the other, with eight accent hues named
-after the crew of the Pequod.
-
-[![PyPI](https://img.shields.io/pypi/v/pequod?label=PyPI&color=2C3E50)](https://pypi.org/project/pequod/)
-[![npm](https://img.shields.io/npm/v/pequod-tailwind?label=npm&color=2C3E50)](https://www.npmjs.com/package/pequod-tailwind)
-[![VS Code](https://vsmarketplacebadges.dev/version-short/tiagojct.pequod-color-theme.svg)](https://marketplace.visualstudio.com/items?itemName=tiagojct.pequod-color-theme)
-[![Open VSX](https://img.shields.io/open-vsx/v/tiagojct/pequod-color-theme?label=Open%20VSX&color=2C3E50)](https://open-vsx.org/extension/tiagojct/pequod-color-theme)
-[![CRAN](https://www.r-pkg.org/badges/version/pequod)](https://CRAN.R-project.org/package=pequod)
-[![Licence](https://img.shields.io/badge/licence-MIT%20%2B%20CC--BY--4.0-C4A57B)](#licence)
-
-![Pequod swatches](./cover.jpg)
-
-- **Base scale:** twelve steps from Log 50 (warm paper) to Log 950 (night sky).
-- **Accents:** eight crew members — Ahab, Starbuck, Queequeg, Pip, Ishmael,
-  Stubb, Tashtego, Daggoo — each with a light and a dark variant and a
-  recommended syntax role.
-- **Read-first:** designed for long-form reading and code at length, not
-  for glance-ability. Saturation stays low, backgrounds stay warm, accents
-  stay in the same pigment register.
-- **Accessibility:** every body-text pair clears WCAG-AA (4.5:1) on the
-  reference surface; dark-mode accents clear 4.5:1 comfortably. Colour-
-  vision-deficiency collapses are documented, not hidden — see below.
-- **Semantics, not decoration:** each accent has a role. Using the palette
-  should feel earned; the colour choice should tell you something.
-
-The full narrative and design rationale live at
-<https://tiagojct.eu/projects/pequod/>. This repository is the canonical
-source of truth for the tokens and the built themes.
-
-## Status
-
-**Alpha (0.1.0).** Tokens are stable enough to run a website on them and
-to publish across every ecosystem the palette ships into:
-
-| Surface | Where | Status |
-|---|---|---|
-| VS Code extension | [Marketplace](https://marketplace.visualstudio.com/items?itemName=tiagojct.pequod-color-theme), [Open VSX](https://open-vsx.org/extension/tiagojct/pequod-color-theme) | live |
-| Zed theme | `themes/Pequod.zed.json` | drop-in |
-| Terminal presets | `themes/terminals/` | Ghostty, Alacritty, kitty, WezTerm, tmux, Windows Terminal, iTerm2 |
-| Python package | [PyPI](https://pypi.org/project/pequod/) | `pip install pequod` |
-| Tailwind plugin | [npm](https://www.npmjs.com/package/pequod-tailwind) | `npm install pequod-tailwind` |
-| R package | [CRAN](https://CRAN.R-project.org/package=pequod) | `install.packages("pequod")` |
-| Specimen PDF | `specimen/specimen.pdf` | regenerated from tokens |
-
-Hex values may still shift by a point or two during the alpha — palette
-testing continues against more code and long-form prose. Breaking
-changes before 1.0 will be called out in `CHANGELOG.md`.
-
-## Showcase
-
-Eight hero plots in matplotlib — sequential heatmaps, grouped and
-horizontal bars, scatter, box plots, distributions, time series,
-and a specimen-style swatch grid. Four on dark, four on light:
-
-![Log heatmap on dark](examples/02_log_heatmap.png)
-![Horizontal bars on light](examples/07_hbars_light.png)
-
-Titles in Atkinson Hyperlegible Next SemiBold, ticks in JetBrains Mono, surfaces and series
-colours pulled directly from `pequod.LOG`, `pequod.CREW_LIGHT`, and
-`pequod.CREW_DARK`. Full gallery, code patterns, and reproduction
-instructions live in [`examples/`](examples/). Generate them
-yourself with:
-
-```bash
-pip install "pequod[plot]" numpy
-python examples/plots.py
-```
-
-## Contents
-
-```
-pequod/
-├── pequod.json                  # the canonical palette tokens
-├── themes/
-│   ├── Pequod.itermcolors                 # iTerm2 (dark)
-│   ├── Pequod-color-theme.json            # VS Code (dark) — canonical
-│   ├── Pequod-light-color-theme.json      # VS Code (light) — canonical
-│   ├── Pequod.zed.json                    # Zed (dark + light in one file)
-│   └── terminals/                         # Ghostty, Alacritty, kitty,
-│                                          # WezTerm, tmux, Windows Terminal
-├── tailwind/                    # npm package — `npm install pequod-tailwind`
-├── vscode/                      # VS Code extension — `make vsix` builds
-│   │                            # the .vsix; published to the Marketplace
-│   │                            # as "tiagojct.pequod-color-theme"
-│   ├── package.json
-│   ├── icon.png
-│   └── themes/                  # copies of the canonical themes
-├── python/                      # Python package — install with
-│   │                            #   pip install pequod
-│   ├── pyproject.toml           # see python/README.md for full Python docs
-│   ├── src/pequod/              # palette + matplotlib helpers
-│   ├── tests/
-│   └── data-raw/                # generator: re-reads ../pequod.json
-├── r/                           # R package — install with
-│   │                            #   remotes::install_github(
-│   │                            #     "tiagojct/pequod", subdir = "r")
-│   ├── DESCRIPTION              # see r/README.md for full R docs
-│   ├── R/                       # palette constants, ggplot2 scales
-│   ├── tests/
-│   └── data-raw/                # generator: re-reads ../pequod.json
-├── specimen/
-│   ├── specimen.typ             # single-page specimen source (Typst)
-│   └── specimen.pdf             # rendered output — swatches + samples
-├── scripts/
-│   └── cvd_check.py             # Viénot–Brettel–Mollon CVD simulation + ΔE
-├── Makefile                     # ~13 targets — see `make help`
-├── README.md
-├── CHANGELOG.md
-├── LICENSE-CC-BY-4.0            # palette tokens and docs
-└── LICENSE-MIT                  # theme files, scripts, R package
-```
-
-## Install
-
-### VS Code
+Pequod is the host family of Ensigns. Its ground runs from warm paper to deep ink, and its eight accent colours are named after the crew of the Pequod. This is version 0.3.0.
 
-The themes ship as a marketplace extension under [`vscode/`](vscode/),
-published as `tiagojct.pequod-color-theme` on both surfaces. Install
-in any of three ways:
+The colours are in `pequod.tokens.json` in this folder, which follows `schema/family.schema.json`. The palette in the token file is the only place a colour is defined, and the rest of the repository reads it from there. Themes and packages will be generated from it in a later phase of the migration, and their installation notes will sit with them in `packages/`.
 
-1. **Marketplace** — open *Extensions* (⌘⇧X), search **Pequod
-   Palette**, install. Or use [the listing page](https://marketplace.visualstudio.com/items?itemName=tiagojct.pequod-color-theme).
-   For VSCodium / Cursor / Gitpod, use the [Open VSX listing](https://open-vsx.org/extension/tiagojct/pequod-color-theme) instead.
-2. **`.vsix` file** — build with `make vsix`, then
-   `code --install-extension vscode/pequod-color-theme-0.1.0.vsix`.
-3. **From source (no marketplace)** — copy the [`vscode/`](vscode/)
-   folder to `~/.vscode/extensions/pequod-color-theme/`. VS Code will
-   pick it up on next launch.
-
-Then *Preferences: Color Theme* → pick **Pequod** or **Pequod Light**.
+The packages already published under the Pequod name (`pequod` on CRAN and PyPI, `pequod-tailwind` on npm, and the Pequod Palette theme `tiagojct.pequod-color-theme` on the VS Code Marketplace and Open VSX) are version 0.2.0. They do not have the corrections described below.
 
-### Zed
+## Goal
 
-Zed reads user themes directly from disk:
+Reading and code in editors, terminals and long documents on screen.
 
-1. Copy `themes/Pequod.zed.json` to `~/.config/zed/themes/Pequod.zed.json`
-   (create the folder if it does not exist).
-2. Restart Zed → *theme selector: toggle* → pick **Pequod Dark** or **Pequod Light**.
+## Environments
 
-### iTerm2
+`meta.environments` in the token file lists three environments. Each threshold and its reason is in `tests/environments.json`, and the checks are in `lib/harness`. `node scripts/report.ts pequod` writes every check with its measured value to `reports/pequod.json`, and `npx vitest run tests/environments` runs the same checks as tests.
 
-1. Open *Settings → Profiles → Colors → Color Presets → Import…*
-2. Select `themes/Pequod.itermcolors`.
-3. Apply the *Pequod* preset.
+- office-screen: a reader at a desk on an ordinary monitor, where every text pair the token file declares must meet WCAG 2.x AA (4.5:1 for text, 3:1 for large text and interface components), and AAA and APCA are reported without being gated.
+- editor: code as the themes draw it, where every syntax colour must reach 4.5:1 on the editor background and on the current-line highlight, and 3:1 on the selection.
+- cvd: colour vision deficiency, where each declared distinct set keeps its members at least 0.06 apart in OKLab under normal vision and under protan, deutan and tritan simulation, except pairs that something other than colour already tells apart.
 
-An iTerm2 light preset is on the roadmap.
+All three pass in 0.3.0. The cvd profile also lists warnings for the sets it reports rather than gates; see Colour vision below.
 
-### Other terminals
+Pequod draws code on Log 50 in Parchment and on Log 950 in Below deck. The current line is Log 150 or Log 900 at 50 per cent over that background, and the selection is Log 200 at 50 per cent (Parchment) or Log 800 (Below deck).
 
-Drop-in dark presets for the most common terminals live in
-[`themes/terminals/`](themes/terminals/):
+## Modes
 
-| Terminal | File |
-|---|---|
-| Ghostty | `Pequod.ghostty` |
-| Alacritty | `Pequod.alacritty.toml` |
-| kitty | `Pequod.kitty.conf` |
-| WezTerm | `Pequod.wezterm.lua` |
-| tmux | `Pequod.tmux.conf` |
-| Windows Terminal | `Pequod.windowsterminal.json` |
+| Mode | Label | Ground | Body text | Body contrast |
+|---|---|---|---|---|
+| dark | Below deck | Log 950 | Log 100 | 14.04:1 |
+| light | Parchment | Log 100 | Log 800 | 10.82:1 |
 
-See [`themes/terminals/README.md`](themes/terminals/README.md) for the
-install path each terminal expects.
+The Log scale has twelve steps, from Log 50 (paper) to Log 950 (the darkest ink). Each crew member has a light and a dark value and a fixed job:
 
-### Tailwind CSS
+| Crew | Colour | Syntax | ANSI | Status |
+|---|---|---|---|---|
+| Ahab | red | keyword | red | danger |
+| Starbuck | blue | function | blue | info |
+| Queequeg | indigo | type | magenta | |
+| Pip | yellow | number | yellow | warning |
+| Ishmael | grey | comment (italic), operator, punctuation | | hint |
+| Stubb | orange | constant, decorator | | conflict |
+| Tashtego | green | string | green | success |
+| Daggoo | brown | parameter | | |
 
-```bash
-npm install pequod-tailwind
-```
-
-```js
-// tailwind.config.js
-const pequod = require("pequod-tailwind");
-
-module.exports = {
-  theme: {
-    extend: {
-      colors: pequod.colors,    // log + all eight crew accents
-    },
-  },
-};
-```
-
-```html
-<body class="bg-log-50 text-log-800 dark:bg-log-950 dark:text-log-100">
-  <h1 class="text-queequeg dark:text-queequeg-dark">Pequod</h1>
-</body>
-```
-
-Full usage in [`tailwind/README.md`](tailwind/README.md).
-
-### Python
-
-```bash
-pip install pequod              # palette + helpers
-pip install "pequod[plot]"      # adds matplotlib glue
-```
-
-```python
-from pequod import LOG, CREW_LIGHT, palette
-
-palette("log")                  # 12-step Log scale, list of hex
-palette("crew", n=5)            # first five crew accents
-
-# matplotlib (with the [plot] extra)
-import matplotlib.pyplot as plt
-import pequod
-pequod.register_cmaps()
-plt.imshow(data, cmap="pequod_log")
-```
-
-Full usage in [`python/README.md`](python/README.md).
-
-### R
+The same eight are the categorical chart colours. The palette also holds 28 colours that the Pequod editor and terminal themes used but `pequod.json` never listed: the terminal cyan and bright colours, the Zed dim variants, the iTerm2 variants and two chrome colours (groups `ansi-dark`, `ansi-light`, `zed-dim-light`, `iterm` and `chrome`).
 
-The R package is on [CRAN](https://CRAN.R-project.org/package=pequod):
-
-```r
-install.packages("pequod")
-
-library(pequod)
-palette_pequod("log")              # 12-step Log scale
-palette_pequod("crew", n = 5)      # first five crew accents
-pequod_preview("crew")             # quick base-R preview
-```
-
-Source lives in [`r/`](r/); to follow the development version,
-`remotes::install_github("tiagojct/pequod", subdir = "r")`.
-
-ggplot2 scales are provided too:
-
-```r
-library(ggplot2)
-ggplot(iris, aes(Sepal.Length, Sepal.Width, colour = Species)) +
-  geom_point(size = 3) +
-  scale_color_pequod_d(palette = "crew")
-```
-
-Full usage in [`r/README.md`](r/README.md).
-
-## The tokens
-
-`pequod.json` is the single source of truth. The file contains:
-
-- `log` — the twelve-step base scale (Log 50 → Log 950).
-- `accents` — the eight crew accents, each with `light`, `dark`, `role`,
-  and a short `note` explaining the character and the syntax role.
-- `roles` — semantic role → token mappings for light and dark modes
-  (`bg`, `text`, `text-muted`, `link`, `accent-primary`, etc.).
-- `syntax` — default mappings from syntax role to accent (keyword,
-  string, comment, function, type, constant, variable, operator).
-
-The R package, the Python package, the Typst specimen, and the CVD
-test script all regenerate from `pequod.json` (see each one's
-`data-raw/` or generator). The terminal presets and the editor themes
-are still produced by hand; bringing them under the same generator
-contract is the next priority — see `What comes next` below.
-
-## Accessibility
-
-Body-text contrast on the reference surfaces:
-
-| Pair | Use | Ratio |
-|---|---|---|
-| Log 800 on Log 100 | light body | 10.8 : 1 |
-| Log 700 on Log 50 | light link | 8.5 : 1 |
-| Log 400 on Log 50 | muted / large text | 3.9 : 1 |
-| Log 100 on Log 950 | dark body | 14.0 : 1 |
-| Accent-light on Log 100 | UI accents | 3.0 – 9.5 : 1 |
-| Accent-dark on Log 950 | dark-mode accents | 3.6 – 13.6 : 1 |
-
-In v0.2.0-alpha every accent clears the AA-large (3 : 1) bar on its target
-surface — none of the bright-on-light "fill-only" cases from v0.1 remain.
-Light-mode body-text candidates (≥ 4.5 : 1 on Log 100): **Daggoo**,
-**Queequeg**, **Pip**, **Ahab**. Dark-mode body-text candidates (≥ 4.5 : 1
-on Log 950): every accent except **Daggoo** (3.6, AA-large only).
-
-### Colour vision deficiency
-
-`scripts/cvd_check.py` simulates each accent at 100 % severity for
-protanopia, deuteranopia, and tritanopia using the Viénot–Brettel–Mollon
-(1999) model, and reports pairwise ΔE*~ab~ (CIE76, Lab D65) between
-simulated accents.
-
-In v0.2.0-alpha the worst-case pair under each simulation:
-
-| | light variants | dark variants |
-|---|---|---|
-| protanopia    | Ishmael ↔ Tashtego, ΔE 15.1 | Stubb ↔ Tashtego, ΔE 11.8 |
-| deuteranopia  | Ishmael ↔ Tashtego, ΔE 8.0  | Ishmael ↔ Tashtego, ΔE 6.8 |
-| tritanopia    | Pip ↔ Daggoo, ΔE 13.3       | Ahab ↔ Pip, ΔE 10.2       |
-
-The deuteranopia floor is set by **Ishmael ↔ Tashtego** because green
-collapses to neutral grey under deutan and the two accents sit at similar
-L\*. This is unavoidable for an 8-hue palette that includes both a green
-and a low-chroma grey, so it is documented rather than designed away —
-in practice, comments (Ishmael) and strings (Tashtego) are rarely
-adjacent and rarely encode meaning by colour alone.
-
-**Usage guidance:** do not rely on colour alone to distinguish *Ishmael*
-from *Tashtego* under deuteranopia. Pair with icon, weight, or italics
-(the default theme already italicises comments). Every other pair clears
-ΔE ≥ 10 across all three simulations.
-
-Run the check yourself:
-
-```bash
-python3 scripts/cvd_check.py
-```
-
-The script has no dependencies beyond NumPy.
-
-## Specimen
-
-A one-page A4 specimen — the full Log scale, the eight crew accents
-with light and dark variants, a body-text sample, and a dark code
-sample with every token coloured by its crew role — lives at
-[`specimen/specimen.pdf`](specimen/specimen.pdf). Use it as a quick
-reference when choosing which accent a new UI element should take,
-or print it and pin it somewhere.
-
-The PDF is generated from [`specimen/specimen.typ`](specimen/specimen.typ)
-with [Typst](https://typst.app/). To regenerate after a token change:
-
-```bash
-make specimen
-# equivalent to: typst compile specimen/specimen.typ specimen/specimen.pdf
-```
-
-Typst uses the system-installed Atkinson Hyperlegible Next and
-JetBrains Mono. Install them from
-[Google Fonts](https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next)
-if they are not already present.
-
-## What comes next
-
-- **Generators for the editor and terminal themes**, so the
-  hand-maintained files in `themes/` and `themes/terminals/`
-  regenerate from `pequod.json` the same way the R, Python, and
-  specimen targets already do.
-- **Light presets** for the terminals (currently dark only) and for
-  iTerm2 specifically.
-- **Vim / Neovim colourscheme** using [Lush](https://github.com/rktjmp/lush.nvim).
-- **Tailwind v4 plugin** as a first-class plugin once Tailwind v4's
-  plugin API stabilises (the current package works in v4 via
-  `@theme` but isn't formally a v4 plugin yet).
-- **Sublime Text, Helix, Emacs** — lower priority.
-
-Contributions to any of these are welcome.
-
-## Inspirations and credits
-
-- [Flexoki](https://stephango.com/flexoki) by Steph Ango is the most
-  direct inspiration. Pequod owes its philosophy — warm paper, cool
-  ink, muted accents, published tokens — to Flexoki. Where Flexoki
-  draws on earth pigments broadly, Pequod narrows the story to a
-  ship, a century, and a text.
-- [Solarized](https://ethanschoonover.com/solarized/) by Ethan
-  Schoonover established the modern practice of designing palettes
-  for reading first.
-- [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme)
-  and [Nord](https://www.nordtheme.com/) are two other palettes with
-  a disciplined colour story worth studying.
-- Herman Melville, *Moby-Dick; or, The Whale* (1851), for the names.
+## Rules
+
+Two rules are stated in the token file.
+
+- `crew`: The accents are the crew of the Pequod. Each keeps its name and has a light and a dark value. The equality test (`tests/shared/equality.test.ts`) looks up every crew member by its 0.2.0 name in both modes, so a renamed or missing member fails it. The distinct sets `crew-dark` and `crew-light` keep the crew apart (see Colour vision).
+- `warm-to-cool`: The Log scale runs from warm paper to cool ink. The hue turns between Log 500 and Log 600, so it is a warm-to-cool scale and not a sequential colormap. No test enforces this rule. It tells users what the scale is for, and the label of the chart scale in the token file says the same.
+
+## Changes in 0.3.0
+
+42 values differ from Pequod 0.2.0, for two reasons. `tests/shared/expected-changes/pequod.json` lists each one with its address, mode, old value, new value and reason, and the equality test fails on any change missing from that list. `CHANGELOG.md` gives the old hex values.
+
+### Crew corrections (decision D10)
+
+In 0.2.0 five crew colours failed WCAG AA as text: Starbuck, Stubb, Tashtego and Ishmael on Parchment, and Daggoo on Below deck. A crew colour is text on the page and a syntax colour in the editor, so a correction has to reach 4.5:1 on the page, the editor background and the current line, and 3:1 on the selection. A second rule holds the crew apart: in each mode the smallest OKLab distance between two crew colours may not fall below its 0.2.0 value, which is 0.1124 in Parchment and 0.0879 in Below deck (Ishmael and Tashtego in both).
+
+`scripts/design/pequod-corrections.ts` searched the eight colours together. It changed lightness first and allowed small hue and chroma moves only where the distance rule needed them.
+
+| Crew | Mode | 0.2.0 on the page | 0.3.0 value | 0.3.0 on page, editor, current line, selection |
+|---|---|---|---|---|
+| Starbuck | Parchment | 3.37:1 | `starbuck.light` #006A98 | 4.62, 5.41, 4.51, 3.99 |
+| Stubb | Parchment | 3.02:1 | `stubb.light` #AA430B | 4.62, 5.41, 4.51, 3.99 |
+| Tashtego | Parchment | 4.01:1 | `tashtego.light` #06724B | 4.62, 5.41, 4.51, 3.99 |
+| Ishmael | Parchment | 3.74:1 | `ishmael.light` #6A6164 | 4.63, 5.42, 4.52, 4.00 |
+| Ahab | Parchment | 4.99:1 | `ahab.light` #931432 | 6.81, 7.96, 6.64, 5.88 |
+| Daggoo | Below deck | 4.35:1 | `daggoo.dark` #A7766F | 4.72, 4.72, 4.51, 3.64 |
+
+Ahab passed every gate in 0.2.0 and still moved. Stubb has to lose about 0.1 of OKLab lightness to reach 4.5:1, which brings it close to Ahab: with Ahab held in place, the best result of the search left the two 0.055 apart, about half the floor. Ahab therefore darkens and turns about 11 degrees towards crimson (OKLCH hue 27 to 15), with a little more chroma (0.149 to 0.159). The corrected Parchment crew has a smallest distance of 0.1127 (Ahab and Stubb), and Below deck keeps 0.0880 (Ishmael and Tashtego). The values first proposed for these corrections left the Parchment minimum at 0.108; `docs/migration/CHECKPOINT-1.md`, problem P2, has the detail.
+
+Queequeg, Pip and Daggoo in Parchment and the other seven Below deck colours are unchanged. A crew colour is one palette entry, so every role that uses it (accent, syntax, ANSI, status and chart colour) changes with it. These account for 24 of the 42 rows.
+
+### The themes' own colours (decision D16)
+
+The Pequod themes held 28 colours that `pequod.json` did not, and in a few roles they drew a different colour from the one `pequod.json` named. The migration treats the themes' colours as part of Pequod's identity: they are palette entries now, and where the two disagreed the themes' colour wins. For people who used the themes nothing changes; the token file and the site now describe what the themes drew. These are the other 18 rows.
+
+- Muted text in Below deck: Log 300 became Ishmael, which the dark theme uses for description text. Muted chart text follows it.
+- Links and link hover in Below deck: Log 300 became the themes' cyan, `ansi-dark.cyan` #9DC2C5, at 9.46:1 on the ground.
+- Plain variables in code: Daggoo became the body text colour in both modes.
+- Focus in Parchment: Log 400 (3.34:1 on the ground) became Log 700 (8.68:1), the light theme's focus border.
+- The Parchment terminal: the background moved from Log 100 to Log 50 (cursor text follows it), black from Log 900 to Log 800, cyan to Log 700, and seven bright colours to the light theme's hand-tuned values (group `ansi-light`). The old Gam site had derived these, because `pequod.json` had no light terminal.
+
+### Measurement
+
+Colour vision is now simulated with the matrices of Machado, Oliveira and Fernandes (2009) at severity 1.0 in linear light, and distances are measured in OKLab. The CVD figures in earlier Pequod releases used the Viénot, Brettel and Mollon (1999) model with CIE76 colour differences. They cannot be compared with the numbers below.
+
+## Colour vision
+
+The token file declares four distinct sets. Each figure is the smallest OKLab distance between two members of a set after simulation with `lib/colour/cvd.ts`, leaving out declared aliases (constant and decorator are both Stubb). (r) marks a pair declared as reinforced.
+
+| Set | Mode | Normal | Protan | Deutan | Tritan |
+|---|---|---|---|---|---|
+| crew-dark | Below deck | 0.088 Ishmael, Tashtego | 0.031 Ishmael, Tashtego (r) | 0.032 Ishmael, Tashtego (r) | 0.063 Pip, Ishmael |
+| crew-light | Parchment | 0.113 Ahab, Stubb | 0.037 Pip, Stubb (r) | 0.032 Ishmael, Tashtego (r) | 0.028 Starbuck, Tashtego (r) |
+| syntax-hues | Below deck | 0.102 number, constant | 0.069 string, number | 0.056 keyword, string | 0.070 number, constant |
+| syntax-hues | Parchment | 0.113 keyword, constant | 0.037 number, constant | 0.034 keyword, number | 0.028 string, function |
+| ansi-hues | Below deck | 0.064 green, cyan | 0.049 green, cyan | 0.044 green, cyan | 0.034 green, cyan |
+| ansi-hues | Parchment | 0.083 magenta, cyan | 0.058 red, cyan | 0.034 red, yellow | 0.028 green, blue |
+
+The two crew sets are gates. Under normal vision each must stay at or above its 0.2.0 minimum; under simulation the limit is 0.06 and reinforced pairs are left out, because code tells them apart by token shape and position: strings are quoted, numbers are digits, keywords are fixed words, parameters sit in signatures and calls, and comments are italic. Without those pairs the smallest distances in Below deck are 0.069 (protan, Pip and Tashtego), 0.086 (deutan, Ahab and Ishmael) and 0.063 (tritan, Pip and Ishmael), and in Parchment 0.083 (protan, Stubb and Tashtego), 0.079 (deutan, Pip and Tashtego) and 0.071 (tritan, Ahab and Stubb). Both sets pass.
+
+Below deck has two reinforced pairs, Ishmael and Tashtego and Ahab and Tashtego; the 0.2.0 values needed the same two. Parchment has six. With the 0.2.0 values four Parchment pairs fell below 0.06 under some simulation. The darker corrected colours add Pip and Stubb, Ahab and Daggoo, and Starbuck and Tashtego to that list, and take Stubb and Tashtego off it. Starbuck and Tashtego under tritan drop from 0.066 to 0.028; in code the string is quoted and the function name is not.
+
+The syntax-hues and ansi-hues sets are gates under normal vision (0.06) and reports under simulation, so a shortfall there is a warning. The syntax set shows the crew colours a second time, through the syntax roles; the crew sets carry the gate for them. A terminal cannot add italic or bold to a colour, so nothing reinforces the ANSI pairs. Under tritan simulation green and cyan in Below deck are 0.034 apart, and green and blue in Parchment 0.028.
+
+## Typography
+
+Atkinson Hyperlegible Next for text (`sans`) and JetBrains Mono for code (`mono`). Both are under the SIL Open Font License. Neither is included in this folder.
+
+## What Pequod is not for
+
+- Sequential data. The Log scale turns from brown to slate between Log 500 and Log 600 (OKLCH hue 43 to 228), so its steps do not read as one ordered scale.
+- Charts that separate series by colour alone. The crew is the chart palette, and six Parchment pairs fall below 0.06 under simulation. Code keeps those pairs apart by token shape; a chart needs markers, labels or line styles for the same job.
+- A dark room at night. Below deck body text is 14.04:1 on a ground of luminance 0.008, and most of its text colours are brighter than a relative luminance of 0.45. Jungfrau is the family for night work.
+- Projection and print. Pequod has not been tested for either.
 
 ## Licence
 
-- **Palette tokens (`pequod.json`) and documentation** — [Creative Commons
-  Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
-  Use, adapt, ship; credit required. See `LICENSE-CC-BY-4.0`.
-- **Theme files, scripts, and packages** (`themes/*`, `scripts/*`,
-  `tailwind/*`, `vscode/*`, `python/*`, `r/*`, `specimen/*`) —
-  [MIT](https://opensource.org/licenses/MIT). See `LICENSE-MIT`.
-
-## Contact
-
-If you use Pequod in a project or have a suggestion, I would love to
-hear about it: [tiagojacinto@med.up.pt](mailto:tiagojacinto@med.up.pt),
-or open an issue here.
+Code is MIT; colour tokens and documentation are CC BY 4.0. See the root `LICENSE`.
