@@ -162,7 +162,7 @@ Five flags move by more than 0.06: blue, green, cyan, magenta and violet. Yellow
 
 ## The candidate
 
-A second design is in `candidates/ladder.tokens.json`. It trades body text on two fields for seven flags that stand on their own lightness in print. Red (#EC000F) and green (#00AF64) sit between the two luminance bands, at L* 49.3 and 63.0. In a lit room their inks reach 3.66:1 and 3.33:1, above the 3:1 gate for large text but below the 4.5:1 gate for body text, so both carry titles only. Body text on those two fields is not supported.
+A second design is in `candidates/ladder.tokens.json`. It trades body text on two fields for seven flags that stand on their own lightness in print. Red and green sit between the two luminance bands, at L* 49.3 and 63.0. In a lit room their inks reach 3.66:1 and 3.33:1, above the 3:1 gate for large text but below the 4.5:1 gate for body text, so both carry titles only. Body text on those two fields is not supported.
 
 Seven flags stand on the print ladder, 12.4 L* or more apart: violet 12.0, blue 24.4, magenta 36.9, red 49.3, green 63.0, orange 78.4 and yellow 93.3. Cyan (L* 83.9) sits between orange and yellow and is the only flag declared patterned in print, carrying its check pattern. The primary design keeps body text on all eight flags at the price of three patterned flags in print (green, cyan, magenta). The candidate keeps seven on lightness at the price of titles only on red and green. `node scripts/design/bachelor.ts --candidate ladder` checks the candidate and generates its token file.
 
