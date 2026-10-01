@@ -186,7 +186,7 @@ describe("the specimens", () => {
           expect(page).toContain('<link rel="stylesheet" href="../assets/tokens.css">');
           const text = plainText(fragment.replaceAll("{mode}", mode));
           expect(plainText(page).split(text).length - 1, rel).toBe(1);
-          expect(page.split('class="prose"').length - 1, rel).toBe(1);
+          expect((page.match(/<p\b[^>]*\bclass="[^"]*\bprose\b[^"]*"/g) ?? []).length, rel).toBe(1);
         }
       }
     }

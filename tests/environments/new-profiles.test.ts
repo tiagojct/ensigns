@@ -3,7 +3,7 @@
 // few colours of its own, so the profile code is tested apart from any family
 // that lists it.
 import { describe, expect, it } from "vitest";
-import { agedEyeProfile, clinical, eink, failures, figure, overlay, photocopyProfile, printGrey, projector, sunlight } from "../../lib/harness/index.ts";
+import { agedEyeProfile, clinical, eink, failures, figure, officeScreen, overlay, photocopyProfile, printGrey, projector, sunlight } from "../../lib/harness/index.ts";
 import type { Check } from "../../lib/harness/index.ts";
 import { fromOklch } from "../../lib/colour/oklab.ts";
 import { resolveFamily } from "../../lib/model/resolve.ts";
@@ -27,6 +27,22 @@ const set = (members: string[], forProfiles: NonNullable<Distinct["for"]>, more:
 });
 const byId = (checks: Check[], id: string) => checks.filter((c) => c.id === id);
 const first = (checks: Check[], id: string) => byId(checks, id)[0]!;
+
+describe("APCA and the apca-w3 licence", () => {
+  const withPair = (environments: FamilyFile["meta"]["environments"]) =>
+    family({ ink: "#202020", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; f.meta.environments = environments; });
+
+  it("reports APCA for an ordinary family", () => {
+    const checks = officeScreen(withPair(["office-screen"]), thresholds);
+    expect(checks.some((c) => c.id.startsWith("apca "))).toBe(true);
+  });
+
+  it("reports none for a family that lists clinical, because the licence excludes clinical use", () => {
+    const checks = officeScreen(withPair(["office-screen", "clinical"]), thresholds);
+    expect(checks.some((c) => c.id.startsWith("apca "))).toBe(false);
+    expect(checks.some((c) => c.id.startsWith("aaa "))).toBe(true);
+  });
+});
 
 describe("projector", () => {
   const colours = { ink: "#666666", paper: "#FFFFFF", grey: "#8A8A8A" };
@@ -66,13 +82,19 @@ describe("projector", () => {
 });
 
 describe("sunlight", () => {
-  it("keeps 4.5:1 after glare and leaves large text alone", () => {
+  it("keeps 4.5:1 for body text after glare", () => {
     const good = sunlight(family({ ink: "#595959", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(good)).toEqual([]);
     const bad = sunlight(family({ ink: "#767676", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(bad).length).toBeGreaterThan(0);
-    const large = sunlight(family({ ink: "#767676", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper"), textPair("ink", "paper", "large")]; }), thresholds);
-    expect(byId(large, "extra.ink on extra.paper").length).toBe(2);
+  });
+
+  it("asks 3:1 of large text after glare and nothing of a component", () => {
+    const large = (ink: string, kind: "large" | "component") => sunlight(family({ ink: ink, paper: "#FFFFFF", body: "#000000" }, (f) => { f.pairs = [textPair("body", "paper"), textPair("ink", "paper", kind as "text" | "large")]; }), thresholds);
+    expect(failures(large("#767676", "large"))).toEqual([]);
+    expect(failures(large("#9A9A9A", "large")).length).toBeGreaterThan(0);
+    const component = sunlight(family({ ink: "#9A9A9A", paper: "#FFFFFF", body: "#000000" }, (f) => { f.pairs = [textPair("body", "paper"), { fg: "extra.ink", bg: "extra.paper", kind: "component" }]; }), thresholds);
+    expect(failures(component)).toEqual([]);
   });
 });
 
@@ -82,6 +104,12 @@ describe("aged-eye", () => {
     expect(failures(good)).toEqual([]);
     const bad = agedEyeProfile(family({ ink: "#595959", paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper")]; }), thresholds);
     expect(failures(bad).length).toBeGreaterThan(0);
+  });
+
+  it("asks 4.5:1 of large text after the simulation", () => {
+    const large = (ink: string) => agedEyeProfile(family({ ink, paper: "#FFFFFF" }, (f) => { f.pairs = [textPair("ink", "paper", "large")]; }), thresholds);
+    expect(failures(large("#595959"))).toEqual([]);
+    expect(failures(large("#767676")).length).toBeGreaterThan(0);
   });
 
   it("keeps the members of a set apart", () => {

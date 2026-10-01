@@ -14,11 +14,12 @@ const PROFILE = "aged-eye";
 
 export function agedEyeProfile(family: ResolvedFamily, t: Thresholds): Check[] {
   const bodyMin = num(t, "profiles.aged-eye.bodyText.min");
+  const largeMin = num(t, "profiles.aged-eye.largeText.min");
   const apartMin = num(t, "profiles.aged-eye.meaningfulPairs.minDistance");
   const out = pairChecks({
     profile: PROFILE, family, situation: "after the aged-eye simulation",
     contrast: (fg, bg) => contrastRatio(agedEye(fg), agedEye(bg)),
-    minFor: (kind) => (kind === "text" ? bodyMin : undefined),
+    minFor: (kind) => (kind === "text" ? bodyMin : kind === "large" ? largeMin : undefined),
   });
   if (out.length === 0) out.push(nothingDeclared(PROFILE, "text pairs"));
   for (const set of gatedSets(family, "aged-eye")) {

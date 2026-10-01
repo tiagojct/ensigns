@@ -67,12 +67,14 @@
       "status": "implemented",
       "why": "A phone or tablet in daylight.",
       "bodyText": { "min": 4.5, "why": "Body text after glare (brief)." },
+      "largeText": { "min": 3, "why": "My addition: large text and titles keep the WCAG large-text minimum after glare. The brief gates body text only, which would leave a declared large pair unchecked." },
       "meaningfulPairs": { "minDistance": 0.06, "why": "My addition: a distinct set that opts in to sunlight stays as far apart after glare as the normal-vision gate requires. The brief gives no set gate for this profile." }
     },
     "aged-eye": {
       "status": "implemented",
       "why": "A reader whose lens has yellowed. An approximation: Machado tritanomaly at severity 0.5, then flare 0.02. The spectral route is the Pokorny, Smith and Lutze (1987) lens density model.",
       "bodyText": { "min": 7, "why": "Body text after the simulation (brief)." },
+      "largeText": { "min": 4.5, "why": "My addition: large text and titles keep the WCAG AAA large-text minimum after the simulation, in step with 7:1 for body text. The brief gates body text only, which would leave a declared large pair unchecked." },
       "meaningfulPairs": { "minDistance": 0.06, "why": "Pairs that carry meaning stay apart after the simulation (brief)." }
     },
     "print-grey": {

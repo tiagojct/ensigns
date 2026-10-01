@@ -8,6 +8,7 @@ import { toOklch } from "../colour/oklab.ts";
 import { contrastRatio, relativeLuminance } from "../colour/wcag.ts";
 import { ANSI_SLOTS, MODES, SYNTAX_ROLES } from "../model/types.ts";
 import type { ModeName, ResolvedFamily } from "../model/types.ts";
+import { apcaAllowed } from "./common.ts";
 import { fmt, num } from "./types.ts";
 import type { Check, Thresholds } from "./types.ts";
 
@@ -58,8 +59,10 @@ export function night(family: ResolvedFamily, t: Thresholds): Check[] {
     out.push({ profile: PROFILE, id: "dark body contrast", mode: "dark", ok: body >= bodyMin && body <= bodyMax, level: "error", value: body, limit: bodyMin, detail: `body text ${fmt(body)}:1, band ${bodyMin} to ${bodyMax}` });
     const muted = contrastRatio(dark.muted, dark.bg);
     out.push({ profile: PROFILE, id: "dark muted contrast", mode: "dark", ok: muted >= mutedMin, level: "error", value: muted, limit: mutedMin, detail: `muted text ${fmt(muted)}:1, needs ${mutedMin}` });
-    const lc = apcaLc(dark.text, dark.bg);
-    out.push({ profile: PROFILE, id: "apca dark body", mode: "dark", ok: true, level: "warn", report: true, value: lc, detail: `body text APCA Lc ${fmt(lc, 1)}` });
+    if (apcaAllowed(family)) {
+      const lc = apcaLc(dark.text, dark.bg);
+      out.push({ profile: PROFILE, id: "apca dark body", mode: "dark", ok: true, level: "warn", report: true, value: lc, detail: `body text APCA Lc ${fmt(lc, 1)}` });
+    }
   }
 
   // Lamplight (light) mode.
@@ -70,8 +73,10 @@ export function night(family: ResolvedFamily, t: Thresholds): Check[] {
     out.push({ profile: PROFILE, id: "lamplight paper luminance", mode: "light", ok: y >= paperMin && y <= paperMax, level: "error", value: y, limit: paperMax, detail: `paper ${paper} has luminance ${fmt(y, 3)}, band ${paperMin} to ${paperMax}` });
     const body = contrastRatio(ink, paper);
     out.push({ profile: PROFILE, id: "lamplight body contrast", mode: "light", ok: body >= paperBody, level: "error", value: body, limit: paperBody, detail: `body text ${fmt(body)}:1, needs ${paperBody}` });
-    const lc = apcaLc(ink, paper);
-    out.push({ profile: PROFILE, id: "apca lamplight body", mode: "light", ok: true, level: "warn", report: true, value: lc, detail: `body text APCA Lc ${fmt(lc, 1)}` });
+    if (apcaAllowed(family)) {
+      const lc = apcaLc(ink, paper);
+      out.push({ profile: PROFILE, id: "apca lamplight body", mode: "light", ok: true, level: "warn", report: true, value: lc, detail: `body text APCA Lc ${fmt(lc, 1)}` });
+    }
   }
 
   for (const m of MODES) {

@@ -10,6 +10,12 @@ import type { Check } from "./types.ts";
 
 export const pairKey = (a: string, b: string): string => [a, b].sort().join("|");
 
+/**
+ * The apca-w3 licence excludes medical, clinical and human-safety use, so a family that lists the clinical
+ * profile gets no APCA figures in its report. Every other family does.
+ */
+export const apcaAllowed = (family: ResolvedFamily): boolean => !family.meta.environments.includes("clinical");
+
 export interface PairInMode {
   pair: Pair;
   mode: ModeName;
