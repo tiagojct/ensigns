@@ -14,3 +14,4 @@ First release of Bachelor, the family for slides, posters, signage and conferenc
 - Type: Overpass for text and display, with sizes derived from the viewing distance in `design`.
 - `scripts/design/bachelor.ts` records the derivation and stops if the token file differs from it. `scripts/design/bachelor-gamut.py` checks the flags against a CMYK profile. With the stand-in macOS profile all eight flags move by more than 0.02 in OKLab, and no `cmyk` value is set.
 - A specimen with a title slide, a section slide on each field, a chart slide and a poster header, each drawn plain and with the flare of a lit room.
+- A candidate in `candidates/ladder.tokens.json` trades body text on red and green to keep seven flags on lightness in print.

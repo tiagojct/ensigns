@@ -24,18 +24,18 @@
   },
   "palette": {
     "flag": {
-      "red": {"hex":"#B20000","note":"Deep field, white ink."},
-      "orange": {"hex":"#FFA800","note":"Bright field, dark ink."},
+      "red": {"hex":"#EC000F","note":"Field between the bands, white ink, titles only."},
+      "orange": {"hex":"#FFB400","note":"Bright field, dark ink."},
       "yellow": {"hex":"#FFF000","note":"Bright field, dark ink."},
-      "green": {"hex":"#00DA77","note":"Bright field, dark ink. Told apart in print by its pattern."},
+      "green": {"hex":"#00AF64","note":"Field between the bands, dark ink, titles only."},
       "cyan": {"hex":"#00E6FF","note":"Bright field, dark ink. Told apart in print by its pattern."},
       "blue": {"hex":"#0000C9","note":"Deep field, white ink."},
       "violet": {"hex":"#22006B","note":"Deep field, white ink."},
-      "magenta": {"hex":"#9C0097","note":"Deep field, white ink. Told apart in print by its pattern."}
+      "magenta": {"hex":"#A00090","note":"Deep field, white ink."}
     },
     "ink": {
       "white": {"hex":"#FFFFFF"},
-      "orange": {"hex":"#160B01"},
+      "orange": {"hex":"#140B01"},
       "yellow": {"hex":"#100D01"},
       "green": {"hex":"#021007"},
       "cyan": {"hex":"#000F14"}
@@ -226,10 +226,10 @@
       "magenta": {"name":"quarters","angle":0}
     },
     "field": {
-      "red": {"smallest-text-pt":22},
+      "red": {"smallest-text-pt":42},
       "orange": {"smallest-text-pt":22},
       "yellow": {"smallest-text-pt":22},
-      "green": {"smallest-text-pt":22},
+      "green": {"smallest-text-pt":42},
       "cyan": {"smallest-text-pt":22},
       "blue": {"smallest-text-pt":22},
       "violet": {"smallest-text-pt":22},
@@ -251,10 +251,10 @@
     {"fg":"roles.accent","bg":"roles.bg","kind":"component","why":"a rule or a marker in the accent"},
     {"fg":"roles.border","bg":"roles.bg","kind":"component","why":"rules and chart axes"},
     {"fg":"roles.focus","bg":"roles.bg","kind":"component","why":"the focus ring"},
-    {"fg":"extra.ink-red","bg":"accents.red","kind":"text","why":"body text on the red field; titles use the same ink"},
+    {"fg":"extra.ink-red","bg":"accents.red","kind":"large","why":"titles on the red field, in its ink; body text is not held on this field"},
     {"fg":"extra.ink-orange","bg":"accents.orange","kind":"text","why":"body text on the orange field; titles use the same ink"},
     {"fg":"extra.ink-yellow","bg":"accents.yellow","kind":"text","why":"body text on the yellow field; titles use the same ink"},
-    {"fg":"extra.ink-green","bg":"accents.green","kind":"text","why":"body text on the green field; titles use the same ink"},
+    {"fg":"extra.ink-green","bg":"accents.green","kind":"large","why":"titles on the green field, in its ink; body text is not held on this field"},
     {"fg":"extra.ink-cyan","bg":"accents.cyan","kind":"text","why":"body text on the cyan field; titles use the same ink"},
     {"fg":"extra.ink-blue","bg":"accents.blue","kind":"text","why":"body text on the blue field; titles use the same ink"},
     {"fg":"extra.ink-violet","bg":"accents.violet","kind":"text","why":"body text on the violet field; titles use the same ink"},
@@ -263,8 +263,12 @@
   "rules": [
     {
       "id": "two-bands",
-      "text": "A field that carries body text sits in one of two luminance bands: deep, with white ink, or bright, with a dark ink. Nothing between them carries body text in a lit room, so no flag is placed there.",
-      "check": ["lightness-gap:accents.red,accents.orange,35","lightness-gap:accents.magenta,accents.green,35"]
+      "text": "A field that carries body text sits in one of two luminance bands: deep, with white ink, or bright, with a dark ink. Red and green sit between the bands and carry titles only, in white ink and in a dark ink.",
+      "check": ["lightness-gap:accents.magenta,accents.orange,35"]
+    },
+    {
+      "id": "titles-only",
+      "text": "Red and green carry titles only. After the flare of a lit room their ink reaches 3:1 and not 4.5:1, so text on them is set at title size or larger. design.field.<flag>.smallest-text-pt gives the smallest size for each field."
     },
     {
       "id": "own-ink",
@@ -277,7 +281,7 @@
     },
     {
       "id": "pattern-in-print",
-      "text": "Every flag has a pattern token. In print in grey the three flags that lightness cannot tell from another (green, cyan and magenta) are told apart by their pattern, and the other five by lightness."
+      "text": "Every flag has a pattern token. In print in grey the one flag that lightness cannot tell from another, cyan, is told apart by its pattern, and the other seven by lightness."
     },
     {
       "id": "marks-outlined",
@@ -300,9 +304,9 @@
       "id": "fields-print",
       "set": "accents",
       "for": ["print-grey"],
-      "patterned": ["green","cyan","magenta"],
-      "by": "the flag's pattern token (design.pattern): a cross on green, checks on cyan, quarters on magenta",
-      "note": "The same eight flags for print in grey. Five stand on their own lightness, 12 L* or more from each other. The other three sit at the lightness of one of the five, so each carries a pattern of its own. Colour vision results repeat those of fields."
+      "patterned": ["cyan"],
+      "by": "the flag's pattern token (design.pattern): checks on cyan",
+      "note": "The same eight flags for print in grey. Seven stand on their own lightness, 12 L* or more from each other. Cyan sits at the lightness of another flag, so it carries a pattern of its own. Colour vision results repeat those of fields."
     }
   ],
   "targets": {

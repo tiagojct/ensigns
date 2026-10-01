@@ -4,7 +4,7 @@
 import { describe, expect, it } from "vitest";
 import { lstar } from "../../lib/colour/grey.ts";
 import { relativeLuminance } from "../../lib/colour/wcag.ts";
-import { loadFamilies } from "../../lib/model/load.ts";
+import { loadCandidates, loadFamilies } from "../../lib/model/load.ts";
 import { resolveFamily } from "../../lib/model/resolve.ts";
 import { MODES } from "../../lib/model/types.ts";
 
@@ -125,5 +125,43 @@ describe("Bachelor", () => {
   it("has two modes with plain labels", () => {
     expect(file.modes.dark.label).toBe("Brazen lamp");
     expect(file.modes.light.label).toBe("Holiday apparel");
+  });
+});
+
+describe("Bachelor, candidate ladder", () => {
+  const ladder = loadCandidates().find((c) => c.dir === "bachelor" && c.candidate === "ladder")!;
+  const tokens = ladder.file;
+  const resolved = resolveFamily(tokens);
+  const lightOf = (flag: string): string => resolved.modes.light.colours.get(`accents.${flag}`)!.hex;
+  const TITLES_ONLY = ["red", "green"];
+
+  it("keeps every flag name and the family's chapter, quote and environments", () => {
+    expect(Object.keys(tokens.modes.light.accents ?? {})).toEqual(WHEEL);
+    expect(tokens.meta.chapter).toBe(file.meta.chapter);
+    expect(tokens.meta.quote).toBe(file.meta.quote);
+    expect(tokens.meta.environments).toEqual(file.meta.environments);
+    expect(tokens.exceptions).toBeUndefined();
+  });
+
+  it("puts red and green between the bands, with titles only, and leaves cyan alone to its pattern", () => {
+    for (const flag of TITLES_ONLY) {
+      const y = relativeLuminance(lightOf(flag));
+      expect(y, flag).toBeGreaterThan(0.1);
+      expect(y, flag).toBeLessThan(0.455);
+      const pair = (tokens.pairs ?? []).find((p) => p.fg === `extra.ink-${flag}` && p.bg === `accents.${flag}`);
+      expect(pair?.kind, flag).toBe("large");
+      expect((tokens.design as Record<string, any>).field[flag]["smallest-text-pt"], flag).toBe((tokens.design as Record<string, any>).type.size.title);
+    }
+    for (const flag of WHEEL.filter((f) => !TITLES_ONLY.includes(f))) {
+      const pair = (tokens.pairs ?? []).find((p) => p.fg === `extra.ink-${flag}` && p.bg === `accents.${flag}`);
+      expect(pair?.kind, flag).toBe("text");
+    }
+    expect((tokens.distinct ?? []).find((d) => d.id === "fields-print")?.patterned).toEqual(["cyan"]);
+  });
+
+  it("stands seven flags on their lightness, 12 L* or more apart", () => {
+    const alone = WHEEL.filter((f) => f !== "cyan").map((f) => ({ f, l: lstar(lightOf(f)) })).sort((a, b) => a.l - b.l);
+    expect(alone.map((a) => a.f)).toEqual(["violet", "blue", "magenta", "red", "green", "orange", "yellow"]);
+    for (let i = 1; i < alone.length; i++) expect(alone[i]!.l - alone[i - 1]!.l, `${alone[i - 1]!.f} to ${alone[i]!.f}`).toBeGreaterThanOrEqual(12);
   });
 });

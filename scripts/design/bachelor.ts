@@ -22,13 +22,21 @@
 // that allows (OKLCH chroma against the most chromatic colour in the flag's own window). Inks and
 // grounds are placed by luminance, because the gates are luminance gates. Nothing here is random.
 //
-//   node scripts/design/bachelor.ts            check the token file against the derivation, run the harness
-//   node scripts/design/bachelor.ts --write    write the derived palette into the token file first
+// A second design, the candidate ladder, gives up body text on two fields to keep seven flags on
+// lightness in print: its red and green sit between the bands and carry titles only (3:1 after the
+// lit flare, not 4.5:1). Every pair then depends on its neighbours on the ladder, so the candidate is
+// searched with all eight flags at once.
+//
+//   node scripts/design/bachelor.ts                          check the token file against the derivation, run the harness
+//   node scripts/design/bachelor.ts --write                  write the derived palette into the token file first
+//   node scripts/design/bachelor.ts --candidate ladder       the same for families/bachelor/candidates/ladder.tokens.json
+//   node scripts/design/bachelor.ts --candidate ladder --write
 //
 // The script stops with a non-zero exit when the token file differs from the derived values or when a
-// check fails.
-import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+// check fails. The candidate file is written from the family's own file, so the two differ only where
+// the design differs.
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { applyFlare, contrastRatio, fromOklch, greyscaleHex, lstar, oklabDistance, relativeLuminance as Y, simulateCvd, toOklab, toOklch } from "../../lib/colour/index.ts";
 import { buildReport, failures, num } from "../../lib/harness/index.ts";
 import { repoRoot } from "../../lib/model/load.ts";
@@ -36,7 +44,11 @@ import { resolveFamily } from "../../lib/model/resolve.ts";
 import type { FamilyFile } from "../../lib/model/types.ts";
 
 const root = repoRoot();
-const TOKENS = join(root, "families/bachelor/bachelor.tokens.json");
+const PRIMARY = join(root, "families/bachelor/bachelor.tokens.json");
+const candidateAt = process.argv.indexOf("--candidate");
+const CANDIDATE = candidateAt >= 0 ? process.argv[candidateAt + 1] : undefined;
+if (CANDIDATE !== undefined && CANDIDATE !== "ladder") throw new Error(`no candidate named ${CANDIDATE}; the candidate is ladder`);
+const TOKENS = CANDIDATE ? join(root, `families/bachelor/candidates/${CANDIDATE}.tokens.json`) : PRIMARY;
 const thresholds = JSON.parse(readFileSync(join(root, "tests/environments.json"), "utf8"));
 const WRITE = process.argv.includes("--write");
 const problems: string[] = [];
@@ -102,14 +114,27 @@ console.log(`deep band   : relative luminance up to ${f(deepMax, 4)} (L* ${f(lst
 console.log(`bright band : relative luminance from ${f(brightMin, 4)} (L* ${f(lstarOfY(brightMin), 1)}), set by ${TEXT_GATES.find((g) => darkInkLimit(DARK_INK_Y, g.k, g.min * INK_MARGIN) === brightMin)!.name}`);
 console.log(`no field between them carries body text, in either ink: ${f(deepMax, 4)} to ${f(brightMin, 4)}\n`);
 
-// The print ladder: rungs of the deep band, GAP + margin apart, the top one as high as the band goes.
+// Titles alone (3:1) leave room between the bands: white ink holds a title on a field up to whiteTitleMax,
+// dark ink from darkTitleMin. A field there cannot carry body text. The family keeps every flag out of it;
+// the candidate ladder puts two flags in it.
+const whiteTitleMax = Math.min(...TITLE_GATES.map((g) => lightInkLimit(Y(white), g.k, g.min * INK_MARGIN)));
+const darkTitleMin = Math.max(...TITLE_GATES.map((g) => darkInkLimit(DARK_INK_Y, g.k, g.min * INK_MARGIN)));
+
+// The print ladder: rungs GAP + margin apart, the top rung of the deep band as high as the band goes.
 const STEP = GREY_GAP + GAP_MARGIN;
 const rungTop = lstarOfY(deepMax);
 const rungs = [rungTop - 2 * STEP, rungTop - STEP, rungTop];
-// A window of about a point of L* around a rung. The 12.4 L* step between unpatterned flags is enforced pair by pair in the search.
-const around = (l: number): [number, number] => [yOfLstar(l - 1.2), Math.min(deepMax, yOfLstar(l + 0.6))];
-console.log(`Print ladder in the deep band (${GREY_GAP} L* apart plus ${GAP_MARGIN}): L* ${rungs.map((r) => f(r, 1)).join(", ")}`);
-console.log(`Three deep flags stand on the rungs; the bright band holds two more, about ${f(lstarOfY(brightMin), 1)} and ${f(lstarOfY(brightMin) + STEP, 1)} L* and above; the other three flags carry a pattern in print.\n`);
+// The two rungs above the deep band, where only titles can sit (used by the candidate).
+const titleRungs = [rungTop + STEP, rungTop + 2 * STEP];
+/** A window of about a point of L* around a rung, inside [lo, hi]. The 12.4 L* step between unpatterned flags is enforced pair by pair in the search. */
+const around = (l: number, lo = 0, hi = deepMax, below = 1.2, above = 0.6): [number, number] => [Math.max(lo, yOfLstar(l - below)), Math.min(hi, yOfLstar(l + above))];
+console.log(`Print ladder (${GREY_GAP} L* apart plus ${GAP_MARGIN}), deep band: L* ${rungs.map((r) => f(r, 1)).join(", ")}`);
+if (CANDIDATE) {
+  console.log(`Titles alone reach up to a white-ink luminance of ${f(whiteTitleMax, 4)} (L* ${f(lstarOfY(whiteTitleMax), 1)}) and down to a dark-ink luminance of ${f(darkTitleMin, 4)} (L* ${f(lstarOfY(darkTitleMin), 1)}): rungs at L* ${titleRungs.map((r) => f(r, 1)).join(" and ")}.`);
+  console.log(`Seven flags stand on the rungs, the bright band holding two, about ${f(lstarOfY(brightMin), 1)} and ${f(lstarOfY(brightMin) + STEP, 1)} L* and above; the eighth flag carries a pattern in print.\n`);
+} else {
+  console.log(`Three deep flags stand on the rungs; the bright band holds two more, about ${f(lstarOfY(brightMin), 1)} and ${f(lstarOfY(brightMin) + STEP, 1)} L* and above; the other three flags carry a pattern in print.\n`);
+}
 
 // ---------------------------------------------------------------------------------------------
 // 2. The search
@@ -142,8 +167,13 @@ function tintAtY(y: number, C: number, h: number): string {
   return fromOklch((lo + hi) / 2, C, h);
 }
 
-interface Slot { name: string; band: "deep" | "bright"; h: [number, number]; y: [number, number]; unpatterned: boolean }
-const SLOTS: Slot[] = [
+/**
+ * deep: white ink, body text. bright: dark ink, body text. mid-dark (white ink) and mid-light (dark ink) sit
+ * between the bands and carry titles only.
+ */
+type Band = "deep" | "mid-dark" | "mid-light" | "bright";
+interface Slot { name: string; band: Band; h: [number, number]; y: [number, number]; unpatterned: boolean }
+const FAMILY_SLOTS: Slot[] = [
   { name: "red", band: "deep", h: [22, 34], y: around(rungs[2]!), unpatterned: true },
   { name: "blue", band: "deep", h: [262, 268], y: around(rungs[1]!), unpatterned: true },
   { name: "violet", band: "deep", h: [284, 296], y: around(rungs[0]!), unpatterned: true },
@@ -153,6 +183,25 @@ const SLOTS: Slot[] = [
   { name: "green", band: "bright", h: [146, 158], y: [brightMin, 0.6], unpatterned: false },
   { name: "cyan", band: "bright", h: [196, 214], y: [brightMin, 0.64], unpatterned: false },
 ];
+// The ladder moves red up to a rung between the bands (white ink, titles only) and green down to one
+// (dark ink, titles only), which lets magenta take the top rung of the deep band and leaves cyan alone
+// to carry a pattern in print.
+const LADDER_SLOTS: Slot[] = [
+  { name: "red", band: "mid-dark", h: [22, 36], y: around(titleRungs[0]!, deepMax, whiteTitleMax), unpatterned: true },
+  { name: "blue", band: "deep", h: [262, 268], y: around(rungs[1]!), unpatterned: true },
+  { name: "violet", band: "deep", h: [284, 296], y: around(rungs[0]!), unpatterned: true },
+  { name: "magenta", band: "deep", h: [326, 342], y: around(rungs[2]!), unpatterned: true },
+  { name: "yellow", band: "bright", h: [99, 106], y: [0.74, 0.84], unpatterned: true },
+  { name: "orange", band: "bright", h: [62, 76], y: [brightMin, brightMin + 0.05], unpatterned: true },
+  { name: "green", band: "mid-light", h: [140, 158], y: around(titleRungs[1]!, darkTitleMin, brightMin, 1.2, 1.4), unpatterned: true },
+  { name: "cyan", band: "bright", h: [196, 214], y: [brightMin, 0.64], unpatterned: false },
+];
+const SLOTS = CANDIDATE ? LADDER_SLOTS : FAMILY_SLOTS;
+const slotOf = (name: string): Slot => SLOTS.find((s) => s.name === name)!;
+/** White ink on the deep and mid-dark fields, dark ink on the mid-light and bright ones. */
+const whiteInk = (name: string): boolean => slotOf(name).band === "deep" || slotOf(name).band === "mid-dark";
+/** A field between the bands carries titles only. */
+const titlesOnly = (name: string): boolean => slotOf(name).band === "mid-dark" || slotOf(name).band === "mid-light";
 
 type Lab = [number, number, number];
 const lab = (hex: string): Lab => {
@@ -232,14 +281,14 @@ function solve(slots: Slot[]): Cand[] {
   return (bestPick as number[]).map((a, i) => cands[i]![a]!);
 }
 
+// The family's two bands are solved apart (a deep flag and a bright flag are far apart in every view, which the
+// check below confirms). The candidate's rungs are close enough for neighbours to matter, so it is solved whole.
 const flags: Record<string, Cand> = {};
-for (const band of ["deep", "bright"] as const) {
-  const slots = SLOTS.filter((s) => s.band === band);
-  solve(slots).forEach((c, i) => { flags[slots[i]!.name] = c; });
-}
+const GROUPS: Slot[][] = CANDIDATE ? [SLOTS] : [SLOTS.filter((s) => s.band === "deep"), SLOTS.filter((s) => s.band === "bright")];
+for (const slots of GROUPS) solve(slots).forEach((c, i) => { flags[slots[i]!.name] = c; });
 const ORDER = ["red", "orange", "yellow", "green", "cyan", "blue", "violet", "magenta"];
-const bandOf = (name: string): "deep" | "bright" => SLOTS.find((s) => s.name === name)!.band;
-const unpatterned = (name: string): boolean => SLOTS.find((s) => s.name === name)!.unpatterned;
+const bandOf = (name: string): Band => slotOf(name).band;
+const unpatterned = (name: string): boolean => slotOf(name).unpatterned;
 const hexOfFlag = (n: string): string => flags[n]!.hex;
 
 /** The smallest distance between two flags over normal vision, each simulation and each flare. */
@@ -249,23 +298,25 @@ const worstView = (a: string, b: string): number => Math.min(
   ...ROOMS.map(([, k]) => oklabDistance(applyFlare(hexOfFlag(a), k), applyFlare(hexOfFlag(b), k))),
 );
 
-// The claim that lets each band be solved alone: a deep flag and a bright flag are far apart in every view.
+// The claim that lets the family's bands be solved apart: a deep flag and a bright flag are far apart in every view.
 const CROSS_BAND = 0.25;
-let crossMin = Infinity;
-let crossAt = "";
-for (const a of ORDER) {
-  for (const b of ORDER) {
-    if (a < b && bandOf(a) !== bandOf(b) && worstView(a, b) < crossMin) { crossMin = worstView(a, b); crossAt = `${a}, ${b}`; }
+if (!CANDIDATE) {
+  let crossMin = Infinity;
+  let crossAt = "";
+  for (const a of ORDER) {
+    for (const b of ORDER) {
+      if (a < b && bandOf(a) !== bandOf(b) && worstView(a, b) < crossMin) { crossMin = worstView(a, b); crossAt = `${a}, ${b}`; }
+    }
   }
+  check(crossMin >= CROSS_BAND, `${crossAt} are ${f(crossMin)} apart in their worst view, and the bands are solved apart on the claim that no such pair comes within ${CROSS_BAND}`);
 }
-check(crossMin >= CROSS_BAND, `${crossAt} are ${f(crossMin)} apart in their worst view, and the bands are solved apart on the claim that no such pair comes within ${CROSS_BAND}`);
 
 // ---------------------------------------------------------------------------------------------
 // 3. Inks
 // ---------------------------------------------------------------------------------------------
 const inks: Record<string, string> = { white };
-for (const name of ORDER) if (bandOf(name) === "bright") inks[name] = tintAtY(DARK_INK_Y, DARK_INK_CHROMA, flags[name]!.h);
-const inkOf = (name: string): string => (bandOf(name) === "deep" ? inks.white! : inks[name]!);
+for (const name of ORDER) if (!whiteInk(name)) inks[name] = tintAtY(DARK_INK_Y, DARK_INK_CHROMA, flags[name]!.h);
+const inkOf = (name: string): string => (whiteInk(name) ? inks.white! : inks[name]!);
 
 // ---------------------------------------------------------------------------------------------
 // 4. Grounds and text, placed by luminance
@@ -303,11 +354,16 @@ const dark = {
 // 5. The palette, as the token file holds it
 // ---------------------------------------------------------------------------------------------
 type Entry = { hex: string; note?: string } | { ref: string; alpha: number };
-const noteOf = (name: string): string =>
-  `${bandOf(name) === "deep" ? "Deep field, white ink." : "Bright field, dark ink."}${unpatterned(name) ? "" : " Told apart in print by its pattern."}`;
+const FIELD_NOTE: Record<Band, string> = {
+  deep: "Deep field, white ink.",
+  bright: "Bright field, dark ink.",
+  "mid-dark": "Field between the bands, white ink, titles only.",
+  "mid-light": "Field between the bands, dark ink, titles only.",
+};
+const noteOf = (name: string): string => `${FIELD_NOTE[bandOf(name)]}${unpatterned(name) ? "" : " Told apart in print by its pattern."}`;
 const palette: Record<string, Record<string, Entry>> = {
   flag: Object.fromEntries(ORDER.map((n) => [n, { hex: flags[n]!.hex, note: noteOf(n) }])),
-  ink: Object.fromEntries([["white", { hex: inks.white! }], ...ORDER.filter((n) => bandOf(n) === "bright").map((n) => [n, { hex: inks[n]! }])]),
+  ink: Object.fromEntries([["white", { hex: inks.white! }], ...ORDER.filter((n) => !whiteInk(n)).map((n) => [n, { hex: inks[n]! }])]),
   light: Object.fromEntries(Object.entries(light).map(([k, hex]) => [k, { hex }])),
   dark: Object.fromEntries(Object.entries(dark).map(([k, hex]) => [k, { hex }])),
   alpha: { yellow: { ref: "{palette.flag.yellow}", alpha: 0.45 }, blue: { ref: "{palette.flag.blue}", alpha: 0.5 } },
@@ -320,8 +376,8 @@ const lch = (hex: string): string => {
   const c = toOklch(hex);
   return `L ${f(c.L)} C ${f(c.C)} h ${c.h.toFixed(0).padStart(3)}`;
 };
-console.log("Flags, in wheel order (band, print rung, the field's ink, and the ink's contrast after each flare and in grey)");
-console.log("flag     hex      band    Y      L*    OKLCH                   ink      plain  dark   lit    grey   print");
+console.log("Flags, in wheel order (band, the field's ink, and the ink's contrast plain, after each flare and in grey)");
+console.log("flag     hex      band      Y      L*    OKLCH                   ink      plain  dark   lit    grey   print");
 for (const name of ORDER) {
   const c = flags[name]!;
   const ink = inkOf(name);
@@ -331,9 +387,11 @@ for (const name of ORDER) {
     return (Math.max(fl(ink), fl(c.hex)) + 0.05) / (Math.min(fl(ink), fl(c.hex)) + 0.05);
   });
   console.log(
-    `${name.padEnd(8)} ${c.hex} ${bandOf(name).padEnd(7)} ${f(c.y, 4)} ${f(c.ls, 1).padStart(5)} ${lch(c.hex)}  ${ink}  ${contrastRatio(ink, c.hex).toFixed(2).padStart(5)}  ${after.map((x) => x.toFixed(2).padStart(5)).join("  ")}  ${greyContrast.toFixed(2).padStart(5)}  ${unpatterned(name) ? "lightness" : "pattern"}`,
+    `${name.padEnd(8)} ${c.hex} ${bandOf(name).padEnd(9)} ${f(c.y, 4)} ${f(c.ls, 1).padStart(5)} ${lch(c.hex)}  ${ink}  ${contrastRatio(ink, c.hex).toFixed(2).padStart(5)}  ${after.map((x) => x.toFixed(2).padStart(5)).join("  ")}  ${greyContrast.toFixed(2).padStart(5)}  ${unpatterned(name) ? "lightness" : "pattern"}${titlesOnly(name) ? ", titles only" : ""}`,
   );
-  check(after.every((x) => x >= BODY * INK_MARGIN - 1e-9), `${name}: ink after flare ${after.map((x) => x.toFixed(2)).join(", ")}, needs ${BODY} with margin`);
+  const need = titlesOnly(name) ? TITLE : BODY;
+  check(after.every((x) => x >= need * INK_MARGIN - 1e-9), `${name}: ink after flare ${after.map((x) => x.toFixed(2)).join(", ")}, needs ${need} with margin`);
+  if (titlesOnly(name)) check(after.some((x) => x < BODY), `${name} carries body text after every flare, so it is not between the bands`);
 }
 
 const table = (label: string, names: string[], hexOf: (n: string) => string, transform: (hex: string) => string): string => {
@@ -361,7 +419,7 @@ for (let i = 1; i < ladder.length; i++) {
   console.log(`  ${ladder[i - 1]!.n} to ${ladder[i]!.n}: ${f(gap, 1)} L*`);
   check(gap >= GREY_GAP, `${ladder[i - 1]!.n} and ${ladder[i]!.n} are ${f(gap, 1)} L* apart in print, needs ${GREY_GAP}`);
 }
-check(ORDER.filter((n) => !unpatterned(n)).length === 3, "the ladder leaves three flags to their pattern");
+check(ORDER.filter((n) => !unpatterned(n)).length === (CANDIDATE ? 1 : 3), `the ladder leaves ${CANDIDATE ? "one flag" : "three flags"} to its pattern`);
 
 // Most separable first: start from the pair that is furthest apart in the worst view, then add the flag
 // whose nearest chosen flag is furthest away, in the worst view.
@@ -385,7 +443,7 @@ console.log(`\nChart order, most separable first: ${categorical.join(", ")}`);
 
 // Viewing distance to type size. The sizes are derived here and held in the token file.
 // The inputs are design choices and live in the token file (design.viewing, design.slide, design.type).
-const inputs = (JSON.parse(readFileSync(TOKENS, "utf8")) as { design: Record<string, any> }).design;
+const inputs = (JSON.parse(readFileSync(PRIMARY, "utf8")) as { design: Record<string, any> }).design;
 const VIEW = {
   near: inputs.viewing["distance-near-m"] as number,
   far: inputs.viewing["distance-far-m"] as number,
@@ -436,15 +494,60 @@ function pretty(value: unknown, indent = 0): string {
   return JSON.stringify(value);
 }
 
-const file = JSON.parse(readFileSync(TOKENS, "utf8")) as FamilyFile & Record<string, unknown>;
+type Json = Record<string, any>;
+const readJson = (path: string): Json => JSON.parse(readFileSync(path, "utf8"));
+
+/** The pieces that follow from the derivation, in the family's file and in the candidate's. */
+function withDerived(base: Json): Json {
+  const out: Json = structuredClone(base);
+  out.palette = palette;
+  out.design.field = Object.fromEntries(ORDER.map((n) => [n, { "smallest-text-pt": titlesOnly(n) ? sizes.title : sizes.caption }]));
+  for (const mode of ["dark", "light"]) {
+    out.modes[mode].data.categorical.colors = Object.fromEntries(categorical.map((n) => [n, `{palette.flag.${n}}`]));
+  }
+  return out;
+}
+
+/** What the ladder changes: two fields between the bands carry titles only, and one flag is left to its pattern. */
+function asLadder(out: Json): Json {
+  out.pairs = out.pairs.map((p: Json) => {
+    const m = /^extra\.ink-(.+)$/.exec(p.fg);
+    return m && p.bg === `accents.${m[1]}` && titlesOnly(m[1]!) ? { ...p, kind: "large", why: `titles on the ${m[1]} field, in its ink; body text is not held on this field` } : p;
+  });
+  const alone = ORDER.filter((n) => !unpatterned(n));
+  const print = out.distinct.find((d: Json) => d.id === "fields-print");
+  print.patterned = alone;
+  print.by = `the flag's pattern token (design.pattern): ${alone.map((n) => `${out.design.pattern[n].name} on ${n}`).join(", ")}`;
+  print.note = "The same eight flags for print in grey. Seven stand on their own lightness, 12 L* or more from each other. Cyan sits at the lightness of another flag, so it carries a pattern of its own. Colour vision results repeat those of fields.";
+  const rule = (id: string): Json => out.rules.find((r: Json) => r.id === id);
+  Object.assign(rule("two-bands"), {
+    text: "A field that carries body text sits in one of two luminance bands: deep, with white ink, or bright, with a dark ink. Red and green sit between the bands and carry titles only, in white ink and in a dark ink.",
+    check: ["lightness-gap:accents.magenta,accents.orange,35"],
+  });
+  Object.assign(rule("pattern-in-print"), {
+    text: "Every flag has a pattern token. In print in grey the one flag that lightness cannot tell from another, cyan, is told apart by its pattern, and the other seven by lightness.",
+  });
+  out.rules.splice(out.rules.indexOf(rule("two-bands")) + 1, 0, {
+    id: "titles-only",
+    text: "Red and green carry titles only. After the flare of a lit room their ink reaches 3:1 and not 4.5:1, so text on them is set at title size or larger. design.field.<flag>.smallest-text-pt gives the smallest size for each field.",
+  });
+  return out;
+}
+
+const built = CANDIDATE ? asLadder(withDerived(readJson(PRIMARY))) : withDerived(readJson(PRIMARY));
 if (WRITE) {
-  file.palette = palette;
-  writeFileSync(TOKENS, `${pretty(file)}\n`);
-  console.log(`\nwrote the palette into ${TOKENS}`);
+  mkdirSync(dirname(TOKENS), { recursive: true });
+  writeFileSync(TOKENS, `${pretty(built)}\n`);
+  console.log(`\nwrote ${TOKENS}`);
+}
+if (CANDIDATE) {
+  const family = readJson(PRIMARY).palette.flag as Record<string, { hex: string }>;
+  console.log("\nAgainst the family's palette:");
+  for (const n of ORDER) console.log(`  ${n.padEnd(8)} ${family[n]!.hex} -> ${flags[n]!.hex}${family[n]!.hex === flags[n]!.hex ? " (same)" : ""}`);
 }
 
 // What the token file must hold.
-const held = JSON.parse(readFileSync(TOKENS, "utf8")) as FamilyFile & { design?: Record<string, any> };
+const held = readJson(TOKENS) as FamilyFile & { design?: Record<string, any>; pairs?: { fg: string; bg: string; kind: string }[] };
 for (const [group, entries] of Object.entries(palette)) {
   for (const [name, entry] of Object.entries(entries)) {
     const have = (held.palette[group] as Record<string, unknown> | undefined)?.[name];
@@ -471,6 +574,13 @@ check(JSON.stringify(Object.keys((held.modes.dark.data as { categorical?: { colo
 const patterned = ORDER.filter((n) => !unpatterned(n));
 const declared = held.distinct?.find((d) => d.id === "fields-print")?.patterned ?? [];
 check(JSON.stringify([...declared].sort()) === JSON.stringify([...patterned].sort()), `fields-print declares ${declared.join(", ")} as patterned, the ladder leaves ${patterned.join(", ")}`);
+for (const n of ORDER) {
+  const smallest = design.field?.[n]?.["smallest-text-pt"];
+  const want = titlesOnly(n) ? sizes.title : sizes.caption;
+  check(smallest === want, `design.field.${n}.smallest-text-pt is ${smallest}, the derivation gives ${want}`);
+  const pair = held.pairs?.find((p) => p.fg === `extra.ink-${n}` && p.bg === `accents.${n}`);
+  check(pair?.kind === (titlesOnly(n) ? "large" : "text"), `the pair of ${n} is kind ${pair?.kind}, the derivation gives ${titlesOnly(n) ? "large" : "text"}`);
+}
 
 // ---------------------------------------------------------------------------------------------
 // 8. The harness
@@ -484,11 +594,17 @@ for (const [profile, r] of Object.entries(report.profiles)) {
 }
 check(JSON.stringify(Object.keys(report.profiles).sort()) === JSON.stringify(["cvd", "office-screen", "print-grey", "projector"]), `the report covers ${Object.keys(report.profiles).join(", ")}`);
 
-// The two-band promise, read off the resolved colours.
+// The band of each flag, read off the resolved colours.
+const inBand: Record<Band, (y: number) => boolean> = {
+  deep: (y) => y <= deepMax + 1e-9,
+  bright: (y) => y >= brightMin - 1e-9,
+  "mid-dark": (y) => y > deepMax && y <= whiteTitleMax + 1e-9,
+  "mid-light": (y) => y >= darkTitleMin - 1e-9 && y < brightMin,
+};
 for (const mode of ["dark", "light"] as const) {
   for (const name of ORDER) {
     const y = Y(family.modes[mode].colours.get(`accents.${name}`)!.hex);
-    check(bandOf(name) === "deep" ? y <= deepMax + 1e-9 : y >= brightMin - 1e-9, `${mode} accents.${name} has luminance ${f(y, 4)}, outside its band`);
+    check(inBand[bandOf(name)](y), `${mode} accents.${name} has luminance ${f(y, 4)}, outside its band`);
   }
 }
 

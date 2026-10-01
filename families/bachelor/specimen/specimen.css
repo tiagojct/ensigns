@@ -20,15 +20,15 @@
 .sp-figure { margin: 0; min-width: 0; }
 .sp-figure figcaption { margin-top: 0.3rem; font-size: 0.8125rem; line-height: 1.35; color: var(--roles-text-muted); }
 
-/* The flags: each sets the field, the ink and the chart colour that the rules below read. */
-.sp-flag-red { --sp-field: var(--accents-red); --sp-ink: var(--extra-ink-red); --sp-mark: var(--data-categorical-red); }
-.sp-flag-orange { --sp-field: var(--accents-orange); --sp-ink: var(--extra-ink-orange); --sp-mark: var(--data-categorical-orange); }
-.sp-flag-yellow { --sp-field: var(--accents-yellow); --sp-ink: var(--extra-ink-yellow); --sp-mark: var(--data-categorical-yellow); }
-.sp-flag-green { --sp-field: var(--accents-green); --sp-ink: var(--extra-ink-green); --sp-mark: var(--data-categorical-green); }
-.sp-flag-cyan { --sp-field: var(--accents-cyan); --sp-ink: var(--extra-ink-cyan); --sp-mark: var(--data-categorical-cyan); }
-.sp-flag-blue { --sp-field: var(--accents-blue); --sp-ink: var(--extra-ink-blue); --sp-mark: var(--data-categorical-blue); }
-.sp-flag-violet { --sp-field: var(--accents-violet); --sp-ink: var(--extra-ink-violet); --sp-mark: var(--data-categorical-violet); }
-.sp-flag-magenta { --sp-field: var(--accents-magenta); --sp-ink: var(--extra-ink-magenta); --sp-mark: var(--data-categorical-magenta); }
+/* The flags: each sets the field, the ink, the chart colour and the smallest text size that the rules below read. */
+.sp-flag-red { --sp-field: var(--accents-red); --sp-ink: var(--extra-ink-red); --sp-mark: var(--data-categorical-red); --sp-smallest: var(--design-field-red-smallest-text-pt); }
+.sp-flag-orange { --sp-field: var(--accents-orange); --sp-ink: var(--extra-ink-orange); --sp-mark: var(--data-categorical-orange); --sp-smallest: var(--design-field-orange-smallest-text-pt); }
+.sp-flag-yellow { --sp-field: var(--accents-yellow); --sp-ink: var(--extra-ink-yellow); --sp-mark: var(--data-categorical-yellow); --sp-smallest: var(--design-field-yellow-smallest-text-pt); }
+.sp-flag-green { --sp-field: var(--accents-green); --sp-ink: var(--extra-ink-green); --sp-mark: var(--data-categorical-green); --sp-smallest: var(--design-field-green-smallest-text-pt); }
+.sp-flag-cyan { --sp-field: var(--accents-cyan); --sp-ink: var(--extra-ink-cyan); --sp-mark: var(--data-categorical-cyan); --sp-smallest: var(--design-field-cyan-smallest-text-pt); }
+.sp-flag-blue { --sp-field: var(--accents-blue); --sp-ink: var(--extra-ink-blue); --sp-mark: var(--data-categorical-blue); --sp-smallest: var(--design-field-blue-smallest-text-pt); }
+.sp-flag-violet { --sp-field: var(--accents-violet); --sp-ink: var(--extra-ink-violet); --sp-mark: var(--data-categorical-violet); --sp-smallest: var(--design-field-violet-smallest-text-pt); }
+.sp-flag-magenta { --sp-field: var(--accents-magenta); --sp-ink: var(--extra-ink-magenta); --sp-mark: var(--data-categorical-magenta); --sp-smallest: var(--design-field-magenta-smallest-text-pt); }
 .sp-field { background-color: var(--sp-field); color: var(--sp-ink); }
 
 /* A frame: a slide, or the tall crop of a poster. The washed copy gets the page's flare filter. */
@@ -76,6 +76,9 @@
 .sp-opening .sp-foot { padding: 0 calc(48 * var(--sp-u)) calc(30 * var(--sp-u)); }
 
 /* A section slide is one field, with its ink, and a canton that carries the flag's pattern. */
+/* A field between the bands carries titles only, so its smaller lines are set at its smallest text size. */
+.sp-section .sp-body { font-size: calc(max(var(--design-type-size-body), var(--sp-smallest)) * var(--sp-u)); }
+.sp-section .sp-caption { font-size: calc(max(var(--design-type-size-caption), var(--sp-smallest)) * var(--sp-u)); }
 .sp-section { align-content: end; row-gap: calc(14 * var(--sp-u)); padding-bottom: calc(44 * var(--sp-u)); }
 .sp-canton { position: absolute; top: 0; left: 0; display: block; width: calc(150 * var(--sp-u)); height: calc(150 * var(--sp-u)); border-right: calc(3 * var(--sp-u)) solid var(--sp-ink); border-bottom: calc(3 * var(--sp-u)) solid var(--sp-ink); }
 .sp-pat-field { fill: var(--sp-field); }

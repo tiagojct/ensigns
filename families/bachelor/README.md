@@ -2,7 +2,7 @@
 
 Bachelor is the family for slides, posters, signage and conference banners that are read from 5 to 20 metres. It has eight flag colours that work as full-bleed fields and as chart colours, an ink for text on each field, a calm light ground for lit rooms and a dark ground for dark ones. This is version 0.1.0.
 
-The colours are in `bachelor.tokens.json` in this folder, which follows `schema/family.schema.json`. The palette in the token file is the only place a colour is defined. `scripts/design/bachelor.ts` records how the values were chosen and stops if the token file differs from them. `scripts/design/bachelor-gamut.py` checks the flags against a CMYK profile. `specimen/` holds the slides, the chart and the poster header that the family page shows, and `CHANGELOG.md` holds the history.
+The colours are in `bachelor.tokens.json` in this folder, which follows `schema/family.schema.json`. The palette in the token file is the only place a colour is defined. A second design is in `candidates/ladder.tokens.json`, and the section on the candidate says what the two trade. `scripts/design/bachelor.ts` records how the values were chosen and stops if the token file differs from them. `scripts/design/bachelor-gamut.py` checks the flags against a CMYK profile. `specimen/` holds the slides, the chart and the poster header that the family page shows, and `CHANGELOG.md` holds the history.
 
 ## Goal
 
@@ -160,11 +160,17 @@ The only CMYK profile on the machine is the macOS Generic CMYK profile. It is a 
 
 Five flags move by more than 0.06: blue, green, cyan, magenta and violet. Yellow, red and orange move by 0.036 to 0.045. No palette entry carries a `cmyk` value. A tuned print value needs a press profile and a proof, and the only profile here is a stand-in, so a value taken from it would only look like a tuned one. Run the script again with the profile that the printer names, for example `python scripts/design/bachelor-gamut.py --profile path/to/profile.icc`, and set `cmyk` on the flags it moves. The script prints `not tested` and the reason, and exits 0, when Pillow, littleCMS or the profile is missing.
 
+## The candidate
+
+A second design is in `candidates/ladder.tokens.json`. It trades body text on two fields for seven flags that stand on their own lightness in print. Red (#EC000F) and green (#00AF64) sit between the two luminance bands, at L* 49.3 and 63.0. In a lit room their inks reach 3.66:1 and 3.33:1, above the 3:1 gate for large text but below the 4.5:1 gate for body text, so both carry titles only. Body text on those two fields is not supported.
+
+Seven flags stand on the print ladder, 12.4 L* or more apart: violet 12.0, blue 24.4, magenta 36.9, red 49.3, green 63.0, orange 78.4 and yellow 93.3. Cyan (L* 83.9) sits between orange and yellow and is the only flag declared patterned in print, carrying its check pattern. The primary design keeps body text on all eight flags at the price of three patterned flags in print (green, cyan, magenta). The candidate keeps seven on lightness at the price of titles only on red and green. `node scripts/design/bachelor.ts --candidate ladder` checks the candidate and generates its token file.
+
 ## Typography
 
 Overpass, for both the text role (`sans`) and the display role (`display`). Overpass is an open source family from Red Hat, inspired by Highway Gothic, the alphabet of American road signs. Those letters were drawn to be read at a distance and at speed, with a tall lowercase and open apertures, so that c, e and s stay legible as the letters blur. The family runs from weight 100 to 900, which gives the heavy weights that Bachelor asks for: 500 for text on a field, 700 for emphasis, 800 for titles and 900 for display lines. A thin stroke blurs away at a distance sooner than a thick one.
 
-Nothing about the typeface is measured here. The font files are not in the repository until phase 4, so the statements above come from its published design and I have not checked them against the files. As far as I know Overpass is under the SIL Open Font License 1.1, with the LGPL 2.1 offered as an alternative. The licence text is shipped with the font files when they are fetched in phase 4. Until then the pages use the system fonts.
+Nothing about the typeface is measured here. The font files are not in the repository until phase 4, so the statements above come from its published design without inspection of the font binaries. Overpass is published under the SIL Open Font License 1.1, with the LGPL 2.1 offered as an alternative. The licence text is shipped with the font files when they are fetched in phase 4. Until then the pages use the system fonts.
 
 The sizes are derived from the viewing distance in `design.viewing`, `design.slide` and `design.type`, and the design script checks them:
 
