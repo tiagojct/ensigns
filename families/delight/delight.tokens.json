@@ -1,0 +1,510 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "delight",
+    "name": "Delight",
+    "version": "0.1.0",
+    "chapter": 131,
+    "chapterTitle": "The Pequod Meets The Delight",
+    "quote": "another ship, most miserably misnamed the Delight, was descried.",
+    "goal": "Every channel that destroys colour: greyscale laser print, photocopies, e-ink readers and tablets, forced colours and high-contrast modes, monochrome terminals.",
+    "environments": [
+      "print-grey",
+      "eink",
+      "photocopy",
+      "forced-colors",
+      "cvd"
+    ],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    },
+    "tagline": "The wreck stripped of colour: ink, paper, weight and pattern."
+  },
+  "typography": {
+    "sans": "Atkinson Hyperlegible Next",
+    "serif": "Bitter",
+    "mono": "JetBrains Mono"
+  },
+  "targets": {
+    "exclude": [
+      "vscode",
+      "zed",
+      "neovim"
+    ]
+  },
+  "palette": {
+    "grey": {
+      "g0": "#000000",
+      "g1": "#111111",
+      "g2": "#222222",
+      "g3": "#333333",
+      "g4": "#444444",
+      "g5": "#555555",
+      "g6": "#666666",
+      "g7": "#777777",
+      "g8": "#888888",
+      "g9": "#999999",
+      "g10": "#AAAAAA",
+      "g11": "#BBBBBB",
+      "g12": "#CCCCCC",
+      "g13": "#DDDDDD",
+      "g14": "#EEEEEE",
+      "g15": "#FFFFFF"
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Sad burial",
+      "roles": {
+        "bg": "{palette.grey.g0}",
+        "surface": "{palette.grey.g1}",
+        "surface-raised": "{palette.grey.g2}",
+        "text": "{palette.grey.g15}",
+        "text-muted": "{palette.grey.g15}",
+        "text-subtle": "{palette.grey.g12}",
+        "border": "{palette.grey.g8}",
+        "link": "{palette.grey.g15}",
+        "link-hover": "{palette.grey.g12}",
+        "accent": "{palette.grey.g15}",
+        "on-accent": "{palette.grey.g0}",
+        "button": "{palette.grey.g15}",
+        "on-button": "{palette.grey.g0}",
+        "focus": "{palette.grey.g15}",
+        "selection": "{palette.grey.g3}",
+        "extra": {
+          "fill-muted": "{palette.grey.g1}",
+          "rule": "{palette.grey.g5}",
+          "border-strong": "{palette.grey.g11}"
+        }
+      },
+      "status": {
+        "policy": "achromatic",
+        "neutral": {
+          "weight": "{design.stroke.thin}",
+          "edge": "solid",
+          "fill": "{palette.grey.g1}",
+          "accent": "{palette.grey.g3}",
+          "icon": "circle"
+        },
+        "success": {
+          "weight": "{design.stroke.thin}",
+          "edge": "solid",
+          "fill": "{palette.grey.g2}",
+          "accent": "{palette.grey.g11}",
+          "icon": "check"
+        },
+        "warning": {
+          "weight": "{design.stroke.medium}",
+          "edge": "dashed",
+          "fill": "{palette.grey.g2}",
+          "accent": "{palette.grey.g7}",
+          "icon": "triangle"
+        },
+        "critical": {
+          "weight": "{design.stroke.thick}",
+          "edge": "double",
+          "fill": "{palette.grey.g3}",
+          "accent": "{palette.grey.g15}",
+          "icon": "octagon"
+        }
+      },
+      "data": {
+        "categorical": {
+          "label": "Five categorical greys separated by at least 12 L*",
+          "colors": {
+            "c1": "{palette.grey.g14}",
+            "c2": "{palette.grey.g11}",
+            "c3": "{palette.grey.g8}",
+            "c4": "{palette.grey.g5}",
+            "c5": "{palette.grey.g2}"
+          }
+        },
+        "sequential": {
+          "grey": {
+            "label": "Five-step grey ramp for dark mode",
+            "colors": [
+              "{palette.grey.g3}",
+              "{palette.grey.g6}",
+              "{palette.grey.g9}",
+              "{palette.grey.g12}",
+              "{palette.grey.g15}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.grey.g0}",
+          "text": "{palette.grey.g15}",
+          "text-muted": "{palette.grey.g12}",
+          "grid": "{palette.grey.g2}",
+          "axis": "{palette.grey.g7}",
+          "outline": "{palette.grey.g15}"
+        }
+      },
+      "ansi": {
+        "black": "{palette.grey.g5}",
+        "red": "{palette.grey.g9}",
+        "green": "{palette.grey.g10}",
+        "yellow": "{palette.grey.g11}",
+        "blue": "{palette.grey.g12}",
+        "magenta": "{palette.grey.g13}",
+        "cyan": "{palette.grey.g14}",
+        "white": "{palette.grey.g15}",
+        "bright-black": "{palette.grey.g7}",
+        "bright-red": "{palette.grey.g10}",
+        "bright-green": "{palette.grey.g11}",
+        "bright-yellow": "{palette.grey.g12}",
+        "bright-blue": "{palette.grey.g13}",
+        "bright-magenta": "{palette.grey.g14}",
+        "bright-cyan": "{palette.grey.g15}",
+        "bright-white": "{palette.grey.g15}"
+      },
+      "terminal": {
+        "background": "{palette.grey.g0}",
+        "foreground": "{palette.grey.g15}",
+        "cursor": "{palette.grey.g15}",
+        "cursor-text": "{palette.grey.g0}",
+        "selection-background": "{palette.grey.g3}",
+        "selection-foreground": "{palette.grey.g15}"
+      }
+    },
+    "light": {
+      "label": "White ribs",
+      "roles": {
+        "bg": "{palette.grey.g15}",
+        "surface": "{palette.grey.g14}",
+        "surface-raised": "{palette.grey.g15}",
+        "text": "{palette.grey.g0}",
+        "text-muted": "{palette.grey.g0}",
+        "text-subtle": "{palette.grey.g3}",
+        "border": "{palette.grey.g7}",
+        "link": "{palette.grey.g0}",
+        "link-hover": "{palette.grey.g3}",
+        "accent": "{palette.grey.g0}",
+        "on-accent": "{palette.grey.g15}",
+        "button": "{palette.grey.g0}",
+        "on-button": "{palette.grey.g15}",
+        "focus": "{palette.grey.g0}",
+        "selection": "{palette.grey.g12}",
+        "extra": {
+          "fill-muted": "{palette.grey.g14}",
+          "rule": "{palette.grey.g10}",
+          "border-strong": "{palette.grey.g4}"
+        }
+      },
+      "status": {
+        "policy": "achromatic",
+        "neutral": {
+          "weight": "{design.stroke.thin}",
+          "edge": "solid",
+          "fill": "{palette.grey.g14}",
+          "accent": "{palette.grey.g12}",
+          "icon": "circle"
+        },
+        "success": {
+          "weight": "{design.stroke.thin}",
+          "edge": "solid",
+          "fill": "{palette.grey.g13}",
+          "accent": "{palette.grey.g4}",
+          "icon": "check"
+        },
+        "warning": {
+          "weight": "{design.stroke.medium}",
+          "edge": "dashed",
+          "fill": "{palette.grey.g13}",
+          "accent": "{palette.grey.g8}",
+          "icon": "triangle"
+        },
+        "critical": {
+          "weight": "{design.stroke.thick}",
+          "edge": "double",
+          "fill": "{palette.grey.g12}",
+          "accent": "{palette.grey.g0}",
+          "icon": "octagon"
+        }
+      },
+      "data": {
+        "categorical": {
+          "label": "Five categorical greys separated by at least 12 L*",
+          "colors": {
+            "c1": "{palette.grey.g1}",
+            "c2": "{palette.grey.g4}",
+            "c3": "{palette.grey.g7}",
+            "c4": "{palette.grey.g10}",
+            "c5": "{palette.grey.g13}"
+          }
+        },
+        "sequential": {
+          "grey": {
+            "label": "Five-step grey ramp for light mode",
+            "colors": [
+              "{palette.grey.g12}",
+              "{palette.grey.g9}",
+              "{palette.grey.g6}",
+              "{palette.grey.g3}",
+              "{palette.grey.g0}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.grey.g15}",
+          "text": "{palette.grey.g0}",
+          "text-muted": "{palette.grey.g3}",
+          "grid": "{palette.grey.g13}",
+          "axis": "{palette.grey.g8}",
+          "outline": "{palette.grey.g0}"
+        }
+      },
+      "ansi": {
+        "black": "{palette.grey.g0}",
+        "red": "{palette.grey.g2}",
+        "green": "{palette.grey.g3}",
+        "yellow": "{palette.grey.g4}",
+        "blue": "{palette.grey.g5}",
+        "magenta": "{palette.grey.g6}",
+        "cyan": "{palette.grey.g7}",
+        "white": "{palette.grey.g8}",
+        "bright-black": "{palette.grey.g1}",
+        "bright-red": "{palette.grey.g3}",
+        "bright-green": "{palette.grey.g4}",
+        "bright-yellow": "{palette.grey.g5}",
+        "bright-blue": "{palette.grey.g6}",
+        "bright-magenta": "{palette.grey.g7}",
+        "bright-cyan": "{palette.grey.g8}",
+        "bright-white": "{palette.grey.g10}"
+      },
+      "terminal": {
+        "background": "{palette.grey.g15}",
+        "foreground": "{palette.grey.g0}",
+        "cursor": "{palette.grey.g0}",
+        "cursor-text": "{palette.grey.g15}",
+        "selection-background": "{palette.grey.g12}",
+        "selection-foreground": "{palette.grey.g0}"
+      }
+    }
+  },
+  "design": {
+    "stroke": {
+      "thin": 1.5,
+      "medium": 2.5,
+      "thick": 4,
+      "hairline-min-pt": 1
+    },
+    "patterns": {
+      "hatch-45": {
+        "angle": 45,
+        "spacing": 6,
+        "width": 1.5
+      },
+      "hatch-135": {
+        "angle": 135,
+        "spacing": 6,
+        "width": 1.5
+      },
+      "dots": {
+        "spacing": 6,
+        "radius": 1.5
+      },
+      "cross-hatch": {
+        "angle": 0,
+        "spacing": 6,
+        "width": 1.5
+      },
+      "stripes": {
+        "angle": 90,
+        "spacing": 6,
+        "width": 1.5
+      }
+    },
+    "lines": {
+      "solid": {
+        "dash": "none"
+      },
+      "dashed": {
+        "dash": "8 4"
+      },
+      "dotted": {
+        "dash": "2 4"
+      },
+      "dash-dot": {
+        "dash": "8 4 2 4"
+      }
+    },
+    "markers": {
+      "circle": {
+        "shape": "circle",
+        "size": 6
+      },
+      "square": {
+        "shape": "square",
+        "size": 6
+      },
+      "triangle": {
+        "shape": "triangle",
+        "size": 6
+      },
+      "diamond": {
+        "shape": "diamond",
+        "size": 6
+      },
+      "cross": {
+        "shape": "cross",
+        "size": 6
+      }
+    },
+    "type": {
+      "size": {
+        "caption": 9,
+        "body": 11,
+        "title": 18
+      },
+      "weight": {
+        "normal": 400,
+        "medium": 500,
+        "bold": 700
+      },
+      "muted": {
+        "size-pt": 9.5,
+        "weight": 400
+      }
+    }
+  },
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "body text on page background"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text",
+      "why": "body text on panel surface"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.selection",
+      "kind": "text",
+      "why": "selected text on selection fill"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "muted text on page background"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "subtle text on page background"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "link text on page background"
+    },
+    {
+      "fg": "roles.on-button",
+      "bg": "roles.button",
+      "kind": "text",
+      "why": "button text on button fill"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text",
+      "why": "accent text on accent fill"
+    },
+    {
+      "fg": "data.plot.text",
+      "bg": "data.plot.bg",
+      "kind": "text",
+      "why": "chart text on chart background"
+    },
+    {
+      "fg": "terminal.foreground",
+      "bg": "terminal.background",
+      "kind": "text",
+      "why": "terminal text on terminal background"
+    }
+  ],
+  "distinct": [
+    {
+      "id": "eink-roles",
+      "members": [
+        "roles.bg",
+        "roles.selection",
+        "roles.border",
+        "roles.text-subtle",
+        "roles.text"
+      ],
+      "for": [
+        "eink"
+      ],
+      "note": "Core interface roles separated by at least two grey levels on 16-level e-paper."
+    },
+    {
+      "id": "print-grey-categories",
+      "members": [
+        "data.categorical.c1",
+        "data.categorical.c2",
+        "data.categorical.c3",
+        "data.categorical.c4",
+        "data.categorical.c5"
+      ],
+      "for": [
+        "print-grey"
+      ],
+      "note": "Five categorical greys separated by at least 12 L* in greyscale print."
+    },
+    {
+      "id": "photocopy-fills",
+      "members": [
+        "data.categorical.c1",
+        "data.categorical.c2",
+        "data.categorical.c3",
+        "data.categorical.c4",
+        "data.categorical.c5"
+      ],
+      "patterned": [
+        "data.categorical.c1",
+        "data.categorical.c5"
+      ],
+      "by": "pattern tokens in design.patterns",
+      "for": [
+        "photocopy"
+      ],
+      "note": "Fills for photocopy: intermediate greys sit between L* 25 and 80; extreme greys carry patterns."
+    },
+    {
+      "id": "status-accents",
+      "members": [
+        "status.neutral.accent",
+        "status.success.accent",
+        "status.warning.accent",
+        "status.critical.accent"
+      ],
+      "note": "Achromatic status accents separated by lightness and reinforced by edge, weight and icon."
+    }
+  ],
+  "rules": [
+    {
+      "id": "status-achromatic",
+      "text": "Status colours have OKLCH chroma below 0.02, relying entirely on lightness, edge style, weight and icon.",
+      "check": [
+        "status-achromatic:0.02"
+      ]
+    },
+    {
+      "id": "text-high-contrast",
+      "text": "Every declared text pair reaches at least 7:1 contrast in both modes."
+    },
+    {
+      "id": "photocopy-sturdy",
+      "text": "Lines and borders avoid hairlines below 1 pt to survive photocopies and e-ink displays."
+    }
+  ]
+}
