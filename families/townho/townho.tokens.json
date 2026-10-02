@@ -1,0 +1,667 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "townho",
+    "name": "Townho",
+    "version": "0.1.0",
+    "chapter": 54,
+    "chapterTitle": "The Town-Ho’s Story",
+    "quote": "Interweaving in its proper place this darker thread with the story as publicly narrated on the ship, the whole of this strange affair I now proceed to put on lasting record.",
+    "goal": "Annotation colours that sit behind or under text: PDF and Zotero highlights, track changes, code and manuscript diffs, review comments, marking student work.",
+    "tagline": "The layer that sits on top of other text: annotation, review, diffs and highlights.",
+    "environments": [
+      "overlay",
+      "cvd",
+      "print-grey"
+    ],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "typography": {
+    "sans": "Atkinson Hyperlegible Next",
+    "serif": "Bitter",
+    "mono": "JetBrains Mono"
+  },
+  "targets": {
+    "exclude": [
+      "vscode",
+      "zed",
+      "neovim",
+      "terminals"
+    ]
+  },
+  "derived": [
+    "data"
+  ],
+  "palette": {
+    "neutral": {
+      "paper": "#F6F2E9",
+      "surface-light": "#EDE7DA",
+      "sheet-light": "#E2DACB",
+      "border-light": "#D8CFBE",
+      "subtle-light": "#70685C",
+      "muted-light": "#4E473D",
+      "text-light": "#151210",
+      "ink-dark": "#161310",
+      "surface-dark": "#201B17",
+      "sheet-dark": "#2B241F",
+      "border-dark": "#3E352C",
+      "subtle-dark": "#8C8174",
+      "muted-dark": "#C0B6A8",
+      "text-dark": "#F2ECE2"
+    },
+    "highlight-light": {
+      "claim-base": "#F8F337",
+      "result-base": "#75F97F",
+      "method-base": "#25E9FF",
+      "definition-base": "#B5B2FF",
+      "question-base": "#FFA6D7",
+      "limitation-base": "#FFBC8F",
+      "claim": {
+        "ref": "{palette.highlight-light.claim-base}",
+        "alpha": 0.58
+      },
+      "result": {
+        "ref": "{palette.highlight-light.result-base}",
+        "alpha": 0.58
+      },
+      "method": {
+        "ref": "{palette.highlight-light.method-base}",
+        "alpha": 0.58
+      },
+      "definition": {
+        "ref": "{palette.highlight-light.definition-base}",
+        "alpha": 0.58
+      },
+      "question": {
+        "ref": "{palette.highlight-light.question-base}",
+        "alpha": 0.58
+      },
+      "limitation": {
+        "ref": "{palette.highlight-light.limitation-base}",
+        "alpha": 0.58
+      }
+    },
+    "highlight-dark": {
+      "claim-base": "#4F4200",
+      "result-base": "#00480C",
+      "method-base": "#003548",
+      "definition-base": "#230774",
+      "question-base": "#630044",
+      "limitation-base": "#701B00",
+      "claim": {
+        "ref": "{palette.highlight-dark.claim-base}",
+        "alpha": 0.72
+      },
+      "result": {
+        "ref": "{palette.highlight-dark.result-base}",
+        "alpha": 0.72
+      },
+      "method": {
+        "ref": "{palette.highlight-dark.method-base}",
+        "alpha": 0.72
+      },
+      "definition": {
+        "ref": "{palette.highlight-dark.definition-base}",
+        "alpha": 0.72
+      },
+      "question": {
+        "ref": "{palette.highlight-dark.question-base}",
+        "alpha": 0.72
+      },
+      "limitation": {
+        "ref": "{palette.highlight-dark.limitation-base}",
+        "alpha": 0.72
+      }
+    },
+    "accent-light": {
+      "claim": "#EEE354",
+      "result": "#7CE782",
+      "method": "#00D6FD",
+      "definition": "#A8A1FF",
+      "question": "#FF8ECD",
+      "limitation": "#FFB27F"
+    },
+    "accent-dark": {
+      "claim": "#493D00",
+      "result": "#004209",
+      "method": "#003041",
+      "definition": "#1F006D",
+      "question": "#5A003E",
+      "limitation": "#671800"
+    },
+    "reviewer-light": {
+      "r1": "#003A95",
+      "r2": "#861600",
+      "r3": "#004E0F",
+      "r4": "#670E78"
+    },
+    "reviewer-dark": {
+      "r1": "#8FBEFF",
+      "r2": "#FF9C74",
+      "r3": "#75D78D",
+      "r4": "#EB9AFD"
+    },
+    "diff-light": {
+      "insert": "#004A6C",
+      "delete": "#8E0000",
+      "added-tint": "#D1F9FF",
+      "removed-tint": "#FA9B82",
+      "changed-tint": "#ECCD8C"
+    },
+    "diff-dark": {
+      "insert": "#43CDFF",
+      "delete": "#FF9B7E",
+      "added-tint": "#001526",
+      "removed-tint": "#6E1C05",
+      "changed-tint": "#3A2400"
+    }
+  },
+  "modes": {
+    "light": {
+      "label": "Golden Inn daylight",
+      "roles": {
+        "bg": "{palette.neutral.paper}",
+        "surface": "{palette.neutral.surface-light}",
+        "surface-raised": "{palette.neutral.sheet-light}",
+        "text": "{palette.neutral.text-light}",
+        "text-muted": "{palette.neutral.muted-light}",
+        "text-subtle": "{palette.neutral.subtle-light}",
+        "border": "{palette.neutral.border-light}",
+        "link": "{palette.reviewer-light.r1}",
+        "link-hover": "{palette.reviewer-light.r2}",
+        "accent": "{palette.reviewer-light.r1}",
+        "on-accent": "{palette.neutral.paper}",
+        "button": "{palette.reviewer-light.r1}",
+        "on-button": "{palette.neutral.paper}",
+        "focus": "{palette.reviewer-light.r1}",
+        "selection": "{palette.highlight-light.claim-base}",
+        "extra": {
+          "fill-claim": "{palette.highlight-light.claim}",
+          "fill-result": "{palette.highlight-light.result}",
+          "fill-method": "{palette.highlight-light.method}",
+          "fill-definition": "{palette.highlight-light.definition}",
+          "fill-question": "{palette.highlight-light.question}",
+          "fill-limitation": "{palette.highlight-light.limitation}",
+          "insert": "{palette.diff-light.insert}",
+          "delete": "{palette.diff-light.delete}",
+          "diff-added": "{palette.diff-light.added-tint}",
+          "diff-removed": "{palette.diff-light.removed-tint}",
+          "diff-changed": "{palette.diff-light.changed-tint}"
+        }
+      },
+      "accents": {
+        "claim": "{palette.accent-light.claim}",
+        "result": "{palette.accent-light.result}",
+        "method": "{palette.accent-light.method}",
+        "definition": "{palette.accent-light.definition}",
+        "question": "{palette.accent-light.question}",
+        "limitation": "{palette.accent-light.limitation}",
+        "reviewer-1": "{palette.reviewer-light.r1}",
+        "reviewer-2": "{palette.reviewer-light.r2}",
+        "reviewer-3": "{palette.reviewer-light.r3}",
+        "reviewer-4": "{palette.reviewer-light.r4}"
+      }
+    },
+    "dark": {
+      "label": "Golden Inn night",
+      "roles": {
+        "bg": "{palette.neutral.ink-dark}",
+        "surface": "{palette.neutral.surface-dark}",
+        "surface-raised": "{palette.neutral.sheet-dark}",
+        "text": "{palette.neutral.text-dark}",
+        "text-muted": "{palette.neutral.muted-dark}",
+        "text-subtle": "{palette.neutral.subtle-dark}",
+        "border": "{palette.neutral.border-dark}",
+        "link": "{palette.reviewer-dark.r1}",
+        "link-hover": "{palette.reviewer-dark.r2}",
+        "accent": "{palette.reviewer-dark.r1}",
+        "on-accent": "{palette.neutral.ink-dark}",
+        "button": "{palette.reviewer-dark.r1}",
+        "on-button": "{palette.neutral.ink-dark}",
+        "focus": "{palette.reviewer-dark.r1}",
+        "selection": "{palette.highlight-dark.claim-base}",
+        "extra": {
+          "fill-claim": "{palette.highlight-dark.claim}",
+          "fill-result": "{palette.highlight-dark.result}",
+          "fill-method": "{palette.highlight-dark.method}",
+          "fill-definition": "{palette.highlight-dark.definition}",
+          "fill-question": "{palette.highlight-dark.question}",
+          "fill-limitation": "{palette.highlight-dark.limitation}",
+          "insert": "{palette.diff-dark.insert}",
+          "delete": "{palette.diff-dark.delete}",
+          "diff-added": "{palette.diff-dark.added-tint}",
+          "diff-removed": "{palette.diff-dark.removed-tint}",
+          "diff-changed": "{palette.diff-dark.changed-tint}"
+        }
+      },
+      "accents": {
+        "claim": "{palette.accent-dark.claim}",
+        "result": "{palette.accent-dark.result}",
+        "method": "{palette.accent-dark.method}",
+        "definition": "{palette.accent-dark.definition}",
+        "question": "{palette.accent-dark.question}",
+        "limitation": "{palette.accent-dark.limitation}",
+        "reviewer-1": "{palette.reviewer-dark.r1}",
+        "reviewer-2": "{palette.reviewer-dark.r2}",
+        "reviewer-3": "{palette.reviewer-dark.r3}",
+        "reviewer-4": "{palette.reviewer-dark.r4}"
+      }
+    }
+  },
+  "design": {
+    "overlay": {
+      "fills": [
+        "extra.fill-claim",
+        "extra.fill-result",
+        "extra.fill-method",
+        "extra.fill-definition",
+        "extra.fill-question",
+        "extra.fill-limitation"
+      ]
+    },
+    "decoration": {
+      "insert": "underline",
+      "delete": "line-through"
+    },
+    "print": {
+      "claim": "diagonal-forward-wide",
+      "result": "crosshatch-medium",
+      "method": "horizontal-dense",
+      "definition": "dots-wide",
+      "question": "diagonal-backward-dense",
+      "limitation": "vertical-medium"
+    }
+  },
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface-raised",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-button",
+      "bg": "roles.button",
+      "kind": "text"
+    },
+    {
+      "fg": "extra.insert",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "extra.delete",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.diff-added",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.diff-removed",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.diff-changed",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.claim",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.result",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.method",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.definition",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.question",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.limitation",
+      "kind": "text",
+      "modes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.claim",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.result",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.method",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.definition",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.question",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "roles.text",
+      "bg": "accents.limitation",
+      "kind": "text",
+      "modes": [
+        "dark"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "diff-not-red-green",
+      "text": "Added and removed diff roles must not use red against green alone.",
+      "check": "not-red-green:extra.diff-added,extra.diff-removed"
+    },
+    {
+      "id": "insert-delete-not-red-green",
+      "text": "Insert and delete inks must not use red against green alone.",
+      "check": "not-red-green:extra.insert,extra.delete"
+    },
+    {
+      "id": "diff-lightness-gap",
+      "text": "Added and removed diff roles differ by at least 12 in lightness.",
+      "check": "lightness-gap:extra.diff-added,extra.diff-removed,12"
+    },
+    {
+      "id": "meaning-not-by-colour-alone",
+      "text": "Meaning never by colour alone in exports: labels and legends accompany highlights."
+    },
+    {
+      "id": "decoration-rules",
+      "text": "Insertions are underlined and deletions are struck through."
+    }
+  ],
+  "distinct": [
+    {
+      "id": "fills",
+      "members": [
+        "extra.fill-claim",
+        "extra.fill-result",
+        "extra.fill-method",
+        "extra.fill-definition",
+        "extra.fill-question",
+        "extra.fill-limitation"
+      ],
+      "for": [
+        "print-grey"
+      ],
+      "by": "semantic label or tag accompanying each highlight; monochrome hatch and dot patterns in print",
+      "patterned": [
+        "extra.fill-claim",
+        "extra.fill-result",
+        "extra.fill-method",
+        "extra.fill-definition",
+        "extra.fill-question",
+        "extra.fill-limitation"
+      ],
+      "reinforced": [
+        [
+          "extra.fill-claim",
+          "extra.fill-result"
+        ],
+        [
+          "extra.fill-claim",
+          "extra.fill-definition"
+        ],
+        [
+          "extra.fill-claim",
+          "extra.fill-question"
+        ],
+        [
+          "extra.fill-claim",
+          "extra.fill-limitation"
+        ],
+        [
+          "extra.fill-result",
+          "extra.fill-method"
+        ],
+        [
+          "extra.fill-result",
+          "extra.fill-definition"
+        ],
+        [
+          "extra.fill-result",
+          "extra.fill-question"
+        ],
+        [
+          "extra.fill-result",
+          "extra.fill-limitation"
+        ],
+        [
+          "extra.fill-method",
+          "extra.fill-definition"
+        ],
+        [
+          "extra.fill-method",
+          "extra.fill-question"
+        ],
+        [
+          "extra.fill-method",
+          "extra.fill-limitation"
+        ],
+        [
+          "extra.fill-definition",
+          "extra.fill-question"
+        ],
+        [
+          "extra.fill-definition",
+          "extra.fill-limitation"
+        ],
+        [
+          "extra.fill-question",
+          "extra.fill-limitation"
+        ]
+      ]
+    },
+    {
+      "id": "opaque-fills",
+      "members": [
+        "accents.claim",
+        "accents.result",
+        "accents.method",
+        "accents.definition",
+        "accents.question",
+        "accents.limitation"
+      ],
+      "by": "semantic label",
+      "reinforced": [
+        [
+          "accents.claim",
+          "accents.result"
+        ],
+        [
+          "accents.claim",
+          "accents.definition"
+        ],
+        [
+          "accents.claim",
+          "accents.question"
+        ],
+        [
+          "accents.claim",
+          "accents.limitation"
+        ],
+        [
+          "accents.result",
+          "accents.method"
+        ],
+        [
+          "accents.result",
+          "accents.definition"
+        ],
+        [
+          "accents.result",
+          "accents.limitation"
+        ],
+        [
+          "accents.method",
+          "accents.definition"
+        ],
+        [
+          "accents.method",
+          "accents.question"
+        ],
+        [
+          "accents.method",
+          "accents.limitation"
+        ],
+        [
+          "accents.definition",
+          "accents.question"
+        ],
+        [
+          "accents.definition",
+          "accents.limitation"
+        ],
+        [
+          "accents.question",
+          "accents.limitation"
+        ]
+      ]
+    },
+    {
+      "id": "reviewers",
+      "members": [
+        "accents.reviewer-1",
+        "accents.reviewer-2",
+        "accents.reviewer-3",
+        "accents.reviewer-4"
+      ],
+      "by": "author initials in margin",
+      "reinforced": [
+        [
+          "accents.reviewer-1",
+          "accents.reviewer-4"
+        ],
+        [
+          "accents.reviewer-2",
+          "accents.reviewer-3"
+        ],
+        [
+          "accents.reviewer-1",
+          "accents.reviewer-3"
+        ],
+        [
+          "accents.reviewer-2",
+          "accents.reviewer-4"
+        ]
+      ]
+    },
+    {
+      "id": "diff-ink",
+      "members": [
+        "extra.insert",
+        "extra.delete"
+      ],
+      "by": "underline on insertion and strikethrough on deletion",
+      "reinforced": [
+        [
+          "extra.insert",
+          "extra.delete"
+        ]
+      ]
+    },
+    {
+      "id": "diff-roles",
+      "members": [
+        "extra.diff-added",
+        "extra.diff-removed"
+      ],
+      "for": [
+        "print-grey"
+      ]
+    }
+  ]
+}
