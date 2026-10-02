@@ -1,0 +1,128 @@
+<div class="sp-delight">
+  <nav class="sp-nav" aria-label="Dispatch navigation">
+    <a href="#summary-{mode}" class="sp-nav-link" aria-current="page">Dispatch</a>
+    <a href="#log-{mode}" class="sp-nav-link">Log entries</a>
+    <a href="#records-{mode}" class="sp-nav-link">Provisions</a>
+  </nav>
+
+  <section class="sp-section" id="summary-{mode}" aria-labelledby="sp-summary-title-{mode}">
+    <h5 id="sp-summary-title-{mode}" class="sp-heading">Notice of encounter</h5>
+    <p class="prose">The intense Pequod sailed on; the rolling waves and days went by; the life-buoy-coffin still lightly swung; and another ship, most miserably misnamed the Delight, was descried.</p>
+    <div class="sp-controls">
+      <button type="button" class="sp-btn">Acknowledge notice</button>
+      <a href="#records-{mode}" class="sp-link-btn">Inspect log</a>
+    </div>
+  </section>
+
+  <section class="sp-section" aria-labelledby="sp-status-title-{mode}">
+    <h5 id="sp-status-title-{mode}" class="sp-heading">Vessel status</h5>
+    <div class="sp-status-grid">
+      <div class="sp-chip" data-status="neutral">
+        <svg class="sp-status-icon" viewBox="0 0 16 16" role="img" aria-label="Neutral icon">
+          <circle cx="8" cy="8" r="6" class="sp-icon-shape"/>
+        </svg>
+        <span class="sp-chip-label">Neutral: routine report</span>
+      </div>
+      <div class="sp-chip" data-status="success">
+        <svg class="sp-status-icon" viewBox="0 0 16 16" role="img" aria-label="Success icon">
+          <path d="M3 8l3.5 3.5L13 4" class="sp-icon-check"/>
+        </svg>
+        <span class="sp-chip-label">Passed: hull sound</span>
+      </div>
+      <div class="sp-chip" data-status="warning">
+        <svg class="sp-status-icon" viewBox="0 0 16 16" role="img" aria-label="Warning icon">
+          <path d="M8 2L14 13H2z" class="sp-icon-triangle"/>
+          <line x1="8" y1="6" x2="8" y2="9" class="sp-icon-mark"/>
+          <circle cx="8" cy="11" r="0.75" class="sp-icon-dot"/>
+        </svg>
+        <span class="sp-chip-label">Warning: craft disabled</span>
+      </div>
+      <div class="sp-chip" data-status="critical">
+        <svg class="sp-status-icon" viewBox="0 0 16 16" role="img" aria-label="Critical icon">
+          <path d="M5 2h6l4 4v6l-4 4H5L1 12V6z" class="sp-icon-octagon"/>
+          <line x1="5" y1="5" x2="11" y2="11" class="sp-icon-cross"/>
+          <line x1="11" y1="5" x2="5" y2="11" class="sp-icon-cross"/>
+        </svg>
+        <span class="sp-chip-label">Critical: shattered wreck</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp-section" id="comparison-{mode}" aria-labelledby="sp-comp-title-{mode}">
+    <h5 id="sp-comp-title-{mode}" class="sp-heading">Greyscale print and sixteen-level e-ink</h5>
+    <div class="sp-pair-grid">
+      <div class="sp-panel sp-plain">
+        <h6 class="sp-subheading">Greyscale laser print</h6>
+        <p class="sp-body-text">Upon the stranger’s shears were beheld the shattered, white ribs, and some few splintered planks, of what had once been a whale-boat.</p>
+        <table class="sp-table">
+          <thead>
+            <tr><th>Vessel</th><th>Rigging</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Delight</td><td>Shears broken</td><td>Wreck</td></tr>
+            <tr><td>Pequod</td><td>Intense</td><td>Under sail</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sp-panel sp-eink-sim">
+        <h6 class="sp-subheading">Sixteen-level e-paper preview</h6>
+        <p class="sp-body-text">Upon the stranger’s shears were beheld the shattered, white ribs, and some few splintered planks, of what had once been a whale-boat.</p>
+        <table class="sp-table">
+          <thead>
+            <tr><th>Vessel</th><th>Rigging</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Delight</td><td>Shears broken</td><td>Wreck</td></tr>
+            <tr><td>Pequod</td><td>Intense</td><td>Under sail</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp-section" id="chart-{mode}" aria-labelledby="sp-chart-title-{mode}">
+    <h5 id="sp-chart-title-{mode}" class="sp-heading">Categorical series by pattern and line style</h5>
+    <svg class="sp-chart-svg" viewBox="0 0 540 220" role="img" aria-label="A chart with patterns and line styles distinguishing series">
+      <defs>
+        <pattern id="sp-pat-hatch-{mode}" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="8" class="sp-pat-line-1"/>
+        </pattern>
+        <pattern id="sp-pat-dots-{mode}" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="1.5" class="sp-pat-dot-5"/>
+        </pattern>
+      </defs>
+      <rect x="50" y="20" width="460" height="150" class="sp-chart-plot"/>
+      <line x1="50" y1="170" x2="510" y2="170" class="sp-chart-axis"/>
+      <line x1="50" y1="20" x2="50" y2="170" class="sp-chart-axis"/>
+      <rect x="80" y="70" width="50" height="100" class="sp-bar-c1"/>
+      <rect x="150" y="90" width="50" height="80" class="sp-bar-c2"/>
+      <rect x="220" y="50" width="50" height="120" class="sp-bar-c3"/>
+      <rect x="290" y="110" width="50" height="60" class="sp-bar-c4"/>
+      <rect x="360" y="40" width="50" height="130" class="sp-bar-c5"/>
+      <polyline points="80,140 170,110 260,80 350,100 440,50" class="sp-line-solid"/>
+      <polyline points="80,160 170,130 260,120 350,90 440,70" class="sp-line-dashed"/>
+      <circle cx="80" cy="140" r="4" class="sp-marker-circ"/>
+      <circle cx="170" cy="110" r="4" class="sp-marker-circ"/>
+      <circle cx="260" cy="80" r="4" class="sp-marker-circ"/>
+      <circle cx="350" cy="100" r="4" class="sp-marker-circ"/>
+      <circle cx="440" cy="50" r="4" class="sp-marker-circ"/>
+      <rect x="76" y="156" width="8" height="8" class="sp-marker-sq"/>
+      <rect x="166" y="126" width="8" height="8" class="sp-marker-sq"/>
+      <rect x="256" y="116" width="8" height="8" class="sp-marker-sq"/>
+      <rect x="346" y="86" width="8" height="8" class="sp-marker-sq"/>
+      <rect x="436" y="66" width="8" height="8" class="sp-marker-sq"/>
+      <text x="105" y="190" class="sp-chart-text">c1</text>
+      <text x="175" y="190" class="sp-chart-text">c2</text>
+      <text x="245" y="190" class="sp-chart-text">c3</text>
+      <text x="315" y="190" class="sp-chart-text">c4</text>
+      <text x="385" y="190" class="sp-chart-text">c5</text>
+    </svg>
+    <div class="sp-legend">
+      <span class="sp-legend-item"><span class="sp-legend-swatch sp-bar-c1"></span> Series 1 (hatch)</span>
+      <span class="sp-legend-item"><span class="sp-legend-swatch sp-bar-c2"></span> Series 2 (grey 28)</span>
+      <span class="sp-legend-item"><span class="sp-legend-swatch sp-bar-c3"></span> Series 3 (grey 50)</span>
+      <span class="sp-legend-item"><span class="sp-legend-swatch sp-bar-c4"></span> Series 4 (grey 70)</span>
+      <span class="sp-legend-item"><span class="sp-legend-swatch sp-bar-c5"></span> Series 5 (dots)</span>
+    </div>
+  </section>
+</div>
