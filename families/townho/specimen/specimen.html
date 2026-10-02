@@ -1,0 +1,106 @@
+<div class="sp-townho">
+  <nav class="sp-nav" aria-label="Annotation navigation">
+    <a href="#annotation-{mode}" class="sp-nav-link" aria-current="page">Annotation</a>
+    <a href="#review-{mode}" class="sp-nav-link">Track changes</a>
+    <a href="#diff-{mode}" class="sp-nav-link">Unified diff</a>
+  </nav>
+
+  <section class="sp-section" id="annotation-{mode}" aria-labelledby="sp-anno-title-{mode}">
+    <h5 id="sp-anno-title-{mode}" class="sp-heading">Semantic highlights and annotation</h5>
+    <div class="sp-legend-grid">
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-claim">claim</span>
+        <span class="sp-legend-desc">Key claim or assertion</span>
+      </div>
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-result">result</span>
+        <span class="sp-legend-desc">Empirical observation</span>
+      </div>
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-method">method</span>
+        <span class="sp-legend-desc">Analytical approach</span>
+      </div>
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-definition">definition</span>
+        <span class="sp-legend-desc">Established term</span>
+      </div>
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-question">question</span>
+        <span class="sp-legend-desc">Point of doubt or inquiry</span>
+      </div>
+      <div class="sp-legend-item">
+        <span class="sp-chip sp-chip-limitation">limitation</span>
+        <span class="sp-legend-desc">Scope limitation</span>
+      </div>
+    </div>
+
+    <div class="sp-annotated-card">
+      <h6 class="sp-card-title">Annotated chapter passage</h6>
+      <p class="prose sp-annotated-text">
+        <mark class="sp-highlight sp-hl-claim"><span class="sp-hl-tag">[claim]</span>It was not very long after speaking the Goney that another homeward-bound whaleman, the Town-Ho, was encountered.</mark>
+        She was manned almost wholly by Polynesians.
+        <mark class="sp-highlight sp-hl-result"><span class="sp-hl-tag">[result]</span>In the short gam that ensued she gave us strong news of Moby Dick.</mark>
+        <mark class="sp-highlight sp-hl-question"><span class="sp-hl-tag">[question]</span>To some the general interest in the White Whale was now wildly heightened by a circumstance of the Town-Ho’s story, which seemed obscurely to involve with the whale a certain wondrous, inverted visitation of one of those so called judgments of God which at times are said to overtake some men.</mark>
+        <mark class="sp-highlight sp-hl-method"><span class="sp-hl-tag">[method]</span>Interweaving in its proper place this darker thread with the story as publicly narrated on the ship, the whole of this strange affair I now proceed to put on lasting record.</mark>
+        <mark class="sp-highlight sp-hl-definition"><span class="sp-hl-tag">[definition]</span>The ancient whale-cry upon first sighting a whale from the mast-head, still used by whalemen in hunting the famous Gallipagos terrapin.</mark>
+        <mark class="sp-highlight sp-hl-limitation"><span class="sp-hl-tag">[limitation]</span>For that secret part of the story was unknown to the captain of the Town-Ho himself.</mark>
+      </p>
+    </div>
+
+    <div class="sp-strip-grid">
+      <div class="sp-strip sp-strip-surface">
+        <span class="sp-strip-label">Surface ground</span>
+        <p class="sp-strip-text">
+          <mark class="sp-highlight sp-hl-claim"><span class="sp-hl-tag">[claim]</span>She gave us strong news of Moby Dick.</mark>
+          <mark class="sp-highlight sp-hl-method"><span class="sp-hl-tag">[method]</span>Interweaving in its proper place this darker thread.</mark>
+        </p>
+      </div>
+      <div class="sp-strip sp-strip-raised">
+        <span class="sp-strip-label">Raised ground</span>
+        <p class="sp-strip-text">
+          <mark class="sp-highlight sp-hl-result"><span class="sp-hl-tag">[result]</span>Interest was wildly heightened.</mark>
+          <mark class="sp-highlight sp-hl-limitation"><span class="sp-hl-tag">[limitation]</span>Unknown to the captain himself.</mark>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp-section" id="review-{mode}" aria-labelledby="sp-review-title-{mode}">
+    <h5 id="sp-review-title-{mode}" class="sp-heading">Editorial track changes</h5>
+    <div class="sp-reviewer-row">
+      <span class="sp-rev-badge sp-rev-1">[TJ] Reviewer 1</span>
+      <span class="sp-rev-badge sp-rev-2">[SP] Reviewer 2</span>
+      <span class="sp-rev-badge sp-rev-3">[PD] Reviewer 3</span>
+      <span class="sp-rev-badge sp-rev-4">[JS] Reviewer 4</span>
+    </div>
+    <div class="sp-annotated-card">
+      <p class="sp-track-text">
+        For my humor’s sake,
+        <del class="sp-del sp-rev-2"><span class="sp-rev-tag">[SP]</span>I shall preserve the style</del>
+        <ins class="sp-ins sp-rev-1"><span class="sp-rev-tag">[TJ]</span>I put on lasting record the style</ins>
+        in which I once narrated it at Lima, to a lounging circle of my Spanish friends, one saint’s eve, smoking upon the
+        <del class="sp-del sp-rev-3"><span class="sp-rev-tag">[PD]</span>thick-gilt tiled</del>
+        <ins class="sp-ins sp-rev-4"><span class="sp-rev-tag">[JS]</span>broad stone</ins>
+        piazza of the Golden Inn. Of those fine cavaliers, the young Dons, Pedro and Sebastian, were on the closer terms with me; and hence the interluding questions they occasionally put, and which are duly answered at the time.
+      </p>
+    </div>
+  </section>
+
+  <section class="sp-section" id="diff-{mode}" aria-labelledby="sp-diff-title-{mode}">
+    <h5 id="sp-diff-title-{mode}" class="sp-heading">Unified diff</h5>
+    <div class="sp-diff-box">
+      <div class="sp-diff-header">
+        <span class="sp-diff-path">--- a/town-ho.txt</span>
+        <span class="sp-diff-path">+++ b/town-ho.txt</span>
+      </div>
+      <div class="sp-diff-content">
+        <div class="sp-diff-line sp-diff-hunk"><span class="sp-gutter">@@</span><span class="sp-diff-code">-54,4 +54,4 @@</span></div>
+        <div class="sp-diff-line sp-diff-ctx"><span class="sp-gutter">&nbsp;</span><span class="sp-diff-code">The Cape of Good Hope, and all the watery region round about there,</span></div>
+        <div class="sp-diff-line sp-diff-removed"><span class="sp-gutter">-</span><span class="sp-diff-code">forming what may be called the <span class="sp-diff-word-removed">public story</span> about to be told</span></div>
+        <div class="sp-diff-line sp-diff-added"><span class="sp-gutter">+</span><span class="sp-diff-code">forming what may be called the <span class="sp-diff-word-added">secret part of the tragedy</span> about to be narrated</span></div>
+        <div class="sp-diff-line sp-diff-changed"><span class="sp-gutter">!</span><span class="sp-diff-code">Interweaving in its proper place this darker thread with the story</span></div>
+        <div class="sp-diff-line sp-diff-ctx"><span class="sp-gutter">&nbsp;</span><span class="sp-diff-code">never reached the ears of Captain Ahab or his mates.</span></div>
+      </div>
+    </div>
+  </section>
+</div>
