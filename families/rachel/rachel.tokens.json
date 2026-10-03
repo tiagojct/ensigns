@@ -21,6 +21,9 @@
       "code": "MIT"
     }
   },
+  "derived": [
+    "data"
+  ],
   "palette": {
     "paper": {
       "ground": "#F7EFE0",

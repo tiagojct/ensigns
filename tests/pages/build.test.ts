@@ -11,6 +11,7 @@ import type { LoadedFamily } from "../../lib/model/load.ts";
 import { filtersSvg, simulationViews } from "../../scripts/pages/filters.ts";
 import { buildPages, checkSpecimen } from "../../scripts/pages/generate.ts";
 import { esc } from "../../scripts/pages/render.ts";
+import { designLeaves } from "../../scripts/pages/tokens-css.ts";
 
 const repo = repoRoot();
 const FIXTURES = join(repo, "tests/pages/fixtures");
@@ -106,6 +107,14 @@ describe("the family pages", () => {
         expect(blocks.get(`${scope} light`), scope).toEqual(dark);
       }
     }
+  });
+
+  it("exposes arrays in design as space-separated custom properties", () => {
+    const leaves = [...designLeaves({ border: ["1px", "solid", "red"], list: [1, 2, 3] })];
+    expect(leaves).toEqual([
+      [["border"], "1px solid red"],
+      [["list"], "1 2 3"],
+    ]);
   });
 
   it("use only swatch, text, border and width classes that the stylesheets define", () => {

@@ -19,6 +19,8 @@ A family page shows the family's facts and quotation, then both modes side by si
 
 The view selector above the panels applies an SVG filter to both panels with CSS alone: protan, deutan and tritan (Machado 2009), greyscale by relative luminance, sixteen grey levels, photocopy, projector flare in a dark and in a lit room, sunlight glare and the aged eye. Every number comes from lib/colour or tests/environments.json. tests/pages/filters.test.ts runs the filters' arithmetic and compares the result with the library.
 
+Each filter is defined on family pages as an inline SVG filter with the id `sim-<view>`: `sim-protan`, `sim-deutan`, `sim-tritan`, `sim-greyscale`, `sim-eink`, `sim-photocopy`, `sim-projector-dark`, `sim-projector-lit`, `sim-sunlight` and `sim-aged-eye`. Specimen stylesheets can apply them with `filter: url(#sim-<view>)`. These filters are present on family and candidate pages only, not on the standalone specimen pages (`specimen/<id>--<mode>.html`).
+
 ## Specimens
 
 A family's specimen is families/`<id>`/specimen/specimen.html, an HTML fragment without html, head or body, and specimen.css beside it. The builder puts the fragment in each mode panel inside `<div class="specimen specimen-<id>">`, links the stylesheet once per page, and uses the same fragment for the family's candidates.

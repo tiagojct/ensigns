@@ -34,6 +34,13 @@ describe("candidates", () => {
         expect(validateFamily(c.raw, schema).filter((i) => i.level === "error")).toEqual([]);
       });
 
+      it("lists derived: ['data'] when it defines no data block", () => {
+        const hasData = c.file.modes.light.data !== undefined || c.file.modes.dark.data !== undefined;
+        if (!hasData) {
+          expect(c.file.derived, `${c.dir} ${c.candidate} lacks a data block, so it must declare derived: ["data"]`).toContain("data");
+        }
+      });
+
       it("passes every profile it lists", () => {
         const report = buildReport(resolveFamily(c.file), thresholds);
         for (const [profile, p] of Object.entries(report.profiles)) {

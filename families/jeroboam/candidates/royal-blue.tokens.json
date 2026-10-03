@@ -21,6 +21,9 @@
       "code": "MIT"
     }
   },
+  "derived": [
+    "data"
+  ],
   "palette": {
     "walnut": {
       "l8": "#1A1713",

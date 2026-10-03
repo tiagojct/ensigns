@@ -88,7 +88,7 @@ Nine rules are stated in the token file. Four of them name checks that `tests/sh
 
 ## Typography
 
-Atkinson Hyperlegible Next, as `sans`. It is the typeface the brief names. The Braille Institute drew the Atkinson Hyperlegible family for readers with low vision, and it separates look-alike characters such as a capital I, a lower-case l and a figure 1. It is under the SIL Open Font License 1.1, as far as I know. Nobody has checked that against the font files, which are not fetched until phase 4, and the licence text will ship with them. No font is included in this folder, and the local pages show it only where it is installed, with the system sans as the fallback.
+Atkinson Hyperlegible Next, as `sans`. The Braille Institute drew the Atkinson Hyperlegible family for readers with low vision, and it separates look-alike characters such as a capital I, a lower-case l and a figure 1. It is distributed under the SIL Open Font License 1.1. The font files are not fetched until phase 4, and the licence text will ship with them. No font is included in this folder, and the local pages show it only where it is installed, with the system sans as the fallback.
 
 Rachel adds no serif and no mono. Patient material has no code. A reference number can be set in the same typeface, which already separates look-alike characters.
 
@@ -104,7 +104,7 @@ The sizes are in rem, so that a reader's own text size setting scales them. The 
 | `design.type.size.h1` | 2.375 rem | 38 | titles |
 | `design.type.size.reading` | 4.5 rem | 72 | a measured value, such as a glucose reading |
 
-The body is 20 px because the readers are older adults and people with low vision. The brief gives 18 px as the usual floor for body text for older readers, and 20 px or more as kinder. The floor for any text is 18 px, which leaves captions 2 px under the body. The line height is 1.6 for body text, 1.25 for headings and 1 for a measured value. The measure is 60 characters. Paragraphs are 1.25 em apart, letters 0.01 em apart, and the weights are 400 and 700.
+The body text is 20 px for older adults and people with low vision. The floor for any text in the family is 18 px, which leaves captions 2 px under the body. The line height is 1.6 for body text, 1.25 for headings and 1 for a measured value. The measure is 60 characters. Paragraphs are 1.25 em apart, letters 0.01 em apart, and the weights are 400 and 700.
 
 For print, the tokens under `design.print` give a floor of 12 pt, a body of 14 pt, a large-print size of 18 pt and a line height of 1.5. They are for the Typst, Quarto and Word leaflet bundles.
 
@@ -120,7 +120,7 @@ For print, the tokens under `design.print` give a floor of 12 pt, a body of 14 p
 | `design.focus` | 4 px solid, offset 3 px |
 | `design.status.<level>.border-width` | success 2 px, warning 3 px, danger 4 px |
 
-The brief asks for touch targets of at least 44 px and names 48 px as common guidance. Rachel takes 48 px and uses 56 px for buttons, tabs and form rows. The focus ring is an outline, so it is a line and survives a forced-colours mode. The status border grows with the level, which is a third cue after the icon and the words.
+Touch targets are at least 48 px, with 56 px used for buttons, tabs and form rows. The focus ring is an outline, so it is a line and survives a forced-colours mode. The status border grows with the level, which is a third cue after the icon and the words.
 
 ## Measured results
 
@@ -251,4 +251,4 @@ The readings, names and leaflet text are invented, and the specimen says it is n
 
 ## Licences
 
-Code is MIT; colour tokens and documentation are CC BY 4.0. See the root `LICENSE`. Atkinson Hyperlegible Next is not part of this repository and has its own licence, the SIL Open Font License 1.1 as far as I know.
+Code is MIT; colour tokens and documentation are CC BY 4.0. See the root `LICENSE`. Atkinson Hyperlegible Next is not part of this repository and has its own licence, the SIL Open Font License 1.1.

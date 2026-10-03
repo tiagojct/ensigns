@@ -79,7 +79,7 @@ Eight rules are stated in the token file.
 
 ## What the protocols say
 
-The brief asked five questions. The answers below rest on the pages and documents that were read, and they say what could not be checked. None of this is clinical advice.
+The protocol requirements cover five topics. The findings below rest on the pages and documents that were read, and they say what could not be checked. None of this is clinical advice.
 
 ### Manchester: colours, names and times
 
@@ -97,7 +97,7 @@ The dissertation lists three groups of criteria. Administrative reasons include 
 
 Ferreira and Baptista (2024) describe white as the GPT's way to identify and monitor demand for administrative reasons, such as returns for re-evaluation after discharge, tests, elective procedures and unscheduled treatment. Costa, Torres and Sousa (2022) list it as a sixth category called Não Classificável, with no target time. DGS Norma 002/2018 requires adult emergency services to implement the latest version of the Manchester system, lists five levels with times, and does not mention white. No source gives a reference value for white either.
 
-What the family does with it: white is a neutral set of tokens, `extra.triage-white-fill`, `-border` and `-fg`, outside the ordered triage list. It has no priority, no protocol number and no target time, so it is not a level. The specimen shows it as a sixth row marked White and Branco, with the letter W where the others have a number.
+What the family does with it: white is a neutral set of tokens, `extra.triage-white-fill`, `-border` and `-fg`, outside the ordered triage list. It has no priority, no protocol number and no target time, so it does not form a level. The specimen shows it as a sixth row marked White and Branco, with the letter W where the others have a number.
 
 ### IEC 60601-1-8
 
@@ -119,9 +119,9 @@ Jeroboam follows the HL7 letters, because they are coded and exchanged: `design.
 
 ### Fonts
 
-The brief asks for tabular figures and for I, l, 1, O and 0 to stay apart. Three candidates, all under the SIL Open Font License 1.1 according to the pages read:
+The typography specification requires tabular figures and character disambiguation for I, l, 1, O and 0. Three candidates, all under the SIL Open Font License 1.1 according to the pages read:
 
-- Inter. Its page lists the OpenType features `tnum` (tabular figures), `zero` (slashed zero), `ss02` (disambiguation, with a slashed zero), `cv05` (lower-case l with a tail) and `cv08` (upper-case i with a serif), and gives the licence as OFL 1.1. Every property the brief asks for is documented.
+- Inter. Its page lists the OpenType features `tnum` (tabular figures), `zero` (slashed zero), `ss02` (disambiguation, with a slashed zero), `cv05` (lower-case l with a tail) and `cv08` (upper-case i with a serif), and gives the licence as OFL 1.1. Every specified typographic property is documented.
 - Atkinson Hyperlegible Next. Its README gives OFL 1.1 and the aim of greater character recognition. Max Kohler's essay on the design (2021) says the original has a serif on the lower-case l and a slashed zero. Tabular figures were not confirmed on a primary page, only on third-party pages, so it was left out for that reason.
 - JetBrains Mono. Its README gives OFL 1.1 and stresses that symbols stay distinct. Every digit in a monospaced face is tabular, but the shape of its zero was not checked.
 

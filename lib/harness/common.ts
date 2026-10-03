@@ -119,6 +119,13 @@ export function pairsApartCheck(args: {
   what: string;
   digits?: number;
 }): Check {
+  const allPatterned = args.set.members.length > 0 && args.set.members.every((m) => (args.set.d.patterned ?? []).includes(m.name));
+  if (allPatterned) {
+    return {
+      profile: args.profile, id: args.id, mode: args.set.mode, ok: false, level: "warn", limit: args.limit,
+      detail: `${args.id} in ${args.set.mode}: every member is patterned, so the gate is empty`,
+    };
+  }
   const digits = args.digits ?? 3;
   const failing: string[] = [];
   let min = Infinity;

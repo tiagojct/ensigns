@@ -140,6 +140,14 @@ describe("print-grey", () => {
     const reinforced = printGrey(family(colours, (f) => { f.pairs = [textPair("ink", "paper")]; f.distinct = [set(["a", "b"], ["print-grey"], { reinforced: [["extra.a", "extra.b"]] })]; }), thresholds);
     expect(failures(reinforced)).toEqual([]);
   });
+
+  it("warns when every member of a gated set is patterned", () => {
+    const colours = { ink: "#555555", paper: "#FFFFFF", a: "#777777", b: "#7A7A7A" };
+    const allPatterned = printGrey(family(colours, (f) => { f.pairs = [textPair("ink", "paper")]; f.distinct = [set(["a", "b"], ["print-grey"], { patterned: ["extra.a", "extra.b"] })]; }), thresholds);
+    expect(failures(allPatterned)).toEqual([]);
+    expect(failures(allPatterned, "warn").length).toBeGreaterThan(0);
+    expect(failures(allPatterned, "warn")[0]).toContain("every member is patterned, so the gate is empty");
+  });
 });
 
 describe("eink", () => {

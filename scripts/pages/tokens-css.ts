@@ -30,10 +30,14 @@ export function cssColour(c: Resolved): string {
 
 const cssString = (s: string): string => `"${s.replace(/[\\"]/g, "\\$&").replace(/\n/g, "\\a ")}"`;
 
-/** Every string or number in the design block with its key path. Arrays, and what they hold, are left out. */
+/** Every string, number or array of scalars in the design block with its key path. Arrays become space-separated. */
 export function* designLeaves(value: unknown, path: string[] = []): Generator<[string[], string | number]> {
   if (typeof value === "string" || typeof value === "number") yield [path, value];
-  else if (value && typeof value === "object" && !Array.isArray(value)) {
+  else if (Array.isArray(value)) {
+    if (value.every((v) => typeof v === "string" || typeof v === "number")) {
+      yield [path, value.join(" ")];
+    }
+  } else if (value && typeof value === "object") {
     for (const [key, v] of Object.entries(value)) yield* designLeaves(v, [...path, key]);
   }
 }
