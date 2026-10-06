@@ -1,0 +1,31 @@
+/* Every colour comes from this family’s resolved tokens. */
+.sp-head{margin-bottom:1.5rem}.sp-title{font:700 1.4rem var(--font-sans);margin:0 0 .6rem}.sp-editor-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem}.sp-reading{background:var(--roles-bg);color:var(--roles-text);padding:1.5rem;border:1px solid var(--roles-border);font-family:var(--font-sans)}.sp-reading h6,.sp-code h6,.sp-terminal h6{font-size:1rem;margin:0 0 1rem}.sp-reading p{line-height:1.7}.sp-reading a{color:var(--roles-link)}.sp-current{font-weight:700;text-decoration:underline;text-decoration-thickness:2px}.sp-reading nav{display:flex;gap:1.5rem;margin:1rem 0}.sp-reading button{background:var(--roles-button);color:var(--roles-on-button);padding:.7rem 1rem;border:1px solid var(--roles-border);font:inherit}.sp-reading label{display:block;margin:1.5rem 0}.sp-reading input{accent-color:var(--roles-accent)}.sp-code{min-width:0;padding:1.5rem;background:var(--surfaces-editor);color:var(--roles-text);border:1px solid var(--roles-border)}.sp-code pre{overflow:auto;font: .85rem/1.8 var(--font-mono);margin:0}.sp-line{display:inline-block;min-width:100%;background:var(--surfaces-editor-line)}.sp-selection{background:var(--surfaces-editor-selection)}.sp-terminal{margin-top:1.5rem;padding:1.5rem;background:var(--terminal-background);color:var(--terminal-foreground);font-family:var(--font-mono);border:1px solid var(--roles-border)}.sp-terminal pre{overflow:auto;line-height:1.7}.sp-prompt{color:var(--ansi-cyan)}.sp-added{color:var(--ansi-green)}.sp-cursor{color:var(--terminal-cursor)}.sp-terminal-selection{background:var(--terminal-selection-background);color:var(--terminal-selection-foreground)}.sp-ansi{display:grid;grid-template-columns:repeat(8,1fr);gap:.35rem;padding:0;list-style:none;font-size:.65rem}.sp-ansi li{padding:.5rem;border:1px solid currentColor}.sp-ansi span{color:var(--terminal-foreground)}
+ .sp-keyword{color:var(--syntax-keyword);font-weight:var(--syntax-keyword-font-weight);font-style:var(--syntax-keyword-font-style);text-decoration:var(--syntax-keyword-text-decoration)}
+ .sp-string{color:var(--syntax-string);font-weight:var(--syntax-string-font-weight);font-style:var(--syntax-string-font-style);text-decoration:var(--syntax-string-text-decoration)}
+ .sp-number{color:var(--syntax-number);font-weight:var(--syntax-number-font-weight);font-style:var(--syntax-number-font-style);text-decoration:var(--syntax-number-text-decoration)}
+ .sp-comment{color:var(--syntax-comment);font-weight:var(--syntax-comment-font-weight);font-style:var(--syntax-comment-font-style);text-decoration:var(--syntax-comment-text-decoration)}
+ .sp-function{color:var(--syntax-function);font-weight:var(--syntax-function-font-weight);font-style:var(--syntax-function-font-style);text-decoration:var(--syntax-function-text-decoration)}
+ .sp-type{color:var(--syntax-type);font-weight:var(--syntax-type-font-weight);font-style:var(--syntax-type-font-style);text-decoration:var(--syntax-type-text-decoration)}
+ .sp-constant{color:var(--syntax-constant);font-weight:var(--syntax-constant-font-weight);font-style:var(--syntax-constant-font-style);text-decoration:var(--syntax-constant-text-decoration)}
+ .sp-variable{color:var(--syntax-variable);font-weight:var(--syntax-variable-font-weight);font-style:var(--syntax-variable-font-style);text-decoration:var(--syntax-variable-text-decoration)}
+ .sp-operator{color:var(--syntax-operator);font-weight:var(--syntax-operator-font-weight);font-style:var(--syntax-operator-font-style);text-decoration:var(--syntax-operator-text-decoration)}
+ .sp-punctuation{color:var(--syntax-punctuation);font-weight:var(--syntax-punctuation-font-weight);font-style:var(--syntax-punctuation-font-style);text-decoration:var(--syntax-punctuation-text-decoration)}
+ .sp-decorator{color:var(--syntax-decorator);font-weight:var(--syntax-decorator-font-weight);font-style:var(--syntax-decorator-font-style);text-decoration:var(--syntax-decorator-text-decoration)}
+ .sp-parameter{color:var(--syntax-parameter);font-weight:var(--syntax-parameter-font-weight);font-style:var(--syntax-parameter-font-style);text-decoration:var(--syntax-parameter-text-decoration)}
+ .sp-ansi-black{border-top:5px solid var(--ansi-black)}
+ .sp-ansi-red{border-top:5px solid var(--ansi-red)}
+ .sp-ansi-green{border-top:5px solid var(--ansi-green)}
+ .sp-ansi-yellow{border-top:5px solid var(--ansi-yellow)}
+ .sp-ansi-blue{border-top:5px solid var(--ansi-blue)}
+ .sp-ansi-magenta{border-top:5px solid var(--ansi-magenta)}
+ .sp-ansi-cyan{border-top:5px solid var(--ansi-cyan)}
+ .sp-ansi-white{border-top:5px solid var(--ansi-white)}
+ .sp-ansi-bright-black{border-top:5px solid var(--ansi-bright-black)}
+ .sp-ansi-bright-red{border-top:5px solid var(--ansi-bright-red)}
+ .sp-ansi-bright-green{border-top:5px solid var(--ansi-bright-green)}
+ .sp-ansi-bright-yellow{border-top:5px solid var(--ansi-bright-yellow)}
+ .sp-ansi-bright-blue{border-top:5px solid var(--ansi-bright-blue)}
+ .sp-ansi-bright-magenta{border-top:5px solid var(--ansi-bright-magenta)}
+ .sp-ansi-bright-cyan{border-top:5px solid var(--ansi-bright-cyan)}
+ .sp-ansi-bright-white{border-top:5px solid var(--ansi-bright-white)}
+.sp-reading :focus-visible{outline:3px solid var(--roles-focus);outline-offset:3px}::selection{background:var(--roles-selection)}@media(max-width:700px){.sp-editor-grid{grid-template-columns:1fr}.sp-ansi{grid-template-columns:repeat(4,1fr)}}@media(forced-colors:active){.sp-current{font-weight:700;text-decoration:underline}.sp-reading :focus-visible{outline:3px solid Highlight}.sp-selection{border:1px solid Highlight}.sp-code,.sp-reading,.sp-terminal{border-color:CanvasText}}
