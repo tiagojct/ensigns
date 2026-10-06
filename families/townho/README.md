@@ -12,7 +12,7 @@ The overlay profile tests Townho on top of every other family in both modes. Tra
 
 ## The ship
 
-Chapter 54, The Town-Ho’s Story. Ishmael narrates the encounter at Lima: "Interweaving in its proper place this darker thread with the story as publicly narrated on the ship, the whole of this strange affair I now proceed to put on lasting record." The secret tragedy, hidden from Captain Ahab, forms the darker thread beneath the public tale.
+Chapter 54, The Town-Ho's Story. Ishmael narrates the encounter at Lima: "Interweaving in its proper place this darker thread with the story as publicly narrated on the ship, the whole of this strange affair I now proceed to put on lasting record." The secret tragedy, hidden from Captain Ahab, forms the darker thread beneath the public tale.
 
 The mode labels reflect the setting at the Golden Inn:
 - Golden Inn daylight: the warm paper of the sunlit piazza.

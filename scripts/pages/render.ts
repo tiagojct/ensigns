@@ -77,7 +77,8 @@ function chapterLine(f: ResolvedFamily): string {
   const { chapter, chapterTitle, host } = f.meta;
   if (chapter === undefined) return host ? "The host ship, with no chapter of its own" : "No chapter";
   const numbers = Array.isArray(chapter) ? `Chapters ${chapter[0]} and ${chapter[1]}` : `Chapter ${chapter}`;
-  return chapterTitle ? `${numbers}, ${chapterTitle}` : numbers;
+  // The book prints a curly apostrophe in a chapter title. The pages use straight ones.
+  return chapterTitle ? `${numbers}, ${chapterTitle.replaceAll("’", "'")}` : numbers;
 }
 
 const PROFILE_ICON: Record<ProfileStatus, string> = { pass: "✓", warn: "▲", fail: "✕", external: "◇", "not-implemented": "○" };
