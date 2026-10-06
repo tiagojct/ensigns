@@ -12,13 +12,15 @@ Branch phase/5-deployment-and-retirement, stacked on phase/4-generators-packages
 - The build-deploy workflow builds the image and pushes it to ghcr.io/tiagojct/ensigns. Only the repository owner can start it, by hand, on main: the job checks the actor and the triggering actor, so a re-run by someone else stops too. It is the one place where CI publishes, an exception to the rule in docs/RELEASE.md that D38 asks you to confirm. It has pinned actions and one platform, linux/amd64.
 - site/deploy/README.md gives the order of work, a check after each step and the undo for each step. It stages the files on the VPS first, checks the tunnel's trust in Caddy's self-signed certificate before the restart, and starts the old container again before it undoes the redirects.
 - docs/RETIREMENT.md gives the README notice for each old repository, the archive steps, the package follow-ups and the consumer follow-ups.
+- The site is redesigned around the ensigns. Each family has a signal flag drawn from its own colours, in one of ten designs. The host ship leads the home page with its crew, the nine ships follow in book order, and a family page opens in the family's own ground. The headline is "Colour, tested where it is read." and the headings are set in a subset of Literata (77 KB, with the licence and the hashes recorded in site/public/fonts). The sample cards quote chapter 1 and print the measured contrast of the text, the link, the button label and the focus ring. The Carpenter shows its tool above the fold. The favicon and the share image use the same mark and the ten flags.
+- A test now reads the text of every page, review page and specimen and fails on the markers of generated prose: antithesis, staccato negation, magic adverbs, inflated words, filler transitions, stock phrases, headings that ask a question, more than two em dashes, arrows, curly quotes and emoji. On the existing text it found only typographic apostrophes, which are now straight.
 
 ## Test report
 
 On a clean checkout of this branch:
 
 - npm run typecheck passes.
-- npm test passes with Chromium required: 703 tests in 47 files. Phase 4 has 683 in 46 after its review fixes. The branch adds eighteen deployment tests and two site tests.
+- npm test passes with Chromium required: 716 tests in 49 files. Phase 4 has 683 in 46 after its review fixes. The branch adds eighteen deployment tests, two site tests, three copy tests and ten design tests.
 - npm run build and node scripts/export/freshness.ts pass.
 - The image build stage ran without Docker, on a copy of the tracked files with no .git folder and no legacy folder. npm ci and npm run build passed, and site/dist held every page.
 - Each new check fails when its rule is broken. I tested this by removing the old-id mapping, adding add_header to a location, dropping a family redirect, adding a push trigger to the workflow and unpinning an action.
