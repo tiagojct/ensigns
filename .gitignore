@@ -18,12 +18,14 @@ __pycache__/
 /site/dist/
 /reports/
 /dist/
+/preview/
 
 # Editors and operating system
 /.vscode/
 .idea/
 .DS_Store
 
-# Local scratch
+# Local scratch, and the git worktrees the design agents work in
 /.scratch/
+/.claude/
 *.log

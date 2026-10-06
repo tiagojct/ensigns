@@ -1,0 +1,617 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "jeroboam",
+    "name": "Jeroboam",
+    "version": "0.1.0",
+    "chapter": 71,
+    "chapterTitle": "The Jeroboam's Story",
+    "quote": "the Jeroboam had a malignant epidemic on board",
+    "quotes": [
+      {"chapter":71,"text":"Think, think of the fevers, yellow and bilious!"},
+      {"chapter":71,"text":"the timid quarantine of the land"},
+      {"chapter":71,"text":"coat of a faded walnut tinge"},
+      {"chapter":71,"text":"recognise each other upon the ocean"}
+    ],
+    "tagline": "A quiet ground, and colour only where a status is meant.",
+    "goal": "Clinical status for professionals: CDSS alerts, lab flags, Manchester triage, alarm priorities, and the teaching prototypes and the Doubloon game that show them.",
+    "environments": ["office-screen","clinical","cvd","print-grey"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "derived": [
+    "data"
+  ],
+  "palette": {
+    "walnut": {
+      "l8": "#1A1713",
+      "l10": "#1E1B17",
+      "l11": "#211D19",
+      "l14": "#27231F",
+      "l15": "#292521",
+      "l22": "#383430",
+      "l24": "#3C3934",
+      "l31": "#4C4844",
+      "l34": "#534F4B",
+      "l43": "#696560",
+      "l55": "#87837E",
+      "l71": "#B2AEA8",
+      "l78": "#C5C1BB",
+      "l84": "#D5D1CB",
+      "l90": "#E5E2DE",
+      "l92": "#EBE7E4",
+      "l94": "#F1EDEA",
+      "l96": "#F6F3F0",
+      "l98": "#FCF9F5",
+      "l100": "#FFFFFF"
+    },
+    "slate": {
+      "l18": "#2E2A38",
+      "l27": "#423E4C",
+      "l72": "#B3AEBF",
+      "l84": "#D4D0E1"
+    },
+    "blue": {
+      "dark-border": "#005FD7",
+      "dark-fill": "#1D2C41",
+      "dark-fg": "#C2E1FF",
+      "light-border": "#00173B",
+      "light-fill": "#DFF4FF",
+      "light-fg": "#003B64"
+    },
+    "green": {
+      "dark-border": "#69E86D",
+      "dark-fill": "#1B2F1B",
+      "dark-fg": "#B6E9B4",
+      "light-border": "#005A28",
+      "light-fill": "#DDF7E5",
+      "light-fg": "#004320"
+    },
+    "yellow": {
+      "dark-border": "#FFF95D",
+      "dark-fill": "#2F2C0F",
+      "dark-fg": "#E7DF99",
+      "light-border": "#9F8C00",
+      "light-fill": "#F5F2D7",
+      "light-fg": "#433900"
+    },
+    "orange": {
+      "dark-border": "#FF8A00",
+      "dark-fill": "#3D2615",
+      "dark-fg": "#FFD5B0",
+      "light-border": "#A45900",
+      "light-fill": "#FFEFDB",
+      "light-fg": "#5A2E00"
+    },
+    "red": {
+      "dark-border": "#EE4E34",
+      "dark-fill": "#40231E",
+      "dark-fg": "#FFD3C7",
+      "light-border": "#6B0000",
+      "light-fill": "#FFEEE7",
+      "light-fg": "#63261C"
+    }
+  },
+  "modes": {
+    "dark": {
+      "roles": {
+        "bg": "{palette.walnut.l8}",
+        "surface": "{palette.walnut.l11}",
+        "surface-raised": "{palette.walnut.l15}",
+        "text": "{palette.walnut.l94}",
+        "text-muted": "{palette.walnut.l78}",
+        "text-subtle": "{palette.walnut.l71}",
+        "border": "{palette.walnut.l22}",
+        "link": "{palette.slate.l84}",
+        "link-hover": "{palette.walnut.l98}",
+        "accent": "{palette.slate.l72}",
+        "on-accent": "{palette.walnut.l8}",
+        "button": "{palette.walnut.l92}",
+        "on-button": "{palette.walnut.l8}",
+        "focus": "{palette.walnut.l98}",
+        "selection": "{palette.walnut.l24}",
+        "extra": {
+          "info-fg": "{palette.blue.dark-fg}",
+          "info-fill": "{palette.blue.dark-fill}",
+          "info-border": "{palette.blue.dark-border}",
+          "caution-fg": "{palette.yellow.dark-fg}",
+          "caution-fill": "{palette.yellow.dark-fill}",
+          "caution-border": "{palette.yellow.dark-border}",
+          "critical-fg": "{palette.red.dark-fg}",
+          "critical-fill": "{palette.red.dark-fill}",
+          "critical-border": "{palette.red.dark-border}",
+          "success-fg": "{palette.green.dark-fg}",
+          "success-fill": "{palette.green.dark-fill}",
+          "success-border": "{palette.green.dark-border}",
+          "triage-blue-fg": "{palette.blue.dark-fg}",
+          "triage-blue-fill": "{palette.blue.dark-fill}",
+          "triage-blue-border": "{palette.blue.dark-border}",
+          "triage-green-fg": "{palette.green.dark-fg}",
+          "triage-green-fill": "{palette.green.dark-fill}",
+          "triage-green-border": "{palette.green.dark-border}",
+          "triage-yellow-fg": "{palette.yellow.dark-fg}",
+          "triage-yellow-fill": "{palette.yellow.dark-fill}",
+          "triage-yellow-border": "{palette.yellow.dark-border}",
+          "triage-orange-fg": "{palette.orange.dark-fg}",
+          "triage-orange-fill": "{palette.orange.dark-fill}",
+          "triage-orange-border": "{palette.orange.dark-border}",
+          "triage-red-fg": "{palette.red.dark-fg}",
+          "triage-red-fill": "{palette.red.dark-fill}",
+          "triage-red-border": "{palette.red.dark-border}",
+          "border-strong": "{palette.walnut.l55}",
+          "row-alt": "{palette.walnut.l14}",
+          "triage-white-fill": "{palette.walnut.l15}",
+          "triage-white-border": "{palette.walnut.l55}",
+          "triage-white-fg": "{palette.walnut.l94}"
+        }
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.red.dark-border}",
+        "warning": "{palette.yellow.dark-border}",
+        "success": "{palette.green.dark-border}",
+        "info": "{palette.blue.dark-border}"
+      }
+    },
+    "light": {
+      "roles": {
+        "bg": "{palette.walnut.l96}",
+        "surface": "{palette.walnut.l98}",
+        "surface-raised": "{palette.walnut.l100}",
+        "text": "{palette.walnut.l10}",
+        "text-muted": "{palette.walnut.l31}",
+        "text-subtle": "{palette.walnut.l34}",
+        "border": "{palette.walnut.l84}",
+        "link": "{palette.slate.l27}",
+        "link-hover": "{palette.walnut.l10}",
+        "accent": "{palette.slate.l18}",
+        "on-accent": "{palette.walnut.l98}",
+        "button": "{palette.walnut.l10}",
+        "on-button": "{palette.walnut.l98}",
+        "focus": "{palette.walnut.l10}",
+        "selection": "{palette.walnut.l90}",
+        "extra": {
+          "info-fg": "{palette.blue.light-fg}",
+          "info-fill": "{palette.blue.light-fill}",
+          "info-border": "{palette.blue.light-border}",
+          "caution-fg": "{palette.yellow.light-fg}",
+          "caution-fill": "{palette.yellow.light-fill}",
+          "caution-border": "{palette.yellow.light-border}",
+          "critical-fg": "{palette.red.light-fg}",
+          "critical-fill": "{palette.red.light-fill}",
+          "critical-border": "{palette.red.light-border}",
+          "success-fg": "{palette.green.light-fg}",
+          "success-fill": "{palette.green.light-fill}",
+          "success-border": "{palette.green.light-border}",
+          "triage-blue-fg": "{palette.blue.light-fg}",
+          "triage-blue-fill": "{palette.blue.light-fill}",
+          "triage-blue-border": "{palette.blue.light-border}",
+          "triage-green-fg": "{palette.green.light-fg}",
+          "triage-green-fill": "{palette.green.light-fill}",
+          "triage-green-border": "{palette.green.light-border}",
+          "triage-yellow-fg": "{palette.yellow.light-fg}",
+          "triage-yellow-fill": "{palette.yellow.light-fill}",
+          "triage-yellow-border": "{palette.yellow.light-border}",
+          "triage-orange-fg": "{palette.orange.light-fg}",
+          "triage-orange-fill": "{palette.orange.light-fill}",
+          "triage-orange-border": "{palette.orange.light-border}",
+          "triage-red-fg": "{palette.red.light-fg}",
+          "triage-red-fill": "{palette.red.light-fill}",
+          "triage-red-border": "{palette.red.light-border}",
+          "border-strong": "{palette.walnut.l43}",
+          "row-alt": "{palette.walnut.l94}",
+          "triage-white-fill": "{palette.walnut.l100}",
+          "triage-white-border": "{palette.walnut.l43}",
+          "triage-white-fg": "{palette.walnut.l10}"
+        }
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.red.light-border}",
+        "warning": "{palette.yellow.light-border}",
+        "success": "{palette.green.light-border}",
+        "info": "{palette.blue.light-border}"
+      }
+    }
+  },
+  "typography": {
+    "sans": "Inter",
+    "mono": "JetBrains Mono"
+  },
+  "design": {
+    "clinical": {
+      "critical": "critical",
+      "levels": [
+        {
+          "name": "info",
+          "fg": "extra.info-fg",
+          "fill": "extra.info-fill",
+          "border": "extra.info-border",
+          "icon": "circle-info",
+          "label": "Information"
+        },
+        {
+          "name": "caution",
+          "fg": "extra.caution-fg",
+          "fill": "extra.caution-fill",
+          "border": "extra.caution-border",
+          "icon": "triangle-exclamation",
+          "label": "Caution"
+        },
+        {
+          "name": "critical",
+          "fg": "extra.critical-fg",
+          "fill": "extra.critical-fill",
+          "border": "extra.critical-border",
+          "icon": "octagon-exclamation",
+          "label": "Critical"
+        }
+      ],
+      "triage": [
+        {
+          "name": "blue",
+          "fg": "extra.triage-blue-fg",
+          "fill": "extra.triage-blue-fill",
+          "border": "extra.triage-blue-border",
+          "icon": "number-5",
+          "label": "Non-urgent"
+        },
+        {
+          "name": "green",
+          "fg": "extra.triage-green-fg",
+          "fill": "extra.triage-green-fill",
+          "border": "extra.triage-green-border",
+          "icon": "number-4",
+          "label": "Standard"
+        },
+        {
+          "name": "yellow",
+          "fg": "extra.triage-yellow-fg",
+          "fill": "extra.triage-yellow-fill",
+          "border": "extra.triage-yellow-border",
+          "icon": "number-3",
+          "label": "Urgent"
+        },
+        {
+          "name": "orange",
+          "fg": "extra.triage-orange-fg",
+          "fill": "extra.triage-orange-fill",
+          "border": "extra.triage-orange-border",
+          "icon": "number-2",
+          "label": "Very urgent"
+        },
+        {
+          "name": "red",
+          "fg": "extra.triage-red-fg",
+          "fill": "extra.triage-red-fill",
+          "border": "extra.triage-red-border",
+          "icon": "number-1",
+          "label": "Immediate"
+        }
+      ]
+    },
+    "triage": {
+      "blue": {"number":5,"target-minutes":240},
+      "green": {"number":4,"target-minutes":120},
+      "yellow": {"number":3,"target-minutes":60},
+      "orange": {"number":2,"target-minutes":10},
+      "red": {"number":1,"target-minutes":0}
+    },
+    "alarm": {
+      "high": "critical",
+      "medium": "caution",
+      "low": "info"
+    },
+    "lab": {
+      "low": {"letter":"L","icon":"arrow-down","level":"caution"},
+      "high": {"letter":"H","icon":"arrow-up","level":"caution"},
+      "critical-low": {"letter":"LL","icon":"arrow-down-double","level":"critical"},
+      "critical-high": {"letter":"HH","icon":"arrow-up-double","level":"critical"}
+    },
+    "type": {
+      "features": {"sans":"tnum, ss02","mono":"zero"},
+      "weight": {"regular":400,"medium":500,"bold":700},
+      "scale": {"small":"0.8125rem","body":"0.9375rem","value":"1.5rem","display":"2.25rem"}
+    },
+    "border": {
+      "width": {"hairline":"1px","flag":"2px","stripe":"6px"},
+      "radius": {"small":"4px","medium":"8px","round":"999px"}
+    },
+    "focus": {
+      "width": "2px",
+      "offset": "2px"
+    }
+  },
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "body text on the page"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text",
+      "why": "body text on a card"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface-raised",
+      "kind": "text",
+      "why": "body text on a raised card"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "secondary text on the page"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.surface",
+      "kind": "text",
+      "why": "secondary text on a card"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "tertiary text on the page"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.surface",
+      "kind": "text",
+      "why": "tertiary text on a card"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "link on the page"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.surface",
+      "kind": "text",
+      "why": "link on a card"
+    },
+    {
+      "fg": "roles.link-hover",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "link on hover"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text",
+      "why": "text on the accent"
+    },
+    {
+      "fg": "roles.on-button",
+      "bg": "roles.button",
+      "kind": "text",
+      "why": "button label"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "component",
+      "why": "accent rule or marker on the page"
+    },
+    {
+      "fg": "roles.focus",
+      "bg": "roles.bg",
+      "kind": "component",
+      "why": "focus ring on the page"
+    },
+    {
+      "fg": "roles.focus",
+      "bg": "roles.surface",
+      "kind": "component",
+      "why": "focus ring on a card"
+    },
+    {
+      "fg": "extra.border-strong",
+      "bg": "roles.bg",
+      "kind": "component",
+      "why": "control outline on the page"
+    },
+    {
+      "fg": "extra.border-strong",
+      "bg": "roles.surface",
+      "kind": "component",
+      "why": "control outline on a card"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.selection",
+      "kind": "text",
+      "why": "selected text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.row-alt",
+      "kind": "text",
+      "why": "table text on an alternate row"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "extra.row-alt",
+      "kind": "text",
+      "why": "table units and ranges on an alternate row"
+    },
+    {
+      "fg": "extra.info-fg",
+      "bg": "extra.info-fill",
+      "kind": "text",
+      "why": "severity info: text and icon on its fill"
+    },
+    {
+      "fg": "extra.caution-fg",
+      "bg": "extra.caution-fill",
+      "kind": "text",
+      "why": "severity caution: text and icon on its fill"
+    },
+    {
+      "fg": "extra.critical-fg",
+      "bg": "extra.critical-fill",
+      "kind": "text",
+      "why": "severity critical: text and icon on its fill"
+    },
+    {
+      "fg": "extra.success-fg",
+      "bg": "extra.success-fill",
+      "kind": "text",
+      "why": "success: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-blue-fg",
+      "bg": "extra.triage-blue-fill",
+      "kind": "text",
+      "why": "triage blue: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-green-fg",
+      "bg": "extra.triage-green-fill",
+      "kind": "text",
+      "why": "triage green: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-yellow-fg",
+      "bg": "extra.triage-yellow-fill",
+      "kind": "text",
+      "why": "triage yellow: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-orange-fg",
+      "bg": "extra.triage-orange-fill",
+      "kind": "text",
+      "why": "triage orange: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-red-fg",
+      "bg": "extra.triage-red-fill",
+      "kind": "text",
+      "why": "triage red: text and icon on its fill"
+    },
+    {
+      "fg": "extra.triage-white-fg",
+      "bg": "extra.triage-white-fill",
+      "kind": "text",
+      "why": "triage white: text and icon on its fill"
+    }
+  ],
+  "rules": [
+    {
+      "id": "red-reserved",
+      "text": "Red is reserved for critical and immediate. No other colour of the family is within 0.10 of the critical red in OKLab, in either mode; the clinical profile measures every role, extra role and surface against it."
+    },
+    {
+      "id": "colour-means-status",
+      "text": "Chroma belongs to status and triage. Ground, text, link, accent, button, focus and selection are neutral, with OKLCH chroma under 0.04."
+    },
+    {
+      "id": "never-colour-alone",
+      "text": "Every level has its own icon and its own word, and every triage level has its protocol number. Colour never stands alone."
+    },
+    {
+      "id": "links-underlined",
+      "text": "Links are underlined, because their colour is an ink and not a hue. The hover darkens the link in the light mode and lightens it in the dark mode.",
+      "check": "hover-direction"
+    },
+    {
+      "id": "accent-is-a-marker",
+      "text": "The accent is a quiet marker and never a fill: no other role takes its colour.",
+      "check": "accent-only-in-roles"
+    },
+    {
+      "id": "red-and-green-by-lightness",
+      "text": "Red and green are never told apart by hue alone: the critical and standard borders differ by at least 12 L* in both modes.",
+      "check": "lightness-gap:extra.triage-red-border,extra.triage-green-border,12"
+    },
+    {
+      "id": "orange-is-triage",
+      "text": "Orange belongs to the triage scale. Alarm priorities use critical for high, caution for medium and info for low, as the design.alarm tokens say."
+    },
+    {
+      "id": "no-conformance-claim",
+      "text": "The family is a colour and type system. It does not validate a triage algorithm, a decision rule or an alarm design, and nothing here claims conformance with a protocol or with IEC 60601-1-8; the README says what was checked."
+    }
+  ],
+  "distinct": [
+    {
+      "id": "flags",
+      "members": [
+        "extra.info-border",
+        "extra.caution-border",
+        "extra.critical-border",
+        "extra.success-border",
+        "extra.triage-blue-border",
+        "extra.triage-green-border",
+        "extra.triage-yellow-border",
+        "extra.triage-orange-border",
+        "extra.triage-red-border"
+      ],
+      "aliases": [
+        ["extra.info-border","extra.triage-blue-border"],
+        ["extra.caution-border","extra.triage-yellow-border"],
+        ["extra.critical-border","extra.triage-red-border"],
+        ["extra.success-border","extra.triage-green-border"]
+      ],
+      "note": "Every status and triage border, severity first and then the protocol order. The severity borders reuse the triage colours on purpose: info is the blue, caution the yellow, critical the red, success the green. Gated under normal vision and protan, deutan and tritan simulation, with no reinforced pair and no floor."
+    },
+    {
+      "id": "severity",
+      "members": ["extra.info-border","extra.caution-border","extra.critical-border"],
+      "for": ["print-grey"],
+      "note": "The three severity borders are at least 12 L* apart in greyscale in both modes."
+    },
+    {
+      "id": "triage-dark",
+      "members": [
+        "extra.triage-blue-border",
+        "extra.triage-green-border",
+        "extra.triage-yellow-border",
+        "extra.triage-orange-border",
+        "extra.triage-red-border"
+      ],
+      "modes": ["dark"],
+      "for": ["print-grey"],
+      "note": "In the dark mode the five triage borders are at least 12 L* apart in greyscale, with no reinforced pair."
+    },
+    {
+      "id": "triage-light",
+      "members": [
+        "extra.triage-blue-border",
+        "extra.triage-green-border",
+        "extra.triage-yellow-border",
+        "extra.triage-orange-border",
+        "extra.triage-red-border"
+      ],
+      "modes": ["light"],
+      "for": ["print-grey"],
+      "note": "In the light mode all ten pairs of triage borders are at least 12 L* apart in greyscale, with no reinforced pair. The 3:1 rule stops yellow at about L* 58.7, so the five borders reach down to a blue of L* 8.4. The price is in the colours: the blue is a navy close to black and the red a dark maroon."
+    },
+    {
+      "id": "link-and-accent",
+      "members": [
+        "roles.link",
+        "roles.accent",
+        "extra.triage-blue-border",
+        "extra.triage-green-border",
+        "extra.triage-yellow-border",
+        "extra.triage-orange-border",
+        "extra.triage-red-border"
+      ],
+      "note": "The link and the accent are neutral inks. They are told apart from every status and triage hue, under normal vision and under each simulation."
+    }
+  ],
+  "targets": {
+    "exclude": ["vscode","zed","neovim","terminals"]
+  }
+}

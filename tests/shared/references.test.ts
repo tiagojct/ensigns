@@ -15,7 +15,8 @@ describe("references", () => {
 
       it("resolves every palette reference in both modes", () => {
         for (const m of ["dark", "light"] as const) {
-          expect(resolved.modes[m].colours.size).toBeGreaterThan(40);
+          // A family without editor, terminal or data blocks still defines the fifteen core roles.
+          expect(resolved.modes[m].colours.size).toBeGreaterThanOrEqual(15);
           for (const [address, c] of resolved.modes[m].colours) {
             expect(c.hex, `${m} ${address}`).toMatch(/^#[0-9A-F]{6}$/);
           }

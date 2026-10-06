@@ -160,8 +160,38 @@ export function validateSemantics(file: FamilyFile): Issue[] {
             for (const n of [a, b]) if (!names.has(n)) error("distinct", `distinct[${i}].${kind}`, `${n} is not a member of ${d.id} in ${m}`);
           }
         }
+        for (const n of d.patterned ?? []) if (!names.has(n)) error("distinct", `distinct[${i}].patterned`, `${n} is not a member of ${d.id} in ${m}`);
       }
     });
+
+    // Declarations that profiles read point at colours that exist.
+    const design = file.design;
+    const exists = (m: ModeName, address: string) => resolved!.modes[m].colours.has(address);
+    if (design?.overlay) {
+      design.overlay.fills.forEach((address, i) => {
+        for (const m of MODES) {
+          const c = resolved!.modes[m].colours.get(address);
+          if (!c) error("design-overlay", `design.overlay.fills[${i}]`, `${address} does not exist in ${m}`);
+          else if (c.alpha === undefined) error("design-overlay", `design.overlay.fills[${i}]`, `${address} is opaque in ${m}; an overlay fill is a translucent palette entry`);
+        }
+      });
+    }
+    if (design?.clinical) {
+      const { critical, levels, triage } = design.clinical;
+      const lists: [string, typeof levels][] = [["levels", levels], ...(triage ? ([["triage", triage]] as [string, typeof levels][]) : [])];
+      for (const [listName, list] of lists) {
+        const seen = new Set<string>();
+        list.forEach((level, i) => {
+          const where = `design.clinical.${listName}[${i}]`;
+          if (seen.has(level.name)) error("design-clinical", where, `two ${listName} are called ${level.name}`);
+          seen.add(level.name);
+          for (const side of ["fg", "fill", "border"] as const) {
+            for (const m of MODES) if (!exists(m, level[side])) error("design-clinical", `${where}.${side}`, `${level[side]} does not exist in ${m}`);
+          }
+        });
+      }
+      if (!levels.some((l) => l.name === critical)) error("design-clinical", "design.clinical.critical", `${critical} is not one of the levels`);
+    }
   }
 
   return issues;

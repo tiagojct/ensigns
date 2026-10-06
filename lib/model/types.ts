@@ -142,7 +142,7 @@ export type Status =
       danger: PaletteRef;
       warning: PaletteRef;
       success: PaletteRef;
-      info: PaletteRef;
+      info?: PaletteRef;
       hint?: PaletteRef;
       conflict?: PaletteRef;
     }
@@ -206,6 +206,29 @@ export interface Distinct {
   aliases?: [string, string][];
   by?: string;
   note?: string;
+  /** Further profiles that gate the set after their own simulation. */
+  for?: ProfileForSets[];
+  /** Members that carry a pattern, line style or marker of their own. */
+  patterned?: string[];
+}
+
+/** The profiles a distinct set can opt in to. */
+export type ProfileForSets = "projector" | "sunlight" | "aged-eye" | "print-grey" | "eink" | "photocopy";
+
+export interface ClinicalLevel {
+  name: string;
+  fg: Address;
+  fill: Address;
+  border: Address;
+  icon: string;
+  label: string;
+}
+
+/** What the non-colour design block carries for the profiles that read it. Other keys are free. */
+export interface DesignDeclarations {
+  projector?: { rooms?: ("dark" | "lit")[] };
+  overlay?: { fills: Address[] };
+  clinical?: { critical: string; levels: ClinicalLevel[]; triage?: ClinicalLevel[] };
 }
 
 export interface Exception {
@@ -221,7 +244,7 @@ export interface FamilyFile {
   palette: Palette;
   modes: Record<ModeName, ModeFile>;
   typography?: Record<string, string>;
-  design?: Record<string, unknown>;
+  design?: DesignDeclarations & Record<string, unknown>;
   pairs?: Pair[];
   rules?: Rule[];
   distinct?: Distinct[];

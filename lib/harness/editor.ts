@@ -5,6 +5,7 @@ import { apcaLc } from "../colour/apca.ts";
 import { contrastRatio } from "../colour/wcag.ts";
 import { MODES, SYNTAX_ROLES } from "../model/types.ts";
 import type { ResolvedFamily } from "../model/types.ts";
+import { apcaAllowed } from "./common.ts";
 import { fmt, num } from "./types.ts";
 import type { Check, Thresholds } from "./types.ts";
 
@@ -35,7 +36,7 @@ export function editor(family: ResolvedFamily, t: Thresholds): Check[] {
         });
       }
       const bg = colours.get("surfaces.editor");
-      if (bg) {
+      if (bg && apcaAllowed(family)) {
         const lc = apcaLc(c.hex, bg.hex);
         out.push({ profile: PROFILE, id: `apca syntax.${role}`, mode: m, ok: true, level: "warn", report: true, value: lc, detail: `syntax.${role} in ${m}: APCA Lc ${fmt(lc, 1)}` });
       }

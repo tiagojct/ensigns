@@ -1,0 +1,322 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "rachel",
+    "name": "Rachel",
+    "version": "0.1.0",
+    "chapter": 128,
+    "chapterTitle": "The Pequod Meets the Rachel",
+    "quote": "kindling a fire in her try-pots for a beacon",
+    "quotes": [
+      {"chapter": "Epilogue", "text": "It was the devious-cruising Rachel, that in her retracing search after her missing children, only found another orphan."},
+      {"chapter": 128, "text": "till daylight"},
+      {"chapter": 128, "text": "this ship that so wept with spray"},
+      {"chapter": 128, "text": "three tall cherry trees"}
+    ],
+    "tagline": "A warm paper ground, one blue for action, three gentle status levels that always carry an icon and words.",
+    "goal": "Patient-facing apps, leaflets, consent forms and health education, for older adults, people with low vision and people with low health literacy.",
+    "environments": ["aged-eye","sunlight","print-grey","cvd"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "derived": [
+    "data"
+  ],
+  "palette": {
+    "paper": {
+      "ground": "#F7EFE0",
+      "panel": "#F3E8D5",
+      "sheet": "#FDFAF1",
+      "ink": "#20160E",
+      "soft-ink": "#4C3B30",
+      "edge": "#887865"
+    },
+    "hearth": {
+      "ground": "#1F1813",
+      "panel": "#261F19",
+      "sheet": "#2E2620",
+      "ink": "#F1E7D2",
+      "soft-ink": "#D7CBB7",
+      "edge": "#897965"
+    },
+    "sea": {
+      "day": "#034574",
+      "day-deep": "#15324D",
+      "day-tint": "#DAECFD",
+      "night": "#9DD1FF",
+      "night-bright": "#CBE2F9",
+      "night-tint": "#1F405E"
+    },
+    "spray": {
+      "day": "#137070",
+      "day-tint": "#DDF2F1",
+      "night": "#6EBFBE",
+      "night-tint": "#163333"
+    },
+    "fire": {
+      "day": "#A87D2C",
+      "day-tint": "#FDEACC",
+      "night": "#FFCD75",
+      "night-tint": "#3A2B11"
+    },
+    "cherry": {
+      "day": "#7A2F1E",
+      "day-tint": "#FFE7E1",
+      "night": "#D37762",
+      "night-tint": "#402620"
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Beacon",
+      "roles": {
+        "bg": "{palette.hearth.ground}",
+        "surface": "{palette.hearth.panel}",
+        "surface-raised": "{palette.hearth.sheet}",
+        "text": "{palette.hearth.ink}",
+        "text-muted": "{palette.hearth.soft-ink}",
+        "text-subtle": "{palette.hearth.soft-ink}",
+        "border": "{palette.hearth.edge}",
+        "link": "{palette.sea.night}",
+        "link-hover": "{palette.sea.night-bright}",
+        "accent": "{palette.sea.night}",
+        "on-accent": "{palette.hearth.ground}",
+        "button": "{palette.sea.night}",
+        "on-button": "{palette.hearth.ground}",
+        "focus": "{palette.sea.night}",
+        "selection": "{palette.sea.night-tint}",
+        "extra": {
+          "control-edge": "{palette.hearth.ink}",
+          "button-hover": "{palette.sea.night-bright}",
+          "success-fg": "{palette.hearth.ink}",
+          "success-fill": "{palette.spray.night-tint}",
+          "success-border": "{palette.spray.night}",
+          "success-on": "{palette.hearth.ground}",
+          "warning-fg": "{palette.hearth.ink}",
+          "warning-fill": "{palette.fire.night-tint}",
+          "warning-border": "{palette.fire.night}",
+          "warning-on": "{palette.hearth.ground}",
+          "danger-fg": "{palette.hearth.ink}",
+          "danger-fill": "{palette.cherry.night-tint}",
+          "danger-border": "{palette.cherry.night}",
+          "danger-on": "{palette.hearth.ground}",
+          "meter-track": "{palette.hearth.panel}",
+          "meter-target": "{palette.spray.night-tint}",
+          "meter-marker": "{palette.hearth.ink}"
+        }
+      },
+      "accents": {
+        "sea": "{palette.sea.night}",
+        "spray": "{palette.spray.night}",
+        "fire": "{palette.fire.night}",
+        "cherry": "{palette.cherry.night}"
+      },
+      "surfaces": {
+        "page": "{palette.hearth.ground}",
+        "panel": "{palette.hearth.panel}",
+        "sheet": "{palette.hearth.sheet}",
+        "field": "{palette.hearth.sheet}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.cherry.night}",
+        "warning": "{palette.fire.night}",
+        "success": "{palette.spray.night}"
+      }
+    },
+    "light": {
+      "label": "Daylight",
+      "roles": {
+        "bg": "{palette.paper.ground}",
+        "surface": "{palette.paper.panel}",
+        "surface-raised": "{palette.paper.sheet}",
+        "text": "{palette.paper.ink}",
+        "text-muted": "{palette.paper.soft-ink}",
+        "text-subtle": "{palette.paper.soft-ink}",
+        "border": "{palette.paper.edge}",
+        "link": "{palette.sea.day}",
+        "link-hover": "{palette.sea.day-deep}",
+        "accent": "{palette.sea.day}",
+        "on-accent": "{palette.paper.ground}",
+        "button": "{palette.sea.day}",
+        "on-button": "{palette.paper.ground}",
+        "focus": "{palette.sea.day}",
+        "selection": "{palette.sea.day-tint}",
+        "extra": {
+          "control-edge": "{palette.paper.ink}",
+          "button-hover": "{palette.sea.day-deep}",
+          "success-fg": "{palette.paper.ink}",
+          "success-fill": "{palette.spray.day-tint}",
+          "success-border": "{palette.spray.day}",
+          "success-on": "{palette.paper.ground}",
+          "warning-fg": "{palette.paper.ink}",
+          "warning-fill": "{palette.fire.day-tint}",
+          "warning-border": "{palette.fire.day}",
+          "warning-on": "{palette.paper.ink}",
+          "danger-fg": "{palette.paper.ink}",
+          "danger-fill": "{palette.cherry.day-tint}",
+          "danger-border": "{palette.cherry.day}",
+          "danger-on": "{palette.paper.ground}",
+          "meter-track": "{palette.paper.panel}",
+          "meter-target": "{palette.spray.day-tint}",
+          "meter-marker": "{palette.paper.ink}"
+        }
+      },
+      "accents": {
+        "sea": "{palette.sea.day}",
+        "spray": "{palette.spray.day}",
+        "fire": "{palette.fire.day}",
+        "cherry": "{palette.cherry.day}"
+      },
+      "surfaces": {
+        "page": "{palette.paper.ground}",
+        "panel": "{palette.paper.panel}",
+        "sheet": "{palette.paper.sheet}",
+        "field": "{palette.paper.sheet}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.cherry.day}",
+        "warning": "{palette.fire.day}",
+        "success": "{palette.spray.day}"
+      }
+    }
+  },
+  "typography": {
+    "sans": "Atkinson Hyperlegible Next"
+  },
+  "design": {
+    "type": {
+      "size": {
+        "min": "1.125rem",
+        "body": "1.25rem",
+        "lead": "1.375rem",
+        "h3": "1.5rem",
+        "h2": "1.875rem",
+        "h1": "2.375rem",
+        "reading": "4.5rem"
+      },
+      "line-height": {"body": 1.6, "heading": 1.25, "reading": 1},
+      "measure": {"body": "60ch", "narrow": "36ch"},
+      "weight": {"body": 400, "strong": 700},
+      "letter-spacing": {"body": "0.01em"},
+      "paragraph-gap": "1.25em"
+    },
+    "touch": {
+      "target": {"min": "48px", "comfortable": "56px"},
+      "gap": {"min": "8px", "comfortable": "16px"}
+    },
+    "space": {"xs": "0.25rem", "sm": "0.5rem", "md": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "3xl": "4rem"},
+    "radius": {"sm": "6px", "md": "12px", "lg": "20px", "round": "999px"},
+    "border": {"width": {"default": "2px", "strong": "3px"}},
+    "focus": {"width": "4px", "offset": "3px", "style": "solid"},
+    "print": {
+      "size": {"floor": "12pt", "body": "14pt", "large": "18pt"},
+      "line-height": 1.5
+    },
+    "status": {
+      "success": {"icon": "circle-tick", "label": "Fine", "border-width": "2px"},
+      "warning": {"icon": "triangle-exclamation", "label": "Needs attention", "border-width": "3px"},
+      "danger": {"icon": "square-phone", "label": "Contact your clinician", "border-width": "4px"}
+    }
+  },
+  "rules": [
+    {
+      "id": "one-action-colour",
+      "text": "One action colour. Links, buttons, the focus ring and the accent share it, and no other role does. Its hover is a further step of the same blue.",
+      "check": ["accent-only-in-roles:link,button,focus", "hover-direction"]
+    },
+    {
+      "id": "status-by-lightness",
+      "text": "The three status levels differ in lightness by at least 12 L* in both modes, so a level is never told from the next by hue alone, in colour vision deficiency or in grey print.",
+      "check": ["lightness-gap:status.danger,status.success,12", "lightness-gap:status.success,status.warning,12", "lightness-gap:status.danger,status.warning,12"]
+    },
+    {
+      "id": "no-blue-against-violet-or-green",
+      "text": "No meaning is carried by blue against violet, or by blue against green. The action colour is blue, and the status colours are teal, amber and brick or coral, so no pair of meanings crosses that line.",
+      "check": [
+        "not-blue-violet:roles.accent,status.success", "not-blue-violet:roles.accent,status.warning", "not-blue-violet:roles.accent,status.danger",
+        "not-blue-violet:status.success,status.warning", "not-blue-violet:status.success,status.danger", "not-blue-violet:status.warning,status.danger",
+        "not-blue-green:roles.accent,status.success", "not-blue-green:roles.accent,status.warning", "not-blue-green:roles.accent,status.danger",
+        "not-blue-green:status.success,status.warning", "not-blue-green:status.success,status.danger", "not-blue-green:status.warning,status.danger"
+      ]
+    },
+    {
+      "id": "no-red-against-green",
+      "text": "No status level is told from another by red against green.",
+      "check": ["not-red-green:status.danger,status.success", "not-red-green:status.danger,status.warning", "not-red-green:status.success,status.warning"]
+    },
+    {
+      "id": "urgent-has-icon-and-words",
+      "text": "Every status level carries an icon and words, and the most urgent one is never shown by colour alone or by red alone. The icon and the label of each level are design.status.<level>.icon and design.status.<level>.label."
+    },
+    {
+      "id": "seven-to-one",
+      "text": "Every text colour keeps 7:1 on its ground after the aged-eye simulation, muted text included. There is no subtle grey: text-subtle is text-muted."
+    },
+    {
+      "id": "few-colours",
+      "text": "Few colours: fifteen in each mode, which are three grounds, ink and soft ink, an edge, one blue with its hover and selection tint, and three status colours with a tint each."
+    },
+    {
+      "id": "large-type",
+      "text": "Body text is 20 px (1.25 rem) or larger, and no text is smaller than 18 px (1.125 rem). Sizes are in rem so that the reader's own text size setting scales them."
+    },
+    {
+      "id": "big-targets",
+      "text": "Every control is at least 48 px high and wide, with at least 8 px between controls. A checkbox is the whole row of box and label."
+    }
+  ],
+  "pairs": [
+    {"fg": "roles.text", "bg": "roles.bg", "kind": "text", "min": 7, "why": "body text on the page"},
+    {"fg": "roles.text", "bg": "roles.surface", "kind": "text", "min": 7, "why": "body text on a panel"},
+    {"fg": "roles.text", "bg": "roles.surface-raised", "kind": "text", "min": 7, "why": "body text on a sheet or a card"},
+    {"fg": "roles.text-muted", "bg": "roles.bg", "kind": "text", "min": 7, "why": "captions and times on the page"},
+    {"fg": "roles.text-muted", "bg": "roles.surface-raised", "kind": "text", "min": 7, "why": "captions and times on a sheet"},
+    {"fg": "roles.link", "bg": "roles.bg", "kind": "text", "min": 7, "why": "a link on the page"},
+    {"fg": "roles.link", "bg": "roles.surface-raised", "kind": "text", "min": 7, "why": "a link on a sheet"},
+    {"fg": "roles.link-hover", "bg": "roles.bg", "kind": "text", "min": 7, "why": "a link under the pointer"},
+    {"fg": "roles.link-hover", "bg": "roles.surface-raised", "kind": "text", "min": 7, "why": "a link, a tab or an outline button under the pointer on a sheet"},
+    {"fg": "roles.on-button", "bg": "roles.button", "kind": "text", "min": 7, "why": "the label of a button"},
+    {"fg": "roles.on-button", "bg": "extra.button-hover", "kind": "text", "min": 7, "why": "the label of a button under the pointer"},
+    {"fg": "roles.on-accent", "bg": "roles.accent", "kind": "text", "min": 7, "why": "text on the accent colour"},
+    {"fg": "roles.text", "bg": "roles.selection", "kind": "text", "min": 7, "why": "selected text"},
+    {"fg": "extra.success-fg", "bg": "extra.success-fill", "kind": "text", "min": 7, "why": "the words of a fine badge or box"},
+    {"fg": "extra.warning-fg", "bg": "extra.warning-fill", "kind": "text", "min": 7, "why": "the words of a needs attention badge or box"},
+    {"fg": "extra.danger-fg", "bg": "extra.danger-fill", "kind": "text", "min": 7, "why": "the words of a contact your clinician badge or box"},
+    {"fg": "roles.border", "bg": "roles.bg", "kind": "component", "why": "a border on the page"},
+    {"fg": "roles.border", "bg": "roles.surface-raised", "kind": "component", "why": "a border on a sheet"},
+    {"fg": "extra.control-edge", "bg": "surfaces.field", "kind": "component", "min": 4.5, "why": "the outline of an input or a checkbox"},
+    {"fg": "roles.focus", "bg": "roles.bg", "kind": "component", "why": "the focus ring on the page"},
+    {"fg": "roles.focus", "bg": "roles.surface-raised", "kind": "component", "why": "the focus ring on a sheet"},
+    {"fg": "roles.button", "bg": "roles.bg", "kind": "component", "why": "the edge of a button on the page"},
+    {"fg": "status.success", "bg": "roles.bg", "kind": "component", "why": "the fine icon, border and marker on the page"},
+    {"fg": "status.warning", "bg": "roles.bg", "kind": "component", "why": "the needs attention icon, border and marker on the page"},
+    {"fg": "status.danger", "bg": "roles.bg", "kind": "component", "why": "the contact your clinician icon, border and marker on the page"},
+    {"fg": "status.success", "bg": "extra.success-fill", "kind": "component", "why": "the fine icon and border on its own fill"},
+    {"fg": "status.warning", "bg": "extra.warning-fill", "kind": "component", "why": "the needs attention icon and border on its own fill"},
+    {"fg": "status.danger", "bg": "extra.danger-fill", "kind": "component", "why": "the contact your clinician icon and border on its own fill"},
+    {"fg": "extra.success-on", "bg": "status.success", "kind": "component", "why": "the tick inside the solid fine icon"},
+    {"fg": "extra.warning-on", "bg": "status.warning", "kind": "component", "why": "the mark inside the solid needs attention icon"},
+    {"fg": "extra.danger-on", "bg": "status.danger", "kind": "component", "why": "the handset inside the solid contact your clinician icon"}
+  ],
+  "distinct": [
+    {
+      "id": "status",
+      "set": "status",
+      "for": ["aged-eye","sunlight","print-grey"],
+      "note": "The three levels differ by lightness first, 12.6 L* apart, and by hue second. No pair is reinforced: the icon and the words are a further cue, not an exemption."
+    },
+    {
+      "id": "hues",
+      "set": "accents",
+      "for": ["aged-eye","sunlight"],
+      "note": "The action colour (sea) against the three status colours."
+    }
+  ],
+  "targets": {
+    "exclude": ["vscode","zed","neovim","terminals"]
+  }
+}

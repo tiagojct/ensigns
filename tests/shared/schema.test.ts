@@ -31,6 +31,12 @@ describe("family token files", () => {
       it("defines exactly two modes, dark and light", () => {
         expect(Object.keys(f.file.modes).sort()).toEqual(["dark", "light"]);
       });
+      it("lists derived: ['data'] when it defines no data block", () => {
+        const hasData = f.file.modes.light.data !== undefined || f.file.modes.dark.data !== undefined;
+        if (!hasData) {
+          expect(f.file.derived, `${f.dir} lacks a data block, so it must declare derived: ["data"]`).toContain("data");
+        }
+      });
     });
   }
 });

@@ -92,10 +92,10 @@ describe("the report", () => {
     expect(Object.keys(report.profiles).sort()).toEqual(["cvd", "editor", "office-screen"]);
   });
 
-  it("marks forced-colors as external and unbuilt profiles as not implemented", () => {
-    const report = buildReport(resolve((f) => { f.meta.environments = ["forced-colors", "projector"]; }), thresholds);
+  it("marks forced-colors as external and an unknown profile as not implemented", () => {
+    const report = buildReport(resolve((f) => { f.meta.environments = ["forced-colors", "hologram" as never]; }), thresholds);
     expect(report.profiles["forced-colors"]!.status).toBe("external");
-    expect(report.profiles.projector!.status).toBe("not-implemented");
+    expect(report.profiles.hologram!.status).toBe("not-implemented");
   });
 
   it("derives a status from the checks", () => {

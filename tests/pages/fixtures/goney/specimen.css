@@ -1,0 +1,6 @@
+.sp-card { padding: 0.75rem 1rem; border-left: 4px solid var(--accents-dies); background-color: var(--roles-surface); }
+.sp-card p { margin: 0 0 0.5rem; }
+.sp-marks { display: flex; gap: 1rem; font-weight: 700; }
+.sp-dies { color: var(--accents-dies); }
+.sp-aer { color: var(--accents-aer); }
+.sp-imum { color: var(--accents-imum); }

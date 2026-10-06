@@ -1,0 +1,217 @@
+<div class="sp-jeroboam">
+  <nav class="sp-tabs" aria-label="Sections of the specimen">
+    <a href="#sp-{mode}-queue" aria-current="true">Triage queue</a>
+    <a href="#sp-{mode}-labs">Lab results</a>
+    <a href="#sp-{mode}-alerts">Alerts</a>
+    <a href="#sp-{mode}-vitals">Vital signs</a>
+  </nav>
+
+  <p class="prose">All data here is invented. Colour marks a status and nothing else. Every status also has an icon and a word, and every triage level its protocol number, so a status can be read without its colour. The <a href="#sp-{mode}-labs">lab results</a> show the flags.</p>
+
+  <section class="sp-section" id="sp-{mode}-queue" aria-labelledby="sp-{mode}-queue-h">
+    <h5 class="sp-h" id="sp-{mode}-queue-h">Triage queue</h5>
+    <p class="sp-note">The five Manchester levels, most urgent first. Each row shows the protocol number, the name in English and Portuguese, the place, the wait and the target. White is the class the Grupo Português de Triagem added for entries that need no clinical priority, mostly administrative: it has no target time.</p>
+    <ol class="sp-queue">
+      <li class="sp-row" data-level="red">
+        <span class="sp-ring"><span class="sp-vh">Level </span>1</span>
+        <span class="sp-id"><span class="sp-name">Immediate</span><span class="sp-pt" lang="pt-PT">Emergente</span></span>
+        <span class="sp-place">Resus 1</span>
+        <span class="sp-wait"><span class="sp-num">0 min</span> waiting</span>
+        <span class="sp-target">target <span class="sp-num">0 min</span></span>
+      </li>
+      <li class="sp-row" data-level="orange">
+        <span class="sp-ring"><span class="sp-vh">Level </span>2</span>
+        <span class="sp-id"><span class="sp-name">Very urgent</span><span class="sp-pt" lang="pt-PT">Muito urgente</span></span>
+        <span class="sp-place">Majors 4</span>
+        <span class="sp-wait sp-over"><span class="sp-num">12 min</span> waiting, over target</span>
+        <span class="sp-target">target <span class="sp-num">10 min</span></span>
+      </li>
+      <li class="sp-row" data-level="yellow">
+        <span class="sp-ring"><span class="sp-vh">Level </span>3</span>
+        <span class="sp-id"><span class="sp-name">Urgent</span><span class="sp-pt" lang="pt-PT">Urgente</span></span>
+        <span class="sp-place">Majors 9</span>
+        <span class="sp-wait"><span class="sp-num">35 min</span> waiting</span>
+        <span class="sp-target">target <span class="sp-num">60 min</span></span>
+      </li>
+      <li class="sp-row" data-level="green">
+        <span class="sp-ring"><span class="sp-vh">Level </span>4</span>
+        <span class="sp-id"><span class="sp-name">Standard</span><span class="sp-pt" lang="pt-PT">Pouco urgente</span></span>
+        <span class="sp-place">Minors 2</span>
+        <span class="sp-wait"><span class="sp-num">70 min</span> waiting</span>
+        <span class="sp-target">target <span class="sp-num">120 min</span></span>
+      </li>
+      <li class="sp-row" data-level="blue">
+        <span class="sp-ring"><span class="sp-vh">Level </span>5</span>
+        <span class="sp-id"><span class="sp-name">Non-urgent</span><span class="sp-pt" lang="pt-PT">Não urgente</span></span>
+        <span class="sp-place">Waiting room</span>
+        <span class="sp-wait"><span class="sp-num">95 min</span> waiting</span>
+        <span class="sp-target">target <span class="sp-num">240 min</span></span>
+      </li>
+      <li class="sp-row" data-level="white">
+        <span class="sp-ring" aria-hidden="true">W</span>
+        <span class="sp-id"><span class="sp-name">White</span><span class="sp-pt" lang="pt-PT">Branco</span></span>
+        <span class="sp-place">Registration desk</span>
+        <span class="sp-wait"><span class="sp-num">20 min</span> waiting</span>
+        <span class="sp-target">no target time</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sp-section" id="sp-{mode}-labs" aria-labelledby="sp-{mode}-labs-h">
+    <h5 class="sp-h" id="sp-{mode}-labs-h">Lab results</h5>
+    <p class="sp-note">Venous sample, invented values. A flag is a letter, an arrow and a word. A normal result carries no colour.</p>
+    <table class="sp-lab">
+      <caption class="sp-vh">Lab results with low, high and critical flags</caption>
+      <thead>
+        <tr>
+          <th scope="col">Test</th>
+          <th scope="col" class="sp-r">Result</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Reference range</th>
+          <th scope="col">Flag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-flag="critical-high">
+          <th scope="row">Potassium</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">6.8</td>
+          <td class="sp-unit" data-label="Unit">mmol/L</td>
+          <td class="sp-num" data-label="Reference range">3.5 to 5.1</td>
+          <td data-label="Flag"><span class="sp-chip" data-status="critical"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8l4-4 4 4M4 13l4-4 4 4"/></svg><span class="sp-code">HH</span> Critical high</span></td>
+        </tr>
+        <tr data-flag="low">
+          <th scope="row">Sodium</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">131</td>
+          <td class="sp-unit" data-label="Unit">mmol/L</td>
+          <td class="sp-num" data-label="Reference range">135 to 145</td>
+          <td data-label="Flag"><span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg><span class="sp-code">L</span> Low</span></td>
+        </tr>
+        <tr data-flag="high">
+          <th scope="row">Creatinine</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">172</td>
+          <td class="sp-unit" data-label="Unit">µmol/L</td>
+          <td class="sp-num" data-label="Reference range">45 to 84</td>
+          <td data-label="Flag"><span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg><span class="sp-code">H</span> High</span></td>
+        </tr>
+        <tr data-flag="normal">
+          <th scope="row">Glucose</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">5.4</td>
+          <td class="sp-unit" data-label="Unit">mmol/L</td>
+          <td class="sp-num" data-label="Reference range">3.9 to 5.6</td>
+          <td data-label="Flag"><span class="sp-normal"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Normal</span></td>
+        </tr>
+        <tr data-flag="critical-low">
+          <th scope="row">Haemoglobin</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">6.6</td>
+          <td class="sp-unit" data-label="Unit">g/dL</td>
+          <td class="sp-num" data-label="Reference range">12.0 to 15.5</td>
+          <td data-label="Flag"><span class="sp-chip" data-status="critical"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3l4 4 4-4M4 8l4 4 4-4"/></svg><span class="sp-code">LL</span> Critical low</span></td>
+        </tr>
+        <tr data-flag="normal">
+          <th scope="row">Platelets</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">212</td>
+          <td class="sp-unit" data-label="Unit">×10⁹/L</td>
+          <td class="sp-num" data-label="Reference range">150 to 400</td>
+          <td data-label="Flag"><span class="sp-normal"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Normal</span></td>
+        </tr>
+        <tr data-flag="high">
+          <th scope="row">C-reactive protein</th>
+          <td class="sp-r sp-value sp-num" data-label="Result">48</td>
+          <td class="sp-unit" data-label="Unit">mg/L</td>
+          <td class="sp-num" data-label="Reference range">0 to 5</td>
+          <td data-label="Flag"><span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg><span class="sp-code">H</span> High</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sp-section" id="sp-{mode}-alerts" aria-labelledby="sp-{mode}-alerts-h">
+    <h5 class="sp-h" id="sp-{mode}-alerts-h">Decision support alerts</h5>
+    <p class="sp-note">Two active alerts and one dismissed. The severity word and icon stay when an alert is dismissed, and the dismissed card is drawn with a dashed edge.</p>
+    <div class="sp-alerts">
+      <article class="sp-alert" data-status="critical" data-state="active" aria-labelledby="sp-{mode}-alert-1">
+        <header class="sp-alert-head">
+          <span class="sp-chip" data-status="critical"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.5h5.6l3.7 3.7v5.6l-3.7 3.7H5.2l-3.7-3.7V5.2z"/><path d="M8 4.8v4M8 11v.01"/></svg>Critical</span>
+          <span class="sp-meta">Rule K-14, fired <span class="sp-num">08:12</span></span>
+        </header>
+        <h6 class="sp-alert-title" id="sp-{mode}-alert-1">Potassium 6.8 mmol/L with an ACE inhibitor prescribed</h6>
+        <p class="sp-alert-text">The result is above 6.5 mmol/L and an ACE inhibitor is on the active list. Check the ECG and review the prescription before the next dose.</p>
+        <div class="sp-actions">
+          <button type="button" class="sp-btn sp-btn-primary">Review prescription</button>
+          <button type="button" class="sp-btn">Dismiss with reason</button>
+        </div>
+      </article>
+      <article class="sp-alert" data-status="caution" data-state="active" aria-labelledby="sp-{mode}-alert-2">
+        <header class="sp-alert-head">
+          <span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l6.5 11.5h-13z"/><path d="M8 6.5v3.2M8 11.6v.01"/></svg>Caution</span>
+          <span class="sp-meta">Rule D-03, fired <span class="sp-num">08:15</span></span>
+        </header>
+        <h6 class="sp-alert-title" id="sp-{mode}-alert-2">Dose above the usual range for age 82</h6>
+        <p class="sp-alert-text">The ordered dose is <span class="sp-num">150%</span> of the usual maximum for this age group. Confirm the dose or adjust it.</p>
+        <div class="sp-actions">
+          <button type="button" class="sp-btn sp-btn-primary">Adjust dose</button>
+          <button type="button" class="sp-btn">Dismiss with reason</button>
+        </div>
+      </article>
+      <article class="sp-alert" data-status="info" data-state="dismissed" aria-labelledby="sp-{mode}-alert-3">
+        <header class="sp-alert-head">
+          <span class="sp-chip" data-status="info"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 4.8v.01"/></svg>Information</span>
+          <span class="sp-state"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Dismissed</span>
+        </header>
+        <h6 class="sp-alert-title" id="sp-{mode}-alert-3">Allergy record last updated 14 months ago</h6>
+        <p class="sp-alert-text">Dismissed at <span class="sp-num">08:40</span> by the ward pharmacist. Reason: record reviewed with the patient.</p>
+        <div class="sp-actions">
+          <button type="button" class="sp-btn">Restore alert</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sp-section" id="sp-{mode}-vitals" aria-labelledby="sp-{mode}-vitals-h">
+    <h5 class="sp-h" id="sp-{mode}-vitals-h">Vital signs</h5>
+    <p class="sp-note">Five values with their range and a status each. Figures are tabular, so a column of readings lines up.</p>
+    <ul class="sp-vitals">
+      <li class="sp-vital" data-status="caution">
+        <span class="sp-vital-label">Heart rate</span>
+        <span class="sp-vital-value"><span class="sp-num">118</span><span class="sp-unit">/min</span></span>
+        <span class="sp-vital-range">Range <span class="sp-num">60 to 100</span></span>
+        <span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg><span class="sp-code">H</span> High</span>
+      </li>
+      <li class="sp-vital" data-status="critical">
+        <span class="sp-vital-label">Blood pressure</span>
+        <span class="sp-vital-value"><span class="sp-num">86/48</span><span class="sp-unit">mmHg</span></span>
+        <span class="sp-vital-range">Systolic <span class="sp-num">100 to 140</span></span>
+        <span class="sp-chip" data-status="critical"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3l4 4 4-4M4 8l4 4 4-4"/></svg><span class="sp-code">LL</span> Critical low</span>
+      </li>
+      <li class="sp-vital" data-status="caution">
+        <span class="sp-vital-label">Oxygen saturation</span>
+        <span class="sp-vital-value"><span class="sp-num">93</span><span class="sp-unit">%</span></span>
+        <span class="sp-vital-range">Range <span class="sp-num">94 to 98</span></span>
+        <span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg><span class="sp-code">L</span> Low</span>
+      </li>
+      <li class="sp-vital" data-status="success">
+        <span class="sp-vital-label">Temperature</span>
+        <span class="sp-vital-value"><span class="sp-num">36.9</span><span class="sp-unit">°C</span></span>
+        <span class="sp-vital-range">Range <span class="sp-num">36.1 to 37.2</span></span>
+        <span class="sp-chip" data-status="success"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Normal</span>
+      </li>
+      <li class="sp-vital" data-status="caution">
+        <span class="sp-vital-label">Respiratory rate</span>
+        <span class="sp-vital-value"><span class="sp-num">22</span><span class="sp-unit">/min</span></span>
+        <span class="sp-vital-range">Range <span class="sp-num">12 to 20</span></span>
+        <span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg><span class="sp-code">H</span> High</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="sp-section" aria-labelledby="sp-{mode}-levels-h">
+    <h5 class="sp-h" id="sp-{mode}-levels-h">Levels and alarm priorities</h5>
+    <p class="sp-note">The severity levels reuse the triage colours. Orange belongs to triage only.</p>
+    <ul class="sp-legend">
+      <li><span class="sp-chip" data-status="critical"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.5h5.6l3.7 3.7v5.6l-3.7 3.7H5.2l-3.7-3.7V5.2z"/><path d="M8 4.8v4M8 11v.01"/></svg>Critical</span> High priority alarm, triage level 1, the only red.</li>
+      <li><span class="sp-chip" data-status="caution"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l6.5 11.5h-13z"/><path d="M8 6.5v3.2M8 11.6v.01"/></svg>Caution</span> Medium priority alarm, triage level 3.</li>
+      <li><span class="sp-chip" data-status="info"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 4.8v.01"/></svg>Information</span> Low priority alarm, triage level 5.</li>
+      <li><span class="sp-chip" data-status="success"><svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Normal</span> A confirmation. It is the green of triage level 4.</li>
+    </ul>
+  </section>
+</div>

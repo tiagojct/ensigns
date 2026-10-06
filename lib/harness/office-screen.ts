@@ -6,6 +6,7 @@ import { contrastRatio } from "../colour/wcag.ts";
 import { flattenOver } from "../model/resolve.ts";
 import { MODES } from "../model/types.ts";
 import type { ResolvedFamily } from "../model/types.ts";
+import { apcaAllowed } from "./common.ts";
 import { fmt, num } from "./types.ts";
 import type { Check, Thresholds } from "./types.ts";
 
@@ -40,8 +41,10 @@ export function officeScreen(family: ResolvedFamily, t: Thresholds): Check[] {
           detail: `${id} in ${m}: AAA ${ratio >= aaa ? "met" : "not met"} at ${fmt(ratio)}:1`,
         });
       }
-      const lc = apcaLc(fg, bg);
-      out.push({ profile: PROFILE, id: `apca ${id}`, mode: m, ok: true, level: "warn", report: true, value: lc, detail: `${id} in ${m}: APCA Lc ${fmt(lc, 1)}` });
+      if (apcaAllowed(family)) {
+        const lc = apcaLc(fg, bg);
+        out.push({ profile: PROFILE, id: `apca ${id}`, mode: m, ok: true, level: "warn", report: true, value: lc, detail: `${id} in ${m}: APCA Lc ${fmt(lc, 1)}` });
+      }
     }
   }
   return out;

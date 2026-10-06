@@ -1,0 +1,18 @@
+/* A family's specimen alone on a page, in one mode (preview/specimen/). The body
+   carries data-scope and data-mode, so tokens.css gives it the family's custom
+   properties. No page chrome and no colour value typed here. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root:has(body[data-mode="dark"]) { color-scheme: dark; }
+:root:has(body[data-mode="light"]) { color-scheme: light; }
+
+body {
+  margin: 0;
+  background-color: var(--roles-bg);
+  color: var(--roles-text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+main { padding: 1.5rem; }

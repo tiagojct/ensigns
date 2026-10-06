@@ -1,0 +1,434 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "enderby",
+    "name": "Enderby",
+    "version": "0.1.0",
+    "chapter": [100, 101],
+    "chapterTitle": "Leg and Arm; The Decanter",
+    "quote": "a white arm of sperm whale bone",
+    "quotes": [
+      { "chapter": 100, "text": "festoons of blue pilot-cloth" },
+      { "chapter": 101, "text": "Most statistical tables are parchingly dry in the reading" }
+    ],
+    "tagline": "Eight categories, three sequential ramps and two diverging ramps, measured against Okabe-Ito, viridis and cividis.",
+    "goal": "Figures for papers, reports and dashboards. The chart is the product.",
+    "environments": ["figure", "cvd", "print-grey", "projector"],
+    "licence": { "tokens": "CC-BY-4.0", "code": "MIT" }
+  },
+  "palette": {
+    "paper": { "bg": "#FAF7EE", "sunk": "#F3F0E7", "raised": "#FEFCF8", "rule": "#D7D4CA", "grid": "#E2E0D8", "select": "#CAE3FD" },
+    "ink": { "text": "#1E2736", "muted": "#3F4857", "subtle": "#47505E", "axis": "#6D6A63", "outline": "#88867F", "context": "#B2B1AC" },
+    "night": { "bg": "#0E1824", "sunk": "#17212F", "raised": "#202B39", "rule": "#333E4D", "grid": "#252F3B", "deep": "#0A121D", "select": "#233F5B" },
+    "chalk": { "text": "#ECE8D9", "muted": "#B8B4A6", "subtle": "#ADA99C", "axis": "#83888E", "outline": "#686D72", "context": "#52565B" },
+    "pilot-light": { "link": "#0C4694", "hover": "#00347A", "button": "#0C366F" },
+    "pilot-dark": { "link": "#7FBEF4", "hover": "#A7DAFF" },
+    "brass": { "light": "#A38122", "dark": "#D8B456" },
+    "cat-light": { "c1": "#255A8D", "c2": "#AD8202", "c3": "#148BF1", "c4": "#D75AA9", "c5": "#705300", "c6": "#308A73", "c7": "#A71A58", "c8": "#8352C9" },
+    "cat-dark": { "c1": "#2174A2", "c2": "#856B04", "c3": "#19A9F7", "c4": "#EF75B7", "c5": "#C2990B", "c6": "#42A17D", "c7": "#B44864", "c8": "#8D6EE2" },
+    "seq-pilot": {
+      "1": "#F2F3F4",
+      "2": "#CBD7E2",
+      "3": "#A3BCD9",
+      "4": "#75A4DD",
+      "5": "#448CEC",
+      "6": "#1A6ED7",
+      "7": "#0D52B2",
+      "8": "#08398A",
+      "9": "#072460"
+    },
+    "seq-brass": {
+      "1": "#F7F6F1",
+      "2": "#E9DABC",
+      "3": "#DCC080",
+      "4": "#C7A25A",
+      "5": "#B1852F",
+      "6": "#986918",
+      "7": "#7C500B",
+      "8": "#5F3A0E",
+      "9": "#41270D"
+    },
+    "seq-lagoon": {
+      "1": "#F7F7E8",
+      "2": "#CEE1A8",
+      "3": "#93D370",
+      "4": "#5ABE7D",
+      "5": "#339F8E",
+      "6": "#1D7C88",
+      "7": "#105A7D",
+      "8": "#0D3A6E",
+      "9": "#101781"
+    },
+    "div-blue-orange": {
+      "1": "#1464CD",
+      "2": "#5089DC",
+      "3": "#8DA9D3",
+      "4": "#C3CCD8",
+      "5": "#F4F2EE",
+      "6": "#DAC9C1",
+      "7": "#D59E81",
+      "8": "#C57347",
+      "9": "#A34C14"
+    },
+    "div-teal-brass": {
+      "1": "#1E7778",
+      "2": "#509898",
+      "3": "#82B8B8",
+      "4": "#B8D6D6",
+      "5": "#F4F2EE",
+      "6": "#DACBBC",
+      "7": "#CCA57B",
+      "8": "#B07F47",
+      "9": "#905C16"
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Pilot-cloth",
+      "roles": {
+        "bg": "{palette.night.bg}",
+        "surface": "{palette.night.sunk}",
+        "surface-raised": "{palette.night.raised}",
+        "text": "{palette.chalk.text}",
+        "text-muted": "{palette.chalk.muted}",
+        "text-subtle": "{palette.chalk.subtle}",
+        "border": "{palette.night.rule}",
+        "link": "{palette.pilot-dark.link}",
+        "link-hover": "{palette.pilot-dark.hover}",
+        "accent": "{palette.brass.dark}",
+        "on-accent": "{palette.night.bg}",
+        "button": "{palette.chalk.text}",
+        "on-button": "{palette.night.bg}",
+        "focus": "{palette.brass.dark}",
+        "selection": "{palette.night.select}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Eight categories, most separable first",
+          "colors": {
+            "c1": "{palette.cat-dark.c1}",
+            "c2": "{palette.cat-dark.c2}",
+            "c3": "{palette.cat-dark.c3}",
+            "c4": "{palette.cat-dark.c4}",
+            "c5": "{palette.cat-dark.c5}",
+            "c6": "{palette.cat-dark.c6}",
+            "c7": "{palette.cat-dark.c7}",
+            "c8": "{palette.cat-dark.c8}"
+          }
+        },
+        "sequential": {
+          "pilot": {
+            "label": "Single hue, blue. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-pilot.9}",
+              "{palette.seq-pilot.8}",
+              "{palette.seq-pilot.7}",
+              "{palette.seq-pilot.6}",
+              "{palette.seq-pilot.5}",
+              "{palette.seq-pilot.4}",
+              "{palette.seq-pilot.3}",
+              "{palette.seq-pilot.2}",
+              "{palette.seq-pilot.1}"
+            ]
+          },
+          "brass": {
+            "label": "Single hue, brass. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-brass.9}",
+              "{palette.seq-brass.8}",
+              "{palette.seq-brass.7}",
+              "{palette.seq-brass.6}",
+              "{palette.seq-brass.5}",
+              "{palette.seq-brass.4}",
+              "{palette.seq-brass.3}",
+              "{palette.seq-brass.2}",
+              "{palette.seq-brass.1}"
+            ]
+          },
+          "lagoon": {
+            "label": "Multi-hue, yellow through green and teal to indigo. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-lagoon.9}",
+              "{palette.seq-lagoon.8}",
+              "{palette.seq-lagoon.7}",
+              "{palette.seq-lagoon.6}",
+              "{palette.seq-lagoon.5}",
+              "{palette.seq-lagoon.4}",
+              "{palette.seq-lagoon.3}",
+              "{palette.seq-lagoon.2}",
+              "{palette.seq-lagoon.1}"
+            ]
+          }
+        },
+        "diverging": {
+          "blue-orange": {
+            "label": "Blue to orange through a neutral centre. The safe axis.",
+            "colors": [
+              "{palette.div-blue-orange.1}",
+              "{palette.div-blue-orange.2}",
+              "{palette.div-blue-orange.3}",
+              "{palette.div-blue-orange.4}",
+              "{palette.div-blue-orange.5}",
+              "{palette.div-blue-orange.6}",
+              "{palette.div-blue-orange.7}",
+              "{palette.div-blue-orange.8}",
+              "{palette.div-blue-orange.9}"
+            ]
+          },
+          "teal-brass": {
+            "label": "Teal to brass through a neutral centre.",
+            "colors": [
+              "{palette.div-teal-brass.1}",
+              "{palette.div-teal-brass.2}",
+              "{palette.div-teal-brass.3}",
+              "{palette.div-teal-brass.4}",
+              "{palette.div-teal-brass.5}",
+              "{palette.div-teal-brass.6}",
+              "{palette.div-teal-brass.7}",
+              "{palette.div-teal-brass.8}",
+              "{palette.div-teal-brass.9}"
+            ]
+          }
+        },
+        "plot": {
+          "background": "{palette.night.bg}",
+          "panel": "{palette.night.deep}",
+          "text": "{palette.chalk.text}",
+          "muted": "{palette.chalk.muted}",
+          "axis": "{palette.chalk.axis}",
+          "grid": "{palette.night.grid}",
+          "outline": "{palette.chalk.outline}",
+          "focus": "{palette.cat-dark.c3}",
+          "context": "{palette.chalk.context}"
+        }
+      }
+    },
+    "light": {
+      "label": "Ivory",
+      "roles": {
+        "bg": "{palette.paper.bg}",
+        "surface": "{palette.paper.sunk}",
+        "surface-raised": "{palette.paper.raised}",
+        "text": "{palette.ink.text}",
+        "text-muted": "{palette.ink.muted}",
+        "text-subtle": "{palette.ink.subtle}",
+        "border": "{palette.paper.rule}",
+        "link": "{palette.pilot-light.link}",
+        "link-hover": "{palette.pilot-light.hover}",
+        "accent": "{palette.brass.light}",
+        "on-accent": "{palette.ink.text}",
+        "button": "{palette.pilot-light.button}",
+        "on-button": "{palette.paper.raised}",
+        "focus": "{palette.brass.light}",
+        "selection": "{palette.paper.select}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Eight categories, most separable first",
+          "colors": {
+            "c1": "{palette.cat-light.c1}",
+            "c2": "{palette.cat-light.c2}",
+            "c3": "{palette.cat-light.c3}",
+            "c4": "{palette.cat-light.c4}",
+            "c5": "{palette.cat-light.c5}",
+            "c6": "{palette.cat-light.c6}",
+            "c7": "{palette.cat-light.c7}",
+            "c8": "{palette.cat-light.c8}"
+          }
+        },
+        "sequential": {
+          "pilot": {
+            "label": "Single hue, blue. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-pilot.1}",
+              "{palette.seq-pilot.2}",
+              "{palette.seq-pilot.3}",
+              "{palette.seq-pilot.4}",
+              "{palette.seq-pilot.5}",
+              "{palette.seq-pilot.6}",
+              "{palette.seq-pilot.7}",
+              "{palette.seq-pilot.8}",
+              "{palette.seq-pilot.9}"
+            ]
+          },
+          "brass": {
+            "label": "Single hue, brass. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-brass.1}",
+              "{palette.seq-brass.2}",
+              "{palette.seq-brass.3}",
+              "{palette.seq-brass.4}",
+              "{palette.seq-brass.5}",
+              "{palette.seq-brass.6}",
+              "{palette.seq-brass.7}",
+              "{palette.seq-brass.8}",
+              "{palette.seq-brass.9}"
+            ]
+          },
+          "lagoon": {
+            "label": "Multi-hue, yellow through green and teal to indigo. Step 1 is the colour nearest the ground.",
+            "colors": [
+              "{palette.seq-lagoon.1}",
+              "{palette.seq-lagoon.2}",
+              "{palette.seq-lagoon.3}",
+              "{palette.seq-lagoon.4}",
+              "{palette.seq-lagoon.5}",
+              "{palette.seq-lagoon.6}",
+              "{palette.seq-lagoon.7}",
+              "{palette.seq-lagoon.8}",
+              "{palette.seq-lagoon.9}"
+            ]
+          }
+        },
+        "diverging": {
+          "blue-orange": {
+            "label": "Blue to orange through a neutral centre. The safe axis.",
+            "colors": [
+              "{palette.div-blue-orange.1}",
+              "{palette.div-blue-orange.2}",
+              "{palette.div-blue-orange.3}",
+              "{palette.div-blue-orange.4}",
+              "{palette.div-blue-orange.5}",
+              "{palette.div-blue-orange.6}",
+              "{palette.div-blue-orange.7}",
+              "{palette.div-blue-orange.8}",
+              "{palette.div-blue-orange.9}"
+            ]
+          },
+          "teal-brass": {
+            "label": "Teal to brass through a neutral centre.",
+            "colors": [
+              "{palette.div-teal-brass.1}",
+              "{palette.div-teal-brass.2}",
+              "{palette.div-teal-brass.3}",
+              "{palette.div-teal-brass.4}",
+              "{palette.div-teal-brass.5}",
+              "{palette.div-teal-brass.6}",
+              "{palette.div-teal-brass.7}",
+              "{palette.div-teal-brass.8}",
+              "{palette.div-teal-brass.9}"
+            ]
+          }
+        },
+        "plot": {
+          "background": "{palette.paper.bg}",
+          "panel": "{palette.paper.raised}",
+          "text": "{palette.ink.text}",
+          "muted": "{palette.ink.muted}",
+          "axis": "{palette.ink.axis}",
+          "grid": "{palette.paper.grid}",
+          "outline": "{palette.ink.outline}",
+          "focus": "{palette.cat-light.c1}",
+          "context": "{palette.ink.context}"
+        }
+      }
+    }
+  },
+  "typography": { "sans": "Inter", "display": "Inter Display", "mono": "JetBrains Mono" },
+  "design": {
+    "projector": { "rooms": ["dark"] },
+    "type": { "tick": "11px", "label": "12px", "body": "14px", "title": "16px", "figure": "22px", "leading": "1.25" },
+    "stroke": { "series": "2px", "context": "1.5px", "axis": "1px", "grid": "1px", "outline": "1px", "focus": "3px" },
+    "marker": { "size": "7px" },
+    "markers": {
+      "1": { "shape": "circle", "fill": "solid" },
+      "2": { "shape": "square", "fill": "solid" },
+      "3": { "shape": "triangle-up", "fill": "solid" },
+      "4": { "shape": "diamond", "fill": "solid" },
+      "5": { "shape": "circle", "fill": "open" },
+      "6": { "shape": "square", "fill": "open" },
+      "7": { "shape": "triangle-up", "fill": "open" },
+      "8": { "shape": "diamond", "fill": "open" }
+    },
+    "lines": {
+      "1": { "name": "solid", "dash": [] },
+      "2": { "name": "dash", "dash": [8, 4] },
+      "3": { "name": "dot", "dash": [2, 3] },
+      "4": { "name": "dash-dot", "dash": [8, 3, 2, 3] },
+      "5": { "name": "long-dash", "dash": [14, 4] },
+      "6": { "name": "short-dash", "dash": [4, 3] },
+      "7": { "name": "dash-dot-dot", "dash": [8, 3, 2, 3, 2, 3] },
+      "8": { "name": "sparse-dot", "dash": [1, 5] }
+    }
+  },
+  "pairs": [
+    { "fg": "roles.text", "bg": "roles.bg", "kind": "text", "why": "body text" },
+    { "fg": "roles.text-muted", "bg": "roles.bg", "kind": "text", "why": "captions and secondary text" },
+    { "fg": "roles.text-subtle", "bg": "roles.bg", "kind": "text", "why": "footnotes and source lines" },
+    { "fg": "roles.text", "bg": "roles.surface", "kind": "text", "why": "body text on a card" },
+    { "fg": "roles.text-muted", "bg": "roles.surface", "kind": "text", "why": "secondary text on a card" },
+    { "fg": "roles.link", "bg": "roles.bg", "kind": "text", "why": "link" },
+    { "fg": "roles.link-hover", "bg": "roles.bg", "kind": "text", "why": "link on hover" },
+    { "fg": "roles.on-button", "bg": "roles.button", "kind": "text", "why": "button label" },
+    { "fg": "roles.text", "bg": "roles.selection", "kind": "text", "why": "selected text" },
+    { "fg": "roles.accent", "bg": "roles.bg", "kind": "component", "why": "accent rule" },
+    { "fg": "roles.focus", "bg": "roles.bg", "kind": "component", "why": "focus ring" },
+    { "fg": "data.plot.text", "bg": "data.plot.background", "kind": "text", "why": "titles, tick labels and annotations" },
+    { "fg": "data.plot.muted", "bg": "data.plot.background", "kind": "text", "why": "axis titles, source lines and muted annotations" },
+    { "fg": "data.plot.text", "bg": "data.plot.panel", "kind": "text", "why": "labels drawn inside the panel" },
+    { "fg": "data.plot.muted", "bg": "data.plot.panel", "kind": "text", "why": "muted labels drawn inside the panel" },
+    { "fg": "data.plot.axis", "bg": "data.plot.background", "kind": "component", "why": "axis lines and ticks" },
+    { "fg": "data.plot.outline", "bg": "data.plot.background", "kind": "component", "why": "outline of a mark below 3:1" },
+    { "fg": "data.plot.focus", "bg": "data.plot.background", "kind": "component", "why": "the focus mark" }
+  ],
+  "rules": [
+    {
+      "id": "hue-belongs-to-data",
+      "text": "The chrome has no data colour in it. Every hue that carries a value sits in a data scale, and no role, extra role or surface uses one.",
+      "check": "group-not-in-chrome:cat-light,cat-dark,seq-pilot,seq-brass,seq-lagoon,div-blue-orange,div-teal-brass"
+    },
+    {
+      "id": "brass-marks-the-interface",
+      "text": "Brass is the interface accent and the focus ring. No other role takes its colour.",
+      "check": "accent-only-in-roles:focus"
+    },
+    {
+      "id": "no-red-green-axis",
+      "text": "A diverging ramp never runs from red to green. Both ramps run between hues that stay apart under protan, deutan and tritan simulation.",
+      "check": [
+        "not-red-green:data.diverging.blue-orange.1,data.diverging.blue-orange.9",
+        "not-red-green:data.diverging.teal-brass.1,data.diverging.teal-brass.9"
+      ]
+    },
+    {
+      "id": "focus-survives-grey",
+      "text": "The focus colour differs from the context grey by at least 20 L*, so a highlighted series survives a greyscale copy.",
+      "check": "lightness-gap:data.plot.focus,data.plot.context,20"
+    },
+    {
+      "id": "links-hover-toward-the-page",
+      "text": "A link is darker on hover in the light mode and lighter in the dark mode.",
+      "check": "hover-direction"
+    },
+    {
+      "id": "pale-marks-get-an-outline",
+      "text": "A mark below 3:1 on the figure ground is drawn with data.plot.outline. The end of every sequential ramp that lies nearest the ground is such a mark."
+    },
+    {
+      "id": "series-carry-markers",
+      "text": "Every series carries the marker and the dash pattern of its number (design.markers and design.lines). In print all eight series are told apart by these and by direct labels, not by colour."
+    },
+    {
+      "id": "categories-in-order",
+      "text": "Categories are used in the order given, which is the order of separability under normal vision and colour vision simulation. It is not an order of lightness."
+    }
+  ],
+  "distinct": [
+    {
+      "id": "categorical",
+      "set": "data.categorical",
+      "min": 0.15,
+      "for": ["projector"],
+      "note": "All eight pairs keep 0.15 in OKLab under normal vision (Okabe-Ito: 0.156 with black in its set) and 0.06 under each simulation; the figure profile holds the set to Okabe-Ito's own minimum in each view. For projector the same pairs keep 0.08 after a flare of 0.02."
+    },
+    {
+      "id": "categorical-greyscale",
+      "set": "data.categorical",
+      "patterned": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "for": ["print-grey"],
+      "by": "All eight categories carry their own marker and dash pattern from design.markers and design.lines. The colours sit in a narrow band of lightness, so a greyscale print separates them by shape and line style alone.",
+      "note": "The balanced candidate cannot carry a greyscale gate by colour: its eight colours are close in lightness by design. Declaring all eight as patterned makes the gate measure nothing, and says what a print relies on."
+    }
+  ],
+  "targets": { "exclude": ["vscode", "zed", "neovim", "terminals"] }
+}

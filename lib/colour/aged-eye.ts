@@ -13,10 +13,10 @@ import { simulateCvdLinear } from "./cvd.ts";
 import { flareLinear } from "./flare.ts";
 import { hexToLinear, linearToHex } from "./srgb.ts";
 
-const TRITAN_SEVERITY = 0.5;
-const FLARE = 0.02;
+/** The two steps' parameters. The aged-eye view of the family pages uses the same numbers. */
+export const AGED_EYE = { tritanSeverity: 0.5, flare: 0.02 };
 
 /** Both steps run in linear light and the result is rounded once. */
 export function agedEye(hex: string): string {
-  return linearToHex(flareLinear(simulateCvdLinear(hexToLinear(hex), "tritan", TRITAN_SEVERITY), FLARE));
+  return linearToHex(flareLinear(simulateCvdLinear(hexToLinear(hex), "tritan", AGED_EYE.tritanSeverity), AGED_EYE.flare));
 }
