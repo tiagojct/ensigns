@@ -15,7 +15,7 @@ const exemptions = JSON.parse(readFileSync(join(root, "tests/shared/hex-exemptio
 
 const TEXT = new Set([".ts", ".js", ".mjs", ".cjs", ".css", ".scss", ".json", ".md", ".typ", ".toml", ".yml", ".yaml", ".html", ".svg", ".r", ".py", ".lua", ".conf", ".txt", ".qmd", ".cff", ".tex", ".sh"]);
 // Directories and files the lint covers. Token files hold the palette, so they are not scanned.
-const ROOTS = ["lib", "packages", "docs", "families", "scripts/pages", "site/src", "site/public", "README.md", "CHANGELOG.md", "CITATION.cff"];
+const ROOTS = ["lib", "packages", "docs", "families", "scripts", "site/src", "site/public", "README.md", "CHANGELOG.md", "CITATION.cff"];
 const SKIP_DIRS = new Set(["node_modules", ".git"]);
 
 /** ** matches any path, **\/ matches any folders (or none), * matches within one folder. */
@@ -49,7 +49,12 @@ for (const f of loadFamilies()) for (const c of resolveFamily(f.file).palette.va
 for (const v of exemptions.values) allowed.add(v.toUpperCase());
 
 // Six or eight hex digits after a hash, not part of a longer word or an HTML entity.
-const HEX = /(?<![0-9A-Za-z&])#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?(?![0-9A-Za-z])/g;
+const HEX = /(?<![0-9A-Za-z&])#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?(?![0-9A-Za-z])/g;
+
+/** The hex literals in a line of text that do not trace to a palette. A palette value has six digits, so an
+ *  eight-digit literal is compared whole: a palette colour with an alpha byte added still has to be listed in
+ *  the exemption file or avoided. */
+const strays = (text: string) => [...text.matchAll(HEX)].map((m) => m[0]).filter((literal) => !allowed.has(literal.toUpperCase()));
 
 describe("stray hex lint", () => {
   it("covers real files", () => {
@@ -67,13 +72,18 @@ describe("stray hex lint", () => {
         if (rel.endsWith(".tokens.json") || isExempt(rel)) continue;
         const lines = readFileSync(file, "utf8").split("\n");
         lines.forEach((line, i) => {
-          for (const m of line.matchAll(HEX)) {
-            if (!allowed.has(`#${m[1]!.toUpperCase()}`)) offenders.push(`${rel}:${i + 1} ${m[0]}`);
-          }
+          for (const literal of strays(line)) offenders.push(`${rel}:${i + 1} ${literal}`);
         });
       }
     }
     expect(offenders).toEqual([]);
+  });
+
+  it("compares an eight-digit literal whole", () => {
+    const palette = [...allowed].find((v) => /^#[0-9A-F]{6}$/.test(v))!;
+    expect(strays(`color: ${palette.toLowerCase()};`)).toEqual([]);
+    expect(strays(`color: ${palette}80;`)).toEqual([`${palette}80`]);
+    expect(strays("color: #123456;")).toEqual(["#123456"]);
   });
 
   it("explains every exemption", () => {

@@ -117,7 +117,8 @@ export const RULE_CHECKS: Record<string, RuleCheck> = {
     eachMode(ctx, (m) => {
       const [a, b] = ctx.args.slice(0, 2).map((address) => ctx.family.modes[m].colours.get(address ?? ""));
       const min = Number(ctx.args[2]);
-      if (!a || !b || !Number.isFinite(min)) return [`${m}: lightness-gap needs two addresses that exist and a minimum in L*`];
+      // A negative minimum would pass every pair, so a mistyped rule must not be able to switch the check off.
+      if (!a || !b || !Number.isFinite(min) || min < 0) return [`${m}: lightness-gap needs two addresses that exist and a minimum in L* of zero or more`];
       const gap = lstarDistance(a.hex, b.hex);
       return gap >= min ? [] : [`${m}: ${ctx.args[0]} and ${ctx.args[1]} differ by ${gap.toFixed(1)} L*, needs ${min}`];
     }),
