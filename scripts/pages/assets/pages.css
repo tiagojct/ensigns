@@ -24,6 +24,8 @@ body {
 .page-foot { padding-block: 2rem 3rem; color: var(--roles-text-muted); font-size: 0.875rem; }
 
 h1, h2, h3, h4, h5 { margin: 0; line-height: 1.25; }
+/* The headings share the site's display face. Georgia stands in where fonts.css is not loaded. */
+h1, h2 { font-family: "Literata Display", Georgia, "Times New Roman", serif; font-weight: 560; letter-spacing: -0.01em; }
 h1 { font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem); margin-block: 0.25rem 0.5rem; }
 h2 { font-size: 1.5rem; margin-block: 2.5rem 1rem; padding-top: 1.25rem; border-top: 1px solid var(--roles-border); }
 h3 { font-size: 1.2rem; margin-block: 1.75rem 0.5rem; }
