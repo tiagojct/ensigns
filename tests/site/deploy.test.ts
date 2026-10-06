@@ -87,10 +87,20 @@ describe("compose and tunnel files", () => {
 
 describe("the image workflow", () => {
   const text = read(".github/workflows/build-deploy.yml");
+  const guard = text.match(/if: >-\n([\s\S]*?)\n\s+runs-on:/)![1]!.replace(/\s+/g, " ");
 
   it("starts only by hand, and only on main", () => {
     expect(text.match(/\non:\n([\s\S]*?)\n\S/)![1]!.trim()).toBe("workflow_dispatch:");
-    expect(text).toContain("if: github.ref == 'refs/heads/main'");
+    expect(guard).toContain("github.ref == 'refs/heads/main'");
+  });
+
+  it("runs only for the repository owner, on the first run and on a re-run", () => {
+    expect(guard).toContain("github.actor == github.repository_owner");
+    expect(guard).toContain("github.triggering_actor == github.repository_owner");
+  });
+
+  it("is recorded as the one exception to the rule that CI publishes nothing", () => {
+    expect(read("docs/RELEASE.md")).toContain("No build or CI command publishes a package. The one exception is the build-deploy workflow");
   });
 
   it("pushes the image of this repository from the Dockerfile that exists", () => {
@@ -103,5 +113,35 @@ describe("the image workflow", () => {
     const uses = [...text.matchAll(/uses: (\S+)/g)].map((m) => m[1]!);
     expect(uses.length).toBeGreaterThan(3);
     for (const u of uses) expect(u, u).toMatch(/@[0-9a-f]{40}$/);
+  });
+});
+
+describe("the runbook", () => {
+  const readme = read("site/deploy/README.md");
+
+  it("copies the files to the VPS and never leaves a shell in another folder", () => {
+    expect(readme).toContain("rsync -a site/deploy/ <vps>:ensigns-deploy/");
+    // Every folder change sits in a subshell, as (cd ... && ...), so later steps find the files.
+    expect(readme).not.toMatch(/^\s*cd /m);
+    for (const file of ["docker-compose.yml", "Caddyfile.snippet", "Caddyfile.gam-redirect.snippet"]) {
+      expect(readme, file).toContain(`~/ensigns-deploy/${file}`);
+    }
+  });
+
+  it("checks the tunnel's trust in the self-signed certificate before the restart", () => {
+    expect(readme).toContain("originRequest");
+    expect(read("site/deploy/cloudflared-ingress.yml")).toContain("originRequest");
+  });
+
+  it("starts the old container before it undoes the redirects", () => {
+    const undo = readme.slice(readme.indexOf("## Undo"));
+    const start = undo.indexOf("(cd /opt/vps/apps/gam && docker compose up -d)");
+    expect(start).toBeGreaterThan(-1);
+    expect(start).toBeLessThan(undo.indexOf("Steps 12 and 13"));
+  });
+
+  it("keeps the step that stops the old container where RETIREMENT.md says it is", () => {
+    const n = read("docs/RETIREMENT.md").match(/stops at step (\d+) of site\/deploy\/README\.md/)![1];
+    expect(readme).toMatch(new RegExp(`^${n}\\. When the new host has run without problems, stop the old container`, "m"));
   });
 });

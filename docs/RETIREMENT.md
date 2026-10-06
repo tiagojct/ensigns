@@ -96,7 +96,7 @@ To remove the host, do these steps in this order.
 3. Delete the gam rule from /etc/cloudflared/config.yml. Restart cloudflared.
 4. Delete the gam DNS record.
 
-The old container stops at step 13 of site/deploy/README.md. The image ghcr.io/tiagojct/gam stays until you delete the package. The weekly rebuild in the old repository changes nothing after that, because no container runs the image.
+The old container stops at step 14 of site/deploy/README.md. The image ghcr.io/tiagojct/gam stays until you delete the package. The weekly rebuild in the old repository changes nothing after that, because no container runs the image.
 
 ## 5. Consumers
 

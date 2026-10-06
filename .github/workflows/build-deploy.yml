@@ -3,9 +3,14 @@ name: build-deploy
 # Builds the nginx image and pushes it to ghcr.io/tiagojct/ensigns. The VPS runs :latest
 # under watchtower, so a push of :latest is the deployment.
 #
-# Nothing starts this workflow by itself. The owner starts it by hand from the Actions tab,
-# on main, after the ci workflow is green. A push, a tag or a schedule triggers nothing, and
-# a run on any other branch stops at once.
+# This is the one workflow that publishes. docs/RELEASE.md and checkpoint 5 (D38) record it
+# as the exception to "no CI command publishes".
+#
+# Nothing starts this workflow by itself. Only the repository owner can start it, by hand from
+# the Actions tab, on main, after the ci workflow is green. A push, a tag or a schedule
+# triggers nothing. A run on another branch, or by anyone else, stops at once. A re-run keeps
+# the actor of the first run, so the job checks both that actor and the one who triggered
+# this run.
 #
 # The first push creates the package. Make it public by hand (Packages, ensigns, Package
 # settings), because the VPS pulls it without credentials. The image has the linux/amd64
@@ -25,7 +30,10 @@ env:
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.actor == github.repository_owner &&
+      github.triggering_actor == github.repository_owner
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:

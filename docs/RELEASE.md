@@ -81,7 +81,7 @@ The container recipe was not built here, because Docker is not installed on the 
 
 ## Owner publication
 
-No build or CI command publishes. Run the checks, inspect the generated archives, review the licence notices and choose the release tag before publishing.
+No build or CI command publishes a package. The one exception is the build-deploy workflow, which pushes the site image to ghcr.io/tiagojct/ensigns. Only the repository owner can start it, by hand, on main (site/deploy/README.md). Run the checks, inspect the generated archives, review the licence notices and choose the release tag before publishing.
 
 - JavaScript: publish the generated dist/packages/npm/ folder under @tiagojct/ensigns. The Tailwind folder has its own package manifest.
 - Python: build a wheel and source archive from dist/packages/python/ with python -m build, inspect their metadata and upload through the owner's PyPI account.
