@@ -36,5 +36,5 @@ export function mastodon(root:string,f:ResolvedFamily):string {
     css+=`\n${selector} {\n${Object.entries(vars).map(([k,v])=>`  --${k}: ${v};`).join('\n')}\n}\n`;
   }
   css+='\n:where(a,button,[role="button"],input,select,textarea):focus-visible { outline: 2px solid var(--color-content-fg); outline-offset: 2px; }\n.icon-button.active { color: var(--color-accent); }\n.notification-bar--error { border: 3px solid var(--color-error); }\n.notification-bar--warning { border: 2px dashed var(--color-warning); }\n';
-  return `/* ${provenance(f)}\n   Tangerine Neue MIT, Nileane Dorffer. See TANGERINE-LICENSE.\n   Install through Mastodon Administration > Appearance > Custom CSS. */\n`+css;
+  return `/* ${provenance(f)}\n   Tangerine Neue MIT, Niléane Dorffer. See TANGERINE-LICENSE.\n   Install through Mastodon Administration > Appearance > Custom CSS. */\n`+css;
 }

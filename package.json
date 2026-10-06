@@ -23,7 +23,7 @@
     "packages": "node scripts/packages/build.ts",
     "site:prepare": "node scripts/site/build.ts",
     "build": "npm run packages && npm run site:prepare && vite build --config site/vite.config.ts && node scripts/release.ts",
-    "dev": "npm run site:prepare && vite --config site/vite.config.ts",
+    "dev": "npm run packages && npm run site:prepare && vite --config site/vite.config.ts",
     "preview": "vite preview --config site/vite.config.ts"
   },
   "dependencies": {

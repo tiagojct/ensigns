@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { integrations } from '../../scripts/packages/integrations.ts';
 import { mastodon } from '../../scripts/packages/mastodon.ts';
@@ -56,6 +58,9 @@ describe('installable integrations',()=>{
     const family=families.find(f=>f.meta.id==='rosebud')!;
     const css=mastodon(repoRoot(),family);
     expect(css).not.toMatch(/\{\{[^}]+\}\}/);expect(css).toContain('TANGERINE-LICENSE');
+    // The attribution spells the holder's name as the licence file does, accent included.
+    const holder=readFileSync(join(repoRoot(),'packages/mastodon/vendor/TANGERINE-LICENSE'),'utf8').match(/Copyright \(c\) \d{4} (.+)/)![1]!;
+    expect(holder).toContain('é');expect(css).toContain(`Tangerine Neue MIT, ${holder}.`);
     for(const mode of ['light','dark'] as const)for(const [name,status] of Object.entries({confirm:'success',warning:'warning',error:'critical'})){
       expect(css).toContain(`--color-${name}: ${at(family.modes[mode],`status.${status}.accent`).hex};`);
     }

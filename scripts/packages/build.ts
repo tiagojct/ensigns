@@ -29,9 +29,12 @@ const readTree=(dir:string,prefix=''):Record<string,Uint8Array>=>{
 export async function buildPackages(root=repoRoot(),out=join(root,'dist')){
   const version=JSON.parse(readFileSync(join(root,'package.json'),'utf8')).version as string;
   const families=loadFamilies(root).map(f=>resolveFamily(f.file));
-  const pkgDir=join(out,'packages'),releases=join(out,'releases');
-  rmSync(pkgDir,{recursive:true,force:true});mkdirSync(releases,{recursive:true});
-  buildExports(root,join(out,'exports'));
+  const pkgDir=join(out,'packages'),releases=join(out,'releases'),exportsDir=join(out,'exports');
+  // Every generated folder starts empty. A renamed export or an older version then leaves nothing
+  // behind in the checksums, the archives or the npm package.
+  for(const dir of [pkgDir,releases,exportsDir])rmSync(dir,{recursive:true,force:true});
+  mkdirSync(releases,{recursive:true});
+  buildExports(root,exportsDir);
   const licences=Object.fromEntries(['LICENSE-MIT','LICENSE-CC-BY-4.0'].map(n=>[`${n}.txt`,new Uint8Array(readFileSync(join(root,n)))]));
   for(const [n,content] of Object.entries(licences))write(join(releases,n),content);
   const collection:Record<string,Uint8Array>={...licences};
