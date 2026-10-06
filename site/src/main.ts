@@ -20,6 +20,6 @@ mode.addEventListener('change',()=>{
   try{localStorage.setItem('ensigns-mode',mode.value);}catch{/* Appearance still works for this page. */}
 });
 for(const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]'))button.addEventListener('click',()=>copy(button.dataset.copy!));
-for(const button of document.querySelectorAll<HTMLButtonElement>('[data-sample-action]'))button.addEventListener('click',()=>{button.textContent=button.textContent==='At the helm' ? 'Take the helm' : 'At the helm';announce(button.textContent!);});
+for(const button of document.querySelectorAll<HTMLButtonElement>('[data-sample-action]'))button.addEventListener('click',()=>{button.textContent=button.textContent==='Saved' ? 'Save changes' : 'Saved';announce(button.textContent!);});
 if(document.querySelector('#carpenter')) import('./carpenter.ts').then(x=>x.init()).catch(()=>{document.querySelector('#export-status')!.textContent='The workbench could not load. Ready-made downloads are available on each family page.';});
 if(document.querySelector('.compare-panels'))import('./compare.ts').then(x=>x.init()).catch(()=>announce('Comparison controls could not load. The initial panels remain available.'));
