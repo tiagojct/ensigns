@@ -6,6 +6,7 @@ import { Resvg } from '@resvg/resvg-js';
 import { buildReport, loadContext } from '../../lib/harness/index.ts';
 import type { Thresholds } from '../../lib/harness/types.ts';
 import { loadFamilies, loadSchema, readJson, repoRoot } from '../../lib/model/load.ts';
+import { RENAMED_FAMILIES } from '../../lib/model/renames.ts';
 import { resolveFamily } from '../../lib/model/resolve.ts';
 import { validateFamily } from '../../lib/model/validate.ts';
 import { tokensCss } from '../pages/tokens-css.ts';
@@ -53,7 +54,7 @@ export function prepareSite(root=repoRoot()) {
   if(existsSync(releases))cpSync(releases,join(publicDir,'releases'),{recursive:true});
   const rendered=pages(entries,pkg.version);
   for(const [path,html] of rendered)write(join(generated,path,'index.html'),html);
-  for(const [old,id] of [['glauca','goney'],['try-works','jungfrau'],['ambergris','rosebud']] as const){
+  for(const [old,id] of Object.entries(RENAMED_FAMILIES)){
     // A static redirect for hosts that do not use the nginx configuration.
     write(join(generated,old,'index.html'),`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>${id} · Ensigns</title><meta http-equiv="refresh" content="0; url=/${id}/"><link rel="canonical" href="${ORIGIN}/${id}/"></head><body><p>This family is now <a href="/${id}/">${id}</a>.</p></body></html>\n`);
   }

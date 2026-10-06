@@ -6,6 +6,7 @@ import { INSTALL } from '../../lib/generators/install.ts';
 import { provenance } from '../../lib/generators/common.ts';
 import { contrastRatio } from '../../lib/colour/wcag.ts';
 import { simulateCvd } from '../../lib/colour/cvd.ts';
+import { currentFamilyId } from '../../lib/model/renames.ts';
 import type { ExportFile, ExportOptions } from '../../lib/generators/types.ts';
 import { copy, announce } from './main.ts';
 const select=(id:string)=>document.querySelector<HTMLSelectElement>(id)!;
@@ -21,7 +22,9 @@ export async function init(){
   const {families}=await catalogue();
   const family=select('#export-family'),mode=select('#export-mode'),format=select('#export-format');
   const query=new URL(location.href);
-  if(families.some(f=>f.meta.id===query.searchParams.get('family')))family.value=query.searchParams.get('family')!;
+  // Old links carry the old ids (glauca, try-works, ambergris). An id that is not a family leaves the default.
+  const wanted=currentFamilyId(query.searchParams.get('family') ?? '');
+  if(families.some(f=>f.meta.id===wanted))family.value=wanted;
   if(GENERATORS.some(g=>g.id===query.searchParams.get('format')))format.value=query.searchParams.get('format')!;
   if(['both','light','dark'].includes(query.searchParams.get('mode') ?? ''))mode.value=query.searchParams.get('mode')!;
   const bundle=document.querySelector<HTMLButtonElement>('#export-bundle')!;
