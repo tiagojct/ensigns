@@ -1,0 +1,13 @@
+node_modules/
+/dist/
+/site/
+/vendor/
+src/generated/
+public/official/
+public/og.png
+public/favicon.svg
+public/favicon.png
+public/apple-touch-icon.png
+.DS_Store
+*.log
+.claude/

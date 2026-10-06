@@ -1,0 +1,608 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "goney",
+    "name": "Goney",
+    "formerly": {
+      "id": "glauca",
+      "name": "Glauca",
+      "version": "0.1.0"
+    },
+    "version": "0.2.0",
+    "chapter": 52,
+    "chapterTitle": "The Albatross",
+    "quote": "bleached like the skeleton of a stranded walrus",
+    "quotes": [
+      {"chapter":52,"text":"furred over with hoar-frost"}
+    ],
+    "tagline": "One sky-blue mark on a frost-bloom field.",
+    "goal": "Tiago's identity on the web, in documents and on slides.",
+    "environments": ["office-screen","editor","cvd"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "palette": {
+    "saxum": {
+      "pix": "#10161C",
+      "umbra": "#171F26",
+      "petra": "#1F2932",
+      "ferrum": "#0B1218"
+    },
+    "glaucum": {
+      "caligo": "#142430",
+      "vadum": "#2B4356",
+      "spuma": "#4D7391",
+      "nebula": "#93B7C9"
+    },
+    "caelum": {
+      "dies": "#007AFF",
+      "aer": "#6CB2FF",
+      "imum": "#084B96"
+    },
+    "caelum-light": {
+      "imum": {"hex":"#002E73","note":"Imum in light mode. It had no value of its own: it shared #084B96 with Aer, which link hover and accent-deep also use. Decision at checkpoint 2: an own value (this) or a declared alias."}
+    },
+    "pruina": {
+      "pruina": "#E8EEF2",
+      "charta": "#F0F4F6",
+      "cinis": "#8C8C8C"
+    },
+    "extended": {
+      "folium": "#62BA46",
+      "bacca": "#C96A6A",
+      "viola": "#B184DB",
+      "lacus": "#4A9EDB",
+      "unda": "#45A3AD"
+    },
+    "dark": {
+      "border": "#2A3540",
+      "accent": "#3D97FF",
+      "on-tint": "#0D1720",
+      "contrast-more-text-muted": "#9AA4AB",
+      "contrast-more-border": "#56626C"
+    },
+    "code": {
+      "operator": "#A7B1B8",
+      "punctuation": "#86929A",
+      "parameter": "#C3CDD3"
+    },
+    "terminal-dark": {
+      "red": "#B85F5F",
+      "green": "#4F9E3F",
+      "yellow": "#C79A3D",
+      "blue": "#4981C4",
+      "magenta": "#8E74AB",
+      "cyan": "#3F93A0",
+      "white": "#C6CED4",
+      "bright-black": "#3A4754",
+      "bright-yellow": "#D9AE4A",
+      "bright-cyan": "#7FC4CF"
+    },
+    "okabe-ito": {
+      "orange": "#E69F00",
+      "blue": "#0072B2",
+      "bluish-green": "#009E73",
+      "reddish-purple": "#CC79A7",
+      "vermillion": "#D55E00",
+      "sky-blue": "#56B4E9",
+      "yellow": "#F0E442"
+    },
+    "dies-blue": {
+      "1": "#EAF2FC",
+      "2": "#C3DCF5",
+      "3": "#92C0EA",
+      "4": "#5B9EDB",
+      "5": "#2F7CC4",
+      "6": "#0B5AA0",
+      "7": "#063A6B"
+    },
+    "blue-copper": {
+      "2": "#3672B4",
+      "3": "#7BA1CD",
+      "4": "#C0D3E6",
+      "5": "#F0EFE9",
+      "6": "#E6CDB0",
+      "7": "#D3A26E",
+      "8": "#B97435",
+      "9": "#8F4F16"
+    },
+    "light": {
+      "surface": "#F7FAFB",
+      "text": "#16222A",
+      "text-muted": "#55646D",
+      "border": "#CDD7DC",
+      "accent": "#0B62CF",
+      "on-accent": "#F2F7FB",
+      "tint-pale": "#B7CDD6",
+      "surface-raised": "#FFFFFF",
+      "tint-deep": "#16303F",
+      "tint": "#35576B",
+      "tint-bright": "#3E6D84",
+      "contrast-more-text-muted": "#3E4D55",
+      "contrast-more-border": "#7B8A91"
+    },
+    "extended-light": {
+      "folium": "#3C6E38",
+      "bacca": "#784A4D",
+      "viola": "#6B588B",
+      "lacus": "#33668B",
+      "unda": "#306972"
+    },
+    "syntax-light": {
+      "parameter": "#2C3941"
+    },
+    "terminal-light": {
+      "red": "#A55859",
+      "green": "#3F7B39",
+      "yellow": "#846C36",
+      "blue": "#4070A8",
+      "magenta": "#786594",
+      "cyan": "#357884",
+      "bright-red": "#B06061",
+      "bright-green": "#47833C",
+      "bright-yellow": "#87733D",
+      "bright-blue": "#0273EE",
+      "bright-magenta": "#8669A9",
+      "bright-cyan": "#517D86"
+    },
+    "plot-light": {
+      "grid": "#DDE6EA"
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Profundum",
+      "roles": {
+        "bg": "{palette.saxum.pix}",
+        "surface": "{palette.saxum.umbra}",
+        "text": "{palette.pruina.pruina}",
+        "text-muted": "{palette.pruina.cinis}",
+        "text-subtle": "{palette.pruina.cinis}",
+        "border": "{palette.dark.border}",
+        "link": "{palette.dark.accent}",
+        "link-hover": "{palette.caelum.aer}",
+        "accent": "{palette.dark.accent}",
+        "on-accent": "{palette.saxum.ferrum}",
+        "button": "{palette.dark.accent}",
+        "on-button": "{palette.saxum.ferrum}",
+        "focus": "{palette.caelum.aer}",
+        "selection": "{palette.glaucum.vadum}",
+        "surface-raised": "{palette.saxum.petra}",
+        "extra": {
+          "accent-bright": "{palette.caelum.aer}",
+          "accent-deep": "{palette.caelum.dies}",
+          "tint-deep": "{palette.glaucum.caligo}",
+          "tint": "{palette.glaucum.vadum}",
+          "tint-bright": "{palette.glaucum.spuma}",
+          "tint-pale": "{palette.glaucum.nebula}",
+          "on-tint": "{palette.dark.on-tint}",
+          "contrast-more-text-muted": "{palette.dark.contrast-more-text-muted}",
+          "contrast-more-border": "{palette.dark.contrast-more-border}"
+        }
+      },
+      "accents": {
+        "dies": "{palette.caelum.dies}",
+        "aer": "{palette.caelum.aer}",
+        "imum": "{palette.caelum.imum}",
+        "folium": "{palette.extended.folium}",
+        "bacca": "{palette.extended.bacca}",
+        "viola": "{palette.extended.viola}",
+        "lacus": "{palette.extended.lacus}",
+        "unda": "{palette.extended.unda}"
+      },
+      "surfaces": {
+        "editor": "{palette.saxum.pix}",
+        "editor-line": "{palette.saxum.umbra}",
+        "editor-selection": {"ref":"{palette.glaucum.vadum}","alpha":0.4,"over":"surfaces.editor"},
+        "sidebar": "{palette.saxum.umbra}"
+      },
+      "syntax": {
+        "keyword": {"color":"{palette.caelum.dies}","style":"bold"},
+        "string": "{palette.extended.folium}",
+        "number": {"color":"{palette.extended.viola}","style":"italic"},
+        "comment": {"color":"{palette.pruina.cinis}","style":"italic"},
+        "function": "{palette.extended.lacus}",
+        "type": {"color":"{palette.extended.unda}","style":"italic"},
+        "constant": {"color":"{palette.extended.viola}","style":"italic"},
+        "variable": "{palette.pruina.pruina}",
+        "operator": "{palette.code.operator}",
+        "punctuation": "{palette.code.punctuation}",
+        "decorator": "{palette.extended.bacca}",
+        "parameter": "{palette.code.parameter}"
+      },
+      "ansi": {
+        "black": "{palette.saxum.umbra}",
+        "red": "{palette.terminal-dark.red}",
+        "green": "{palette.terminal-dark.green}",
+        "yellow": "{palette.terminal-dark.yellow}",
+        "blue": "{palette.terminal-dark.blue}",
+        "magenta": "{palette.terminal-dark.magenta}",
+        "cyan": "{palette.terminal-dark.cyan}",
+        "white": "{palette.terminal-dark.white}",
+        "bright-black": "{palette.terminal-dark.bright-black}",
+        "bright-red": "{palette.extended.bacca}",
+        "bright-green": "{palette.extended.folium}",
+        "bright-yellow": "{palette.terminal-dark.bright-yellow}",
+        "bright-blue": "{palette.caelum.dies}",
+        "bright-magenta": "{palette.extended.viola}",
+        "bright-cyan": "{palette.terminal-dark.bright-cyan}",
+        "bright-white": "{palette.pruina.pruina}"
+      },
+      "terminal": {
+        "background": "{palette.saxum.pix}",
+        "foreground": "{palette.pruina.pruina}",
+        "cursor": "{palette.caelum.dies}",
+        "cursor-text": "{palette.saxum.ferrum}",
+        "selection-background": "{palette.glaucum.vadum}",
+        "selection-foreground": "{palette.pruina.pruina}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.extended.bacca}",
+        "warning": "{palette.terminal-dark.yellow}",
+        "success": "{palette.extended.folium}",
+        "info": "{palette.extended.lacus}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Okabe-Ito (CVD-safe), brand-free by design",
+          "colors": {
+            "orange": "{palette.okabe-ito.orange}",
+            "blue": "{palette.okabe-ito.blue}",
+            "bluish-green": "{palette.okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
+            "vermillion": "{palette.okabe-ito.vermillion}",
+            "sky-blue": "{palette.okabe-ito.sky-blue}",
+            "yellow": "{palette.okabe-ito.yellow}"
+          }
+        },
+        "sequential": {
+          "dies-blue": {
+            "label": "dies blue, perceptually even",
+            "colors": [
+              "{palette.dies-blue.1}",
+              "{palette.dies-blue.2}",
+              "{palette.dies-blue.3}",
+              "{palette.dies-blue.4}",
+              "{palette.dies-blue.5}",
+              "{palette.dies-blue.6}",
+              "{palette.dies-blue.7}"
+            ]
+          }
+        },
+        "diverging": {
+          "blue-copper": {
+            "label": "blue-copper, pale centre",
+            "colors": [
+              "{palette.caelum.imum}",
+              "{palette.blue-copper.2}",
+              "{palette.blue-copper.3}",
+              "{palette.blue-copper.4}",
+              "{palette.blue-copper.5}",
+              "{palette.blue-copper.6}",
+              "{palette.blue-copper.7}",
+              "{palette.blue-copper.8}",
+              "{palette.blue-copper.9}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.saxum.pix}",
+          "grid": "{palette.dark.border}",
+          "text": "{palette.pruina.pruina}",
+          "muted": "{palette.pruina.cinis}"
+        }
+      }
+    },
+    "light": {
+      "label": "Pruina",
+      "roles": {
+        "bg": "{palette.pruina.charta}",
+        "surface": "{palette.light.surface}",
+        "text": "{palette.light.text}",
+        "text-muted": "{palette.light.text-muted}",
+        "text-subtle": "{palette.light.text-muted}",
+        "border": "{palette.light.border}",
+        "link": "{palette.light.accent}",
+        "link-hover": "{palette.caelum.imum}",
+        "accent": "{palette.light.accent}",
+        "on-accent": "{palette.light.on-accent}",
+        "button": "{palette.light.accent}",
+        "on-button": "{palette.light.on-accent}",
+        "focus": "{palette.light.accent}",
+        "selection": "{palette.light.tint-pale}",
+        "surface-raised": "{palette.light.surface-raised}",
+        "extra": {
+          "accent-bright": "{palette.caelum.dies}",
+          "accent-deep": "{palette.caelum.imum}",
+          "tint-deep": "{palette.light.tint-deep}",
+          "tint": "{palette.light.tint}",
+          "tint-bright": "{palette.light.tint-bright}",
+          "tint-pale": "{palette.light.tint-pale}",
+          "on-tint": "{palette.light.on-accent}",
+          "contrast-more-text-muted": "{palette.light.contrast-more-text-muted}",
+          "contrast-more-border": "{palette.light.contrast-more-border}"
+        }
+      },
+      "accents": {
+        "dies": "{palette.light.accent}",
+        "aer": "{palette.caelum.imum}",
+        "imum": "{palette.caelum-light.imum}",
+        "folium": "{palette.extended-light.folium}",
+        "bacca": "{palette.extended-light.bacca}",
+        "viola": "{palette.extended-light.viola}",
+        "lacus": "{palette.extended-light.lacus}",
+        "unda": "{palette.extended-light.unda}"
+      },
+      "surfaces": {
+        "editor": "{palette.pruina.charta}",
+        "editor-line": "{palette.light.surface}",
+        "editor-selection": {"ref":"{palette.light.tint-pale}","alpha":0.4,"over":"surfaces.editor"},
+        "sidebar": "{palette.light.surface}"
+      },
+      "syntax": {
+        "keyword": {"color":"{palette.light.accent}","style":"bold"},
+        "string": "{palette.extended-light.folium}",
+        "number": {"color":"{palette.extended-light.viola}","style":"italic"},
+        "comment": {"color":"{palette.light.text-muted}","style":"italic"},
+        "function": "{palette.extended-light.lacus}",
+        "type": {"color":"{palette.extended-light.unda}","style":"italic"},
+        "constant": {"color":"{palette.extended-light.viola}","style":"italic"},
+        "variable": "{palette.light.text}",
+        "operator": "{palette.light.text-muted}",
+        "punctuation": "{palette.light.text-muted}",
+        "decorator": "{palette.extended-light.bacca}",
+        "parameter": "{palette.syntax-light.parameter}"
+      },
+      "ansi": {
+        "black": "{palette.saxum.ferrum}",
+        "red": "{palette.terminal-light.red}",
+        "green": "{palette.terminal-light.green}",
+        "yellow": "{palette.terminal-light.yellow}",
+        "blue": "{palette.terminal-light.blue}",
+        "magenta": "{palette.terminal-light.magenta}",
+        "cyan": "{palette.terminal-light.cyan}",
+        "white": "{palette.light.contrast-more-text-muted}",
+        "bright-black": "{palette.light.text-muted}",
+        "bright-red": "{palette.terminal-light.bright-red}",
+        "bright-green": "{palette.terminal-light.bright-green}",
+        "bright-yellow": "{palette.terminal-light.bright-yellow}",
+        "bright-blue": "{palette.terminal-light.bright-blue}",
+        "bright-magenta": "{palette.terminal-light.bright-magenta}",
+        "bright-cyan": "{palette.terminal-light.bright-cyan}",
+        "bright-white": "{palette.light.text}"
+      },
+      "terminal": {
+        "background": "{palette.pruina.charta}",
+        "foreground": "{palette.light.text}",
+        "cursor": "{palette.light.accent}",
+        "cursor-text": "{palette.light.on-accent}",
+        "selection-background": "{palette.light.tint}",
+        "selection-foreground": "{palette.light.on-accent}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.extended-light.bacca}",
+        "warning": "{palette.terminal-light.yellow}",
+        "success": "{palette.extended-light.folium}",
+        "info": "{palette.extended-light.lacus}"
+      },
+      "data": {
+        "categorical": {
+          "label": "Okabe-Ito (CVD-safe), brand-free by design",
+          "colors": {
+            "orange": "{palette.okabe-ito.orange}",
+            "blue": "{palette.okabe-ito.blue}",
+            "bluish-green": "{palette.okabe-ito.bluish-green}",
+            "reddish-purple": "{palette.okabe-ito.reddish-purple}",
+            "vermillion": "{palette.okabe-ito.vermillion}",
+            "sky-blue": "{palette.okabe-ito.sky-blue}",
+            "yellow": "{palette.okabe-ito.yellow}"
+          }
+        },
+        "sequential": {
+          "dies-blue": {
+            "label": "dies blue, perceptually even",
+            "colors": [
+              "{palette.dies-blue.1}",
+              "{palette.dies-blue.2}",
+              "{palette.dies-blue.3}",
+              "{palette.dies-blue.4}",
+              "{palette.dies-blue.5}",
+              "{palette.dies-blue.6}",
+              "{palette.dies-blue.7}"
+            ]
+          }
+        },
+        "diverging": {
+          "blue-copper": {
+            "label": "blue-copper, pale centre",
+            "colors": [
+              "{palette.caelum.imum}",
+              "{palette.blue-copper.2}",
+              "{palette.blue-copper.3}",
+              "{palette.blue-copper.4}",
+              "{palette.blue-copper.5}",
+              "{palette.blue-copper.6}",
+              "{palette.blue-copper.7}",
+              "{palette.blue-copper.8}",
+              "{palette.blue-copper.9}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.light.surface-raised}",
+          "grid": "{palette.plot-light.grid}",
+          "text": "{palette.light.text}",
+          "muted": "{palette.light.text-muted}"
+        }
+      }
+    }
+  },
+  "typography": {
+    "serif": "IBM Plex Serif",
+    "sans": "IBM Plex Sans",
+    "mono": "IBM Plex Mono"
+  },
+  "rules": [
+    {
+      "id": "one-mark",
+      "text": "The bloom is the field; the blue is the mark.",
+      "check": "accent-only-in-roles:link,button,focus"
+    },
+    {
+      "id": "extended-hues",
+      "text": "The extended hues (folium, bacca, viola, lacus, unda) appear in code and terminals only."
+    },
+    {
+      "id": "hover-direction",
+      "text": "Hovers darken in light mode and brighten in dark mode.",
+      "check": "hover-direction"
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text",
+      "why": "button text"
+    },
+    {
+      "fg": "extra.tint-pale",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"]
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "extra.tint",
+      "kind": "component",
+      "modes": ["dark"],
+      "why": "UI mark on the tint"
+    },
+    {
+      "fg": "extra.accent-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "hover text: dark hovers brighten"
+    },
+    {
+      "fg": "extra.accent-deep",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "hover text: light hovers darken"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.tint",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "the tint as a selection fill"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "extra.tint-pale",
+      "kind": "text",
+      "modes": ["light"],
+      "why": "the tint as a selection fill"
+    },
+    {
+      "fg": "extra.on-tint",
+      "bg": "extra.tint-pale",
+      "kind": "text",
+      "modes": ["dark"]
+    },
+    {
+      "fg": "extra.tint-bright",
+      "bg": "roles.bg",
+      "kind": "text",
+      "modes": ["light"]
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "extra.accent-deep",
+      "kind": "text",
+      "modes": ["dark"],
+      "why": "accent-deep as a fill (the Zotero selected row)"
+    },
+    {
+      "fg": "extra.accent-deep",
+      "bg": "roles.bg",
+      "kind": "component",
+      "modes": ["dark"]
+    }
+  ],
+  "distinct": [
+    {
+      "id": "blue-trio",
+      "members": ["accents.dies", "accents.aer", "accents.imum"],
+      "note": "Dies, Aer and Imum are one ramp in two modes. In light mode Aer and Imum both used to be #084B96; Imum now has its own value, so the trio is a distinct set again."
+    },
+    {
+      "id": "syntax-hues-dark",
+      "set": "syntax-hues",
+      "modes": ["dark"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "cvd": "report",
+      "reinforced": [
+        ["number","function"],
+        ["function","constant"],
+        ["function","type"]
+      ],
+      "by": "italics: number, constant and type are set italic, function is upright",
+      "note": "Baseline. The old repository reported CVD and never gated it, and several close pairs here are both italic or both upright, so they cannot be reinforced. The floor stops the migrated colours getting worse; the report lists what misses the 0.06 target. Retuning the syntax hues is a decision for checkpoint 2."
+    },
+    {
+      "id": "syntax-hues-light",
+      "set": "syntax-hues",
+      "modes": ["light"],
+      "aliases": [
+        ["number","constant"]
+      ],
+      "min": 0.045,
+      "cvd": "report",
+      "reinforced": [
+        ["number","function"],
+        ["function","constant"],
+        ["function","type"]
+      ],
+      "by": "italics: number, constant and type are set italic, function is upright",
+      "note": "Baseline. The old repository reported CVD and never gated it, and several close pairs here are both italic or both upright, so they cannot be reinforced. The floor stops the migrated colours getting worse; the report lists what misses the 0.06 target. Retuning the syntax hues is a decision for checkpoint 2."
+    },
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "cvd": "report",
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
+    }
+  ],
+  "exceptions": [
+    {
+      "profile": "editor",
+      "id": "syntax.keyword on surfaces.editor-line",
+      "mode": "dark",
+      "why": "Goney's dark keyword is the blue mark and reaches 4.15:1 on the current line. The shipped theme draws that line in the surface colour. Options: lighten the keyword, soften the line highlight, or accept. Decision needed at checkpoint 2."
+    }
+  ]
+}

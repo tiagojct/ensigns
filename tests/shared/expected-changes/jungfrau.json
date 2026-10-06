@@ -1,0 +1,1101 @@
+[
+  {
+    "mode": "dark",
+    "address": "roles.bg",
+    "from": "#12161B",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0 (D11): the ground moves to luminance 0.0108 (target 0.010 to 0.012) and keeps the sea hue; surfaces and border follow in steps."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.surface",
+    "from": "#1B2127",
+    "to": "#1D242A",
+    "why": "Jungfrau 2.0.0 (D11): the ground moves to luminance 0.0108 (target 0.010 to 0.012) and keeps the sea hue; surfaces and border follow in steps."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: body text brought from 15.79:1 to 7.61:1 (band 7:1 to 11:1) and under the luminance cap 0.45; muted text stays above AA."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text-muted",
+    "from": "#97A0A4",
+    "to": "#878F93",
+    "why": "Jungfrau 2.0.0: body text brought from 15.79:1 to 7.61:1 (band 7:1 to 11:1) and under the luminance cap 0.45; muted text stays above AA."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.text-subtle",
+    "from": "#97A0A4",
+    "to": "#878F93",
+    "why": "Jungfrau 2.0.0: body text brought from 15.79:1 to 7.61:1 (band 7:1 to 11:1) and under the luminance cap 0.45; muted text stays above AA."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.border",
+    "from": "#2C3640",
+    "to": "#2E3741",
+    "why": "Jungfrau 2.0.0 (D11): the ground moves to luminance 0.0108 (target 0.010 to 0.012) and keeps the sea hue; surfaces and border follow in steps."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.link",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.link-hover",
+    "from": "#E0832A",
+    "to": "#E78D32",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.accent",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.on-accent",
+    "from": "#11151A",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.button",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.on-button",
+    "from": "#11151A",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "roles.focus",
+    "from": "#E0832A",
+    "to": "#E78D32",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.keyword",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.string",
+    "from": "#86A87F",
+    "to": "#93AC65",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.number",
+    "from": "#A487BA",
+    "to": "#BF97D3",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.comment",
+    "from": "#97A0A4",
+    "to": "#878F93",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.function",
+    "from": "#5F93B0",
+    "to": "#4F9BA5",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.type",
+    "from": "#5F97A0",
+    "to": "#7CBE9F",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.constant",
+    "from": "#A487BA",
+    "to": "#BF97D3",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.variable",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.operator",
+    "from": "#AEB6B8",
+    "to": "#8F9798",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.punctuation",
+    "from": "#8A9296",
+    "to": "#868D91",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.decorator",
+    "from": "#D06A52",
+    "to": "#BF7881",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "syntax.parameter",
+    "from": "#CDD2D3",
+    "to": "#999EA0",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.black",
+    "from": "#1B2127",
+    "to": "#1D242A",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.red",
+    "from": "#C05A3A",
+    "to": "#B56F78",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.green",
+    "from": "#6F8F6A",
+    "to": "#8AA35C",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.yellow",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.blue",
+    "from": "#46708A",
+    "to": "#8FA5B5",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.magenta",
+    "from": "#8A6F9E",
+    "to": "#B58EC9",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.cyan",
+    "from": "#5F97A0",
+    "to": "#45929C",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.white",
+    "from": "#C9CCCE",
+    "to": "#A3A19E",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-black",
+    "from": "#3A4754",
+    "to": "#49535E",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-red",
+    "from": "#D06A52",
+    "to": "#BF7881",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-green",
+    "from": "#86A87F",
+    "to": "#93AC65",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-yellow",
+    "from": "#E0832A",
+    "to": "#E78D32",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-blue",
+    "from": "#5F93B0",
+    "to": "#9AB2C3",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-magenta",
+    "from": "#A487BA",
+    "to": "#BF97D3",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-cyan",
+    "from": "#8FB6BD",
+    "to": "#5FABB5",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "ansi.bright-white",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.background",
+    "from": "#12161B",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.foreground",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.cursor",
+    "from": "#C9651D",
+    "to": "#E78D32",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.cursor-text",
+    "from": "#11151A",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "terminal.selection-foreground",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: the terminal set follows the retuned hues, nothing above luminance 0.45, no blue text (ANSI blue is a slate at chroma 0.034)."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.ember",
+    "from": "#C9651D",
+    "to": "#D56F2B",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.flame",
+    "from": "#E0832A",
+    "to": "#E78D32",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.kelp",
+    "from": "#86A87F",
+    "to": "#93AC65",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.brick",
+    "from": "#D06A52",
+    "to": "#BF7881",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.dusk",
+    "from": "#A487BA",
+    "to": "#BF97D3",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.tide",
+    "from": "#5F93B0",
+    "to": "#4F9BA5",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "accents.shoal",
+    "from": "#5F97A0",
+    "to": "#7CBE9F",
+    "why": "Jungfrau 2.0.0: retuned for the night band: ember raised to 4.5:1 on the current line, code hues moved out of the blue range, under the cap, apart from each other under normal vision and CVD."
+  },
+  {
+    "mode": "dark",
+    "address": "data.categorical.yellow",
+    "from": "#F0E442",
+    "to": "#C0B300",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.1",
+    "from": "#E4F5FB",
+    "to": "#053535",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.2",
+    "from": "#B3E0EE",
+    "to": "#054C4C",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.3",
+    "from": "#7EC4D7",
+    "to": "#136262",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.4",
+    "from": "#48A0B7",
+    "to": "#2B7979",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.5",
+    "from": "#0A7B93",
+    "to": "#48908F",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.6",
+    "from": "#00576C",
+    "to": "#6AA6A5",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.sequential.teal.7",
+    "from": "#003542",
+    "to": "#8EBBBA",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.1",
+    "from": "#00576E",
+    "to": "#117878",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.2",
+    "from": "#287D93",
+    "to": "#438787",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.3",
+    "from": "#72A9B4",
+    "to": "#659796",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.4",
+    "from": "#BBD7D9",
+    "to": "#84A6A5",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.5",
+    "from": "#F1EEE6",
+    "to": "#B4B1A9",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.6",
+    "from": "#E7CCAE",
+    "to": "#AE9B86",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.7",
+    "from": "#DA9B6A",
+    "to": "#A18769",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.8",
+    "from": "#C26D32",
+    "to": "#95734C",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.diverging.teal-amber.9",
+    "from": "#984A1A",
+    "to": "#88602D",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.bg",
+    "from": "#12161B",
+    "to": "#171B21",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.grid",
+    "from": "#2C3640",
+    "to": "#2E3741",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.text",
+    "from": "#F1EFE9",
+    "to": "#AFACA2",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "dark",
+    "address": "data.plot.muted",
+    "from": "#97A0A4",
+    "to": "#878F93",
+    "why": "Jungfrau 2.0.0: the data scales are re-derived under the brightness cap."
+  },
+  {
+    "mode": "light",
+    "address": "roles.bg",
+    "from": "#DEE7E4",
+    "to": "#B5A892",
+    "why": "Jungfrau 2.0.0, lamplight: the light mode is a dimmed warm paper for night reading, luminance 0.399 (band 0.35 to 0.45); surfaces step up under the 0.45 cap."
+  },
+  {
+    "mode": "light",
+    "address": "roles.surface",
+    "from": "#E7EFEB",
+    "to": "#BAAD97",
+    "why": "Jungfrau 2.0.0, lamplight: the light mode is a dimmed warm paper for night reading, luminance 0.399 (band 0.35 to 0.45); surfaces step up under the 0.45 cap."
+  },
+  {
+    "mode": "light",
+    "address": "roles.text",
+    "from": "#18272B",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: ink on the dimmed paper at 8.07:1 (7:1 needed); muted text at 5.23:1."
+  },
+  {
+    "mode": "light",
+    "address": "roles.text-muted",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: ink on the dimmed paper at 8.07:1 (7:1 needed); muted text at 5.23:1."
+  },
+  {
+    "mode": "light",
+    "address": "roles.text-subtle",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: ink on the dimmed paper at 8.07:1 (7:1 needed); muted text at 5.23:1."
+  },
+  {
+    "mode": "light",
+    "address": "roles.border",
+    "from": "#C4D2CD",
+    "to": "#A59986",
+    "why": "Jungfrau 2.0.0, lamplight: the light mode is a dimmed warm paper for night reading, luminance 0.399 (band 0.35 to 0.45); surfaces step up under the 0.45 cap."
+  },
+  {
+    "mode": "light",
+    "address": "roles.link",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.link-hover",
+    "from": "#7A3A10",
+    "to": "#381509",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.accent",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.on-accent",
+    "from": "#EEF3F0",
+    "to": "#B2A895",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.button",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.on-button",
+    "from": "#EEF3F0",
+    "to": "#B2A895",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.focus",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "roles.selection",
+    "from": "#B4CCC9",
+    "to": "#678B8A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.keyword",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.string",
+    "from": "#4F6855",
+    "to": "#32432C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.number",
+    "from": "#655C7A",
+    "to": "#3A2A57",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.comment",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.function",
+    "from": "#3F6274",
+    "to": "#004552",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.type",
+    "from": "#3F656B",
+    "to": "#16342C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.constant",
+    "from": "#655C7A",
+    "to": "#3A2A57",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.variable",
+    "from": "#18272B",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: ink on the dimmed paper at 8.07:1 (7:1 needed); muted text at 5.23:1."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.operator",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.punctuation",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.decorator",
+    "from": "#7D4C40",
+    "to": "#560E17",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "syntax.parameter",
+    "from": "#2C3C41",
+    "to": "#2C251F",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.black",
+    "from": "#1B2127",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.red",
+    "from": "#C05A3A",
+    "to": "#560E17",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.green",
+    "from": "#6F8F6A",
+    "to": "#32432C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.yellow",
+    "from": "#C9651D",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.blue",
+    "from": "#46708A",
+    "to": "#142733",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.magenta",
+    "from": "#8A6F9E",
+    "to": "#3A2A57",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.cyan",
+    "from": "#5F97A0",
+    "to": "#004552",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.white",
+    "from": "#C9CCCE",
+    "to": "#3D3832",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-black",
+    "from": "#3A4754",
+    "to": "#3E4749",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-red",
+    "from": "#D06A52",
+    "to": "#671F25",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-green",
+    "from": "#86A87F",
+    "to": "#40523A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-yellow",
+    "from": "#E0832A",
+    "to": "#7E3B02",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-blue",
+    "from": "#5F93B0",
+    "to": "#415969",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-magenta",
+    "from": "#A487BA",
+    "to": "#483867",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-cyan",
+    "from": "#8FB6BD",
+    "to": "#175461",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "ansi.bright-white",
+    "from": "#F1EFE9",
+    "to": "#56514C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.background",
+    "from": "#DEE7E4",
+    "to": "#B5A892",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.foreground",
+    "from": "#18272B",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.cursor",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.cursor-text",
+    "from": "#EEF3F0",
+    "to": "#B2A895",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.selection-background",
+    "from": "#264852",
+    "to": "#678B8A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "terminal.selection-foreground",
+    "from": "#EEF3F0",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.ember",
+    "from": "#9E5017",
+    "to": "#602500",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.flame",
+    "from": "#7A3A10",
+    "to": "#7E3B02",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.oil",
+    "from": "#7A3A10",
+    "to": "#381509",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.kelp",
+    "from": "#4F6855",
+    "to": "#32432C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.brick",
+    "from": "#7D4C40",
+    "to": "#560E17",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.dusk",
+    "from": "#655C7A",
+    "to": "#3A2A57",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.tide",
+    "from": "#3F6274",
+    "to": "#004552",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "accents.shoal",
+    "from": "#3F656B",
+    "to": "#16342C",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.orange",
+    "from": "#E69F00",
+    "to": "#7D4E00",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.blue",
+    "from": "#0072B2",
+    "to": "#005B9A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.bluish-green",
+    "from": "#009E73",
+    "to": "#006543",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.reddish-purple",
+    "from": "#CC79A7",
+    "to": "#8B3E6B",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.vermillion",
+    "from": "#D55E00",
+    "to": "#9E3600",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.sky-blue",
+    "from": "#56B4E9",
+    "to": "#005E8E",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.categorical.yellow",
+    "from": "#F0E442",
+    "to": "#625A00",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.1",
+    "from": "#E4F5FB",
+    "to": "#81AFAE",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.2",
+    "from": "#B3E0EE",
+    "to": "#5E9A9A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.3",
+    "from": "#7EC4D7",
+    "to": "#3E8685",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.4",
+    "from": "#48A0B7",
+    "to": "#207070",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.5",
+    "from": "#0A7B93",
+    "to": "#035B5B",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.6",
+    "from": "#00576C",
+    "to": "#004545",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.sequential.teal.7",
+    "from": "#003542",
+    "to": "#003030",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.1",
+    "from": "#00576E",
+    "to": "#003839",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.2",
+    "from": "#287D93",
+    "to": "#185050",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.3",
+    "from": "#72A9B4",
+    "to": "#426868",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.4",
+    "from": "#BBD7D9",
+    "to": "#678281",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.5",
+    "from": "#F1EEE6",
+    "to": "#9C9890",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.6",
+    "from": "#E7CCAE",
+    "to": "#887968",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.7",
+    "from": "#DA9B6A",
+    "to": "#715C45",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.8",
+    "from": "#C26D32",
+    "to": "#5A4122",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.diverging.teal-amber.9",
+    "from": "#984A1A",
+    "to": "#442600",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.bg",
+    "from": "#FFFFFF",
+    "to": "#B5A892",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.grid",
+    "from": "#DCE5E1",
+    "to": "#A59986",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.text",
+    "from": "#18272B",
+    "to": "#16100A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  },
+  {
+    "mode": "light",
+    "address": "data.plot.muted",
+    "from": "#52646A",
+    "to": "#3C342A",
+    "why": "Jungfrau 2.0.0, lamplight: re-derived for the dimmed paper so text reaches AA on it and nothing exceeds luminance 0.45; hues are as far apart as the dark values allow."
+  }
+]

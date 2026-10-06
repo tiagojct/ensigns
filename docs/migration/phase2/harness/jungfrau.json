@@ -1,0 +1,2415 @@
+{
+  "family": "jungfrau",
+  "version": "2.0.0",
+  "environments": [
+    "night",
+    "editor",
+    "cvd"
+  ],
+  "profiles": {
+    "night": {
+      "status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "waived": 0,
+      "checks": [
+        {
+          "profile": "night",
+          "id": "dark ground luminance",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.010758297481176226,
+          "limit": 0.012,
+          "detail": "dark ground #171B21 has luminance 0.0108, band 0.004 to 0.012"
+        },
+        {
+          "profile": "night",
+          "id": "dark ground target",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "value": 0.010758297481176226,
+          "limit": 0.012,
+          "detail": "dark ground luminance 0.0108, target 0.01 to 0.012"
+        },
+        {
+          "profile": "night",
+          "id": "dark body contrast",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.6084493050088104,
+          "limit": 7,
+          "detail": "body text 7.61:1, band 7 to 11"
+        },
+        {
+          "profile": "night",
+          "id": "dark muted contrast",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.250707053426377,
+          "limit": 4.5,
+          "detail": "muted text 5.25:1, needs 4.5"
+        },
+        {
+          "profile": "night",
+          "id": "apca dark body",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -55.88466894600464,
+          "detail": "body text APCA Lc -55.9"
+        },
+        {
+          "profile": "night",
+          "id": "lamplight paper luminance",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.3990434346970125,
+          "limit": 0.45,
+          "detail": "paper #B5A892 has luminance 0.399, band 0.35 to 0.45"
+        },
+        {
+          "profile": "night",
+          "id": "lamplight body contrast",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 8.071864103562827,
+          "limit": 7,
+          "detail": "body text 8.07:1, needs 7"
+        },
+        {
+          "profile": "night",
+          "id": "apca lamplight body",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 57.166498955617904,
+          "detail": "body text APCA Lc 57.2"
+        },
+        {
+          "profile": "night",
+          "id": "brightness cap",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.448366013795926,
+          "limit": 0.45,
+          "detail": "no colour above luminance 0.45 in dark"
+        },
+        {
+          "profile": "night",
+          "id": "no blue text",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "detail": "no text role with hue 230 to 290 above chroma 0.04 in dark"
+        },
+        {
+          "profile": "night",
+          "id": "brightness cap",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.44142334249409876,
+          "limit": 0.45,
+          "detail": "no colour above luminance 0.45 in light"
+        },
+        {
+          "profile": "night",
+          "id": "no blue text",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "detail": "no text role with hue 230 to 290 above chroma 0.04 in light"
+        }
+      ]
+    },
+    "editor": {
+      "status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "waived": 0,
+      "checks": [
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.051068292494781,
+          "limit": 4.5,
+          "detail": "syntax.keyword on surfaces.editor in dark: 5.05:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.587269319945552,
+          "limit": 4.5,
+          "detail": "syntax.keyword on surfaces.editor-line in dark: 4.59:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.133189917448413,
+          "limit": 3,
+          "detail": "syntax.keyword on surfaces.editor-selection in dark: 4.13:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.keyword",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.05941832009575,
+          "detail": "syntax.keyword in dark: APCA Lc -39.1"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.854648471033453,
+          "limit": 4.5,
+          "detail": "syntax.string on surfaces.editor in dark: 6.85:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.225241237958562,
+          "limit": 4.5,
+          "detail": "syntax.string on surfaces.editor-line in dark: 6.23:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.609024132622718,
+          "limit": 3,
+          "detail": "syntax.string on surfaces.editor-selection in dark: 5.61:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.string",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -51.122987931890265,
+          "detail": "syntax.string in dark: APCA Lc -51.1"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.062859515064403,
+          "limit": 4.5,
+          "detail": "syntax.number on surfaces.editor in dark: 7.06:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.414333936581582,
+          "limit": 4.5,
+          "detail": "syntax.number on surfaces.editor-line in dark: 6.41:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.779399138078263,
+          "limit": 3,
+          "detail": "syntax.number on surfaces.editor-selection in dark: 5.78:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.number",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -52.492164332132404,
+          "detail": "syntax.number in dark: APCA Lc -52.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.250707053426377,
+          "limit": 4.5,
+          "detail": "syntax.comment on surfaces.editor in dark: 5.25:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.768576859274254,
+          "limit": 4.5,
+          "detail": "syntax.comment on surfaces.editor-line in dark: 4.77:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.296550392110857,
+          "limit": 3,
+          "detail": "syntax.comment on surfaces.editor-selection in dark: 4.30:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.comment",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.991018294890196,
+          "detail": "syntax.comment in dark: APCA Lc -40.0"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.40198920135066,
+          "limit": 4.5,
+          "detail": "syntax.function on surfaces.editor in dark: 5.40:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.905967984407066,
+          "limit": 4.5,
+          "detail": "syntax.function on surfaces.editor-line in dark: 4.91:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.420341600679481,
+          "limit": 3,
+          "detail": "syntax.function on surfaces.editor-selection in dark: 4.42:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.function",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -41.282280850658324,
+          "detail": "syntax.function in dark: APCA Lc -41.3"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 8.001409303040901,
+          "limit": 4.5,
+          "detail": "syntax.type on surfaces.editor in dark: 8.00:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.26670424684312,
+          "limit": 4.5,
+          "detail": "syntax.type on surfaces.editor-line in dark: 7.27:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.547395984696194,
+          "limit": 3,
+          "detail": "syntax.type on surfaces.editor-selection in dark: 6.55:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.type",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -58.43112399467678,
+          "detail": "syntax.type in dark: APCA Lc -58.4"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.062859515064403,
+          "limit": 4.5,
+          "detail": "syntax.constant on surfaces.editor in dark: 7.06:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.414333936581582,
+          "limit": 4.5,
+          "detail": "syntax.constant on surfaces.editor-line in dark: 6.41:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.779399138078263,
+          "limit": 3,
+          "detail": "syntax.constant on surfaces.editor-selection in dark: 5.78:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.constant",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -52.492164332132404,
+          "detail": "syntax.constant in dark: APCA Lc -52.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.6084493050088104,
+          "limit": 4.5,
+          "detail": "syntax.variable on surfaces.editor in dark: 7.61:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.909826604619014,
+          "limit": 4.5,
+          "detail": "syntax.variable on surfaces.editor-line in dark: 6.91:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.225844540966933,
+          "limit": 3,
+          "detail": "syntax.variable on surfaces.editor-selection in dark: 6.23:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.variable",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -55.88466894600464,
+          "detail": "syntax.variable in dark: APCA Lc -55.9"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.800007074885939,
+          "limit": 4.5,
+          "detail": "syntax.operator on surfaces.editor in dark: 5.80:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.267439078110407,
+          "limit": 4.5,
+          "detail": "syntax.operator on surfaces.editor-line in dark: 5.27:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.7460318045329215,
+          "limit": 3,
+          "detail": "syntax.operator on surfaces.editor-selection in dark: 4.75:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.operator",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -43.923150882693626,
+          "detail": "syntax.operator in dark: APCA Lc -43.9"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.1289157979301025,
+          "limit": 4.5,
+          "detail": "syntax.punctuation on surfaces.editor in dark: 5.13:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.657968715130598,
+          "limit": 4.5,
+          "detail": "syntax.punctuation on surfaces.editor-line in dark: 4.66:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.1968910012452545,
+          "limit": 3,
+          "detail": "syntax.punctuation on surfaces.editor-selection in dark: 4.20:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.punctuation",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.09523866994156,
+          "detail": "syntax.punctuation in dark: APCA Lc -39.1"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.117702103642358,
+          "limit": 4.5,
+          "detail": "syntax.decorator on surfaces.editor in dark: 5.12:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.647784684190875,
+          "limit": 4.5,
+          "detail": "syntax.decorator on surfaces.editor-line in dark: 4.65:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.187715055587121,
+          "limit": 3,
+          "detail": "syntax.decorator on surfaces.editor-selection in dark: 4.19:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.decorator",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.213349117837446,
+          "detail": "syntax.decorator in dark: APCA Lc -39.2"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.3800486761186335,
+          "limit": 4.5,
+          "detail": "syntax.parameter on surfaces.editor in dark: 6.38:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor-line",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.794220124721959,
+          "limit": 4.5,
+          "detail": "syntax.parameter on surfaces.editor-line in dark: 5.79:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor-selection",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.220668447533345,
+          "limit": 3,
+          "detail": "syntax.parameter on surfaces.editor-selection in dark: 5.22:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.parameter",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -47.90800720926336,
+          "detail": "syntax.parameter in dark: APCA Lc -47.9"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.097013547376833,
+          "limit": 4.5,
+          "detail": "syntax.keyword on surfaces.editor in light: 5.10:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.398521623218431,
+          "limit": 4.5,
+          "detail": "syntax.keyword on surfaces.editor-line in light: 5.40:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.keyword on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.2275166002743845,
+          "limit": 3,
+          "detail": "syntax.keyword on surfaces.editor-selection in light: 4.23:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.keyword",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 48.47059229924533,
+          "detail": "syntax.keyword in light: APCA Lc 48.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.547612203740147,
+          "limit": 4.5,
+          "detail": "syntax.string on surfaces.editor in light: 4.55:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.816621064022482,
+          "limit": 4.5,
+          "detail": "syntax.string on surfaces.editor-line in light: 4.82:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.string on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.7718373522503206,
+          "limit": 3,
+          "detail": "syntax.string on surfaces.editor-selection in light: 3.77:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.string",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 46.464953336728286,
+          "detail": "syntax.string in light: APCA Lc 46.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.447183516690093,
+          "limit": 4.5,
+          "detail": "syntax.number on surfaces.editor in light: 5.45:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.769405501310586,
+          "limit": 4.5,
+          "detail": "syntax.number on surfaces.editor-line in light: 5.77:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.number on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.517951252729103,
+          "limit": 3,
+          "detail": "syntax.number on surfaces.editor-selection in light: 4.52:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.number",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 50.50597045398051,
+          "detail": "syntax.number in light: APCA Lc 50.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.231284096784904,
+          "limit": 4.5,
+          "detail": "syntax.comment on surfaces.editor in light: 5.23:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.540734795226566,
+          "limit": 4.5,
+          "detail": "syntax.comment on surfaces.editor-line in light: 5.54:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.comment on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.3388820049911745,
+          "limit": 3,
+          "detail": "syntax.comment on surfaces.editor-selection in light: 4.34:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.comment",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 49.75087438280617,
+          "detail": "syntax.comment in light: APCA Lc 49.8"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.551681776607879,
+          "limit": 4.5,
+          "detail": "syntax.function on surfaces.editor in light: 4.55:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.820931367873846,
+          "limit": 4.5,
+          "detail": "syntax.function on surfaces.editor-line in light: 4.82:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.function on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.7752126987536108,
+          "limit": 3,
+          "detail": "syntax.function on surfaces.editor-selection in light: 3.78:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.function",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 46.044462664091604,
+          "detail": "syntax.function in light: APCA Lc 46.0"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.750770146223506,
+          "limit": 4.5,
+          "detail": "syntax.type on surfaces.editor in light: 5.75:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.090950454805873,
+          "limit": 4.5,
+          "detail": "syntax.type on surfaces.editor-line in light: 6.09:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.type on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.7697491936300755,
+          "limit": 3,
+          "detail": "syntax.type on surfaces.editor-selection in light: 4.77:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.type",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 51.616865358105166,
+          "detail": "syntax.type in light: APCA Lc 51.6"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.447183516690093,
+          "limit": 4.5,
+          "detail": "syntax.constant on surfaces.editor in light: 5.45:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.769405501310586,
+          "limit": 4.5,
+          "detail": "syntax.constant on surfaces.editor-line in light: 5.77:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.constant on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.517951252729103,
+          "limit": 3,
+          "detail": "syntax.constant on surfaces.editor-selection in light: 4.52:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.constant",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 50.50597045398051,
+          "detail": "syntax.constant in light: APCA Lc 50.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 8.071864103562827,
+          "limit": 4.5,
+          "detail": "syntax.variable on surfaces.editor in light: 8.07:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 8.549346101932757,
+          "limit": 4.5,
+          "detail": "syntax.variable on surfaces.editor-line in light: 8.55:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.variable on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.694888914025463,
+          "limit": 3,
+          "detail": "syntax.variable on surfaces.editor-selection in light: 6.69:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.variable",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 57.166498955617904,
+          "detail": "syntax.variable in light: APCA Lc 57.2"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.231284096784904,
+          "limit": 4.5,
+          "detail": "syntax.operator on surfaces.editor in light: 5.23:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.540734795226566,
+          "limit": 4.5,
+          "detail": "syntax.operator on surfaces.editor-line in light: 5.54:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.operator on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.3388820049911745,
+          "limit": 3,
+          "detail": "syntax.operator on surfaces.editor-selection in light: 4.34:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.operator",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 49.75087438280617,
+          "detail": "syntax.operator in light: APCA Lc 49.8"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.231284096784904,
+          "limit": 4.5,
+          "detail": "syntax.punctuation on surfaces.editor in light: 5.23:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.540734795226566,
+          "limit": 4.5,
+          "detail": "syntax.punctuation on surfaces.editor-line in light: 5.54:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.punctuation on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.3388820049911745,
+          "limit": 3,
+          "detail": "syntax.punctuation on surfaces.editor-selection in light: 4.34:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.punctuation",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 49.75087438280617,
+          "detail": "syntax.punctuation in light: APCA Lc 49.8"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.105803109866132,
+          "limit": 4.5,
+          "detail": "syntax.decorator on surfaces.editor in light: 6.11:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.466984992160878,
+          "limit": 4.5,
+          "detail": "syntax.decorator on surfaces.editor-line in light: 6.47:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.decorator on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.064217264686361,
+          "limit": 3,
+          "detail": "syntax.decorator on surfaces.editor-selection in light: 5.06:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.decorator",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 51.87891926262962,
+          "detail": "syntax.decorator in light: APCA Lc 51.9"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.454057055873276,
+          "limit": 4.5,
+          "detail": "syntax.parameter on surfaces.editor in light: 6.45:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor-line",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.835839506753699,
+          "limit": 4.5,
+          "detail": "syntax.parameter on surfaces.editor-line in light: 6.84:1, needs 4.5"
+        },
+        {
+          "profile": "editor",
+          "id": "syntax.parameter on surfaces.editor-selection",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.353062747275661,
+          "limit": 3,
+          "detail": "syntax.parameter on surfaces.editor-selection in light: 5.35:1, needs 3"
+        },
+        {
+          "profile": "editor",
+          "id": "apca syntax.parameter",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 53.810157672623326,
+          "detail": "syntax.parameter in light: APCA Lc 53.8"
+        }
+      ]
+    },
+    "cvd": {
+      "status": "warn",
+      "errors": 0,
+      "warnings": 8,
+      "waived": 0,
+      "checks": [
+        {
+          "profile": "cvd",
+          "id": "fire-trio: no shared hex",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "detail": "fire-trio in dark: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: normal",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.0796056873446821,
+          "limit": 0.06,
+          "detail": "fire-trio under normal in dark: minimum 0.080"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: protan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.08592855529875178,
+          "limit": 0.06,
+          "detail": "fire-trio under protan in dark: minimum 0.086"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: deutan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.07283184484389311,
+          "limit": 0.06,
+          "detail": "fire-trio under deutan in dark: minimum 0.073"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: tritan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.07574882629648262,
+          "limit": 0.06,
+          "detail": "fire-trio under tritan in dark: minimum 0.076"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: no shared hex",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "detail": "fire-trio in light: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: normal",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.08840822521235503,
+          "limit": 0.06,
+          "detail": "fire-trio under normal in light: minimum 0.088"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: protan",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.08449382897281231,
+          "limit": 0.06,
+          "detail": "fire-trio under protan in light: minimum 0.084"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: deutan",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.09028131773662022,
+          "limit": 0.06,
+          "detail": "fire-trio under deutan in light: minimum 0.090"
+        },
+        {
+          "profile": "cvd",
+          "id": "fire-trio: tritan",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.08886409107863222,
+          "limit": 0.06,
+          "detail": "fire-trio under tritan in light: minimum 0.089"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-dark: no shared hex",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "detail": "syntax-hues-dark in dark: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-dark: normal",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.07415645134813173,
+          "limit": 0.06,
+          "detail": "syntax-hues-dark under normal in dark: minimum 0.074"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-dark: protan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.06753806172954666,
+          "limit": 0.06,
+          "detail": "syntax-hues-dark under protan in dark: minimum 0.068"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-dark: deutan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.06767118092712883,
+          "limit": 0.06,
+          "detail": "syntax-hues-dark under deutan in dark: minimum 0.068"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-dark: tritan",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.06800411817145754,
+          "limit": 0.06,
+          "detail": "syntax-hues-dark under tritan in dark: minimum 0.068"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-light: no shared hex",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "detail": "syntax-hues-light in light: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-light: normal",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.06558862377423674,
+          "limit": 0.06,
+          "detail": "syntax-hues-light under normal in light: minimum 0.066"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-light: protan",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "value": 0.06057998108961987,
+          "limit": 0.06,
+          "detail": "syntax-hues-light under protan in light: minimum 0.061"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-light: deutan",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "value": 0.05737405837149959,
+          "limit": 0.06,
+          "detail": "syntax-hues-light under deutan in light, needs 0.06: string and decorator 0.057"
+        },
+        {
+          "profile": "cvd",
+          "id": "syntax-hues-light: tritan",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "value": 0.04389602988515855,
+          "limit": 0.06,
+          "detail": "syntax-hues-light under tritan in light, needs 0.06: string and function 0.044; number and type 0.059; type and constant 0.059"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: no shared hex",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "detail": "ansi-hues in dark: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: normal",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 0.0914719181364439,
+          "limit": 0.06,
+          "detail": "ansi-hues under normal in dark: minimum 0.091"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: protan",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "value": 0.05872029305449956,
+          "limit": 0.06,
+          "detail": "ansi-hues under protan in dark, needs 0.06: blue and magenta 0.059"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: deutan",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "value": 0.03345019021505077,
+          "limit": 0.06,
+          "detail": "ansi-hues under deutan in dark, needs 0.06: green and yellow 0.050; blue and magenta 0.033"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: tritan",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "value": 0.03938945559223629,
+          "limit": 0.06,
+          "detail": "ansi-hues under tritan in dark, needs 0.06: green and blue 0.039"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: no shared hex",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "detail": "ansi-hues in light: no two members share a hex value"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: normal",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 0.06558862377423674,
+          "limit": 0.06,
+          "detail": "ansi-hues under normal in light: minimum 0.066"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: protan",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "value": 0.05112105927874988,
+          "limit": 0.06,
+          "detail": "ansi-hues under protan in light, needs 0.06: red and blue 0.051"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: deutan",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "value": 0.043701953844803625,
+          "limit": 0.06,
+          "detail": "ansi-hues under deutan in light, needs 0.06: red and green 0.057; red and yellow 0.056; green and yellow 0.046; magenta and cyan 0.044"
+        },
+        {
+          "profile": "cvd",
+          "id": "ansi-hues: tritan",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "value": 0.04234299922123842,
+          "limit": 0.06,
+          "detail": "ansi-hues under tritan in light, needs 0.06: red and yellow 0.042; green and magenta 0.050; green and cyan 0.044"
+        }
+      ]
+    },
+    "office-screen": {
+      "status": "pass",
+      "errors": 0,
+      "warnings": 0,
+      "waived": 0,
+      "checks": [
+        {
+          "profile": "office-screen",
+          "id": "roles.text on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.6084493050088104,
+          "limit": 4.5,
+          "detail": "roles.text on roles.bg in dark: 7.61:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.text on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 7.6084493050088104,
+          "limit": 7,
+          "detail": "roles.text on roles.bg in dark: AAA met at 7.61:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.text on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -55.88466894600464,
+          "detail": "roles.text on roles.bg in dark: APCA Lc -55.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.text on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 8.071864103562827,
+          "limit": 4.5,
+          "detail": "roles.text on roles.bg in light: 8.07:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.text on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 8.071864103562827,
+          "limit": 7,
+          "detail": "roles.text on roles.bg in light: AAA met at 8.07:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.text on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 57.166498955617904,
+          "detail": "roles.text on roles.bg in light: APCA Lc 57.2"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.text-muted on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.250707053426377,
+          "limit": 4.5,
+          "detail": "roles.text-muted on roles.bg in dark: 5.25:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.text-muted on roles.bg",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.250707053426377,
+          "limit": 7,
+          "detail": "roles.text-muted on roles.bg in dark: AAA not met at 5.25:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.text-muted on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.991018294890196,
+          "detail": "roles.text-muted on roles.bg in dark: APCA Lc -40.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.text-muted on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.231284096784904,
+          "limit": 4.5,
+          "detail": "roles.text-muted on roles.bg in light: 5.23:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.text-muted on roles.bg",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.231284096784904,
+          "limit": 7,
+          "detail": "roles.text-muted on roles.bg in light: AAA not met at 5.23:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.text-muted on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 49.75087438280617,
+          "detail": "roles.text-muted on roles.bg in light: APCA Lc 49.8"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.accent on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.051068292494781,
+          "limit": 4.5,
+          "detail": "roles.accent on roles.bg in dark: 5.05:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.accent on roles.bg",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.051068292494781,
+          "limit": 7,
+          "detail": "roles.accent on roles.bg in dark: AAA not met at 5.05:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.accent on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.05941832009575,
+          "detail": "roles.accent on roles.bg in dark: APCA Lc -39.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.accent on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.097013547376833,
+          "limit": 4.5,
+          "detail": "roles.accent on roles.bg in light: 5.10:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.accent on roles.bg",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.097013547376833,
+          "limit": 7,
+          "detail": "roles.accent on roles.bg in light: AAA not met at 5.10:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.accent on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 48.47059229924533,
+          "detail": "roles.accent on roles.bg in light: APCA Lc 48.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.on-accent on roles.accent",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.051068292494781,
+          "limit": 4.5,
+          "detail": "roles.on-accent on roles.accent in dark: 5.05:1, needs 4.5 (button text)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.on-accent on roles.accent",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.051068292494781,
+          "limit": 7,
+          "detail": "roles.on-accent on roles.accent in dark: AAA not met at 5.05:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.on-accent on roles.accent",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 40.97305402837395,
+          "detail": "roles.on-accent on roles.accent in dark: APCA Lc 41.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "roles.on-accent on roles.accent",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.067027360679565,
+          "limit": 4.5,
+          "detail": "roles.on-accent on roles.accent in light: 5.07:1, needs 4.5 (button text)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa roles.on-accent on roles.accent",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.067027360679565,
+          "limit": 7,
+          "detail": "roles.on-accent on roles.accent in light: AAA not met at 5.07:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca roles.on-accent on roles.accent",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -48.0951311313669,
+          "detail": "roles.on-accent on roles.accent in light: APCA Lc -48.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "extra.tint-pale on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.895161957719385,
+          "limit": 4.5,
+          "detail": "extra.tint-pale on roles.bg in dark: 7.90:1, needs 4.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa extra.tint-pale on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 7.895161957719385,
+          "limit": 7,
+          "detail": "extra.tint-pale on roles.bg in dark: AAA met at 7.90:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca extra.tint-pale on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -57.707024925164596,
+          "detail": "extra.tint-pale on roles.bg in dark: APCA Lc -57.7"
+        },
+        {
+          "profile": "office-screen",
+          "id": "extra.accent-bright on extra.tint",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 3.777447572661,
+          "limit": 3,
+          "detail": "extra.accent-bright on extra.tint in dark: 3.78:1, needs 3 (UI mark on the sea)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca extra.accent-bright on extra.tint",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -41.015768621053844,
+          "detail": "extra.accent-bright on extra.tint in dark: APCA Lc -41.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "extra.accent-bright on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.792317779684316,
+          "limit": 4.5,
+          "detail": "extra.accent-bright on roles.bg in dark: 6.79:1, needs 4.5 (hover text: dark hovers brighten)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa extra.accent-bright on roles.bg",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.792317779684316,
+          "limit": 7,
+          "detail": "extra.accent-bright on roles.bg in dark: AAA not met at 6.79:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca extra.accent-bright on roles.bg",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -51.043417953824324,
+          "detail": "extra.accent-bright on roles.bg in dark: APCA Lc -51.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "extra.accent-deep on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 7.0198059831415724,
+          "limit": 4.5,
+          "detail": "extra.accent-deep on roles.bg in light: 7.02:1, needs 4.5 (hover text: light hovers darken)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa extra.accent-deep on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 7.0198059831415724,
+          "limit": 7,
+          "detail": "extra.accent-deep on roles.bg in light: AAA met at 7.02:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca extra.accent-deep on roles.bg",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 54.89437388679435,
+          "detail": "extra.accent-deep on roles.bg in light: APCA Lc 54.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "extra.on-tint on extra.tint",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.960406854161787,
+          "limit": 4.5,
+          "detail": "extra.on-tint on extra.tint in light: 4.96:1, needs 4.5 (text on a sea field)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa extra.on-tint on extra.tint",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 4.960406854161787,
+          "limit": 7,
+          "detail": "extra.on-tint on extra.tint in light: AAA not met at 4.96:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca extra.on-tint on extra.tint",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -48.12783840293917,
+          "detail": "extra.on-tint on extra.tint in light: APCA Lc -48.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.red on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.5341464547706805,
+          "limit": 4.5,
+          "detail": "ansi.red on terminal.background in dark: 4.53:1, needs 4.5 (ANSI red)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.red on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 4.5341464547706805,
+          "limit": 7,
+          "detail": "ansi.red on terminal.background in dark: AAA not met at 4.53:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.red on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -34.79985762496929,
+          "detail": "ansi.red on terminal.background in dark: APCA Lc -34.8"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.red on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.105803109866132,
+          "limit": 4.5,
+          "detail": "ansi.red on terminal.background in light: 6.11:1, needs 4.5 (ANSI red)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.red on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.105803109866132,
+          "limit": 7,
+          "detail": "ansi.red on terminal.background in light: AAA not met at 6.11:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.red on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 51.87891926262962,
+          "detail": "ansi.red on terminal.background in light: APCA Lc 51.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.green on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.150660488435071,
+          "limit": 4.5,
+          "detail": "ansi.green on terminal.background in dark: 6.15:1, needs 4.5 (ANSI green)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.green on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.150660488435071,
+          "limit": 7,
+          "detail": "ansi.green on terminal.background in dark: AAA not met at 6.15:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.green on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -46.420111446279435,
+          "detail": "ansi.green on terminal.background in dark: APCA Lc -46.4"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.green on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.547612203740147,
+          "limit": 4.5,
+          "detail": "ansi.green on terminal.background in light: 4.55:1, needs 4.5 (ANSI green)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.green on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 4.547612203740147,
+          "limit": 7,
+          "detail": "ansi.green on terminal.background in light: AAA not met at 4.55:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.green on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 46.464953336728286,
+          "detail": "ansi.green on terminal.background in light: APCA Lc 46.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.yellow on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.051068292494781,
+          "limit": 4.5,
+          "detail": "ansi.yellow on terminal.background in dark: 5.05:1, needs 4.5 (ANSI yellow)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.yellow on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.051068292494781,
+          "limit": 7,
+          "detail": "ansi.yellow on terminal.background in dark: AAA not met at 5.05:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.yellow on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.05941832009575,
+          "detail": "ansi.yellow on terminal.background in dark: APCA Lc -39.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.yellow on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.097013547376833,
+          "limit": 4.5,
+          "detail": "ansi.yellow on terminal.background in light: 5.10:1, needs 4.5 (ANSI yellow)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.yellow on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.097013547376833,
+          "limit": 7,
+          "detail": "ansi.yellow on terminal.background in light: AAA not met at 5.10:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.yellow on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 48.47059229924533,
+          "detail": "ansi.yellow on terminal.background in light: APCA Lc 48.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.blue on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.762220854023647,
+          "limit": 4.5,
+          "detail": "ansi.blue on terminal.background in dark: 6.76:1, needs 4.5 (ANSI blue)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.blue on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.762220854023647,
+          "limit": 7,
+          "detail": "ansi.blue on terminal.background in dark: AAA not met at 6.76:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.blue on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -50.47023920811253,
+          "detail": "ansi.blue on terminal.background in dark: APCA Lc -50.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.blue on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 6.566136658045873,
+          "limit": 4.5,
+          "detail": "ansi.blue on terminal.background in light: 6.57:1, needs 4.5 (ANSI blue)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.blue on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.566136658045873,
+          "limit": 7,
+          "detail": "ansi.blue on terminal.background in light: AAA not met at 6.57:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.blue on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 54.035007489905595,
+          "detail": "ansi.blue on terminal.background in light: APCA Lc 54.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.magenta on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.317952739701789,
+          "limit": 4.5,
+          "detail": "ansi.magenta on terminal.background in dark: 6.32:1, needs 4.5 (ANSI magenta)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.magenta on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 6.317952739701789,
+          "limit": 7,
+          "detail": "ansi.magenta on terminal.background in dark: AAA not met at 6.32:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.magenta on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -47.57207925435335,
+          "detail": "ansi.magenta on terminal.background in dark: APCA Lc -47.6"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.magenta on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 5.447183516690093,
+          "limit": 4.5,
+          "detail": "ansi.magenta on terminal.background in light: 5.45:1, needs 4.5 (ANSI magenta)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.magenta on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 5.447183516690093,
+          "limit": 7,
+          "detail": "ansi.magenta on terminal.background in light: AAA not met at 5.45:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.magenta on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 50.50597045398051,
+          "detail": "ansi.magenta on terminal.background in light: APCA Lc 50.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.cyan on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 4.809759150846403,
+          "limit": 4.5,
+          "detail": "ansi.cyan on terminal.background in dark: 4.81:1, needs 4.5 (ANSI cyan)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.cyan on terminal.background",
+          "mode": "dark",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 4.809759150846403,
+          "limit": 7,
+          "detail": "ansi.cyan on terminal.background in dark: AAA not met at 4.81:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.cyan on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -36.918611422324595,
+          "detail": "ansi.cyan on terminal.background in dark: APCA Lc -36.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.cyan on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.551681776607879,
+          "limit": 4.5,
+          "detail": "ansi.cyan on terminal.background in light: 4.55:1, needs 4.5 (ANSI cyan)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "aaa ansi.cyan on terminal.background",
+          "mode": "light",
+          "ok": false,
+          "level": "warn",
+          "report": true,
+          "value": 4.551681776607879,
+          "limit": 7,
+          "detail": "ansi.cyan on terminal.background in light: AAA not met at 4.55:1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.cyan on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 46.044462664091604,
+          "detail": "ansi.cyan on terminal.background in light: APCA Lc 46.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-red on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 5.117702103642358,
+          "limit": 3,
+          "detail": "ansi.bright-red on terminal.background in dark: 5.12:1, needs 3 (ANSI bright red: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-red on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -39.213349117837446,
+          "detail": "ansi.bright-red on terminal.background in dark: APCA Lc -39.2"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-red on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.9909746213397685,
+          "limit": 3,
+          "detail": "ansi.bright-red on terminal.background in light: 4.99:1, needs 3 (ANSI bright red: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-red on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 47.85489113662751,
+          "detail": "ansi.bright-red on terminal.background in light: APCA Lc 47.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-green on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.854648471033453,
+          "limit": 3,
+          "detail": "ansi.bright-green on terminal.background in dark: 6.85:1, needs 3 (ANSI bright green: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-green on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -51.122987931890265,
+          "detail": "ansi.bright-green on terminal.background in dark: APCA Lc -51.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-green on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.6125593949925823,
+          "limit": 3,
+          "detail": "ansi.bright-green on terminal.background in light: 3.61:1, needs 3 (ANSI bright green: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-green on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 40.90981694164142,
+          "detail": "ansi.bright-green on terminal.background in light: APCA Lc 40.9"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-yellow on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.792317779684316,
+          "limit": 3,
+          "detail": "ansi.bright-yellow on terminal.background in dark: 6.79:1, needs 3 (ANSI bright yellow: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-yellow on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -51.043417953824324,
+          "detail": "ansi.bright-yellow on terminal.background in dark: APCA Lc -51.0"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-yellow on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.572930151030645,
+          "limit": 3,
+          "detail": "ansi.bright-yellow on terminal.background in light: 3.57:1, needs 3 (ANSI bright yellow: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-yellow on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 40.08688941372798,
+          "detail": "ansi.bright-yellow on terminal.background in light: APCA Lc 40.1"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-blue on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.842705711659815,
+          "limit": 3,
+          "detail": "ansi.bright-blue on terminal.background in dark: 7.84:1, needs 3 (ANSI bright blue: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-blue on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -57.36180203121687,
+          "detail": "ansi.bright-blue on terminal.background in dark: APCA Lc -57.4"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-blue on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.1426922382036846,
+          "limit": 3,
+          "detail": "ansi.bright-blue on terminal.background in light: 3.14:1, needs 3 (ANSI bright blue: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-blue on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 37.32831179986876,
+          "detail": "ansi.bright-blue on terminal.background in light: APCA Lc 37.3"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-magenta on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 7.062859515064403,
+          "limit": 3,
+          "detail": "ansi.bright-magenta on terminal.background in dark: 7.06:1, needs 3 (ANSI bright magenta: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-magenta on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -52.492164332132404,
+          "detail": "ansi.bright-magenta on terminal.background in dark: APCA Lc -52.5"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-magenta on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 4.408724442632692,
+          "limit": 3,
+          "detail": "ansi.bright-magenta on terminal.background in light: 4.41:1, needs 3 (ANSI bright magenta: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-magenta on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 45.654822175532395,
+          "detail": "ansi.bright-magenta on terminal.background in light: APCA Lc 45.7"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-cyan on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "error",
+          "value": 6.566166860195267,
+          "limit": 3,
+          "detail": "ansi.bright-cyan on terminal.background in dark: 6.57:1, needs 3 (ANSI bright cyan: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-cyan on terminal.background",
+          "mode": "dark",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": -49.32297022081017,
+          "detail": "ansi.bright-cyan on terminal.background in dark: APCA Lc -49.3"
+        },
+        {
+          "profile": "office-screen",
+          "id": "ansi.bright-cyan on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "error",
+          "value": 3.625448304411602,
+          "limit": 3,
+          "detail": "ansi.bright-cyan on terminal.background in light: 3.63:1, needs 3 (ANSI bright cyan: emphasis colours)"
+        },
+        {
+          "profile": "office-screen",
+          "id": "apca ansi.bright-cyan on terminal.background",
+          "mode": "light",
+          "ok": true,
+          "level": "warn",
+          "report": true,
+          "value": 40.735998082711525,
+          "detail": "ansi.bright-cyan on terminal.background in light: APCA Lc 40.7"
+        }
+      ]
+    }
+  },
+  "tokens": {
+    "file": "families/jungfrau/jungfrau.tokens.json",
+    "sha256": "192e5814126b9238f95d55708ed24819d482c5a7f8aed6edb27854390cf17829"
+  }
+}

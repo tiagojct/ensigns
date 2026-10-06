@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Ensigns or one of its colour families, please cite it."
+title: "Ensigns: colour families named after the Pequod and the ships she gams with in Moby-Dick"
+abstract: "Colour families, each tuned for one environment and tested for it, with generators for editors, terminals, documents and the web. Code is licensed under MIT. Colour tokens and documentation are licensed under CC BY 4.0."
+authors:
+  - family-names: Jacinto
+    given-names: Tiago
+version: 0.2.0
+license: MIT
+repository-code: "https://github.com/tiagojct/ensigns"
+url: "https://ensigns.tiagojacinto.eu"
+keywords:
+  - colour palettes
+  - design tokens
+  - accessibility
+  - colour vision deficiency
+  - Moby-Dick

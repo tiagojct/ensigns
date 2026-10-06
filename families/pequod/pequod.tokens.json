@@ -1,0 +1,517 @@
+{
+  "$schema": "../../schema/family.schema.json",
+  "meta": {
+    "id": "pequod",
+    "name": "Pequod",
+    "host": true,
+    "version": "0.3.0",
+    "tagline": "Warm paper, deep ink, the crew as accents.",
+    "goal": "Reading and code in editors, terminals and long documents on screen.",
+    "environments": ["office-screen","editor","cvd"],
+    "licence": {
+      "tokens": "CC-BY-4.0",
+      "code": "MIT"
+    }
+  },
+  "palette": {
+    "log": {
+      "50": "#F7F3EE",
+      "100": "#EAE1D7",
+      "150": "#DBC9B6",
+      "200": "#CFAD8E",
+      "300": "#BD8C68",
+      "400": "#A16E50",
+      "500": "#835A49",
+      "600": "#335260",
+      "700": "#163F54",
+      "800": "#0D2F42",
+      "900": "#0C222F",
+      "950": "#0B1720"
+    },
+    "ahab": {
+      "light": {"hex":"#931432","note":"Ahab, red. Obsession, fire, the wound."},
+      "dark": "#E3877C"
+    },
+    "starbuck": {
+      "light": {"hex":"#006A98","note":"Starbuck, blue. The steady mate; sea and storm."},
+      "dark": "#A6DFFF"
+    },
+    "queequeg": {
+      "light": {"hex":"#253E82","note":"Queequeg, indigo. Tattoo ink; loyalty and strangeness."},
+      "dark": "#838CCF"
+    },
+    "pip": {
+      "light": {"hex":"#6A4A00","note":"Pip, yellow. Child of the sun; the lost soul."},
+      "dark": "#DEC577"
+    },
+    "ishmael": {
+      "light": {"hex":"#6A6164","note":"Ishmael, grey. The narrator; observer, transparent."},
+      "dark": "#BFBBB6"
+    },
+    "stubb": {
+      "light": {"hex":"#AA430B","note":"Stubb, orange. The pipe-smoking second mate; amber and flame."},
+      "dark": "#FFD9BB"
+    },
+    "tashtego": {
+      "light": {"hex":"#06724B","note":"Tashtego, green. Gay Head harpooneer; woods and moss."},
+      "dark": "#82C4A2"
+    },
+    "daggoo": {
+      "light": {"hex":"#552823","note":"Daggoo, brown. African-born harpooneer; earth and mahogany."},
+      "dark": "#A7766F"
+    },
+    "ansi-dark": {
+      "cyan": "#9DC2C5",
+      "bright-red": "#E99C93",
+      "bright-green": "#AFCCA6",
+      "bright-yellow": "#E8CB8C",
+      "bright-blue": "#A0C2D4",
+      "bright-magenta": "#AAADDA",
+      "bright-cyan": "#BCD9DB"
+    },
+    "ansi-light": {
+      "bright-red": "#C56860",
+      "bright-green": "#678B6A",
+      "bright-yellow": "#C49A3E",
+      "bright-blue": "#6893AE",
+      "bright-magenta": "#6064A3",
+      "bright-cyan": "#6A8C8F",
+      "bright-white": "#A89F8D"
+    },
+    "chrome": {
+      "text-dark": {
+        "hex": "#E8DDC7",
+        "note": "Dark chrome text: side bar titles, status bar, panel titles. Slightly warmer than Log 100."
+      },
+      "highlight-light": {
+        "hex": "#7A9B9E",
+        "note": "Light theme word, hover and bracket highlights, drawn at 19 to 31 per cent."
+      }
+    },
+    "zed-dim-light": {
+      "red": {"hex":"#8A3F38","note":"Zed dim variant, light theme."},
+      "green": {"hex":"#3B5840","note":"Zed dim variant, light theme."},
+      "yellow": {"hex":"#7F6220","note":"Zed dim variant, light theme."},
+      "blue": {"hex":"#3E5E74","note":"Zed dim variant, light theme."},
+      "magenta": {"hex":"#383B6B","note":"Zed dim variant, light theme."},
+      "cyan": {"hex":"#3F5759","note":"Zed dim variant, light theme."}
+    },
+    "iterm": {
+      "cursor-guide": {"hex":"#7A9B9C","note":"iTerm2 preset only."},
+      "bright-red": {"hex":"#F0938B","note":"iTerm2 preset variant of the Ghostty bright colour."},
+      "bright-green": {"hex":"#A8CFAA","note":"iTerm2 preset variant of the Ghostty bright colour."},
+      "bright-yellow": {"hex":"#EBCC82","note":"iTerm2 preset variant of the Ghostty bright colour."},
+      "bright-blue": {"hex":"#A0C3D7","note":"iTerm2 preset variant of the Ghostty bright colour."},
+      "bright-magenta": {"hex":"#AEB1DF","note":"iTerm2 preset variant of the Ghostty bright colour."}
+    }
+  },
+  "modes": {
+    "dark": {
+      "label": "Below deck",
+      "roles": {
+        "bg": "{palette.log.950}",
+        "surface": "{palette.log.800}",
+        "text": "{palette.log.100}",
+        "text-muted": "{palette.ishmael.dark}",
+        "text-subtle": "{palette.log.400}",
+        "border": "{palette.log.700}",
+        "link": "{palette.ansi-dark.cyan}",
+        "link-hover": "{palette.ansi-dark.cyan}",
+        "accent": "{palette.log.300}",
+        "on-accent": "{palette.log.950}",
+        "button": "{palette.log.300}",
+        "on-button": "{palette.log.950}",
+        "focus": "{palette.log.300}",
+        "selection": "{palette.log.800}",
+        "surface-raised": "{palette.log.900}",
+        "extra": {"accent-secondary":"{palette.log.400}"}
+      },
+      "accents": {
+        "ahab": "{palette.ahab.dark}",
+        "starbuck": "{palette.starbuck.dark}",
+        "queequeg": "{palette.queequeg.dark}",
+        "pip": "{palette.pip.dark}",
+        "ishmael": "{palette.ishmael.dark}",
+        "stubb": "{palette.stubb.dark}",
+        "tashtego": "{palette.tashtego.dark}",
+        "daggoo": "{palette.daggoo.dark}"
+      },
+      "surfaces": {
+        "editor": "{palette.log.950}",
+        "editor-line": {"ref":"{palette.log.900}","alpha":0.5,"over":"surfaces.editor"},
+        "editor-selection": "{palette.log.800}",
+        "sidebar": "{palette.log.900}"
+      },
+      "syntax": {
+        "keyword": "{palette.ahab.dark}",
+        "string": "{palette.tashtego.dark}",
+        "number": "{palette.pip.dark}",
+        "comment": {"color":"{palette.ishmael.dark}","style":"italic"},
+        "function": "{palette.starbuck.dark}",
+        "type": "{palette.queequeg.dark}",
+        "constant": "{palette.stubb.dark}",
+        "variable": "{palette.log.100}",
+        "operator": "{palette.ishmael.dark}",
+        "punctuation": "{palette.ishmael.dark}",
+        "decorator": "{palette.stubb.dark}",
+        "parameter": "{palette.daggoo.dark}"
+      },
+      "ansi": {
+        "black": "{palette.log.900}",
+        "red": "{palette.ahab.dark}",
+        "green": "{palette.tashtego.dark}",
+        "yellow": "{palette.pip.dark}",
+        "blue": "{palette.starbuck.dark}",
+        "magenta": "{palette.queequeg.dark}",
+        "cyan": "{palette.ansi-dark.cyan}",
+        "white": "{palette.log.100}",
+        "bright-black": "{palette.log.600}",
+        "bright-red": "{palette.ansi-dark.bright-red}",
+        "bright-green": "{palette.ansi-dark.bright-green}",
+        "bright-yellow": "{palette.ansi-dark.bright-yellow}",
+        "bright-blue": "{palette.ansi-dark.bright-blue}",
+        "bright-magenta": "{palette.ansi-dark.bright-magenta}",
+        "bright-cyan": "{palette.ansi-dark.bright-cyan}",
+        "bright-white": "{palette.log.50}"
+      },
+      "terminal": {
+        "background": "{palette.log.950}",
+        "foreground": "{palette.log.100}",
+        "cursor": "{palette.log.300}",
+        "cursor-text": "{palette.log.950}",
+        "selection-background": "{palette.log.800}",
+        "selection-foreground": "{palette.log.100}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.ahab.dark}",
+        "warning": "{palette.pip.dark}",
+        "success": "{palette.tashtego.dark}",
+        "info": "{palette.starbuck.dark}",
+        "hint": "{palette.ishmael.dark}",
+        "conflict": "{palette.stubb.dark}"
+      },
+      "data": {
+        "categorical": {
+          "label": "The crew of the Pequod",
+          "colors": {
+            "ahab": "{palette.ahab.dark}",
+            "starbuck": "{palette.starbuck.dark}",
+            "queequeg": "{palette.queequeg.dark}",
+            "pip": "{palette.pip.dark}",
+            "ishmael": "{palette.ishmael.dark}",
+            "stubb": "{palette.stubb.dark}",
+            "tashtego": "{palette.tashtego.dark}",
+            "daggoo": "{palette.daggoo.dark}"
+          }
+        },
+        "sequential": {
+          "log": {
+            "label": "Log, warm to cool (the hue turns between Log 500 and Log 600, so this is not a sequential scale)",
+            "colors": [
+              "{palette.log.50}",
+              "{palette.log.100}",
+              "{palette.log.150}",
+              "{palette.log.200}",
+              "{palette.log.300}",
+              "{palette.log.400}",
+              "{palette.log.500}",
+              "{palette.log.600}",
+              "{palette.log.700}",
+              "{palette.log.800}",
+              "{palette.log.900}",
+              "{palette.log.950}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.log.950}",
+          "grid": "{palette.log.700}",
+          "text": "{palette.log.100}",
+          "muted": "{palette.ishmael.dark}"
+        }
+      }
+    },
+    "light": {
+      "label": "Parchment",
+      "roles": {
+        "bg": "{palette.log.100}",
+        "surface": "{palette.log.150}",
+        "text": "{palette.log.800}",
+        "text-muted": "{palette.log.600}",
+        "text-subtle": "{palette.log.500}",
+        "border": "{palette.log.200}",
+        "link": "{palette.log.700}",
+        "link-hover": "{palette.log.700}",
+        "accent": "{palette.log.700}",
+        "on-accent": "{palette.log.100}",
+        "button": "{palette.log.700}",
+        "on-button": "{palette.log.100}",
+        "focus": "{palette.log.700}",
+        "selection": "{palette.log.150}",
+        "surface-raised": "{palette.log.50}",
+        "extra": {"accent-secondary":"{palette.log.400}"}
+      },
+      "accents": {
+        "ahab": "{palette.ahab.light}",
+        "starbuck": "{palette.starbuck.light}",
+        "queequeg": "{palette.queequeg.light}",
+        "pip": "{palette.pip.light}",
+        "ishmael": "{palette.ishmael.light}",
+        "stubb": "{palette.stubb.light}",
+        "tashtego": "{palette.tashtego.light}",
+        "daggoo": "{palette.daggoo.light}"
+      },
+      "surfaces": {
+        "editor": "{palette.log.50}",
+        "editor-line": {"ref":"{palette.log.150}","alpha":0.5,"over":"surfaces.editor"},
+        "editor-selection": {"ref":"{palette.log.200}","alpha":0.5,"over":"surfaces.editor"},
+        "sidebar": "{palette.log.100}"
+      },
+      "syntax": {
+        "keyword": "{palette.ahab.light}",
+        "string": "{palette.tashtego.light}",
+        "number": "{palette.pip.light}",
+        "comment": {"color":"{palette.ishmael.light}","style":"italic"},
+        "function": "{palette.starbuck.light}",
+        "type": "{palette.queequeg.light}",
+        "constant": "{palette.stubb.light}",
+        "variable": "{palette.log.800}",
+        "operator": "{palette.ishmael.light}",
+        "punctuation": "{palette.ishmael.light}",
+        "decorator": "{palette.stubb.light}",
+        "parameter": "{palette.daggoo.light}"
+      },
+      "ansi": {
+        "black": "{palette.log.800}",
+        "red": "{palette.ahab.light}",
+        "green": "{palette.tashtego.light}",
+        "yellow": "{palette.pip.light}",
+        "blue": "{palette.starbuck.light}",
+        "magenta": "{palette.queequeg.light}",
+        "cyan": "{palette.log.700}",
+        "white": "{palette.log.500}",
+        "bright-black": "{palette.log.600}",
+        "bright-red": "{palette.ansi-light.bright-red}",
+        "bright-green": "{palette.ansi-light.bright-green}",
+        "bright-yellow": "{palette.ansi-light.bright-yellow}",
+        "bright-blue": "{palette.ansi-light.bright-blue}",
+        "bright-magenta": "{palette.ansi-light.bright-magenta}",
+        "bright-cyan": "{palette.ansi-light.bright-cyan}",
+        "bright-white": "{palette.ansi-light.bright-white}"
+      },
+      "terminal": {
+        "background": "{palette.log.50}",
+        "foreground": "{palette.log.800}",
+        "cursor": "{palette.log.700}",
+        "cursor-text": "{palette.log.50}",
+        "selection-background": "{palette.log.150}",
+        "selection-foreground": "{palette.log.800}"
+      },
+      "status": {
+        "policy": "chromatic",
+        "danger": "{palette.ahab.light}",
+        "warning": "{palette.pip.light}",
+        "success": "{palette.tashtego.light}",
+        "info": "{palette.starbuck.light}",
+        "hint": "{palette.ishmael.light}",
+        "conflict": "{palette.stubb.light}"
+      },
+      "data": {
+        "categorical": {
+          "label": "The crew of the Pequod",
+          "colors": {
+            "ahab": "{palette.ahab.light}",
+            "starbuck": "{palette.starbuck.light}",
+            "queequeg": "{palette.queequeg.light}",
+            "pip": "{palette.pip.light}",
+            "ishmael": "{palette.ishmael.light}",
+            "stubb": "{palette.stubb.light}",
+            "tashtego": "{palette.tashtego.light}",
+            "daggoo": "{palette.daggoo.light}"
+          }
+        },
+        "sequential": {
+          "log": {
+            "label": "Log, warm to cool (the hue turns between Log 500 and Log 600, so this is not a sequential scale)",
+            "colors": [
+              "{palette.log.50}",
+              "{palette.log.100}",
+              "{palette.log.150}",
+              "{palette.log.200}",
+              "{palette.log.300}",
+              "{palette.log.400}",
+              "{palette.log.500}",
+              "{palette.log.600}",
+              "{palette.log.700}",
+              "{palette.log.800}",
+              "{palette.log.900}",
+              "{palette.log.950}"
+            ]
+          }
+        },
+        "plot": {
+          "bg": "{palette.log.100}",
+          "grid": "{palette.log.200}",
+          "text": "{palette.log.800}",
+          "muted": "{palette.log.600}"
+        }
+      }
+    }
+  },
+  "typography": {
+    "sans": "Atkinson Hyperlegible Next",
+    "mono": "JetBrains Mono"
+  },
+  "rules": [
+    {
+      "id": "crew",
+      "text": "The accents are the crew of the Pequod. Each keeps its name and has a light and a dark value."
+    },
+    {
+      "id": "warm-to-cool",
+      "text": "The Log scale runs from warm paper to cool ink. The hue turns between Log 500 and Log 600, so it is a warm-to-cool scale and not a sequential colormap."
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "roles.text",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text",
+      "bg": "roles.surface-raised",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.text-muted",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.link",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.link-hover",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.accent",
+      "bg": "roles.bg",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-accent",
+      "bg": "roles.accent",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.on-button",
+      "bg": "roles.button",
+      "kind": "text"
+    },
+    {
+      "fg": "roles.focus",
+      "bg": "roles.bg",
+      "kind": "component"
+    },
+    {
+      "fg": "roles.text-subtle",
+      "bg": "roles.bg",
+      "kind": "large",
+      "why": "subtle text is for large or de-emphasised text"
+    },
+    {
+      "fg": "accents.ahab",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.starbuck",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.queequeg",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.pip",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.ishmael",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.stubb",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.tashtego",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    },
+    {
+      "fg": "accents.daggoo",
+      "bg": "roles.bg",
+      "kind": "text",
+      "why": "the crew are text colours on the page"
+    }
+  ],
+  "distinct": [
+    {
+      "id": "crew-dark",
+      "set": "accents",
+      "modes": ["dark"],
+      "min": 0.0879,
+      "reinforced": [["ishmael", "tashtego"], ["ahab", "tashtego"]],
+      "by": "token shape and position in code: strings are quoted, keywords are fixed words, comments are set in italic",
+      "note": "The brief: the minimum pairwise OKLab distance among the crew in each mode must not fall below the original. The floor is the original minimum, Ishmael and Tashtego."
+    },
+    {
+      "id": "crew-light",
+      "set": "accents",
+      "modes": ["light"],
+      "min": 0.1124,
+      "reinforced": [["ishmael", "tashtego"], ["ahab", "pip"], ["pip", "stubb"], ["ahab", "tashtego"], ["ahab", "daggoo"], ["starbuck", "tashtego"]],
+      "by": "token shape and position in code: strings are quoted, numbers are digits, keywords are fixed words, parameters sit in signatures and calls, comments are set in italic",
+      "note": "The floor is the original minimum, Ishmael and Tashtego. Ahab and Daggoo (protan), Pip and Stubb (protan) and Starbuck and Tashtego (tritan) joined the list when the corrections darkened the light crew to reach AA, and Stubb and Tashtego left it; the original had four pairs, the corrected set has six."
+    },
+    {
+      "id": "syntax-hues",
+      "set": "syntax-hues",
+      "aliases": [
+        ["constant","decorator"]
+      ],
+      "cvd": "report",
+      "note": "The crew sets above carry the CVD gate for these colours; this set reports the same pairs as seen through the syntax roles."
+    },
+    {
+      "id": "ansi-hues",
+      "set": "ansi-hues",
+      "cvd": "report",
+      "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
+    }
+  ]
+}
