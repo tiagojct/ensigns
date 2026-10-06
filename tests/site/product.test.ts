@@ -12,6 +12,7 @@ import { beforeAll, afterAll, describe, expect, it } from 'vitest';
 import { prepareSite } from '../../scripts/site/build.ts';
 import { buildPackages } from '../../scripts/packages/build.ts';
 import { loadFamilies, repoRoot } from '../../lib/model/load.ts';
+import { RENAMED_FAMILIES } from '../../lib/model/renames.ts';
 import { at, resolveFamily } from '../../lib/model/resolve.ts';
 import { launchChromium } from '../environments/browser.ts';
 import { GENERATORS } from '../../lib/generators/index.ts';
@@ -155,6 +156,24 @@ describe('production site in Chromium',()=>{
       await p.goto(url+'/compare/');await p.waitForFunction(()=>location.search.includes('a='));await p.locator('#compare-a').selectOption('delight');await p.locator('#compare-a-mode').selectOption('dark');
       const panels=p.locator('.compare-panels .sample');expect(await panels.nth(0).getAttribute('data-scope')).toBe('delight');expect(await panels.nth(0).getAttribute('data-mode')).toBe('dark');expect(await panels.nth(1).getAttribute('data-scope')).toBe('rosebud');
       const state=p.url();await p.reload();await p.waitForFunction(()=>document.querySelector('.compare-panels .sample')?.getAttribute('data-scope')==='delight');expect(p.url()).toBe(state);
+    }finally{await c.close();}
+  });
+  it('keeps a redirect page for each old family id',()=>{
+    for(const [old,id] of Object.entries(RENAMED_FAMILIES)){
+      const html=readFileSync(join(out,old,'index.html'),'utf8');
+      expect(html,old).toContain(`url=/${id}/`);expect(html,old).toContain(`rel="canonical" href="https://ensigns.tiagojacinto.eu/${id}/"`);
+    }
+  });
+  it('accepts an old family id in a Carpenter link and ignores an id that is no family',async(context)=>{
+    if(!browser)return context.skip('Chromium unavailable');const c=await browser.newContext(),p=await c.newPage();
+    try{
+      for(const [old,id] of Object.entries(RENAMED_FAMILIES)){
+        await p.goto(`${url}/carpenter/?family=${old}`);await p.waitForSelector('.export-file');
+        expect(await p.locator('#export-family').inputValue(),old).toBe(id);
+      }
+      // Object.prototype names must not pass as old ids; the default is the first family in the list.
+      await p.goto(`${url}/carpenter/?family=constructor`);await p.waitForSelector('.export-file');
+      expect(await p.locator('#export-family').inputValue()).toBe(await p.locator('#export-family option').first().getAttribute('value'));
     }finally{await c.close();}
   });
   it('exports every available format, explains excluded formats and downloads real text, binary and ZIP files',async(context)=>{

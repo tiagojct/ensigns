@@ -1,0 +1,72 @@
+name: build-deploy
+
+# Builds the nginx image and pushes it to ghcr.io/tiagojct/ensigns. The VPS runs :latest
+# under watchtower, so a push of :latest is the deployment.
+#
+# This is the one workflow that publishes. docs/RELEASE.md and checkpoint 5 (D38) record it
+# as the exception to "no CI command publishes".
+#
+# Nothing starts this workflow by itself. Only the repository owner can start it, by hand from
+# the Actions tab, on main, after the ci workflow is green. A push, a tag or a schedule
+# triggers nothing. A run on another branch, or by anyone else, stops at once. A re-run keeps
+# the actor of the first run, so the job checks both that actor and the one who triggered
+# this run.
+#
+# The first push creates the package. Make it public by hand (Packages, ensigns, Package
+# settings), because the VPS pulls it without credentials. The image has the linux/amd64
+# platform only, because the VPS is amd64.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-deploy
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  publish:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.actor == github.repository_owner &&
+      github.triggering_actor == github.repository_owner
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Read the version
+        id: version
+        run: echo "value=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Image tags and labels
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=latest
+            type=raw,value=${{ steps.version.outputs.value }}
+            type=sha,format=short
+      - name: Build and push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: site/deploy/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true

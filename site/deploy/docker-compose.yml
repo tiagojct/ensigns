@@ -1,14 +1,24 @@
+# Ensigns: static site (nginx) behind Caddy on the proxy network, the same shape as
+# /opt/vps/apps/loomings. Put this file in /opt/vps/apps/ensigns/. The image is built
+# and pushed by .github/workflows/build-deploy.yml, which the owner starts by hand.
+# :latest moves when that workflow runs, and the one watchtower already on the box
+# redeploys within five minutes. Do not add a second watchtower service here.
 services:
   ensigns:
-    image: ensigns:local
-    build:
-      context: ../..
-      dockerfile: site/deploy/Dockerfile
+    image: ghcr.io/tiagojct/ensigns:latest
+    container_name: ensigns
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:8080:80"
+    networks:
+      - proxy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:80/"]
       interval: 30s
       timeout: 5s
+      start_period: 5s
       retries: 3
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+
+networks:
+  proxy:
+    external: true

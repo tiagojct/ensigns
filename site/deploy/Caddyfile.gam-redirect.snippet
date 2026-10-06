@@ -1,0 +1,16 @@
+# gam.tiagojacinto.eu answers with redirects only.
+# This file replaces the existing (route_gam) snippet and the two gam.tiagojacinto.eu blocks in
+# /opt/vps/caddy/Caddyfile. Do not append it: Caddy refuses two blocks for one address. Use it
+# only after ensigns.tiagojacinto.eu works.
+# Every path goes to the same path on the new host, with a 301 and the query string kept.
+# nginx on the new host then maps /glauca/, /try-works/ and /ambergris/ to their new names.
+(redirect_gam) {
+	redir https://ensigns.tiagojacinto.eu{uri} permanent
+}
+http://gam.tiagojacinto.eu {
+	import redirect_gam
+}
+https://gam.tiagojacinto.eu {
+	tls /data/certs/selfsigned.crt /data/certs/selfsigned.key
+	import redirect_gam
+}

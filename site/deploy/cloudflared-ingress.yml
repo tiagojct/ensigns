@@ -1,3 +1,13 @@
-# Optional tunnel rule. Add before the existing catch-all rule.
-- hostname: ensigns.tiagojacinto.eu
-  service: http://localhost:8080
+# Add under `ingress:` in /etc/cloudflared/config.yml, before the final
+# `- service: http_status:404` rule. Write the whole file back; do not append.
+# Then restart cloudflared. Keep the existing gam.tiagojacinto.eu rule: that host
+# now leads to the redirect part of the Caddy file.
+#
+# Caddy answers on 8443 with a self-signed certificate. The tunnel must accept it.
+# Look at the gam rule in the same file. If it has an originRequest block, copy the
+# block into this rule. If the file has one originRequest block at the top level,
+# this rule needs none. The settings of the gam rule are not in this repository.
+  - hostname: ensigns.tiagojacinto.eu
+    service: https://localhost:8443
+    # originRequest:
+    #   noTLSVerify: true

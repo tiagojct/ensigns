@@ -13,5 +13,9 @@ export default defineConfig({
       "tests/fixtures/**",
     ],
     environment: "node",
+    // Some tests start child Node processes or build the site. Alone they take about a second,
+    // but the suite runs in parallel workers, and a busy or two-core machine needs several times
+    // as long. A test that hangs still fails, after 30 seconds.
+    testTimeout: 30000,
   },
 });
