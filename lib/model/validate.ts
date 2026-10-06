@@ -148,6 +148,10 @@ export function validateSemantics(file: FamilyFile): Issue[] {
     });
     (file.distinct ?? []).forEach((d, i) => {
       for (const m of modesOf(d.modes)) {
+        // distinctMembers leaves a missing address out, so an explicit list is checked entry by entry.
+        for (const address of d.members ?? []) {
+          if (!resolved!.modes[m].colours.has(address)) error("distinct", `distinct[${i}].members`, `${address} does not exist in ${m}`);
+        }
         const members = distinctMembers(resolved!.modes[m], d);
         if (members.length < 2) error("distinct", `distinct[${i}]`, `${d.id} has fewer than two members in ${m}`);
         const names = new Set(members.map((x) => x.name));

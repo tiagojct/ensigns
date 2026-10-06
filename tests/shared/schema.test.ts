@@ -90,6 +90,17 @@ describe("the validator catches what it claims to", () => {
     expect(issues.some((i) => i.code === "distinct")).toBe(true);
   });
 
+  it("flags an explicit distinct member that does not exist in a mode", () => {
+    const f = base();
+    f.distinct = [{ id: "crew", members: ["accents.ahab", "accents.pip", "accents.captain-nemo"] }];
+    const issues = validateSemantics(f).filter((i) => i.code === "distinct");
+    // The set still has two members, so only the missing address is reported, once per mode.
+    expect(issues.map((i) => i.message)).toEqual([
+      "accents.captain-nemo does not exist in dark",
+      "accents.captain-nemo does not exist in light",
+    ]);
+  });
+
   it("flags a pair that points at a colour that does not exist", () => {
     const f = base();
     f.pairs = [{ fg: "roles.nothing", bg: "roles.bg", kind: "text" }];

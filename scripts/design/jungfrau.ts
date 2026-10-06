@@ -517,7 +517,7 @@ function lightReinforced(): [string, string][] {
   return out;
 }
 file.distinct = [
-  { id: "fire-trio", members: ["accents.ember", "accents.flame", "accents.oil"], note: "Ember, flame and oil are one ramp in two modes. In the old light mode flame and oil were both #7A3A10; each has its own value now." },
+  { id: "fire-trio", members: ["accents.ember", "accents.flame", "accents.oil"], note: "Ember, flame and oil are one ramp in two modes. In the old light mode flame and oil shared one value; each has its own value now." },
   { id: "syntax-hues-dark", set: "syntax-hues", modes: ["dark"], aliases: [["number", "constant"]] },
   { id: "syntax-hues-light", set: "syntax-hues", modes: ["light"], aliases: [["number", "constant"]], cvd: "report", reinforced: lightReinforced(), by: "style: keyword is bold, number, constant and type are italic, the rest upright", note: "Lamplight caps every text colour near luminance 0.05, which leaves little room to tell hues apart under CVD. Pairs with a style difference are reinforced; the rest are reported." },
   { id: "ansi-hues", set: "ansi-hues", cvd: "report", note: "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate." },
