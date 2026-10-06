@@ -69,15 +69,15 @@ VS Code, Zed and Neovim are offered for the four authored editor families. Their
 
 Any static HTTP host can serve site/dist/. Preserve trailing-slash routes and return 404/index.html for missing pages. Old family routes redirect to the new names. The nginx configuration includes the production Content Security Policy and allows only same-origin scripts, styles, fonts, requests and specimen frames.
 
-For the provided container:
+The VPS runs the site as a container behind Caddy, with the same files and the same order as the other apps on it. site/deploy/README.md gives the steps, the check after each step and the undo for each step. DNS, the tunnel, Caddy, the Cloudflare redirect rule and the live rollout belong to the owner. The image is built from the repository root with Node 24:
 
 ```sh
-docker compose -f site/deploy/docker-compose.yml up --build -d
+docker build -f site/deploy/Dockerfile -t ensigns .
 ```
 
-It listens on 127.0.0.1:8080. site/deploy/Caddyfile.snippet shows HTTPS proxying for ensigns.tiagojacinto.eu and an optional old Gam domain redirect. cloudflared-ingress.yml is an optional tunnel rule. DNS, certificates, tunnel changes and a live rollout belong to the owner. The Dockerfile uses the repository root as its build context and Node 24.
+The build-deploy workflow builds the image and pushes it to ghcr.io/tiagojct/ensigns. Only the owner starts it, by hand, on main.
 
-The container recipe is supplied; the local verification uses the static production files under nginx's CSP. Docker is not installed on the verification host.
+The container recipe was not built here, because Docker is not installed on the verification host. The build stage ran without Docker, on a copy of the tracked files with no .git folder and no legacy folder, and the production files were exercised under nginx's CSP.
 
 ## Owner publication
 

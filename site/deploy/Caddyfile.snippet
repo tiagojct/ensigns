@@ -1,8 +1,16 @@
-# Caddy terminates HTTPS and proxies the local nginx container.
-ensigns.tiagojacinto.eu {
-    reverse_proxy 127.0.0.1:8080
+# ensigns.tiagojacinto.eu (proxy -> ensigns:80)
+# Append this file to /opt/vps/caddy/Caddyfile with cat >>, so that the file keeps its inode.
+# Cloudflare ends TLS. cloudflared reaches Caddy on :8443 with a self-signed certificate, as
+# for every other app on this box. Then check the file and reload Caddy:
+#   docker exec caddy caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+#   docker exec caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
+(route_ensigns) {
+	reverse_proxy ensigns:80
 }
-# Keep this redirect only while retiring the old Gam domain.
-gam.tiagojacinto.eu {
-    redir https://ensigns.tiagojacinto.eu{uri} permanent
+http://ensigns.tiagojacinto.eu {
+	import route_ensigns
+}
+https://ensigns.tiagojacinto.eu {
+	tls /data/certs/selfsigned.crt /data/certs/selfsigned.key
+	import route_ensigns
 }

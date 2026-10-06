@@ -1,3 +1,6 @@
-# Optional tunnel rule. Add before the existing catch-all rule.
-- hostname: ensigns.tiagojacinto.eu
-  service: http://localhost:8080
+# Add under `ingress:` in /etc/cloudflared/config.yml, before the final
+# `- service: http_status:404` rule. Write the whole file back; do not append.
+# Then restart cloudflared. Keep the existing gam.tiagojacinto.eu rule: that host
+# now leads to the redirect part of the Caddy file.
+  - hostname: ensigns.tiagojacinto.eu
+    service: https://localhost:8443
