@@ -23,6 +23,10 @@ The complete portable delivery is dist/ensigns-1.0.0.zip with its adjacent SHA-2
 
 The R check uses installed dependencies; registry index requests were unavailable in the sandbox. Docker is not installed on this host, so the container recipe is supplied but has not been built locally. The static site itself is built and exercised under the nginx configuration's CSP.
 
+## Update after review, 2026-10-06
+
+Copilot's review of the three pull requests led to five fixes, merged forward through all three branches. A distinct set with an explicit member list fails when a listed address is missing from a mode. The stray-hex lint scans scripts/ and compares an eight-digit literal whole, so a palette colour with an added alpha byte no longer passes. The lightness-gap check rejects a negative minimum, and a new test runs the failing branch of not-blue-violet. The 678 tests above are 682 across the same 46 files. On a clean checkout of the merged phase 4 branch, the type check, npm test with Chromium, npm run build and node scripts/export/freshness.ts all pass.
+
 ## Remaining owner operations
 
 The local product is finished. Live hosting, account verification, registry submissions, old package retirement notices, consumer adoption in other repositories and a Zenodo DOI require the owner's accounts. CLAUDE.md explicitly reserves registry publication for the owner; docs/RELEASE.md provides the generated artifacts and concrete steps.
