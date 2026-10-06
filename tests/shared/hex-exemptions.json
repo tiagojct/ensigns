@@ -1,9 +1,37 @@
 {
   "globs": [
-    { "pattern": "docs/migration/**", "why": "Reports from the migration. They quote values from the old repositories, including values that no longer trace to a token." },
-    { "pattern": "**/CHANGELOG.md", "why": "A changelog records the old value and the new one. The old value no longer traces to a token by design." },
-    { "pattern": "packages/mastodon/vendor/**", "why": "Vendored third-party template (Tangerine Neue, MIT, Niléane Dorffer). Its licence file sits beside it." },
-    { "pattern": "site/src/model/token.js", "why": "Old gam model, dormant until phase 4 and replaced there. It sorts tokens against black, which is not a palette colour." }
+    {
+      "pattern": "docs/migration/**",
+      "why": "Reports from the migration. They quote values from the old repositories, including values that no longer trace to a token."
+    },
+    {
+      "pattern": "**/CHANGELOG.md",
+      "why": "A changelog records the old value and the new one. The old value no longer traces to a token by design."
+    },
+    {
+      "pattern": "packages/mastodon/vendor/**",
+      "why": "Vendored third-party template (Tangerine Neue, MIT, Nil\u00e9ane Dorffer). Its licence file sits beside it."
+    },
+    {
+      "pattern": "site/public/catalogue.json",
+      "why": "Generated copy of canonical source tokens, including historical design decision metadata which can quote superseded values. Canonical palettes and declared token changes are checked independently; production tests verify all ten source families."
+    },
+    {
+      "pattern": "site/public/catalogue.css",
+      "why": "Generated build output from resolved canonical tokens. Composed surfaces and simulations produce derived colours; export source/output hashes and resolved origins are verified by generator and production-site tests."
+    },
+    {
+      "pattern": "site/public/exports/**",
+      "why": "Generated build output from resolved canonical tokens. Composed surfaces and simulations produce derived colours; export source/output hashes and resolved origins are verified by generator and production-site tests."
+    },
+    {
+      "pattern": "site/public/review/**",
+      "why": "Generated build output from resolved canonical tokens. Composed surfaces and simulations produce derived colours; export source/output hashes and resolved origins are verified by generator and production-site tests."
+    },
+    {
+      "pattern": "site/public/reports/**",
+      "why": "Generated build output from resolved canonical tokens. Composed surfaces and simulations produce derived colours; export source/output hashes and resolved origins are verified by generator and production-site tests."
+    }
   ],
   "values": []
 }

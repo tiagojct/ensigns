@@ -1,7 +1,7 @@
 name: ci
 
 # Tests run on every push to main and on every pull request. Nothing here publishes.
-# Later phases add the R check, pytest, the site build and the generated-file freshness check.
+# The suite builds and exercises the production site; release artifacts are local only.
 on:
   push:
     branches: [main]
@@ -31,6 +31,9 @@ jobs:
       - run: npm run typecheck
       - run: npx playwright install --with-deps chromium
       - run: npm test
+      - run: npm run build
+      - name: Verify repeatable exports
+        run: node scripts/export/freshness.ts
       - name: Environment reports
         run: node scripts/report.ts --out reports
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -39,3 +42,13 @@ jobs:
           name: reports
           path: reports
           if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ensigns-product
+          path: |
+            site/dist
+            dist/ensigns-*.zip
+            dist/ensigns-*.sha256
+            dist/releases
+          if-no-files-found: error

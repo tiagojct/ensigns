@@ -1,7 +1,7 @@
 import { defineConfig } from "vitest/config";
 
-// The site, the legacy sources and the golden fixtures have their own
-// lifecycle. Only the tests written for the monorepo run here.
+// Current model, generators, environment and production-site tests run here.
+// Legacy sources and frozen migration fixtures are not executable tests.
 export default defineConfig({
   test: {
     include: ["tests/**/*.test.ts"],

@@ -1,6 +1,6 @@
 {
   "name": "ensigns",
-  "version": "0.2.0-dev",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "Ten colour families named after the Pequod and the ships she gams with in Moby-Dick.",
@@ -18,19 +18,31 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "pages": "node scripts/pages/build.ts"
+    "pages": "node scripts/pages/build.ts",
+    "export": "node scripts/export/build.ts",
+    "packages": "node scripts/packages/build.ts",
+    "site:prepare": "node scripts/site/build.ts",
+    "build": "npm run packages && npm run site:prepare && vite build --config site/vite.config.ts && node scripts/release.ts",
+    "dev": "npm run site:prepare && vite --config site/vite.config.ts",
+    "preview": "vite preview --config site/vite.config.ts"
   },
   "dependencies": {
-    "culori": "^4.0.2"
+    "culori": "^4.0.2",
+    "fflate": "^0.8.3"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/culori": "^4.0.1",
-    "apca-w3": "^0.1.9",
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.0.0",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
+    "apca-w3": "^0.1.9",
+    "luaparse": "^0.3.1",
+    "markdown-it": "^15.0.2",
     "playwright": "^1.63.0",
     "typescript": "^7.0.2",
+    "vite": "^8.3.2",
     "vitest": "^5.0.2"
   }
 }

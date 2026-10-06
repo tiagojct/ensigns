@@ -2,9 +2,26 @@
 
 All notable changes to Ensigns are recorded here. The format follows Keep a Changelog and the project uses semantic versioning. Ensigns continues the version line of the Gam site, which was 0.1.0. Each family keeps its own changelog in `families/<id>/`, with the old values of every changed colour.
 
-## [0.2.0] - unreleased
+## [1.0.0] - 2026-10-04
+
+The complete local Ensigns product.
+
+- Site-wide family selector for all ten colour families and their typography, paired with System, Light and Dark appearance. Preferences restore before painting; samples and comparisons remain independent.
+- Labelled header controls with 44px targets and narrow mobile layouts. Invalid saved preferences fall back to Pequod and System; controls remain usable when storage is blocked.
+- Ten-family static catalogue, independent comparison panels, appearance persistence, native specimens for every family, measurement reports, downloads and the browser Carpenter.
+- All 29 export formats ported to the common model, with target exclusions, complete authored chart ramps, opacity and non-colour cue metadata, binary Adobe swatches and source/output hashes.
+- Local JavaScript, Python, R, Typst, VS Code, Zed, Obsidian, Tailwind, Firefox, Mastodon and Loomings bundles, family archives and a complete portable delivery.
+- Self-hosted selected typefaces with original OFL texts and recorded hashes, the full CC BY 4.0 legal code, generated social image and search metadata.
+- Node 24 container recipe, same-origin Content Security Policy, new family redirects, build and release instructions, and CI artifact validation without publication.
+- Production-browser checks for mobile layouts, appearance, comparisons, every format and text, binary and ZIP downloads under the production CSP. Independent parsing and package installation checks supplement the existing environment suite.
+
+## [0.2.0] - migration work
 
 Gam becomes Ensigns. Five repositories become one.
+
+- Phase 4 export foundation: shared pure writers for CSS, resolved JSON, Ghostty, kitty, Alacritty and Windows Terminal. The CLI reads the current tokens and writes a deterministic manifest with source and output hashes; unsupported terminal targets retain their reasons. Family and candidate preview pages offer the same downloads.
+- Current-token VS Code, Zed and Neovim themes for the four authored editor families, with exact harness surfaces, syntax styles and status diagnostics. VS Code folders include local extension manifests; Zed output validates against its official schema and Neovim output is parsed as Lua. Obsidian interface snippets are available for all ten families.
+- Rosebud 0.5.0: readable dark status accents and a current specimen that passes forced colours without the three legacy waivers. Regression tests cover its status contrast on every chrome surface and fill.
 
 - One repository, `tiagojct/ensigns`, with the history of gam, pequod, glauca, try-works and ambergris imported and moved into the new layout without changing a file's content in the move.
 - One token format for all families, described by `schema/family.schema.json`. A hex value appears only in a palette block. Every family defines fifteen core roles in both modes.

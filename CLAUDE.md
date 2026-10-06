@@ -11,12 +11,15 @@ Ten colour families named after the Pequod and the nine ships she gams with in M
 - tests/fixtures/legacy and tests/parity are frozen copies of what the five old repositories held. Do not edit them.
 - scripts/design records how each family's values were chosen. scripts/migrate records how the old repositories were converted. scripts/report.ts writes reports/<family>.json.
 - scripts/pages builds the local family pages into preview/, which git ignores (npm run pages). A family's specimen is families/<id>/specimen/specimen.html and specimen.css; scripts/pages/README.md gives the rules.
-- legacy/ and site/ are dormant until phase 4.
+- lib/generators holds pure token export writers, shared by scripts/export and the local family pages. scripts/export/README.md lists formats and installation.
+- site/ is the active ten-family catalogue and Carpenter; legacy/ preserves the retired generators and old site source.
+- npm run build writes site/dist/, dist/packages/, dist/releases/ and the complete portable delivery. docs/RELEASE.md has installation and owner publication steps.
 
 ## Commands
 
 - npm test runs Vitest over tests/.
 - npm run typecheck runs tsc.
+- npm run export writes 29 formats into dist/exports/ with a source-hash manifest. npm run packages creates local packages; npm run build also builds the public site and portable delivery. npm run preview opens the built product.
 - node scripts/report.ts [family] runs the environment harness and prints a summary.
 - Node 24 runs the TypeScript scripts directly, so use .ts extensions in imports and erasable syntax only (no enums, namespaces or parameter properties).
 
