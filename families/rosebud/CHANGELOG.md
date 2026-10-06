@@ -2,6 +2,21 @@
 
 Rosebud was called Ambergris until 0.3.0. Dates are commit dates.
 
+## 0.5.0 (unreleased)
+
+- Dark status accents use brighter steps from the existing grey ramp (D30). Every accent clears 4.5:1 on the page, sunken and raised surfaces and on its fill over each surface; the smallest measured ratio is 6.23:1. Severity increases in prominence from neutral to critical.
+- Declared contrast pairs for the four dark status accents, plus regression checks for all surfaces and fills. The migration audit now compares status accents with the frozen Ambergris tokens and records each correction.
+- A current workspace specimen with local token styles, distinct icons and labels, visible keyboard outlines and an underlined current navigation item. It passes forced colours in both modes without the old focus, current-item and network waivers.
+
+Changed dark status accents on the page ground (grey 950, #1A1F26). Fill colours, border weights, edge styles and icons are unchanged.
+
+| Level | Old | New | Old contrast | New contrast |
+|---|---|---|---|---|
+| neutral | #8D9298 | #AEB2B7 | 5.28 | 7.77 |
+| success | #5C6168 | #C8CBD0 | 2.65 | 10.18 |
+| warning | #42484E | #DCDFE3 | 1.79 | 12.39 |
+| critical | #0C1117 | #FAFBFD | 1.14 | 16.00 |
+
 ## 0.4.0 (2026-09-30)
 
 Moved into the Ensigns repository as Rosebud, formerly Ambergris 0.3.0.

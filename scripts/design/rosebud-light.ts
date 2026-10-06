@@ -248,12 +248,19 @@ function why(slot: string, was: string, now: string): string {
   return `${old}; D3: ${entry}, ${GREY_REASONS[slot]}`;
 }
 
+// Later status corrections keep their own recorded reasons when this script runs.
+const out = join(repoRoot(), "tests/shared/expected-changes/rosebud.json");
+const recorded: Change[] = readJson("tests/shared/expected-changes/rosebud.json");
 const changes: Change[] = differences("rosebud", family).map((d) => {
+  if (d.mode === "dark" && d.address.startsWith("status.")) {
+    const change = recorded.find((c) => c.mode === d.mode && c.address === d.address && c.from === d.was && c.to === d.now);
+    if (!change) throw new Error(`${d.address} has no recorded status correction`);
+    return change;
+  }
   if (d.mode !== "light" || !d.address.startsWith("ansi.") || d.now === undefined) {
     throw new Error(`${d.mode} ${d.address} changed (${d.was} to ${d.now}) and this script records no reason for it`);
   }
   return { mode: d.mode, address: d.address, from: d.was, to: d.now, why: why(d.address.slice("ansi.".length), d.was, d.now) };
 });
-const out = join(repoRoot(), "tests/shared/expected-changes/rosebud.json");
 writeFileSync(out, JSON.stringify(changes, null, 2) + "\n");
 console.log(`\nrecorded ${changes.length} changes in tests/shared/expected-changes/rosebud.json`);

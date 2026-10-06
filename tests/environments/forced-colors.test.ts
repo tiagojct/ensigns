@@ -18,12 +18,7 @@ import { launchChromium } from "./browser.ts";
 import type { ResolvedFamily } from "../../lib/model/types.ts";
 import { withProfile } from "./helpers.ts";
 
-// A family with a specimen of its own (families/<id>/specimen) is tested on the standalone page the page
-// builder writes for each mode. Rosebud's own specimen comes in phase 4; until then the old generated one
-// stands in, relative to the repository root.
-const LEGACY_SPECIMENS: Record<string, string> = {
-  rosebud: "tests/parity/rosebud/specimen.html",
-};
+// Test the standalone pages built from the current family tokens and specimens.
 const pages = mkdtempSync(join(tmpdir(), "ensigns-pages-"));
 buildPages(repoRoot(), pages);
 
@@ -31,8 +26,7 @@ buildPages(repoRoot(), pages);
 function specimenFor(id: string, scheme: string): string | undefined {
   const built = join(pages, "specimen", `${id}--${scheme}.html`);
   if (existsSync(built)) return built;
-  const legacy = LEGACY_SPECIMENS[id];
-  return legacy === undefined ? undefined : join(repoRoot(), legacy);
+  return undefined;
 }
 
 const SCHEMES = ["light", "dark"] as const;
