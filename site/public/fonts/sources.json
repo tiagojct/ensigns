@@ -277,5 +277,29 @@
     "italic": false,
     "variable": false,
     "weight": 400
+  },
+  {
+    "family": "Literata",
+    "file": "literata-latin.woff",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "2dc944257763845e9474d5a3326c4bc2acf5eb479bd605a278b7deb91967b080",
+    "italic": false,
+    "variable": true,
+    "weight": 400,
+    "derivedFrom": "literata-Literata[opsz,wght].ttf",
+    "derivedFromSha256": "b41138c9373112f32abb589cc22e8674b06ed4048b0c513be922bdd26f274440",
+    "derivation": "Axes limited to opsz 18 to 72 and wght 400 to 700, then subset to Basic Latin, Latin-1 Supplement and common punctuation, and written as WOFF. Used under the family name Literata Display."
+  },
+  {
+    "family": "Literata",
+    "file": "literata-latin-italic.woff",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata-Italic%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "76983f1430bf737c6eb601e294e614742d5139e647b93cd10d9b10fdd1757492",
+    "italic": true,
+    "variable": true,
+    "weight": 400,
+    "derivedFrom": "literata-Literata-Italic[opsz,wght].ttf",
+    "derivedFromSha256": "d483dfaeba9cbf4ce71d32a52ee65df82f7e35b15fff8d1011cdb242d1fcd465",
+    "derivation": "Axes limited to opsz 18 to 72 and wght 400 to 700, then subset to Basic Latin, Latin-1 Supplement and common punctuation, and written as WOFF. Used under the family name Literata Display."
   }
 ]
