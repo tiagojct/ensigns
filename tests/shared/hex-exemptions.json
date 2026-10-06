@@ -1,6 +1,8 @@
 {
   "globs": [
     { "pattern": "docs/migration/**", "why": "Reports from the migration. They quote values from the old repositories, including values that no longer trace to a token." },
+    { "pattern": "scripts/migrate/**", "why": "Record of how the old repositories were converted. The conversion tables name old values, such as black, that were never palette entries." },
+    { "pattern": "scripts/design/pequod-corrections.ts", "why": "Records the brief's own values for the Pequod crew, the starting point of the correction search. They come from the brief, not from a token file, and no output uses them." },
     { "pattern": "**/CHANGELOG.md", "why": "A changelog records the old value and the new one. The old value no longer traces to a token by design." },
     { "pattern": "packages/mastodon/vendor/**", "why": "Vendored third-party template (Tangerine Neue, MIT, Niléane Dorffer). Its licence file sits beside it." },
     { "pattern": "site/src/model/token.js", "why": "Old gam model, dormant until phase 4 and replaced there. It sorts tokens against black, which is not a palette colour." }

@@ -639,7 +639,7 @@
     {
       "id": "fire-trio",
       "members": ["accents.ember","accents.flame","accents.oil"],
-      "note": "Ember, flame and oil are one ramp in two modes. In the old light mode flame and oil were both #7A3A10; each has its own value now."
+      "note": "Ember, flame and oil are one ramp in two modes. In the old light mode flame and oil shared one value; each has its own value now."
     },
     {
       "id": "syntax-hues-dark",
