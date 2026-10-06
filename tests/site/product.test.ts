@@ -2,9 +2,9 @@
 // Exercise the production build under the same CSP as nginx, including real downloads.
 import { createServer } from 'node:http';
 import type { Server } from 'node:http';
-import { readFileSync, existsSync, readdirSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, extname } from 'node:path';
+import { dirname, join, extname } from 'node:path';
 import { build } from 'vite';
 import { unzipSync, strFromU8 } from 'fflate';
 import type { Browser } from 'playwright';
@@ -22,7 +22,10 @@ let browser:Browser|undefined,server:Server,url:string;
 const csp=readFileSync(join(root,'site/deploy/nginx.conf'),'utf8').match(/Content-Security-Policy "([^"]+)"/)![1]!;
 const mime:Record<string,string>={'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2','.ttf':'font/ttf','.zip':'application/zip'};
 const routes=['/','/compare/','/carpenter/','/about/',...loadFamilies().map(f=>`/${f.dir}/`)];
+// Files that an earlier build could have left in the generated folders. A new build must remove them.
+const STALE=['dist/packages/stale/file.txt','dist/releases/stale-0.0.1.zip','dist/exports/stale/file.txt','site/public/reports/stale.json','site/public/exports/stale/file.txt','site/public/review/stale.html','site/public/releases/stale-0.0.1.zip'];
 beforeAll(async()=>{
+  for(const path of STALE){mkdirSync(dirname(join(root,path)),{recursive:true});writeFileSync(join(root,path),'stale');}
   await buildPackages(root);prepareSite(root);
   await build({configFile:join(root,'site/vite.config.ts'),logLevel:'silent'});
   server=createServer((req,res)=>{
@@ -38,6 +41,11 @@ beforeAll(async()=>{
 afterAll(async()=>{await browser?.close();await new Promise<void>(resolve=>server.close(()=>resolve()));rmSync(work,{recursive:true,force:true});});
 
 describe('finished static catalogue',()=>{
+  it('leaves no file from an earlier build in the generated folders or the checksums',()=>{
+    for(const path of STALE)expect(existsSync(join(root,path)),path).toBe(false);
+    expect(readFileSync(join(root,'dist/releases/SHA256SUMS.txt'),'utf8')).not.toContain('stale');
+    expect(existsSync(join(out,'releases/stale-0.0.1.zip'))).toBe(false);
+  });
   it('renders every route with one main heading and local assets',()=>{
     for(const route of routes){
       const html=readFileSync(join(out,route,'index.html'),'utf8');

@@ -10,7 +10,7 @@ npm run build
 npm run preview
 ```
 
-Open http://127.0.0.1:4174/. npm run dev prepares the catalogue and starts the development server. There are no separate site dependencies; site/package.json delegates to the root scripts.
+Open http://127.0.0.1:4174/. npm run dev builds the local packages, prepares the catalogue and starts the development server. The pages link to the archives that the package build writes. There are no separate site dependencies; site/package.json delegates to the root scripts.
 
 scripts/site/build.ts validates the tokens, measures declared environments, renders 18 routes, generates the catalogue stylesheet, swatches, favicon and social image, and copies current exports, specimens, reports and releases. Vite hashes the browser assets into site/dist/. The reading pages and ready-made downloads work without JavaScript; the Carpenter and comparison controls load their small modules when needed.
 

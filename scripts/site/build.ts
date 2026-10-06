@@ -23,6 +23,9 @@ export function prepareSite(root=repoRoot()) {
   const ctx=loadContext(root),t=readJson(join(root,'tests/environments.json')) as Thresholds;
   const publicDir=join(root,'site/public'),generated=join(root,'site/.generated');
   rmSync(generated,{recursive:true,force:true});
+  // These folders are build output. Clear them, so that a retired report, export, specimen or
+  // archive does not reach site/dist. site/public/fonts is source and stays.
+  for(const dir of ['reports','exports','review','releases'])rmSync(join(publicDir,dir),{recursive:true,force:true});
   const md=new MarkdownIt({html:false,linkify:false});
   const entries:CatalogueFamily[]=families.map(f=>{
     const report=buildReport(f,t,ctx),profiles=Object.values(report.profiles);

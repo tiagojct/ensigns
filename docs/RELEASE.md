@@ -17,7 +17,7 @@ npm run preview
 
 Open http://127.0.0.1:4174/. The build writes the static site to site/dist/, loose exports to dist/exports/, package folders to dist/packages/ and downloadable archives to dist/releases/. dist/ensigns-1.0.0.zip is the complete portable delivery; its SHA-256 is beside it. Unzip it, serve site/ over HTTP and open the local address. Opening the HTML with file:// does not support the Carpenter's catalogue fetch.
 
-npm run dev prepares the catalogue and runs Vite on port 5173. Token edits require rerunning site:prepare or restarting dev. npm run pages remains the detailed measurement and candidate review at preview/index.html. The public site keeps the primary designs; candidates remain available in the review pages.
+npm run dev builds the local packages, prepares the catalogue and runs Vite on port 5173. The pages link to the archives that the package build writes, so dev builds them first. Token edits require rerunning packages and site:prepare, or restarting dev. npm run pages remains the detailed measurement and candidate review at preview/index.html. The public site keeps the primary designs; candidates remain available in the review pages.
 
 Use Site family in the header to show the website in any family, including its typography. Appearance selects System, Light or Dark. Both choices persist across pages when local storage is available and are applied before painting. Samples, specimens and comparison panels retain their explicitly selected families and modes.
 
