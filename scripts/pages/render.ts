@@ -24,6 +24,7 @@ export interface Entry {
   file: string;
   family: ResolvedFamily;
   report: FamilyReport;
+  exports?: { label: string; files: { name: string; path: string }[] }[];
 }
 
 export interface Group {
@@ -448,6 +449,9 @@ export function familyPage(site: Site, group: Group, entry: Entry): string {
     ["Files", files.join(", ")],
   ];
   if (group.candidates.length > 0) facts.push(["Candidates", candidateLinks(group, entry)]);
+  if (entry.exports?.length) facts.push(["Downloads", entry.exports.map((format) =>
+    `${esc(format.label)}: ${format.files.map((file) => `<a href="${esc(file.path)}" download>${esc(file.name)}</a>`).join(", ")}`,
+  ).join("<br>")]);
 
   const chapterRef =
     meta.chapter === undefined ? "" : Array.isArray(meta.chapter) ? `, chapters ${meta.chapter[0]} and ${meta.chapter[1]}` : `, chapter ${meta.chapter}`;

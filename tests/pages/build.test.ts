@@ -84,6 +84,31 @@ describe("the family pages", () => {
     expect(candidate).toContain('href="pequod.html"');
   });
 
+  it("links generated downloads for each family and keeps candidate files separate", () => {
+    for (const family of families) {
+      const html = read(`${family.dir}.html`);
+      expect(html).toContain(`href="exports/${family.dir}/css/${family.dir}.css" download`);
+      expect(html).toContain(`href="exports/${family.dir}/json/${family.dir}.json" download`);
+      const downloads = [...html.matchAll(/href="(exports\/[^"]+)" download/g)].map((match) => match[1]!);
+      expect(downloads.length).toBeGreaterThanOrEqual(2);
+      for (const path of downloads) expect(written).toContain(path);
+      if (family.file.targets?.exclude?.includes("terminals")) expect(downloads.some((path) => path.includes("/ghostty/"))).toBe(false);
+    }
+    expect(read("pequod--trial.html")).toContain('href="exports/pequod--trial/css/pequod.css" download');
+    expect(read("exports/pequod--trial/json/pequod.json")).toContain('"version": "0.3.1-trial"');
+  });
+
+  it("offers permitted editor downloads and Obsidian snippets on family pages", () => {
+    for (const family of families) {
+      const html = read(`${family.dir}.html`);
+      expect(html).toContain(`href="exports/${family.dir}/obsidian/${family.dir}-obsidian.css" download`);
+      for (const id of ["vscode", "zed", "neovim"]) {
+        const linked = html.includes(`href="exports/${family.dir}/${id}/`);
+        expect(linked, `${family.dir} ${id}`).toBe(!family.file.targets?.exclude?.includes(id));
+      }
+    }
+  });
+
   it("hold no inline style or script, no javascript: URL and no remote URL", () => {
     for (const f of pages()) {
       const html = read(f);
