@@ -8,7 +8,7 @@
       "name": "Ambergris",
       "version": "0.3.0"
     },
-    "version": "0.4.0",
+    "version": "0.5.0",
     "chapter": [91,92],
     "chapterTitle": "The Pequod Meets the Rose-Bud; Ambergris",
     "quote": "the romantic name of this aromatic ship",
@@ -227,28 +227,28 @@
           "weight": "{design.border.width.hair}",
           "edge": "solid",
           "fill": "{palette.alpha-ink.03}",
-          "accent": "{palette.grey.500}",
+          "accent": "{palette.grey.400}",
           "icon": "dot"
         },
         "success": {
           "weight": "{design.border.width.thin}",
           "edge": "solid",
           "fill": "{palette.alpha-ink.03}",
-          "accent": "{palette.grey.700}",
+          "accent": "{palette.grey.300}",
           "icon": "check"
         },
         "warning": {
           "weight": "{design.border.width.thin}",
           "edge": "dashed",
           "fill": "{palette.alpha-ink.06}",
-          "accent": "{palette.grey.800}",
+          "accent": "{palette.grey.200}",
           "icon": "triangle"
         },
         "critical": {
           "weight": "{design.border.width.thick}",
           "edge": "solid",
           "fill": "{palette.alpha-ink.10}",
-          "accent": "{palette.grey.1000}",
+          "accent": "{palette.grey.000}",
           "icon": "octagon"
         }
       },
@@ -445,6 +445,10 @@
     }
   ],
   "pairs": [
+    { "fg": "status.neutral.accent", "bg": "roles.bg", "kind": "text", "modes": ["dark"], "why": "Dark neutral status text must remain readable on the page ground." },
+    { "fg": "status.success.accent", "bg": "roles.bg", "kind": "text", "modes": ["dark"], "why": "Dark success status text must remain readable on the page ground." },
+    { "fg": "status.warning.accent", "bg": "roles.bg", "kind": "text", "modes": ["dark"], "why": "Dark warning status text must remain readable on the page ground." },
+    { "fg": "status.critical.accent", "bg": "roles.bg", "kind": "text", "modes": ["dark"], "why": "Dark critical status text must remain readable on the page ground." },
     {
       "fg": "roles.text",
       "bg": "roles.bg",
@@ -709,23 +713,6 @@
       "set": "ansi-hues",
       "cvd": "report",
       "note": "Terminals give no way to reinforce a hue, so CVD results for the six hue slots are warnings. The normal-vision distance is a gate."
-    }
-  ],
-  "exceptions": [
-    {
-      "profile": "forced-colors",
-      "id": "focus",
-      "why": "The old specimen draws the focus ring as a box-shadow with outline none, and forced colours removes box-shadow, so focus is lost. A finding about the old generated CSS, not about the tokens: the generated CSS in phase 4 draws the ring with a transparent outline that forced colours paints."
-    },
-    {
-      "profile": "forced-colors",
-      "id": "current",
-      "why": "The old specimen marks the current navigation item with a colour change on a transparent border, which forced colours paints on all four sides. Another finding about the old CSS: phase 4 marks the current item with weight or an underline."
-    },
-    {
-      "profile": "forced-colors",
-      "id": "network",
-      "why": "The old specimen loads a Google Fonts stylesheet, which the site's rules forbid. The phase 4 specimens embed their fonts and make no request."
     }
   ]
 }

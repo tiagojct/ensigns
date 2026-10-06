@@ -1,13 +1,8 @@
-// Runs before first paint: apply the remembered family and mode, if any.
-// Everything is wrapped so a missing or blocked localStorage changes nothing;
-// the stylesheet then falls back to Pequod following the system scheme.
-(function () {
-  try {
-    var raw = localStorage.getItem('gam-theme');
-    if (!raw) return;
-    var t = JSON.parse(raw);
-    var root = document.documentElement;
-    if (t && typeof t.family === 'string' && /^[a-z-]+$/.test(t.family)) root.setAttribute('data-family', t.family);
-    if (t && (t.mode === 'dark' || t.mode === 'light')) root.setAttribute('data-mode', t.mode);
-  } catch (e) { /* no storage: render with defaults */ }
-})();
+// Restore site appearance before painting, without loading the catalogue.
+try {
+  const mode = localStorage.getItem('ensigns-mode');
+  if (mode === 'light' || mode === 'dark') document.documentElement.dataset.mode = mode;
+  const family = localStorage.getItem('ensigns-family');
+  const families = document.documentElement.dataset.siteFamilies.split(' ');
+  if (families.includes(family)) document.documentElement.dataset.family = family;
+} catch { /* The default family and system appearance still work. */ }

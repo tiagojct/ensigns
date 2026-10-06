@@ -1,0 +1,51 @@
+<div class="sp-rosebud">
+  <nav class="sp-nav" aria-label="Workspace navigation">
+    <a href="#overview-{mode}" aria-current="page">Overview</a>
+    <a href="#activity-{mode}">Activity</a>
+    <a href="#settings-{mode}">Settings</a>
+  </nav>
+
+  <section id="overview-{mode}" aria-labelledby="overview-title-{mode}">
+    <h5 id="overview-title-{mode}">Workspace overview</h5>
+    <p class="prose">Review the latest tasks, check the status of each job and choose what needs attention. Labels and icons carry the meaning of every status, with border weights and line styles to keep them distinct when colour is unavailable.</p>
+    <div class="sp-controls">
+      <button type="button">Create task</button>
+      <a href="#activity-{mode}">View activity</a>
+    </div>
+    <div class="sp-status-grid">
+      <article class="sp-status" data-status="neutral">
+        <svg class="sp-icon" viewBox="0 0 16 16" role="img" aria-label="Neutral"><circle cx="8" cy="8" r="3"/></svg>
+        <div><h6>Queued</h6><p>Two tasks are waiting to start.</p></div>
+      </article>
+      <article class="sp-status" data-status="success">
+        <svg class="sp-icon" viewBox="0 0 16 16" role="img" aria-label="Success"><path d="M3 8l3 3 7-7"/></svg>
+        <div><h6>Completed</h6><p>The latest report is ready.</p></div>
+      </article>
+      <article class="sp-status" data-status="warning">
+        <svg class="sp-icon" viewBox="0 0 16 16" role="img" aria-label="Warning"><path d="M8 2l6 12H2z M8 6v4 M8 12v1"/></svg>
+        <div><h6>Needs review</h6><p>One task needs a decision.</p></div>
+      </article>
+      <article class="sp-status" data-status="critical">
+        <svg class="sp-icon" viewBox="0 0 16 16" role="img" aria-label="Critical"><path d="M5 1h6l4 4v6l-4 4H5l-4-4V5z M5 5l6 6 M11 5l-6 6"/></svg>
+        <div><h6>Failed</h6><p>The import stopped. Check its source.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="activity-{mode}" class="sp-panel" aria-labelledby="activity-title-{mode}">
+    <h5 id="activity-title-{mode}">Recent activity</h5>
+    <ul class="sp-activity">
+      <li><span>Report generated</span><span class="sp-muted">Today, 09:30</span></li>
+      <li><span>Task added to queue</span><span class="sp-muted">Today, 09:15</span></li>
+      <li><span>Import requires review</span><span class="sp-muted">Today, 09:00</span></li>
+    </ul>
+  </section>
+
+  <section id="settings-{mode}" class="sp-panel" aria-labelledby="settings-title-{mode}">
+    <h5 id="settings-title-{mode}">Report settings</h5>
+    <label for="report-title-{mode}">Report title</label>
+    <input id="report-title-{mode}" name="report-title-{mode}" type="text" value="Weekly activity">
+    <label class="sp-check"><input type="checkbox" checked> Include completed tasks</label>
+    <button type="button">Save settings</button>
+  </section>
+</div>

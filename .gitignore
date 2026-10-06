@@ -29,3 +29,14 @@ __pycache__/
 /.scratch/
 /.claude/
 *.log
+/site/.generated/
+/site/public/catalogue.json
+/site/public/catalogue.css
+/site/public/exports/
+/site/public/releases/
+/site/public/review/
+/site/public/reports/
+/site/public/sitemap.xml
+/site/public/robots.txt
+/site/public/og.svg
+/site/public/og.png

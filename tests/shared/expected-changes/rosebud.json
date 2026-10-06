@@ -1,5 +1,33 @@
 [
   {
+    "mode": "dark",
+    "address": "status.neutral.accent",
+    "from": "#8D9298",
+    "to": "#AEB2B7",
+    "why": "D30: dark neutral status uses a lighter existing grey step so text and icons clear 4.5:1 on the page, sunken and raised surfaces. Severity still carries weight, edge style and an icon."
+  },
+  {
+    "mode": "dark",
+    "address": "status.success.accent",
+    "from": "#5C6168",
+    "to": "#C8CBD0",
+    "why": "D30: dark success status uses a lighter existing grey step so text and icons clear 4.5:1 on the page, sunken and raised surfaces. Severity still carries weight, edge style and an icon."
+  },
+  {
+    "mode": "dark",
+    "address": "status.warning.accent",
+    "from": "#42484E",
+    "to": "#DCDFE3",
+    "why": "D30: dark warning status uses a lighter existing grey step so text and icons clear 4.5:1 on the page, sunken and raised surfaces. Severity still carries weight, edge style and an icon."
+  },
+  {
+    "mode": "dark",
+    "address": "status.critical.accent",
+    "from": "#0C1117",
+    "to": "#FAFBFD",
+    "why": "D30: dark critical status uses a lighter existing grey step so text and icons clear 4.5:1 on the page, sunken and raised surfaces. Severity still carries weight, edge style and an icon."
+  },
+  {
     "mode": "light",
     "address": "ansi.red",
     "from": "#CF7F79",

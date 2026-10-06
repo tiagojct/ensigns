@@ -1,0 +1,13 @@
+.git
+node_modules
+site/node_modules
+dist
+site/dist
+site/.generated
+site/public/review
+site/public/releases
+site/public/exports
+preview
+reports
+.scratch
+legacy

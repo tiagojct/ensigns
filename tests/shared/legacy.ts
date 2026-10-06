@@ -72,6 +72,16 @@ export function pairsFor(snapshot: any, resolved: ResolvedFamily, mode: ModeName
   positional("data.sequential.", sm.dataviz.sequential);
   positional("data.diverging.", sm.dataviz.diverging);
   for (const [k, t] of Object.entries<any>(sm.dataviz.plot ?? {})) add(`data.plot.${k}`, t.hex);
+  // Gam's model omitted achromatic status. Compare Rosebud's accents directly
+  // with the frozen Ambergris tokens so their changes have the same audit trail.
+  if (snapshot.id === "ambergris") {
+    const legacy = readJson("tests/fixtures/legacy/ambergris.json");
+    for (const level of ["neutral", "success", "warning", "critical"]) {
+      const step = legacy.status[level].accent.match(/^\{color\.grey\.(\d+)\}$/)?.[1];
+      if (!step) throw new Error(`Ambergris status.${level}.accent is not a grey reference`);
+      add(`status.${level}.accent`, legacy.color.grey[step].hex);
+    }
+  }
   return out;
 }
 

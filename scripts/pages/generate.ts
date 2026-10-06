@@ -15,6 +15,7 @@ import { simulationViews } from "./filters.ts";
 import { familyPage, indexPage, standalonePage } from "./render.ts";
 import type { Entry, Group, Site } from "./render.ts";
 import { scopeProperties, tokensCss } from "./tokens-css.ts";
+import { generateAll } from "../../lib/generators/index.ts";
 
 const ASSETS = join(dirname(fileURLToPath(import.meta.url)), "assets");
 
@@ -116,7 +117,7 @@ export function buildPages(root: string, out: string): string[] {
 
   const site: Site = { groups, thresholds, views: simulationViews(thresholds) };
   const written: string[] = [];
-  const write = (rel: string, content: string) => {
+  const write = (rel: string, content: string | Uint8Array) => {
     const path = join(out, rel);
     mkdirSync(dirname(path), { recursive: true });
     writeFileSync(path, content);
@@ -131,6 +132,14 @@ export function buildPages(root: string, out: string): string[] {
   write("index.html", indexPage(site));
   for (const g of groups) {
     for (const e of [g.main, ...g.candidates]) {
+      e.exports = generateAll(e.family).filter((result) => result.files.length > 0).map(({ generator, files }) => ({
+        label: generator.label,
+        files: files.map((file) => {
+          const path = `exports/${e.scope}/${generator.id}/${file.name}`;
+          write(path, file.content);
+          return { name: file.name, path };
+        }),
+      }));
       write(`${e.scope}.html`, familyPage(site, g, e));
       if (g.specimen) for (const mode of MODES) write(`specimen/${e.scope}--${mode}.html`, standalonePage(g, e, mode));
     }

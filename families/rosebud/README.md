@@ -2,7 +2,7 @@
 
 Rosebud is a near-monochrome interface system on a cool grey ramp, with one teal accent for interaction and a five-step hue sweep for data. The token file states the goal: quiet application chrome for tools used for hours, such as dashboards, admin tools, the chrome of editors and the interface of Loomings.
 
-Version 0.4.0. Until 0.3.0 the family was called Ambergris. The tokens are in [rosebud.tokens.json](rosebud.tokens.json) and the history is in [CHANGELOG.md](CHANGELOG.md).
+Version 0.5.0. Until 0.3.0 the family was called Ambergris. The tokens are in [rosebud.tokens.json](rosebud.tokens.json) and the history is in [CHANGELOG.md](CHANGELOG.md).
 
 ## Environments
 
@@ -10,7 +10,7 @@ Three test profiles are listed in the token file. Their thresholds are in `tests
 
 - office-screen: a reader at a desk on an ordinary monitor. Every declared pair meets its WCAG 2.x minimum in each mode it names, 4.5:1 for text and 3:1 for large text and components. AAA and APCA are reported and never gated.
 - cvd: the declared distinct set, the six ANSI hue slots, keeps its members apart under normal vision and under protan, deutan and tritan simulation. The measurements are in the section on colour vision below.
-- forced-colors: forced-colours modes such as Windows High Contrast replace every colour, so focus, selection, the current item and status must each keep a marker that is not colour alone. This profile renders a specimen page in a browser and does not read the tokens.
+- forced-colors: forced-colours modes such as Windows High Contrast replace every colour, so focus, selection, the current item and status must each keep a marker that is not colour alone. This profile renders the current specimen in both modes, with no waivers and no external requests.
 
 ## The four rules
 
@@ -80,6 +80,14 @@ The light syntax was checked and kept. Every role clears 4.5:1 on the light back
 The light terminal chrome was checked and kept. The foreground is 16.00:1 on the background, the cursor text 18.30:1 on the cursor and the selection text 12.48:1 on the selection. The selection is alpha-accent.24 drawn over the terminal background, the same rule the dark port uses over grey.1000.
 
 [scripts/design/rosebud-light.ts](../../scripts/design/rosebud-light.ts) is the record of the method. It derives the values, stops if the token file differs from them or a check fails, prints these tables and writes the list of changed values to `tests/shared/expected-changes/rosebud.json`.
+
+### Dark status accents (D30)
+
+Ambergris used the light status accents in both modes. On the dark page, critical fell to 1.14:1, warning to 1.79:1 and success to 2.65:1. Rosebud 0.5.0 assigns neutral to grey.400, success to grey.300, warning to grey.200 and critical to grey.000. The values already belong to the grey ramp. Prominence increases with severity, and every dark accent clears 4.5:1 on the page, sunken and raised surfaces, including its own fill over each surface. The lowest ratio is 6.23:1 for neutral on the raised surface. The shared harness gates the page pairs; tests/families/rosebud.test.ts covers every surface and fill.
+
+Border weights, edge styles, fills and icons keep their meaning. The current specimen in specimen/ shows a workspace dashboard, with distinct status icons and labels, an outline on keyboard focus and weight plus an underline on the current navigation item. It replaces the old generated Ambergris page in the forced-colours checks.
+
+Run npm run export -- rosebud to generate CSS, JSON, Ghostty, kitty, Alacritty, Windows Terminal, VS Code, Zed, Neovim and Obsidian files from these tokens. The local preview offers the same downloads. The editor themes preserve the achromatic syntax styles and map status to the corrected accents. [scripts/export/README.md](../../scripts/export/README.md) gives the install instructions.
 
 ## Chapters 91 and 92
 

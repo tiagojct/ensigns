@@ -1,0 +1,281 @@
+[
+  {
+    "family": "Bitter",
+    "file": "bitter-Bitter-Italic[wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bitter/Bitter-Italic%5Bwght%5D.ttf",
+    "sha256": "5e6e0af503171c9d7b4be7a22c16f474d7a638cf83a80051d825bcc58d664bc3",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Bitter",
+    "file": "bitter-Bitter[wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bitter/Bitter%5Bwght%5D.ttf",
+    "sha256": "ef2b9a711fb02f1e5823b34da1b7450e0fc76793b7d733a8b41006e24916d4a7",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Bitter",
+    "file": "bitter-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bitter/OFL.txt",
+    "sha256": "152a1e283e23b42c4940da4c72f2f5bebaa17969cb77c76d7af05903846006f1",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Sans",
+    "file": "ibmplexsans-IBMPlexSans-Italic[wdth,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/IBMPlexSans-Italic%5Bwdth%2Cwght%5D.ttf",
+    "sha256": "0b94c5e981993764db32bf9c610ecc60cbd34ad77ec2f10ba03c64ab75124d8e",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Sans",
+    "file": "ibmplexsans-IBMPlexSans[wdth,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/IBMPlexSans%5Bwdth%2Cwght%5D.ttf",
+    "sha256": "3b031aa4216174205bd8471f88a49b91f093169e9e87bd5262242bc5967fe2e3",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Sans",
+    "file": "ibmplexsans-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/OFL.txt",
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Serif",
+    "file": "ibmplexserif-IBMPlexSerif-Bold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexserif/IBMPlexSerif-Bold.ttf",
+    "sha256": "534c02c295999dd86e770457ece1d43db0de9256dd98bf741426f63ae904209e",
+    "italic": false,
+    "variable": false,
+    "weight": 700
+  },
+  {
+    "family": "IBM Plex Serif",
+    "file": "ibmplexserif-IBMPlexSerif-BoldItalic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexserif/IBMPlexSerif-BoldItalic.ttf",
+    "sha256": "2a32b76ac19c1942bf5942dbbd2a1566e5f1ae9833e421ebcf36d3522715e153",
+    "italic": true,
+    "variable": false,
+    "weight": 700
+  },
+  {
+    "family": "IBM Plex Serif",
+    "file": "ibmplexserif-IBMPlexSerif-Italic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexserif/IBMPlexSerif-Italic.ttf",
+    "sha256": "4b75b38be4673527231f49c48818d090c913d5042dd5c747b525bf6185d29ecb",
+    "italic": true,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Serif",
+    "file": "ibmplexserif-IBMPlexSerif-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexserif/IBMPlexSerif-Regular.ttf",
+    "sha256": "e882efa9c41949a528ac2369079ec5ef050c1c996bbd0bacce3c3326d44cf80d",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Serif",
+    "file": "ibmplexserif-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexserif/OFL.txt",
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Mono",
+    "file": "ibmplexmono-IBMPlexMono-Bold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-Bold.ttf",
+    "sha256": "ac27abd6450a64dd94467580a02fe6235156d5b92f2926ebbc8e7489df64e0be",
+    "italic": false,
+    "variable": false,
+    "weight": 700
+  },
+  {
+    "family": "IBM Plex Mono",
+    "file": "ibmplexmono-IBMPlexMono-BoldItalic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-BoldItalic.ttf",
+    "sha256": "af4e05a761e98c1adf064c48a6352c9bec1a6ad70982cd2a544149323391f98e",
+    "italic": true,
+    "variable": false,
+    "weight": 700
+  },
+  {
+    "family": "IBM Plex Mono",
+    "file": "ibmplexmono-IBMPlexMono-Italic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-Italic.ttf",
+    "sha256": "3362fc791b0652193328b862c1c5f23a789bc7288b1617fa63302f88689a2a34",
+    "italic": true,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Mono",
+    "file": "ibmplexmono-IBMPlexMono-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-Regular.ttf",
+    "sha256": "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "IBM Plex Mono",
+    "file": "ibmplexmono-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/OFL.txt",
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "Fraunces",
+    "file": "fraunces-Fraunces-Italic[SOFT,WONK,opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/fraunces/Fraunces-Italic%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf",
+    "sha256": "b24448c43702fac4ee856781d461a0dfba8d8e594b6e8e190234b75fed2c0e01",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Fraunces",
+    "file": "fraunces-Fraunces[SOFT,WONK,opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/fraunces/Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf",
+    "sha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Fraunces",
+    "file": "fraunces-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/fraunces/OFL.txt",
+    "sha256": "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "Archivo",
+    "file": "archivo-Archivo-Italic[wdth,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/Archivo-Italic%5Bwdth%2Cwght%5D.ttf",
+    "sha256": "305d13b4eb80e62f7d517f78d7c045250d977552a420f2dbed906f314e761305",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Archivo",
+    "file": "archivo-Archivo[wdth,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/Archivo%5Bwdth%2Cwght%5D.ttf",
+    "sha256": "0e094a7d3c7c4c25cf1310c4b30014f1dae9332220b1c2c88f4fa996f0b05053",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Archivo",
+    "file": "archivo-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/OFL.txt",
+    "sha256": "108b4e57c9c796d3d38d0428ca7ee39de47ad93187302718d9b2d8864b9b716b",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "Literata",
+    "file": "literata-Literata-Italic[opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata-Italic%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "d483dfaeba9cbf4ce71d32a52ee65df82f7e35b15fff8d1011cdb242d1fcd465",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Literata",
+    "file": "literata-Literata[opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "b41138c9373112f32abb589cc22e8674b06ed4048b0c513be922bdd26f274440",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Literata",
+    "file": "literata-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/OFL.txt",
+    "sha256": "8742963604cd89dc81437811a850018fc03b2bfad686d7422c8235967c87614e",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "Overpass",
+    "file": "overpass-Overpass-Italic[wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/overpass/Overpass-Italic%5Bwght%5D.ttf",
+    "sha256": "3b45ac4193930bbeb491b5c76227afd5991607712f0d16d6bc5d74db6bbd8172",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Overpass",
+    "file": "overpass-Overpass[wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/overpass/Overpass%5Bwght%5D.ttf",
+    "sha256": "970717df17a7f9911dee45f60695d05bfa9d745fa0a11fc5c348371fa21f0073",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Overpass",
+    "file": "overpass-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/overpass/OFL.txt",
+    "sha256": "86e5ff25c701ec446d20b1a85b02ee6d36de8503a7288a4c948f5459809af1f0",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  },
+  {
+    "family": "Inter",
+    "file": "inter-Inter-Italic[opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter-Italic%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "acd98e64795781b2058f07b18475e0ecee2a0fe2b42a49e2f9e37d0d6bf66ce6",
+    "italic": true,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Inter",
+    "file": "inter-Inter[opsz,wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf",
+    "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "italic": false,
+    "variable": true,
+    "weight": 400
+  },
+  {
+    "family": "Inter",
+    "file": "inter-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/OFL.txt",
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "italic": false,
+    "variable": false,
+    "weight": 400
+  }
+]
