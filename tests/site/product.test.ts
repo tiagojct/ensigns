@@ -176,6 +176,23 @@ describe('production site in Chromium',()=>{
       expect(await p.locator('#export-family').inputValue()).toBe(await p.locator('#export-family option').first().getAttribute('value'));
     }finally{await c.close();}
   });
+  it('keeps the Carpenter from moving the checker below it when the catalogue arrives',async(context)=>{
+    if(!browser)return context.skip('Chromium unavailable');
+    for(const viewport of [{width:1350,height:940},{width:412,height:823}]){
+      const c=await browser.newContext({viewport}),p=await c.newPage();
+      try{
+        // Hold the catalogue back, so that the first measure is the page as it paints before the data arrives.
+        let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve;});
+        await p.route('**/catalogue.json',async route=>{await gate;await route.continue();});
+        await p.goto(`${url}/carpenter/`);
+        const top=()=>p.evaluate(()=>document.querySelector('#checker')!.getBoundingClientRect().top+scrollY);
+        const before=await top();
+        release();await p.waitForSelector('.export-file');
+        // Without room kept for the preview, the checker moved by 512 px on a wide screen and 759 px on a narrow one.
+        expect(Math.abs(await top()-before),`${viewport.width}px wide`).toBeLessThanOrEqual(24);
+      }finally{await c.close();}
+    }
+  });
   it('exports every available format, explains excluded formats and downloads real text, binary and ZIP files',async(context)=>{
     if(!browser)return context.skip('Chromium unavailable');const c=await browser.newContext({acceptDownloads:true}),p=await c.newPage(),errors:string[]=[];p.on('pageerror',e=>errors.push(e.message));
     try{

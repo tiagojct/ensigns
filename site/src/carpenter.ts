@@ -39,7 +39,12 @@ export async function init(){
     document.querySelector('#export-install')!.textContent=INSTALL[g.id] ?? 'Download the file and import it into the corresponding application.';
     const link=document.querySelector<HTMLAnchorElement>('#export-family-link')!;link.href=`/${f.meta.id}/`;link.textContent=`Explore ${f.meta.name}`;
     query.searchParams.set('family',f.meta.id);query.searchParams.set('format',g.id);query.searchParams.set('mode',mode.value);history.replaceState(null,'',query);
-    if(reason){document.querySelector('#export-status')!.textContent=reason;return;}
+    if(reason){
+      document.querySelector('#export-status')!.textContent=reason;
+      // The reason also goes where the files would be. An empty preview area keeps its reserved height.
+      const note=el('p',reason);note.className='notice';host.append(note);
+      return;
+    }
     const files=g.generate(f,options());
     document.querySelector('#export-status')!.textContent=`${files.length} ${files.length===1 ? 'file' : 'files'} · ${f.meta.name} ${f.meta.version} · ${mode.value==='both' ? 'both modes' : mode.value+' mode'}`;
     for(const file of files){
