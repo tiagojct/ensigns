@@ -45,7 +45,9 @@ def sha256(path: Path) -> str:
 
 
 def convert(src: Path, dst: Path) -> None:
-    font = TTFont(src)
+    # recalcTimestamp=False keeps fontTools from writing the time of the run into the head table,
+    # so that the same source gives the same bytes and the recorded hashes can be checked again.
+    font = TTFont(src, recalcTimestamp=False)
     font.flavor = "woff2"
     font.save(dst)
 
@@ -60,7 +62,7 @@ def subset_font(src: Path, dst: Path) -> None:
     options.glyph_names = False
     options.hinting = True
     options.legacy_kern = True
-    font = TTFont(src)
+    font = TTFont(src, recalcTimestamp=False)
     subsetter = subset.Subsetter(options)
     subsetter.populate(unicodes=subset.parse_unicodes(UNICODES))
     subsetter.subset(font)
@@ -70,7 +72,7 @@ def subset_font(src: Path, dst: Path) -> None:
 def main() -> int:
     sources_path = FONTS / "sources.json"
     sources = json.loads(sources_path.read_text())
-    known = {entry["file"] for entry in sources}
+    position = {entry["file"]: i for i, entry in enumerate(sources)}
     added = []
     for entry in list(sources):
         name = entry["file"]
@@ -78,7 +80,9 @@ def main() -> int:
             continue
         out_name = name[: -len(".ttf")] + ".woff2"
         src, dst = FONTS / name, FONTS / out_name
-        if out_name in known:
+        # A file that is recorded and present is left alone. One that is recorded and missing is made again,
+        # and its entry is replaced, so that the hashes stay true and the list holds no duplicate.
+        if out_name in position and dst.exists():
             continue
         if entry["family"] in CONVERT_ONLY:
             convert(src, dst)
@@ -106,7 +110,11 @@ def main() -> int:
             "derivedFromSha256": sha256(src),
             "derivation": how,
         }
-        sources.append(derived)
+        if out_name in position:
+            sources[position[out_name]] = derived
+        else:
+            position[out_name] = len(sources)
+            sources.append(derived)
         added.append((name, src.stat().st_size, dst.stat().st_size))
     if added:
         sources_path.write_text(json.dumps(sources, indent=2, ensure_ascii=False) + "\n")
