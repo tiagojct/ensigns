@@ -1,5 +1,6 @@
 /// <reference lib="dom" />
 // Exercise the production build under the same CSP as nginx, including real downloads.
+import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
 import type { Server } from 'node:http';
 import { readFileSync, existsSync, readdirSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
@@ -69,6 +70,21 @@ describe('finished static catalogue',()=>{
       // for Goney, costs a download for a few small words and delays the first paint on a slow network: 275 KB on the live site.
       expect([...fonts].sort()).toEqual(['atkinson-hyperlegible-next.woff2','jetbrains-mono.woff2','literata-latin.woff']);
     }finally{await c.close();}
+  });
+  it('serves the fonts of the family pages and their specimens as WOFF2 files, not as TrueType files',async(context)=>{
+    if(!browser)return context.skip('Chromium unavailable');
+    const c=await browser.newContext(),p=await c.newPage(),fonts=new Set<string>();
+    p.on('response',r=>{const path=new URL(r.url()).pathname;if(/^\/fonts\/.+\.(woff2?|ttf)$/.test(path))fonts.add(decodeURIComponent(path.slice('/fonts/'.length)));});
+    try{
+      for(const family of ['goney','jungfrau','bachelor'])for(const page of [`/${family}/`,`/review/specimen/${family}--light.html`])await p.goto(`${url}${page}`,{waitUntil:'networkidle'});
+      expect(fonts.size,'fonts loaded').toBeGreaterThan(5);
+      expect([...fonts].filter(f=>f.endsWith('.ttf')),'TrueType files requested by a browser that reads WOFF2').toEqual([]);
+    }finally{await c.close();}
+  });
+  it('gives the font style sheet an address that changes with its content, because /fonts/ is cached for 30 days',()=>{
+    const hash=createHash('sha256').update(readFileSync(join(out,'fonts/fonts.css'))).digest('hex').slice(0,10);
+    for(const route of ['/','/goney/','/404/'])expect(readFileSync(join(out,route,'index.html'),'utf8'),route).toContain(`<link rel="stylesheet" href="/fonts/fonts.css?v=${hash}">`);
+    expect(readFileSync(join(out,'review/assets/pages.css'),'utf8')).toContain(`@import url('/fonts/fonts.css?v=${hash}');`);
   });
   it('ships a favicon.ico and an iOS touch icon, and links both from every page and the 404 page',()=>{
     const ico=readFileSync(join(out,'favicon.ico')),view=new DataView(ico.buffer,ico.byteOffset,ico.byteLength);
