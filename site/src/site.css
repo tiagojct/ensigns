@@ -178,6 +178,7 @@ summary span { font-size: .75rem; font-weight: 400; color: var(--roles-text-mute
 /* The catalogue arrives after the first paint. Until a file is shown, keep the room that the default
    preview and the installation note take, so the checker below does not jump. */
 .js #export-files:empty { min-height: 38.75rem; margin-bottom: 1rem; }
+.js .export-unavailable { box-sizing: border-box; min-height: 38.75rem; margin: 0 0 1rem; }
 .js #export-install:empty { min-height: 7.25rem; }
 .workbench aside { border-left: 1px solid var(--roles-border); padding-left: 2rem; font-size: .9rem; }
 .export-file { border: 1px solid var(--roles-border); border-radius: .25rem; margin-bottom: 1rem; overflow: hidden; }
