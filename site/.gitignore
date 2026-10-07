@@ -6,6 +6,7 @@ src/generated/
 public/official/
 public/og.png
 public/favicon.svg
+public/favicon.ico
 public/favicon.png
 public/apple-touch-icon.png
 .DS_Store

@@ -15,6 +15,7 @@ import { buildExports } from '../export/generate.ts';
 import { pages, ORIGIN } from './render.ts';
 import { readStamp } from './stamp.ts';
 import { ensign } from './ensign.ts';
+import { ico } from './ico.ts';
 import type { CatalogueFamily } from './render.ts';
 const write=(path:string,content:string|Uint8Array)=>{mkdirSync(dirname(path),{recursive:true});writeFileSync(path,content);};
 /** The families in book order, with their notes and measurements. Nothing is written, so tests can call it. */
@@ -79,6 +80,12 @@ export function prepareSite(root=repoRoot()) {
   // The favicon is the site's mark in Pequod's colours. The share image carries the mark, the headline and the ten ensigns.
   const markPaths=`<path d="M0 0H150L139 25H0Z" fill="${get('accent')}"/><path d="M0 25H139L128 50L139 75H0Z" fill="${get('surface')}"/><path d="M0 75H139L150 100H0Z" fill="${get('text')}"/><path d="M0 0H150L128 50L150 100H0Z" fill="none" stroke="${get('text')}" stroke-width="7" stroke-linejoin="round"/>`;
   write(join(publicDir,'favicon.svg'),`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -3 156 106">${markPaths}</svg>\n`);
+  // Browsers that cannot use the SVG, and crawlers, ask for /favicon.ico. iOS asks for a touch icon, and it needs a ground,
+  // because iOS fills a transparent one with black. Both are the same mark, centred on a square.
+  const square=(ground:string)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -28 156 156">${ground}${markPaths}</svg>`;
+  const png=(svg:string,size:number)=>new Resvg(svg,{fitTo:{mode:'width',value:size}}).render().asPng();
+  write(join(publicDir,'favicon.ico'),ico([16,32,48].map(size=>png(square(''),size))));
+  write(join(publicDir,'apple-touch-icon.png'),png(square(`<rect x="-3" y="-28" width="156" height="156" fill="${get('bg')}"/>`),180));
   const words=(x:number,y:number,size:number,fill:string,weight:number,content:string)=>`<text x="${x}" y="${y}" font-family="Literata" font-weight="${weight}" font-size="${size}" fill="${fill}">${content}</text>`;
   const flags=families.map((f,i)=>ensign(f,i,`og-${i}`).replace('<svg class="ensign"',`<svg x="${(80+i*(1040-88)/9).toFixed(1)}" y="500" width="88" height="${(88*104/154).toFixed(1)}"`)).join('');
   write(join(publicDir,'og.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="${get('bg')}"/><g transform="translate(80 78) scale(.46)">${markPaths}</g>${words(168,128,60,get('text'),600,'Ensigns')}${words(80,292,96,get('text'),560,'Colour, tested')}${words(80,396,96,get('text'),560,'where it is read.')}${words(80,462,32,get('text-muted'),400,'Ten colour families named for the ships of Moby-Dick.')}${flags}</svg>`);
