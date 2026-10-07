@@ -66,6 +66,12 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
     ```
 
     The first command must show 200 and all three headers. The second must show 301 and location /goney/. The third must show 404. Then open https://ensigns.tiagojacinto.eu/carpenter/?family=glauca. The family list must show Goney.
+
+    The footer names the commit of the image. This command must show the first seven characters of the commit that the workflow built.
+
+    ```sh
+    curl -s https://ensigns.tiagojacinto.eu/ | grep -o 'commit <a href="[^"]*"><code>[0-9a-f]*'
+    ```
 11. Check one file under /assets/ with curl -sI. It must carry the same Content Security Policy and nosniff headers, and a cache-control of one year.
 12. Redirect the old host. Save the Caddyfile. Edit a copy: delete the (route_gam) snippet and the two gam blocks, and put the content of ~/ensigns-deploy/Caddyfile.gam-redirect.snippet in their place. Write the copy back with cat, so that the file keeps its inode. Check the file and reload Caddy.
 
@@ -113,7 +119,7 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
 - The build host has no nginx, Caddy or Docker. Test the files where they run. On a machine with Docker, these two commands check the image and the server block.
 
   ```sh
-  docker build -f site/deploy/Dockerfile -t ensigns:test .
+  docker build -f site/deploy/Dockerfile -t ensigns:test --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .
   docker run --rm -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginx:alpine nginx -t
   ```
 

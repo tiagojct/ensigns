@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { repoRoot } from "../../lib/model/load.ts";
 import { RENAMED_FAMILIES } from "../../lib/model/renames.ts";
+import { STAMP_ENV } from "../../scripts/site/stamp.ts";
 
 const root = repoRoot();
 const read = (path: string) => readFileSync(join(root, path), "utf8");
@@ -113,6 +114,36 @@ describe("the image workflow", () => {
     const uses = [...text.matchAll(/uses: (\S+)/g)].map((m) => m[1]!);
     expect(uses.length).toBeGreaterThan(3);
     for (const u of uses) expect(u, u).toMatch(/@[0-9a-f]{40}$/);
+  });
+});
+
+describe("the commit stamp in the image", () => {
+  const docker = code("site/deploy/Dockerfile");
+  const workflow = read(".github/workflows/build-deploy.yml");
+  const build = "--build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD)";
+
+  it("takes the commit as build arguments and stops the build without them", () => {
+    expect(docker).toContain("ARG COMMIT_SHA");
+    expect(docker).toContain("ARG COMMIT_DATE");
+    expect(docker).toContain(`ENV ${STAMP_ENV.require}=1 ${STAMP_ENV.sha}=\${COMMIT_SHA} ${STAMP_ENV.date}=\${COMMIT_DATE}`);
+  });
+
+  it("sets the arguments after npm ci and before the build, so that a new commit keeps the dependency layer", () => {
+    expect(docker.indexOf("RUN npm ci")).toBeGreaterThan(-1);
+    expect(docker.indexOf("RUN npm ci")).toBeLessThan(docker.indexOf("ARG COMMIT_SHA"));
+    expect(docker.indexOf("ARG COMMIT_DATE")).toBeLessThan(docker.indexOf("RUN npm run build"));
+  });
+
+  it("passes the commit and the date of that commit, not the date of the run", () => {
+    expect(workflow).toContain(`git show -s --format=%cs "$GITHUB_SHA"`);
+    expect(workflow).toContain("COMMIT_SHA=${{ github.sha }}");
+    expect(workflow).toContain("COMMIT_DATE=${{ steps.commit.outputs.date }}");
+    expect(workflow.indexOf("id: commit")).toBeLessThan(workflow.indexOf("docker/build-push-action"));
+  });
+
+  it("gives the runbook and the release notes a docker build command that passes both arguments", () => {
+    expect(read("site/deploy/README.md")).toContain(build);
+    expect(read("docs/RELEASE.md")).toContain(build);
   });
 });
 
