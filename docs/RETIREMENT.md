@@ -2,10 +2,18 @@
 
 This file lists what the owner does, after Ensigns is live, to retire gam, pequod, glauca, try-works and ambergris. The build and this repository do none of it. Do the work in the order below. Do not archive a repository before its notice is committed, because an archived repository takes no commits.
 
+## Status, 2026-10-07
+
+Sections 2 and 3 are done for all five repositories. Each README carries its notice, and ambergris had no README, so it has a new one that holds the notice. The homepage and the description are set, and each repository is archived. The notice commits skip CI, so gam built no new image. Sections 1, 5 and 6 are not done.
+
+Section 3 replaced these values. gam had the homepage https://gam.tiagojacinto.eu and the description "Where the four Moby-Dick colour families meet: Pequod, Glauca, Try-Works and Ambergris, side by side, with an export tool". pequod had the homepage https://tiagojct.eu/projects/pequod/ and the description "A pigment-inspired colour palette for reading and code, rooted in Moby-Dick. Warm paper, deep ink, eight accent hues named after the crew of the Pequod." glauca, try-works and ambergris had neither.
+
+pequod is archived before its 0.3.0 releases exist. Its notice says that 0.3.0 is the last release, which becomes true when you publish them. To make them, run gh repo unarchive tiagojct/pequod, apply the patches, publish, and archive the repository again.
+
 ## Before you start
 
-1. Make the ensigns repository public. It is private today. The notices and the package metadata link to it.
-2. Check that https://ensigns.tiagojacinto.eu is live and that gam.tiagojacinto.eu redirects to it. site/deploy/README.md gives the steps.
+1. The ensigns repository is public. It has been since 2026-10-07. The notices and the package metadata link to it.
+2. https://ensigns.tiagojacinto.eu is live, and gam.tiagojacinto.eu redirects to it at Caddy and at the Cloudflare edge. Both have been so since 2026-10-07. site/deploy/README.md gives the steps and the undo.
 3. Publish the ensigns packages that the next section names. docs/RELEASE.md gives the steps.
 
 ## 1. Published packages
@@ -87,7 +95,9 @@ Do not delete, rename or make private any of the five. Archived repositories sta
 
 ## 4. The old Gam host
 
-Proposal (D33): keep gam.tiagojacinto.eu redirecting for at least 24 months after the cutover. Keep it longer while it still receives more than a few requests a month. The cost is one DNS record and two Caddy blocks, and old links stay in the Gam page on tiagojacinto.eu, in citations, in the README files of other repositories and in anything that was shared. Read the request count in Cloudflare before you remove it.
+Decision (D33, 2026-10-07): keep gam.tiagojacinto.eu redirecting for at least 24 months after the cutover, which is until 2028-10-07. Keep it longer while it still receives more than a few requests a month. The cost is one DNS record and two Caddy blocks, and old links stay in the Gam page on tiagojacinto.eu, in citations, in the README files of other repositories and in anything that was shared. Read the request count in Cloudflare before you remove it.
+
+The old download paths under /official/ have no counterpart on the new host, so they return 404 (D36). Cloudflare analytics show 49 requests for them in the 30 days to 2026-10-07, all from one curl client in one burst. No redirect was added. Read the count again when you review the host.
 
 To remove the host, do these steps in this order.
 
@@ -96,7 +106,7 @@ To remove the host, do these steps in this order.
 3. Delete the gam rule from /etc/cloudflared/config.yml. Restart cloudflared.
 4. Delete the gam DNS record.
 
-The old container stops at step 14 of site/deploy/README.md. The image ghcr.io/tiagojct/gam stays until you delete the package. The weekly rebuild in the old repository changes nothing after that, because no container runs the image.
+The old container stops at step 14 of site/deploy/README.md. It was stopped and removed on 2026-10-07. Its folder, /opt/vps/apps/gam, stays on the VPS. The image ghcr.io/tiagojct/gam stays until you delete the package. The weekly rebuild in the old repository changes nothing after that, because no container runs the image.
 
 ## 5. Consumers
 
@@ -118,5 +128,6 @@ CITATION.cff in this repository names Ensigns 1.0.0 and has no DOI. To get a Zen
 
 ## Open
 
-- The five pequod 0.3.0 releases are not prepared (section 1).
-- The decision on the length of the redirect (D33, section 4).
+- The five pequod 0.3.0 releases are not made (section 1). The patches exist. The repository is archived, so unarchive it first.
+- The consumers (section 5) and the DOI (section 6).
+- The Cloudflare transport settings (D37): Always Use HTTPS now, and HSTS after a month without mixed-content problems. docs/migration/DECISIONS.md has the detail.

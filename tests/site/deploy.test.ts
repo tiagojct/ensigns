@@ -141,7 +141,8 @@ describe("the commit stamp in the image", () => {
     expect(workflow.indexOf("id: commit")).toBeLessThan(workflow.indexOf("docker/build-push-action"));
   });
 
-  it("gives the runbook and the release notes a docker build command that passes both arguments", () => {
+  it("gives the Dockerfile, the runbook and the release notes a docker build command that passes both arguments", () => {
+    expect(read("site/deploy/Dockerfile")).toContain(build);
     expect(read("site/deploy/README.md")).toContain(build);
     expect(read("docs/RELEASE.md")).toContain(build);
   });

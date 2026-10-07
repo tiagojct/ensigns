@@ -51,3 +51,16 @@ CHECKPOINT-3.md lists the earlier open decisions, D2 and D22 to D32. New ones:
 ## Approval
 
 Say whether to go ahead with the deployment. After that, follow site/deploy/README.md, and then docs/RETIREMENT.md. Pull requests 1 to 4 are open, and CI is green on each. Merge them in order, each with a merge commit, before the image workflow can run on main.
+
+## Outcome, 2026-10-07
+
+The owner approved the deployment on 2026-10-07. The text above stays as it was written on 2026-10-06. This section records what happened.
+
+- Pull requests 1 to 4 were merged in order, each with a merge commit. The build-deploy workflow ran on main at 3477a91 and succeeded in 1 minute 22 seconds, which also shows that the Docker build works on node:24-alpine. The GHCR package was made public.
+- The proxied CNAME ensigns was added in the zone tiagojacinto.eu, with the same target as gam. The container, the Caddy blocks and the tunnel rule went onto the VPS (steps 5 to 9). The tunnel config has one top-level originRequest block with noTLSVerify: true, so the new rule needed none of its own.
+- Steps 10 and 11 passed through Cloudflare. The home page answers 200 with the Content Security Policy and nosniff headers. A file under /assets/ carries the same headers and a cache-control of one year. /glauca/ answers 301 to /goney/, a missing page answers 404, and /carpenter/?family=glauca selects Goney.
+- Steps 12 to 14 were done the same day. gam.tiagojacinto.eu answers 301 to the same path on the new host, at Caddy and through a Cloudflare Single Redirect rule that keeps the query string. The old container was stopped and removed, and its image and folder stay on the VPS.
+- The repository was made public the same day. A scan of the full history found no tokens or keys.
+- The notices and the archive of the five old repositories (docs/RETIREMENT.md, sections 2 and 3) were done the same day. Nothing was published to a registry.
+- Loomings, social and vault were checked before and after each change and answered the same.
+- docs/migration/DECISIONS.md records the outcome for D2 and D22 to D38.

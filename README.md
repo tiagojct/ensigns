@@ -2,7 +2,7 @@
 
 Colour families named after the Pequod and the nine ships she gams with in Moby-Dick. An ensign is the flag a ship flies to show who she is. Each family is one ship's colours, tuned for one place where colour has to work, and tested for it.
 
-The public site is prepared for https://ensigns.tiagojacinto.eu. Run `npm run build` and `npm run preview` to open the finished product locally. Deployment and registry publication are owner operations.
+The public site is at https://ensigns.tiagojacinto.eu. Run `npm run build` and `npm run preview` to open the finished product locally. The site image is built by the build-deploy workflow, which only the owner starts. Registry publication is an owner operation.
 
 ## Status
 

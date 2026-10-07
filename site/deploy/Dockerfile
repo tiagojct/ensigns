@@ -1,4 +1,5 @@
-# Run from the repository root: docker build -f site/deploy/Dockerfile -t ensigns .
+# Run from the repository root, with the commit as build arguments. The build stops without them.
+# docker build -f site/deploy/Dockerfile -t ensigns --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .
 FROM node:24-alpine AS build
 WORKDIR /src
 COPY package.json package-lock.json ./
