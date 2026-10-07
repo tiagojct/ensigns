@@ -2,6 +2,7 @@ name: ci
 
 # Tests run on every push to main and on every pull request. Nothing here publishes.
 # The suite builds and exercises the production site; release artifacts are local only.
+# The r-package and python-package jobs check the generated R and Python packages.
 on:
   push:
     branches: [main]
@@ -52,3 +53,54 @@ jobs:
             dist/ensigns-*.sha256
             dist/releases
           if-no-files-found: error
+
+  r-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run packages
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+      # R CMD check --as-cran converts README.md with pandoc, which the runner does not have.
+      - uses: r-lib/actions/setup-pandoc@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+      - name: Install jsonlite and ggplot2
+        run: Rscript -e 'install.packages(c("jsonlite", "ggplot2"))'
+      - name: R CMD build
+        working-directory: dist/packages/r
+        run: R CMD build ensigns
+      - name: R CMD check
+        working-directory: dist/packages/r
+        env:
+          # The remote part of the CRAN incoming check reports "New submission" until the package is
+          # on CRAN, and it fetches external links. The owner runs it before a submission.
+          _R_CHECK_CRAN_INCOMING_REMOTE_: "false"
+        # --no-manual, because the runner has no LaTeX; R then skips the HTML manual check as well.
+        # Any note or warning fails the job.
+        run: |
+          R CMD check --as-cran --no-manual ensigns_*.tar.gz
+          grep -qx 'Status: OK' ensigns.Rcheck/00check.log
+
+  python-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run packages
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install the package and pytest into a fresh virtual environment
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install "./dist/packages/python[plot]" pytest
+      - run: .venv/bin/python -m pytest tests/packages/python

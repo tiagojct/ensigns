@@ -73,14 +73,15 @@ export async function buildPackages(root=repoRoot(),out=join(root,'dist')){
   }
   write(join(py,'pyproject.toml'),`[build-system]\nrequires = ["setuptools>=77"]\nbuild-backend = "setuptools.build_meta"\n\n[project]\nname = "ensigns"\nversion = "${version}"\ndescription = "Ten Ensigns colour families and matplotlib styles"\nrequires-python = ">=3.9"\nlicense = "MIT AND CC-BY-4.0"\nlicense-files = ["LICENSE-MIT.txt", "LICENSE-CC-BY-4.0.txt"]\n\n[project.optional-dependencies]\nplot = ["matplotlib>=3.8"]\n\n[tool.setuptools.packages.find]\nwhere = ["src"]\n\n[tool.setuptools.package-data]\nensigns = ["data/*.json", "styles/*"]\n`);
   cpSync(join(root,'packages/python/ensigns.py'),join(py,'src/ensigns/__init__.py'));
-  write(join(r,'DESCRIPTION'),`Package: ensigns\nType: Package\nTitle: Ensigns Colour Families\nVersion: ${version}\nAuthor: Tiago Jacinto [aut, cre]\nMaintainer: Tiago Jacinto <tiagojacinto@med.up.pt>\nAuthors@R: person("Tiago", "Jacinto", role = c("aut", "cre"), email = "tiagojacinto@med.up.pt")\nDescription: Ten colour families and their resolved tokens, with ggplot2 themes and authored chart scales. Colour data are CC BY 4.0; code is MIT.\nLicense: MIT + file LICENSE\nEncoding: UTF-8\nImports: jsonlite\nSuggests: ggplot2\n`);
+  write(join(r,'DESCRIPTION'),`Package: ensigns\nType: Package\nTitle: Ten Colour Families Named After Ships in Moby-Dick\nVersion: ${version}\nAuthor: Tiago Jacinto [aut, cre]\nMaintainer: Tiago Jacinto <tiagojacinto@med.up.pt>\nAuthors@R: person("Tiago", "Jacinto", role = c("aut", "cre"), email = "tiagojacinto@med.up.pt")\nDescription: Ten colour families and their resolved tokens, with ggplot2 themes and authored chart scales. Colour data are CC BY 4.0; code is MIT.\nLicense: MIT + file LICENSE\nEncoding: UTF-8\nImports: jsonlite\nSuggests: ggplot2\n`);
   write(join(r,'LICENSE'),'YEAR: 2026\nCOPYRIGHT HOLDER: Tiago Jacinto\n');
   write(join(r,'NAMESPACE'),'export(ensigns_tokens)\nexport(ensigns_colours)\nexport(theme_ensigns)\nexport(scale_colour_ensigns)\nexport(scale_fill_ensigns)\n');
   mkdirSync(join(r,'R'),{recursive:true});mkdirSync(join(r,'man'),{recursive:true});
   cpSync(join(root,'packages/r/ensigns.R'),join(r,'R/ensigns.R'));
   cpSync(join(root,'packages/r/ensigns.Rd'),join(r,'man/ensigns.Rd'));
   for(const dir of [py,r]){
-    for(const [n,v] of Object.entries(licences))write(join(dir,n),v);
+    // R CMD check --as-cran notes non-standard files at the top of an R package. Files in inst/ are installed with it.
+    for(const [n,v] of Object.entries(licences))write(join(dir===r ? join(r,'inst') : dir,n),v);
     write(join(dir,'README.md'),'# Ensigns\n\nLocal package from Ensigns '+version+'. Code MIT; colour data CC BY 4.0, Tiago Jacinto. See https://ensigns.tiagojacinto.eu/about/ and the included licence texts.\n');
   }
   write(join(releases,`ensigns-python-${version}.zip`),zipSync(readTree(py),{level:6,mtime:fixedTime}));
