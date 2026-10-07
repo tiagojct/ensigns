@@ -6,7 +6,7 @@ This file lists what the owner does, after Ensigns is live, to retire gam, pequo
 
 Sections 2 and 3 are done for all five repositories. Each README carries its notice, and ambergris had no README, so it has a new one that holds the notice. The homepage and the description are set, and each repository is archived. The notice commits skip CI, so gam built no new image. Sections 1, 5 and 6 are not done.
 
-Step 3 replaced these values. gam had the homepage https://gam.tiagojacinto.eu and the description "Where the four Moby-Dick colour families meet: Pequod, Glauca, Try-Works and Ambergris, side by side, with an export tool". pequod had the homepage https://tiagojct.eu/projects/pequod/ and the description "A pigment-inspired colour palette for reading and code, rooted in Moby-Dick. Warm paper, deep ink, eight accent hues named after the crew of the Pequod." glauca, try-works and ambergris had neither.
+Section 3 replaced these values. gam had the homepage https://gam.tiagojacinto.eu and the description "Where the four Moby-Dick colour families meet: Pequod, Glauca, Try-Works and Ambergris, side by side, with an export tool". pequod had the homepage https://tiagojct.eu/projects/pequod/ and the description "A pigment-inspired colour palette for reading and code, rooted in Moby-Dick. Warm paper, deep ink, eight accent hues named after the crew of the Pequod." glauca, try-works and ambergris had neither.
 
 pequod is archived before its 0.3.0 releases exist. Its notice says that 0.3.0 is the last release, which becomes true when you publish them. To make them, run gh repo unarchive tiagojct/pequod, apply the patches, publish, and archive the repository again.
 
