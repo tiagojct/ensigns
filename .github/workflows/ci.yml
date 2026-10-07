@@ -33,6 +33,9 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm test
       - run: npm run build
+      # The site's nginx configuration, run by the nginx image on the site that was just built.
+      - name: Check the nginx configuration
+        run: sh site/deploy/check-nginx.sh
       - name: Verify repeatable exports
         run: node scripts/export/freshness.ts
       - name: Environment reports
