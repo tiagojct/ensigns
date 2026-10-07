@@ -59,6 +59,9 @@ jobs:
             type=raw,value=latest
             type=raw,value=${{ steps.version.outputs.value }}
             type=sha,format=short
+      - name: Read the commit date
+        id: commit
+        run: echo "date=$(git show -s --format=%cs "$GITHUB_SHA")" >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
@@ -68,5 +71,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # The footer prints the commit and its date. The image build has no .git folder.
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+            COMMIT_DATE=${{ steps.commit.outputs.date }}
           cache-from: type=gha
           cache-to: type=gha,mode=max,ignore-error=true
