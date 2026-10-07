@@ -2,6 +2,28 @@
 
 All notable changes to Ensigns are recorded here. The format follows Keep a Changelog and the project uses semantic versioning. Ensigns continues the version line of the Gam site, which was 0.1.0. Each family keeps its own changelog in `families/<id>/`, with the old values of every changed colour.
 
+## [Unreleased]
+
+### Added
+
+- A footer on every page that names the collection version, each family's version and, in the deployed image, the commit and its date.
+- favicon.ico and an iOS touch icon, both drawn from the site's mark.
+- The Carpenter accepts the old family ids glauca, try-works and ambergris in a link, and the site redirects the old pages to the new names.
+- Deployment files for the VPS, and the build-deploy workflow that builds the site image. Only the repository owner can start it, by hand, on main.
+- CI jobs that run R CMD check --as-cran on the R package and pytest on the Python package.
+- Tests that read the heading outline, the accessible names and the sample-label contrast of every page.
+
+### Changed
+
+- The site is redesigned around the ensigns: a signal flag drawn from each family's own colours, the crew of the host ship, family pages that open in the family's own ground, headings in a subset of Literata, and sample cards that print the measured contrast of their text, link, button label and focus ring. The copy is rewritten, and a test reads every page for the markers of generated prose.
+- The R package has the title Ten Colour Families Named After Ships in Moby-Dick, an examples section in its help page, and its licence texts under inst/, so that R CMD check --as-cran passes.
+
+### Fixed
+
+- The small text of a sample label had an opacity of .8, which took its contrast below 4.5 to 1 in several families. The label keeps its declared colour.
+- Sample cards no longer use a heading element, so no page skips a heading level. The link to the home page has the visible text as its name.
+- The Carpenter no longer pushes the checker down by up to 759 px when its catalogue arrives.
+
 ## [1.0.0] - 2026-10-04
 
 The complete local Ensigns product.
