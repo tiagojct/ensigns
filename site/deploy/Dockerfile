@@ -4,6 +4,11 @@ WORKDIR /src
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+# The footer names the commit. The workflow passes both values, and the build stops without them
+# (scripts/site/stamp.ts). The arguments come after npm ci, so a new commit keeps that layer.
+ARG COMMIT_SHA
+ARG COMMIT_DATE
+ENV ENSIGNS_REQUIRE_STAMP=1 ENSIGNS_COMMIT_SHA=${COMMIT_SHA} ENSIGNS_COMMIT_DATE=${COMMIT_DATE}
 RUN npm run build
 
 FROM nginx:alpine

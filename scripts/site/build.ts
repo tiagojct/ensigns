@@ -13,6 +13,7 @@ import { tokensCss } from '../pages/tokens-css.ts';
 import { buildPages } from '../pages/generate.ts';
 import { buildExports } from '../export/generate.ts';
 import { pages, ORIGIN } from './render.ts';
+import { readStamp } from './stamp.ts';
 import { ensign } from './ensign.ts';
 import type { CatalogueFamily } from './render.ts';
 const write=(path:string,content:string|Uint8Array)=>{mkdirSync(dirname(path),{recursive:true});writeFileSync(path,content);};
@@ -34,6 +35,8 @@ export function catalogueEntries(root=repoRoot()) {
   return {families,entries,reports};
 }
 export function prepareSite(root=repoRoot()) {
+  // Read first, so that an image build without a commit stops before it does any work or writes a file.
+  const stamp=readStamp(process.env);
   const pkg=JSON.parse(readFileSync(join(root,'package.json'),'utf8'));
   const {families,entries,reports}=catalogueEntries(root);
   const publicDir=join(root,'site/public'),generated=join(root,'site/.generated');
@@ -63,7 +66,7 @@ export function prepareSite(root=repoRoot()) {
   }
   const releases=join(root,'dist/releases');
   if(existsSync(releases))cpSync(releases,join(publicDir,'releases'),{recursive:true});
-  const rendered=pages(entries,pkg.version);
+  const rendered=pages(entries,pkg.version,stamp);
   for(const [path,html] of rendered)write(join(generated,path,'index.html'),html);
   for(const [old,id] of Object.entries(RENAMED_FAMILIES)){
     // A static redirect for hosts that do not use the nginx configuration.
@@ -81,7 +84,7 @@ export function prepareSite(root=repoRoot()) {
   write(join(publicDir,'og.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="${get('bg')}"/><g transform="translate(80 78) scale(.46)">${markPaths}</g>${words(168,128,60,get('text'),600,'Ensigns')}${words(80,292,96,get('text'),560,'Colour, tested')}${words(80,396,96,get('text'),560,'where it is read.')}${words(80,462,32,get('text-muted'),400,'Ten colour families named for the ships of Moby-Dick.')}${flags}</svg>`);
   const svg=readFileSync(join(publicDir,'og.svg'),'utf8');
   write(join(publicDir,'og.png'),new Resvg(svg,{font:{fontDirs:[join(publicDir,'fonts')],loadSystemFonts:false,defaultFontFamily:'Literata'}}).render().asPng());
-  console.log(`Prepared ${rendered.size+3} routes, ten families, exports, specimens and measured reports.`);
+  console.log(`Prepared ${rendered.size+3} routes, ten families, exports, specimens and measured reports. Footer: ${stamp ? `commit ${stamp.sha.slice(0,7)} of ${stamp.date}` : 'no commit stamp (local build)'}.`);
 }
 import { scopeProperties as scopeProperties } from '../../lib/generators/css-properties.ts';
 if(import.meta.url===new URL(process.argv[1]!, 'file:').href)prepareSite();

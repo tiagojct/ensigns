@@ -72,10 +72,12 @@ Any static HTTP host can serve site/dist/. Preserve trailing-slash routes and re
 The VPS runs the site as a container behind Caddy, with the same files and the same order as the other apps on it. site/deploy/README.md gives the steps, the check after each step and the undo for each step. DNS, the tunnel, Caddy, the Cloudflare redirect rule and the live rollout belong to the owner. The image is built from the repository root with Node 24:
 
 ```sh
-docker build -f site/deploy/Dockerfile -t ensigns .
+docker build -f site/deploy/Dockerfile -t ensigns --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .
 ```
 
-The build-deploy workflow builds the image and pushes it to ghcr.io/tiagojct/ensigns. Only the owner starts it, by hand, on main.
+The footer of every page prints the collection version and each family's version. An image also prints its commit and the date of that commit. The image build has no .git folder, so the two build arguments carry them, and the build stops without them. A local npm run build prints no commit and no date, which keeps it repeatable.
+
+The build-deploy workflow builds the image and pushes it to ghcr.io/tiagojct/ensigns. It passes the commit and the date of the commit. Only the owner starts it, by hand, on main.
 
 The container recipe was not built here, because Docker is not installed on the verification host. The build stage ran without Docker, on a copy of the tracked files with no .git folder and no legacy folder, and the production files were exercised under nginx's CSP.
 
