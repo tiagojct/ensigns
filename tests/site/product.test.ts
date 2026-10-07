@@ -59,13 +59,14 @@ describe('finished static catalogue',()=>{
     }
     expect(readFileSync(join(out,'sitemap.xml'),'utf8')).toContain('ensigns.tiagojacinto.eu/rachel/');
   });
-  it('ships a favicon.ico and an iOS touch icon, and links both from every page',()=>{
+  it('ships a favicon.ico and an iOS touch icon, and links both from every page and the 404 page',()=>{
     const ico=readFileSync(join(out,'favicon.ico')),view=new DataView(ico.buffer,ico.byteOffset,ico.byteLength);
     expect(view.getUint16(2,true),'type').toBe(1);expect(view.getUint16(4,true),'images').toBe(3);
     expect([0,1,2].map(i=>ico[6+16*i]),'sizes').toEqual([16,32,48]);
     const touch=readFileSync(join(out,'apple-touch-icon.png')),png=new DataView(touch.buffer,touch.byteOffset,touch.byteLength);
     expect([png.getUint32(16),png.getUint32(20)],'touch icon size').toEqual([180,180]);
-    for(const route of routes){
+    // The redirect pages for the old family ids are not here. They replace themselves at once and show nothing.
+    for(const route of [...routes,'/404/']){
       const html=readFileSync(join(out,route,'index.html'),'utf8');
       expect(html,route).toContain('<link rel="icon" href="/favicon.ico" sizes="32x32">');
       expect(html,route).toContain('<link rel="apple-touch-icon" href="/apple-touch-icon.png">');
