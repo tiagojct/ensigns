@@ -59,6 +59,17 @@ describe('finished static catalogue',()=>{
     }
     expect(readFileSync(join(out,'sitemap.xml'),'utf8')).toContain('ensigns.tiagojacinto.eu/rachel/');
   });
+  it('loads only the three fonts of the site on the home page, not the fonts of the family cards',async(context)=>{
+    if(!browser)return context.skip('Chromium unavailable');
+    const c=await browser.newContext(),p=await c.newPage(),fonts=new Set<string>();
+    p.on('response',r=>{const path=new URL(r.url()).pathname;if(/^\/fonts\/.+\.(woff2?|ttf)$/.test(path))fonts.add(path.slice('/fonts/'.length));});
+    try{
+      await p.goto(`${url}/`,{waitUntil:'networkidle'});
+      // The chips and the eyebrow on a family card use the site's own monospace face. A family's face, such as IBM Plex Mono
+      // for Goney, costs a download for a few small words and delays the first paint on a slow network: 275 KB on the live site.
+      expect([...fonts].sort()).toEqual(['atkinson-hyperlegible-next.woff2','jetbrains-mono.woff2','literata-latin.woff']);
+    }finally{await c.close();}
+  });
   it('ships a favicon.ico and an iOS touch icon, and links both from every page and the 404 page',()=>{
     const ico=readFileSync(join(out,'favicon.ico')),view=new DataView(ico.buffer,ico.byteOffset,ico.byteLength);
     expect(view.getUint16(2,true),'type').toBe(1);expect(view.getUint16(4,true),'images').toBe(3);
