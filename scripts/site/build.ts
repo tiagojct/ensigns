@@ -12,7 +12,7 @@ import { validateFamily } from '../../lib/model/validate.ts';
 import { tokensCss } from '../pages/tokens-css.ts';
 import { buildPages } from '../pages/generate.ts';
 import { buildExports } from '../export/generate.ts';
-import { pages, ORIGIN } from './render.ts';
+import { pages, ORIGIN, FONTS_CSS } from './render.ts';
 import { readStamp } from './stamp.ts';
 import { ensign } from './ensign.ts';
 import { ico } from './ico.ts';
@@ -63,7 +63,7 @@ export function prepareSite(root=repoRoot()) {
   buildPages(root,join(publicDir,'review'));
   // Specimens use the authored typefaces, served from this site's own origin.
   for(const n of ['pages.css','standalone.css']){
-    const path=join(publicDir,'review/assets',n);writeFileSync(path,"@import url('/fonts/fonts.css');\n"+readFileSync(path,'utf8'));
+    const path=join(publicDir,'review/assets',n);writeFileSync(path,`@import url('${FONTS_CSS}');\n`+readFileSync(path,'utf8'));
   }
   const releases=join(root,'dist/releases');
   if(existsSync(releases))cpSync(releases,join(publicDir,'releases'),{recursive:true});

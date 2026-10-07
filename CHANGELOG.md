@@ -12,6 +12,8 @@ All notable changes to Ensigns are recorded here. The format follows Keep a Chan
 - Deployment files for the VPS, and the build-deploy workflow that builds the site image. Only the repository owner can start it, by hand, on main.
 - CI jobs that run R CMD check --as-cran on the R package and pytest on the Python package.
 - Tests that read the heading outline, the accessible names and the sample-label contrast of every page.
+- A check that starts the nginx image with the site's configuration on the built site, in CI, and tests the security headers, the cache lifetimes, the redirects, the 404 page and the compression.
+- WOFF2 files for all family fonts, 3.0 MB instead of 9.4 MB, made by scripts/fonts/optimise.py and listed in sources.json with their hashes. The address of fonts.css carries a hash of its content.
 
 ### Changed
 
@@ -23,6 +25,8 @@ All notable changes to Ensigns are recorded here. The format follows Keep a Chan
 - The small text of a sample label had an opacity of .8, which took its contrast below 4.5 to 1 in several families. The label keeps its declared colour.
 - Sample cards no longer use a heading element, so no page skips a heading level. The link to the home page has the visible text as its name.
 - The Carpenter no longer pushes the checker down by up to 759 px when its catalogue arrives.
+- TrueType files went out as application/octet-stream, which nothing compresses. They now have the type font/ttf and are compressed.
+- The cards on the home page no longer load IBM Plex Mono, 275 KB, for the chips and the eyebrow of the Goney card.
 
 ## [1.0.0] - 2026-10-04
 
