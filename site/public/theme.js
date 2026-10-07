@@ -1,4 +1,6 @@
 // Restore site appearance before painting, without loading the catalogue.
+// The js class lets the style sheet reserve room for what a script fills in later.
+document.documentElement.classList.add('js');
 try {
   const mode = localStorage.getItem('ensigns-mode');
   if (mode === 'light' || mode === 'dark') document.documentElement.dataset.mode = mode;
