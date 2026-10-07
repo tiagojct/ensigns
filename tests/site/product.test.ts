@@ -65,8 +65,8 @@ describe('finished static catalogue',()=>{
     p.on('response',r=>{const path=new URL(r.url()).pathname;if(/^\/fonts\/.+\.(woff2?|ttf)$/.test(path))fonts.add(path.slice('/fonts/'.length));});
     try{
       await p.goto(`${url}/`,{waitUntil:'networkidle'});
-      // Each family card is set in its family's own sans and serif faces. Its chips and eyebrow use the site's monospace face,
-      // because a face that a few small words need delays the first paint on a slow network. IBM Plex Mono for Goney cost 114 KB.
+      // The chips and the eyebrow on a family card use the site's own monospace face. A family's face, such as IBM Plex Mono
+      // for Goney, costs a download for a few small words and delays the first paint on a slow network: 275 KB on the live site.
       expect([...fonts].sort()).toEqual(['atkinson-hyperlegible-next.woff2','jetbrains-mono.woff2','literata-latin.woff']);
     }finally{await c.close();}
   });

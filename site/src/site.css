@@ -65,7 +65,7 @@ nav a[aria-current] { font-weight: 700; text-decoration: underline; text-decorat
 .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.2rem 0 0; }
 .tag { font: .68rem/1.7 var(--font-mono); padding: .1rem .45rem; border: 1px solid var(--roles-border); border-radius: 3px; color: var(--roles-text-muted); }
 /* The chips and the eyebrow on a family card use the site's own monospace face. A family's face, such as IBM Plex Mono
-   for Goney, would cost two downloads of 114 KB on the home page for a few small words. */
+   for Goney, would cost two downloads, 275 KB in all on the live site, for a few small words. */
 .family-card .tag, .family-card .eyebrow { font-family: var(--site-mono); }
 .measure { max-width: 65ch; }
 blockquote { margin: 1.6rem 0; padding: 0 0 0 1.2rem; border-left: 3px solid var(--roles-accent); max-width: 58ch; font: italic 400 1.25rem/1.45 var(--site-display); color: var(--roles-text); }
