@@ -64,6 +64,13 @@ describe("the nginx check", () => {
     expect(ci.indexOf("npm run build")).toBeLessThan(ci.indexOf("check-nginx.sh"));
   });
 
+  it("keeps a container that stopped at once, so that nginx's own error can be read, and removes it at the end", () => {
+    expect(script).not.toMatch(/docker run[^\n]*--rm/);
+    expect(script).toContain('docker rm -f "$NAME"');
+    expect(script).toContain('docker logs "$NAME"');
+    expect(script).toContain("{{.State.Running}}");
+  });
+
   it("starts the nginx image with this configuration and checks what the configuration promises", () => {
     expect(script).toContain("/etc/nginx/conf.d/default.conf:ro");
     expect(script).toContain("nginx -t");

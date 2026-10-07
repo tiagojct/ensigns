@@ -10,15 +10,19 @@ NAME=ensigns-nginx-check
 PORT=${PORT:-8080}
 BASE="http://127.0.0.1:$PORT"
 
-docker run -d --rm --name "$NAME" -p "$PORT:80" \
+# No --rm: nginx stops at once on a configuration error, and the stopped container must stay, so that
+# its log, which holds the error, can be read. The trap removes it.
+docker run -d --name "$NAME" -p "$PORT:80" \
   -v "$PWD/site/dist:/usr/share/nginx/html:ro" \
   -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" \
   "$IMAGE" > /dev/null
-trap 'docker stop "$NAME" > /dev/null 2>&1 || true' EXIT
+trap 'docker rm -f "$NAME" > /dev/null 2>&1 || true' EXIT
 
 up=no
 for _ in $(seq 1 30); do
   if curl -fsS -o /dev/null "$BASE/" 2> /dev/null; then up=yes; break; fi
+  # Do not wait for a container that has already exited.
+  [ "$(docker inspect -f '{{.State.Running}}' "$NAME" 2> /dev/null)" = true ] || break
   sleep 1
 done
 if [ "$up" = no ]; then
