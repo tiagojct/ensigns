@@ -116,7 +116,7 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
 
 ## Not checked here
 
-- The build host has no nginx, Caddy or Docker. Test the files where they run. On a machine with Docker, these two commands check the image and the server block.
+- The build host has no nginx, Caddy or Docker. Test the files where they run. CI runs `sh site/deploy/check-nginx.sh` on every push: it starts the nginx image with nginx.conf on the built site, runs nginx -t, and checks the headers, the cache lifetimes, the redirects, the 404 page and the compression. On a machine with Docker, these two commands check the image and the server block.
 
   ```sh
   docker build -f site/deploy/Dockerfile -t ensigns:test --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .

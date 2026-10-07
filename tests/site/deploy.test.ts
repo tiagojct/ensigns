@@ -41,6 +41,45 @@ describe("nginx.conf", () => {
   });
 });
 
+describe("nginx.conf and TrueType fonts", () => {
+  const nginx = code("site/deploy/nginx.conf");
+
+  it("compresses TrueType files, which nginx has no type for and would serve as application/octet-stream", () => {
+    expect(nginx).toMatch(/gzip_types [^;]*\bfont\/ttf\b/);
+    expect(nginx).toContain("location ~ ^/fonts/.+\\.ttf$ { default_type font/ttf;");
+  });
+
+  it("keeps ^~ off the fonts prefix, because a prefix with ^~ stops nginx from trying the TrueType rule", () => {
+    expect(nginx).toMatch(/location \/fonts\/ \{/);
+    expect(nginx).not.toContain("^~ /fonts/");
+  });
+});
+
+describe("the nginx check", () => {
+  const script = read("site/deploy/check-nginx.sh");
+
+  it("runs in CI after the site is built", () => {
+    const ci = read(".github/workflows/ci.yml");
+    expect(ci).toContain("run: sh site/deploy/check-nginx.sh");
+    expect(ci.indexOf("npm run build")).toBeLessThan(ci.indexOf("check-nginx.sh"));
+  });
+
+  it("keeps a container that stopped at once, so that nginx's own error can be read, and removes it at the end", () => {
+    expect(script).not.toMatch(/docker run[^\n]*--rm/);
+    expect(script).toContain('docker rm -f "$NAME"');
+    expect(script).toContain('docker logs "$NAME"');
+    expect(script).toContain("{{.State.Running}}");
+  });
+
+  it("starts the nginx image with this configuration and checks what the configuration promises", () => {
+    expect(script).toContain("/etc/nginx/conf.d/default.conf:ro");
+    expect(script).toContain("nginx -t");
+    for (const promise of ["content-security-policy", "x-content-type-options", "max-age=31536000", "/glauca/", "no-such-page", "font/ttf", "content-encoding: gzip", "max-age=2592000"]) {
+      expect(script, promise).toContain(promise);
+    }
+  });
+});
+
 describe("Caddy files", () => {
   const ensigns = code("site/deploy/Caddyfile.snippet");
   const gam = code("site/deploy/Caddyfile.gam-redirect.snippet");
