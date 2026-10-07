@@ -30,7 +30,8 @@ fi
 docker exec "$NAME" nginx -t
 
 fail=0
-headers() { curl -s -D - -o /dev/null "$@" | tr -d '\r'; }
+# -g keeps curl from reading the [ ] of a font file name, such as Inter[opsz,wght].ttf, as a range.
+headers() { curl -g -s -D - -o /dev/null "$@" | tr -d '\r'; }
 # expect <what the check shows> <text to search> <extended regular expression, case-insensitive>
 expect() {
   if printf '%s\n' "$2" | grep -qiE "$3"; then
@@ -68,10 +69,13 @@ expect "a missing page shows the site's own page" "$(curl -s "$BASE/no-such-page
 css=$(headers -H 'Accept-Encoding: gzip' "$BASE/catalogue.css")
 expect "the style sheet is compressed" "$css" '^content-encoding: gzip'
 
-ttf=$(ls site/dist/fonts/*.ttf | head -n 1)
-font=$(headers -H 'Accept-Encoding: gzip' "$BASE/fonts/$(basename "$ttf")")
-expect "a TrueType font has a font type" "$font" '^content-type: font/ttf'
-expect "a TrueType font is compressed" "$font" '^content-encoding: gzip'
-expect "a font is cached for 30 days" "$font" 'max-age=2592000'
+# One font with brackets and a comma in its name, as the variable fonts have, and one with a plain name.
+for ttf in "$(ls site/dist/fonts/*.ttf | head -n 1)" "$(ls site/dist/fonts/*.ttf | grep -v '\[' | head -n 1)"; do
+  name=$(basename "$ttf")
+  font=$(headers -H 'Accept-Encoding: gzip' "$BASE/fonts/$name")
+  expect "$name has a font type" "$font" '^content-type: font/ttf'
+  expect "$name is compressed" "$font" '^content-encoding: gzip'
+  expect "$name is cached for 30 days" "$font" 'max-age=2592000'
+done
 
 exit "$fail"
