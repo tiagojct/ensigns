@@ -178,18 +178,20 @@ describe('production site in Chromium',()=>{
   });
   it('keeps the Carpenter from moving the checker below it when the catalogue arrives',async(context)=>{
     if(!browser)return context.skip('Chromium unavailable');
-    for(const viewport of [{width:1350,height:940},{width:412,height:823}]){
+    // A link can also ask for a format that the family excludes. That state shows a reason and no file.
+    const unavailable=loadFamilies().map(f=>resolveFamily(f.file)).flatMap(f=>GENERATORS.filter(g=>g.unavailable(f,{mode:'both'})).map(g=>`family=${f.meta.id}&format=${g.id}`))[0]!;
+    for(const query of ['',`?${unavailable}`])for(const viewport of [{width:1350,height:940},{width:412,height:823}]){
       const c=await browser.newContext({viewport}),p=await c.newPage();
       try{
         // Hold the catalogue back, so that the first measure is the page as it paints before the data arrives.
         let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve;});
         await p.route('**/catalogue.json',async route=>{await gate;await route.continue();});
-        await p.goto(`${url}/carpenter/`);
+        await p.goto(`${url}/carpenter/${query}`);
         const top=()=>p.evaluate(()=>document.querySelector('#checker')!.getBoundingClientRect().top+scrollY);
         const before=await top();
-        release();await p.waitForSelector('.export-file');
+        release();await p.waitForSelector('.export-file, .export-unavailable');
         // Without room kept for the preview, the checker moved by 512 px on a wide screen and 759 px on a narrow one.
-        expect(Math.abs(await top()-before),`${viewport.width}px wide`).toBeLessThanOrEqual(24);
+        expect(Math.abs(await top()-before),`${query || 'default'}, ${viewport.width}px wide`).toBeLessThanOrEqual(24);
       }finally{await c.close();}
     }
   });

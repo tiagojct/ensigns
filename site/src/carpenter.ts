@@ -41,8 +41,9 @@ export async function init(){
     query.searchParams.set('family',f.meta.id);query.searchParams.set('format',g.id);query.searchParams.set('mode',mode.value);history.replaceState(null,'',query);
     if(reason){
       document.querySelector('#export-status')!.textContent=reason;
-      // The reason also goes where the files would be. An empty preview area keeps its reserved height.
-      const note=el('p',reason);note.className='notice';host.append(note);
+      // The reason also goes where the files would be, in a panel as tall as the room kept for a preview,
+      // so that the page does not move when a link asks for a format that the family excludes.
+      const note=el('p',reason);note.className='notice export-unavailable';host.append(note);
       return;
     }
     const files=g.generate(f,options());
