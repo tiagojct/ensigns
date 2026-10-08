@@ -3,7 +3,7 @@
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
 import type { Server } from 'node:http';
-import { readFileSync, existsSync, readdirSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, extname } from 'node:path';
 import { build } from 'vite';
@@ -98,6 +98,28 @@ describe('finished static catalogue',()=>{
       expect(html,route).toContain('<link rel="icon" href="/favicon.ico" sizes="32x32">');
       expect(html,route).toContain('<link rel="apple-touch-icon" href="/apple-touch-icon.png">');
     }
+  });
+  it('links only to files that the site serves and to ids that the target page has',()=>{
+    // Every internal link of every built page, the review pages and specimens included. The generated exports and releases are files for download, not pages.
+    const pages=(readdirSync(out,{recursive:true}) as string[]).filter(f=>f.endsWith('.html') && !/^(exports|releases)\//.test(f));
+    expect(pages.length).toBeGreaterThan(50);
+    const ids=new Map<string,Set<string>>();
+    const idsOf=(file:string)=>{if(!ids.has(file))ids.set(file,new Set([...readFileSync(file,'utf8').matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]!)));return ids.get(file)!;};
+    const broken:string[]=[];let checked=0;
+    for(const rel of pages){
+      const page='/'+rel.replace(/(^|\/)index\.html$/,'$1');
+      for(const [,href] of readFileSync(join(out,rel),'utf8').matchAll(/<a\s[^>]*?href="([^"]*)"/g)){
+        const target=new URL(href!.replaceAll('&amp;','&'),`http://site${page}`);
+        if(target.origin!=='http://site')continue;
+        checked++;
+        const path=decodeURIComponent(target.pathname),file=join(out,path.endsWith('/') ? path+'index.html' : path);
+        if(!existsSync(file) || !statSync(file).isFile()){broken.push(`${page} -> ${href}: no such file`);continue;}
+        const id=decodeURIComponent(target.hash.slice(1));
+        if(id && file.endsWith('.html') && !idsOf(file).has(id))broken.push(`${page} -> ${href}: no element with that id`);
+      }
+    }
+    expect(checked).toBeGreaterThan(1000);
+    expect(broken).toEqual([]);
   });
   it('ships all families, licensed fonts, bundles and valid source-hash manifests',()=>{
     const model=JSON.parse(readFileSync(join(out,'catalogue.json'),'utf8'));expect(model.families).toHaveLength(10);

@@ -72,9 +72,10 @@ const bookOrder = (m: Meta): number => (m.host ? 0 : Array.isArray(m.chapter) ? 
 /**
  * Write the pages for the families under root into out and return the files written, relative
  * to out. Nothing in out is deleted, so a page of a removed family or candidate stays until
- * out is cleared by hand.
+ * out is cleared by hand. Links to repository files are relative to out (../families/...), as in a checkout,
+ * unless repoUrl gives the address that holds the repository files.
  */
-export function buildPages(root: string, out: string): string[] {
+export function buildPages(root: string, out: string, repoUrl?: string): string[] {
   const schema = loadSchema(root);
   const thresholds = readJson(join(root, "tests/environments.json")) as Thresholds;
   const ctx = loadContext(root);
@@ -115,7 +116,7 @@ export function buildPages(root: string, out: string): string[] {
   });
   groups.sort((a, b) => bookOrder(a.main.family.meta) - bookOrder(b.main.family.meta) || a.id.localeCompare(b.id, "en"));
 
-  const site: Site = { groups, thresholds, views: simulationViews(thresholds) };
+  const site: Site = { groups, thresholds, views: simulationViews(thresholds), ...(repoUrl === undefined ? {} : { repoUrl }) };
   const written: string[] = [];
   const write = (rel: string, content: string | Uint8Array) => {
     const path = join(out, rel);
