@@ -41,7 +41,12 @@ export interface Site {
   groups: Group[];
   thresholds: Thresholds;
   views: View[];
+  /** Where the repository files are served. Without it the pages link to ../ as a checkout does. */
+  repoUrl?: string;
 }
+
+/** The address of a repository file: under repoUrl when the pages are published, else next to the pages as in a checkout. */
+const repoFile = (site: Site, path: string): string => `${site.repoUrl === undefined ? ".." : site.repoUrl}/${path}`;
 
 export const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -437,9 +442,9 @@ export function familyPage(site: Site, group: Group, entry: Entry): string {
   const meta = f.meta;
   const typography = Object.entries(f.source.typography ?? {});
   const files = [
-    `<a href="../${entry.file}">${code(entry.file)}</a>`,
-    ...(group.docs.readme ? [`<a href="../${group.docs.readme}">README</a>`] : []),
-    ...(group.docs.changelog ? [`<a href="../${group.docs.changelog}">changelog</a>`] : []),
+    `<a href="${repoFile(site, entry.file)}">${code(entry.file)}</a>`,
+    ...(group.docs.readme ? [`<a href="${repoFile(site, group.docs.readme)}">README</a>`] : []),
+    ...(group.docs.changelog ? [`<a href="${repoFile(site, group.docs.changelog)}">changelog</a>`] : []),
   ];
   const facts: [string, string][] = [
     ["Version", `${esc(meta.version)}${meta.formerly ? `, formerly ${esc(meta.formerly.name)} ${esc(meta.formerly.version)}` : ""}`],

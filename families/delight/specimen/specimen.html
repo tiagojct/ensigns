@@ -2,7 +2,7 @@
   <nav class="sp-nav" aria-label="Dispatch navigation">
     <a href="#summary-{mode}" class="sp-nav-link" aria-current="page">Dispatch</a>
     <a href="#log-{mode}" class="sp-nav-link">Log entries</a>
-    <a href="#records-{mode}" class="sp-nav-link">Provisions</a>
+    <a href="#chart-{mode}" class="sp-nav-link">Provisions</a>
   </nav>
 
   <section class="sp-section" id="summary-{mode}" aria-labelledby="sp-summary-title-{mode}">
@@ -10,11 +10,11 @@
     <p class="prose">The intense Pequod sailed on; the rolling waves and days went by; the life-buoy-coffin still lightly swung; and another ship, most miserably misnamed the Delight, was descried.</p>
     <div class="sp-controls">
       <button type="button" class="sp-btn">Acknowledge notice</button>
-      <a href="#records-{mode}" class="sp-link-btn">Inspect log</a>
+      <a href="#chart-{mode}" class="sp-link-btn">Inspect log</a>
     </div>
   </section>
 
-  <section class="sp-section" aria-labelledby="sp-status-title-{mode}">
+  <section class="sp-section" id="log-{mode}" aria-labelledby="sp-status-title-{mode}">
     <h5 id="sp-status-title-{mode}" class="sp-heading">Vessel status</h5>
     <div class="sp-status-grid">
       <div class="sp-chip" data-status="neutral">
