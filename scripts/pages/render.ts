@@ -60,13 +60,14 @@ const modeTitle = (mode: ModeName, label?: string): string => `${mode === "dark"
 const code = (s: string): string => `<code>${esc(s)}</code>`;
 const tags = (items: string[]): string => `<ul class="tags">${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
 
-function htmlDocument(title: string, stylesheets: string[], body: string, bodyAttributes = ""): string {
+function htmlDocument(title: string, stylesheets: string[], body: string, bodyAttributes = "", description?: string): string {
   return [
     "<!doctype html>",
     '<html lang="en-GB">',
     "<head>",
     '<meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    ...(description === undefined ? [] : [`<meta name="description" content="${esc(description)}">`]),
     `<title>${esc(title)}</title>`,
     ...stylesheets.map((href) => `<link rel="stylesheet" href="${esc(href)}">`),
     "</head>",
@@ -522,7 +523,7 @@ export function familyPage(site: Site, group: Group, entry: Entry): string {
   ];
   const stylesheets = ["assets/tokens.css", "assets/pages.css", ...(group.specimen?.css ? [`assets/specimen-${group.id}.css`] : [])];
   const title = `${meta.name}${entry.candidate ? `, candidate ${entry.candidate}` : ""} ${meta.version}: Ensigns family page`;
-  return htmlDocument(title, stylesheets, body.filter(Boolean).join("\n"));
+  return htmlDocument(title, stylesheets, body.filter(Boolean).join("\n"), "", `${meta.name} ${meta.version}. ${meta.tagline ?? meta.goal}`);
 }
 
 // The index -------------------------------------------------------------------

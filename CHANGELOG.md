@@ -28,6 +28,7 @@ All notable changes to Ensigns are recorded here. The format follows Keep a Chan
 - TrueType files went out as application/octet-stream, which nothing compresses. They now have the type font/ttf and are compressed.
 - The cards on the home page no longer load IBM Plex Mono, 275 KB, for the chips and the eyebrow of the Goney card.
 - 79 links on the live site led nowhere. The review pages linked to the token file, README and changelog of each family on the site itself, which does not serve them, so they now link to the repository. The "Read the results and exceptions" link on the family pages named an id that did not exist and now opens the environments section. The section links inside the Pequod, Goney, Jungfrau and Delight specimens now have targets. A test follows every internal link and fragment of the built site.
+- The family pages of the review have a meta description with the family's name, version and tagline, so the search engine's preview is not empty (Lighthouse SEO was 91 without it).
 
 ## [1.0.0] - 2026-10-04
 

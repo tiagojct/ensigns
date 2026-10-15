@@ -68,6 +68,13 @@ describe("the family pages", () => {
     for (const id of SPECIMENS) expect(written).toContain(`assets/specimen-${id}.css`);
   });
 
+  it("give each family page a description with its name, version and tagline or goal", () => {
+    for (const f of families) {
+      const { meta } = f.file;
+      expect(read(`${f.dir}.html`), f.dir).toContain(`<meta name="description" content="${esc(`${meta.name} ${meta.version}. ${meta.tagline ?? meta.goal}`)}">`);
+    }
+  });
+
   it("show each family's verbatim quote and its goal", () => {
     for (const f of families) {
       const html = read(`${f.dir}.html`);
