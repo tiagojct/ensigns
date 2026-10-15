@@ -86,7 +86,7 @@ describe('finished static catalogue',()=>{
     for(const route of ['/','/goney/','/404/'])expect(readFileSync(join(out,route,'index.html'),'utf8'),route).toContain(`<link rel="stylesheet" href="/fonts/fonts.css?v=${hash}">`);
     expect(readFileSync(join(out,'review/assets/pages.css'),'utf8')).toContain(`@import url('/fonts/fonts.css?v=${hash}');`);
   });
-  it('ships a favicon.ico and an iOS touch icon, and links both from every page and the 404 page',()=>{
+  it('ships a favicon.ico and an iOS touch icon, and links both from every catalogue page and the 404 page',()=>{
     const ico=readFileSync(join(out,'favicon.ico')),view=new DataView(ico.buffer,ico.byteOffset,ico.byteLength);
     expect(view.getUint16(2,true),'type').toBe(1);expect(view.getUint16(4,true),'images').toBe(3);
     expect([0,1,2].map(i=>ico[6+16*i]),'sizes').toEqual([16,32,48]);
