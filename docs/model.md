@@ -16,7 +16,7 @@ Each mode holds these blocks. Only roles is always required.
 
 - roles: the fifteen core roles (bg, surface, surface-raised, text, text-muted, text-subtle, border, link, link-hover, accent, on-accent, button, on-button, focus, selection) and an extra group for roles only this family has.
 - accents: the family's named hues in this mode. The crew of the Pequod, the blue trio of Goney, the fire and code hues of Jungfrau.
-- surfaces: named surfaces that gates test text against. The editor background, the current line, the selection and panels. A surface may be an entry drawn at an opacity over another surface, which is how editors draw a current line; it is blended in gamma-encoded sRGB.
+- surfaces: named surfaces that gates test text against. The editor background, the current line, the selection and panels. A surface may be an entry drawn at an opacity over another colour address, usually another surface, which is how editors draw a current line; it is blended in gamma-encoded sRGB.
 - syntax: twelve roles, each an entry or an entry with a style (italic, bold, underline, strikethrough).
 - ansi and terminal: the sixteen terminal slots and the terminal chrome.
 - status: chromatic (danger, warning and success, and info where the family has a fourth level) or achromatic (border weight, edge style, fill density, an icon and words).

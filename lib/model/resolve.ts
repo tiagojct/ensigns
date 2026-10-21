@@ -106,7 +106,6 @@ export function resolveMode(palette: Map<string, Resolved>, mode: ModeFile, wher
     inProgress.delete(name);
     return resolved;
   };
-  for (const name of Object.keys(defs)) surface(name);
 
   for (const [role, value] of Object.entries(mode.syntax ?? {})) {
     if (typeof value === "string") put(`syntax.${role}`, value);
@@ -142,6 +141,10 @@ export function resolveMode(palette: Map<string, Resolved>, mode: ModeFile, wher
       for (const [key, ref] of Object.entries(data.plot ?? {})) put(`data.plot.${key}`, ref);
     }
   }
+
+  // Surfaces may be drawn over any colour in the mode, so they are resolved once every
+  // other block is present. They may also refer to another surface, which `surface` follows.
+  for (const name of Object.keys(defs)) surface(name);
 
   return { label: mode.label, colours, dataRef };
 }
