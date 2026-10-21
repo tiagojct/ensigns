@@ -58,6 +58,12 @@ describe("nginx.conf and TrueType fonts", () => {
 describe("the nginx check", () => {
   const script = read("site/deploy/check-nginx.sh");
 
+  it("checks the hashed stylesheet under /assets/, where it is cached for a year", () => {
+    expect(script).toContain('href="/assets/');
+    expect(script).toContain("max-age=31536000");
+    expect(script).toContain('"$BASE/catalogue.css"');
+  });
+
   it("runs in CI after the site is built", () => {
     const ci = read(".github/workflows/ci.yml");
     expect(ci).toContain("run: sh site/deploy/check-nginx.sh");

@@ -70,8 +70,13 @@ expect "a missing page answers 404" "$missing" '^HTTP/[0-9.]+ 404'
 expect "a missing page carries the content security policy" "$missing" '^content-security-policy: '
 expect "a missing page shows the site's own page" "$(curl -s "$BASE/no-such-page")" '<title>Page not found'
 
-css=$(headers -H 'Accept-Encoding: gzip' "$BASE/catalogue.css")
+csspath=$(grep -oE 'href="/assets/[^"]+\.css"' site/dist/index.html | head -n 1 | cut -d'"' -f2)
+[ -n "$csspath" ] || { echo "FAIL  the home page has no hashed stylesheet"; exit 1; }
+css=$(headers -H 'Accept-Encoding: gzip' "$BASE$csspath")
 expect "the style sheet is compressed" "$css" '^content-encoding: gzip'
+expect "the style sheet is cached for a year" "$css" 'max-age=31536000'
+oldcss=$(headers "$BASE/catalogue.css")
+expect "the old unhashed style sheet is gone" "$oldcss" '^HTTP/[0-9.]+ 404'
 
 # One font with brackets and a comma in its name, as the variable fonts have, and one with a plain name.
 for ttf in "$(ls site/dist/fonts/*.ttf | head -n 1)" "$(ls site/dist/fonts/*.ttf | grep -v '\[' | head -n 1)"; do

@@ -21,10 +21,12 @@ const root=repoRoot(),out=join(root,'site/dist');
 const work=mkdtempSync(join(tmpdir(),'ensigns-site-'));
 let browser:Browser|undefined,server:Server,url:string;
 const csp=readFileSync(join(root,'site/deploy/nginx.conf'),'utf8').match(/Content-Security-Policy "([^"]+)"/)![1]!;
+// Vite's CSS minifier lower-cases hex values and shortens #FFFFFF to #FFF.
+const cssColour=(value:string):string=>{const s=value.trim().toUpperCase();return /^#[0-9A-F]{3}$/.test(s) ? `#${[...s.slice(1)].map((c)=>c+c).join('')}` : s;};
 const mime:Record<string,string>={'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2','.ttf':'font/ttf','.zip':'application/zip'};
 const routes=['/','/compare/','/carpenter/','/about/',...loadFamilies().map(f=>`/${f.dir}/`)];
 // Files that an earlier build could have left in the generated folders. A new build must remove them.
-const STALE=['dist/packages/stale/file.txt','dist/releases/stale-0.0.1.zip','dist/exports/stale/file.txt','site/public/reports/stale.json','site/public/exports/stale/file.txt','site/public/review/stale.html','site/public/releases/stale-0.0.1.zip'];
+const STALE=['dist/packages/stale/file.txt','dist/releases/stale-0.0.1.zip','dist/exports/stale/file.txt','site/public/catalogue.css','site/public/reports/stale.json','site/public/exports/stale/file.txt','site/public/review/stale.html','site/public/releases/stale-0.0.1.zip'];
 beforeAll(async()=>{
   for(const path of STALE){mkdirSync(dirname(join(root,path)),{recursive:true});writeFileSync(join(root,path),'stale');}
   await buildPackages(root);prepareSite(root);
@@ -46,6 +48,14 @@ describe('finished static catalogue',()=>{
     for(const path of STALE)expect(existsSync(join(root,path)),path).toBe(false);
     expect(readFileSync(join(root,'dist/releases/SHA256SUMS.txt'),'utf8')).not.toContain('stale');
     expect(existsSync(join(out,'releases/stale-0.0.1.zip'))).toBe(false);
+  });
+  it('serves the generated catalogue stylesheet inside a hashed, immutable asset',()=>{
+    const html=readFileSync(join(out,'index.html'),'utf8');
+    expect(html).not.toContain('href="/catalogue.css"');
+    const href=html.match(/href="(\/assets\/main-[\w-]+\.css)"/)?.[1];
+    expect(href, 'hashed main stylesheet').toBeDefined();
+    expect(readFileSync(join(out,href!),'utf8')).toContain('--roles-bg');
+    expect(existsSync(join(out,'catalogue.css'))).toBe(false);
   });
   it('renders every route with one main heading and local assets',()=>{
     for(const route of routes){
@@ -145,9 +155,9 @@ describe('production site in Chromium',()=>{
           await p.locator('#site-family').selectOption(f.meta.id);
           for(const mode of ['light','dark'] as const){
             await p.locator('#site-mode').selectOption(mode);
-            expect(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg').trim())).toBe(at(f.modes[mode],'roles.bg').hex);
-            expect(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-text').trim())).toBe(at(f.modes[mode],'roles.text').hex);
-            expect(await p.locator('.hero-samples .sample').first().evaluate(e=>getComputedStyle(e).getPropertyValue('--roles-bg').trim())).toBe(at(pequod.modes.light,'roles.bg').hex);
+            expect(cssColour(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg')))).toBe(at(f.modes[mode],'roles.bg').hex);
+            expect(cssColour(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-text')))).toBe(at(f.modes[mode],'roles.text').hex);
+            expect(cssColour(await p.locator('.hero-samples .sample').first().evaluate(e=>getComputedStyle(e).getPropertyValue('--roles-bg')))).toBe(at(pequod.modes.light,'roles.bg').hex);
             const size=await p.evaluate(()=>({viewport:innerWidth,content:document.documentElement.scrollWidth}));
             expect(size.content,`${f.meta.id} ${mode} ${width}px`).toBeLessThanOrEqual(size.viewport+1);
           }
@@ -157,7 +167,7 @@ describe('production site in Chromium',()=>{
       for(const mode of ['light','dark'] as const){
         await p.emulateMedia({colorScheme:mode});
         const f=resolveFamily(loadFamilies().find(f=>f.dir==='goney')!.file);
-        expect(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg').trim())).toBe(at(f.modes[mode],'roles.bg').hex);
+        expect(cssColour(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg')))).toBe(at(f.modes[mode],'roles.bg').hex);
       }
       expect(errors).toEqual([]);
     }finally{await c.close();}
@@ -172,7 +182,7 @@ describe('production site in Chromium',()=>{
       expect(await p.locator('html').getAttribute('data-family')).toBe('rosebud');
       expect(await p.locator('html').getAttribute('data-mode')).toBe('dark');
       const f=resolveFamily(loadFamilies().find(f=>f.dir==='rosebud')!.file);
-      expect(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg').trim())).toBe(at(f.modes.dark,'roles.bg').hex);
+      expect(cssColour(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--roles-bg')))).toBe(at(f.modes.dark,'roles.bg').hex);
       await p.unroute('**/assets/main-*.js');
       await p.evaluate(()=>{localStorage.setItem('ensigns-family','missing');localStorage.setItem('ensigns-mode','invalid');});await p.reload();
       expect(await p.locator('#site-family').inputValue()).toBe('pequod');expect(await p.locator('#site-mode').inputValue()).toBe('system');
