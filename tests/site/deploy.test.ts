@@ -259,6 +259,8 @@ describe("the runbook", () => {
     const update = readme.slice(readme.indexOf("## Updating the live container"));
     expect(update).toContain("reverse_proxy ensigns:80");
     expect(update).toContain("reverse_proxy ensigns:8080");
+    expect(update).toContain("cp ~/ensigns-deploy/docker-compose.yml /opt/vps/apps/ensigns/");
+    expect(update).toContain("docker compose pull");
     expect(update).toContain("502");
   });
 });

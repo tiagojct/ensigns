@@ -100,13 +100,22 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
 
 ## Updating the live container
 
-The container listens on 8080 inside the proxy network. Earlier images listened on 80, so an existing deployment needs its Caddy upstream changed with the image. Watchtower pulls `:latest` within five minutes of the build-deploy workflow, so do not push the image and leave Caddy on 80.
+The container listens on 8080 inside the proxy network. Earlier images listened on 80, so an existing deployment needs its compose file, image and Caddy upstream changed together. Watchtower pulls `:latest` within five minutes of the build-deploy workflow, so pause it for the switch or it may recreate the container before Caddy is ready.
 
-1. Change `reverse_proxy ensigns:80` to `reverse_proxy ensigns:8080` in /opt/vps/caddy/Caddyfile, check it and reload Caddy.
-2. Start the build-deploy workflow, or pull and start the image on the VPS: `(cd /opt/vps/apps/ensigns && docker compose pull && docker compose up -d)`.
-3. Check that `docker ps` says healthy and that `curl -sI https://ensigns.tiagojacinto.eu/` shows 200.
+1. Copy the new compose file and pull the image without recreating the running container.
 
-Requests between steps 1 and 2 return 502. To avoid the gap, run both ports for one release: add `listen 80;` to nginx.conf and `cap_add: [NET_BIND_SERVICE]` to compose, update Caddy to 8080, then remove the port-80 listener and the capability.
+   ```sh
+   rsync -a site/deploy/ <vps>:ensigns-deploy/
+   cp ~/ensigns-deploy/docker-compose.yml /opt/vps/apps/ensigns/
+   (cd /opt/vps/apps/ensigns && docker compose pull)
+   ```
+
+2. Change `reverse_proxy ensigns:80` to `reverse_proxy ensigns:8080` in /opt/vps/caddy/Caddyfile, check it and reload Caddy.
+3. Recreate the container: `(cd /opt/vps/apps/ensigns && docker compose up -d)`.
+4. Check that `docker ps` says healthy and that `curl -sI https://ensigns.tiagojacinto.eu/` shows 200.
+5. Start watchtower again.
+
+Requests between steps 2 and 3 return 502, usually only for the few seconds the container takes to recreate. To avoid the gap, run both ports for one release: add `listen 80;` to nginx.conf and `cap_add: [NET_BIND_SERVICE]` to compose, update Caddy to 8080, then remove the port-80 listener and the capability.
 
 ## Undo
 
