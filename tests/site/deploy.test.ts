@@ -254,4 +254,11 @@ describe("the runbook", () => {
     expect(readme).toContain("nginxinc/nginx-unprivileged");
     expect(readme).not.toContain("The base images are not pinned");
   });
+
+  it("tells the owner to move the Caddy upstream before the new image reaches an existing deployment", () => {
+    const update = readme.slice(readme.indexOf("## Updating the live container"));
+    expect(update).toContain("reverse_proxy ensigns:80");
+    expect(update).toContain("reverse_proxy ensigns:8080");
+    expect(update).toContain("502");
+  });
 });

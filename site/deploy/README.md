@@ -98,6 +98,16 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
     (cd /opt/vps/apps/gam && docker compose down)
     ```
 
+## Updating the live container
+
+The container listens on 8080 inside the proxy network. Earlier images listened on 80, so an existing deployment needs its Caddy upstream changed with the image. Watchtower pulls `:latest` within five minutes of the build-deploy workflow, so do not push the image and leave Caddy on 80.
+
+1. Change `reverse_proxy ensigns:80` to `reverse_proxy ensigns:8080` in /opt/vps/caddy/Caddyfile, check it and reload Caddy.
+2. Start the build-deploy workflow, or pull and start the image on the VPS: `(cd /opt/vps/apps/ensigns && docker compose pull && docker compose up -d)`.
+3. Check that `docker ps` says healthy and that `curl -sI https://ensigns.tiagojacinto.eu/` shows 200.
+
+Requests between steps 1 and 2 return 502. To avoid the gap, run both ports for one release: add `listen 80;` to nginx.conf and `cap_add: [NET_BIND_SERVICE]` to compose, update Caddy to 8080, then remove the port-80 listener and the capability.
+
 ## Undo
 
 - Step 14: start the old container again, and wait until it is healthy, before you undo steps 12 and 13. Without it, the restored Caddy block points at a container that does not exist, and the old host returns an error instead of the old site. The old image stays in the registry until you delete the package.
