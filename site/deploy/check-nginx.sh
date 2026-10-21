@@ -5,14 +5,14 @@
 # after npm run build, on a machine with Docker. CI runs it on every push and pull request.
 set -eu
 
-IMAGE=nginx:alpine
+IMAGE=${IMAGE:-nginxinc/nginx-unprivileged:alpine}
 NAME=ensigns-nginx-check
 PORT=${PORT:-8080}
 BASE="http://127.0.0.1:$PORT"
 
 # No --rm: nginx stops at once on a configuration error, and the stopped container must stay, so that
-# its log, which holds the error, can be read. The trap removes it.
-docker run -d --name "$NAME" -p "$PORT:80" \
+# its log, which holds the error, can be read. The trap removes it. The image listens on 8080.
+docker run -d --name "$NAME" -p "$PORT:8080" \
   -v "$PWD/site/dist:/usr/share/nginx/html:ro" \
   -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" \
   "$IMAGE" > /dev/null
@@ -54,6 +54,9 @@ expect "the home page says nosniff" "$home" '^x-content-type-options: nosniff'
 expect "the home page sets a referrer policy" "$home" '^referrer-policy: '
 expect "the home page sets a permissions policy" "$home" '^permissions-policy: '
 expect "the home page forbids framing by other sites" "$home" '^x-frame-options: SAMEORIGIN'
+expect "the home page sets a cross-origin opener policy" "$home" '^cross-origin-opener-policy: same-origin'
+expect "the home page sets a cross-origin resource policy" "$home" '^cross-origin-resource-policy: same-origin'
+expect "the home page does not advertise the nginx version" "$home" '^server: nginx$'
 expect "the home page is always checked again" "$home" '^cache-control: no-cache'
 
 script=$(basename "$(ls site/dist/assets/*.js | head -n 1)")

@@ -35,11 +35,11 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
    docker ps --filter name=ensigns
    ```
 
-   The status must say healthy after about 30 seconds.
+   The status must say healthy after about 30 seconds. The container runs as nginx's unprivileged UID 101, listens on 8080 inside the proxy network, and has a read-only root filesystem with tmpfs for its cache, pid and temp files.
 7. Test the container from the Caddy container.
 
    ```sh
-   docker exec caddy wget -qO- http://ensigns:80/ | head -n 5
+   docker exec caddy wget -qO- http://ensigns:8080/ | head -n 5
    ```
 
 8. Save the Caddyfile, append Caddyfile.snippet to it, check it and reload Caddy.
@@ -120,10 +120,10 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
 
   ```sh
   docker build -f site/deploy/Dockerfile -t ensigns:test --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .
-  docker run --rm -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginx:alpine nginx -t
+  docker run --rm -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginxinc/nginx-unprivileged:alpine nginx -t
   ```
 
   The build stage was run without Docker, on a copy of the tracked files with no .git folder and no legacy folder. npm ci and npm run build both passed.
 - The origin certificate setting of the tunnel (step 9) was not read from the VPS.
 - Strict-Transport-Security is not set, and Cloudflare Always Use HTTPS is off for the zone. Decide both before the old host goes away.
-- The base images are not pinned to a digest. Watchtower follows our own image only.
+- Both base images are pinned to a digest. Dependabot's docker ecosystem proposes updates; review them like any other dependency change.
