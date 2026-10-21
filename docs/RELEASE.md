@@ -9,8 +9,9 @@ Use Node 24 or later. From the repository root:
 ```sh
 npm ci
 npm run typecheck
+npm audit --audit-level=high
 npx playwright install chromium
-npm test
+npm run test:coverage
 npm run build
 npm run preview
 ```

@@ -18,6 +18,7 @@ Ten colour families named after the Pequod and the nine ships she gams with in M
 ## Commands
 
 - npm test runs Vitest over tests/.
+- npm run test:coverage runs the same suite with the lib/ coverage thresholds that CI enforces.
 - npm run typecheck runs tsc.
 - npm run export writes 29 formats into dist/exports/ with a source-hash manifest. npm run packages creates local packages; npm run build also builds the public site and portable delivery. npm run preview opens the built product.
 - node scripts/report.ts [family] runs the environment harness and prints a summary.

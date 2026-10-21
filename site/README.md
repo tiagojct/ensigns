@@ -12,7 +12,7 @@ npm run preview
 
 Open http://127.0.0.1:4174/. npm run dev builds the local packages, prepares the catalogue and starts the development server. The pages link to the archives that the package build writes. There are no separate site dependencies; site/package.json delegates to the root scripts.
 
-scripts/site/build.ts validates the tokens, measures declared environments, renders 18 routes, generates the catalogue stylesheet, swatches, favicon and social image, and copies current exports, specimens, reports and releases. Vite hashes the browser assets into site/dist/. The reading pages and ready-made downloads work without JavaScript; the Carpenter and comparison controls load their small modules when needed.
+scripts/site/build.ts validates the tokens, measures declared environments, renders 18 routes, generates the catalogue stylesheet, swatches, favicon and social image, and copies current exports, specimens, reports and releases. Vite hashes the catalogue stylesheet with the browser assets into site/dist/assets/, so the production /assets/ rule caches it for a year. The reading pages and ready-made downloads work without JavaScript; the Carpenter and comparison controls load their small modules when needed.
 
 The Carpenter generates text, binary and ZIP downloads locally. It preserves authored palettes and explains unavailable targets. The contrast checker uses the shared WCAG and Machado calculations. The header's Site family selector applies any of the ten families to the website's colours and typography, independently of specimens and comparison panels. Family and System, Light or Dark appearance are restored before painting and persisted locally when storage is available; the controls still work when storage is blocked.
 
