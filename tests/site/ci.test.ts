@@ -56,4 +56,25 @@ describe("the ci workflow", () => {
     expect(python).toContain("python -m pytest tests/packages/python");
     expect(existsSync(join(root, "tests/packages/python/test_ensigns.py"))).toBe(true);
   });
+
+  it("audits dependencies at high severity after install and before typechecking", () => {
+    const install = text.indexOf("run: npm ci");
+    const audit = text.indexOf("run: npm audit --audit-level=high");
+    expect(audit, "audit step").toBeGreaterThan(install);
+    expect(audit, "audit runs before typecheck").toBeLessThan(text.indexOf("run: npm run typecheck"));
+  });
+});
+
+describe("dependabot", () => {
+  const config = readFileSync(join(root, ".github/dependabot.yml"), "utf8");
+
+  it("updates actions, npm packages and Docker images", () => {
+    for (const ecosystem of ["github-actions", "npm", "docker"]) {
+      expect(config, ecosystem).toContain(`package-ecosystem: "${ecosystem}"`);
+    }
+  });
+
+  it("groups npm minor and patch updates, so a weekly run does not open ten pull requests", () => {
+    expect(config).toMatch(/package-ecosystem: "npm"[\s\S]*?groups:[\s\S]*?update-types:[\s\S]*?"minor"[\s\S]*?"patch"/);
+  });
 });
