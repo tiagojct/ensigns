@@ -14,7 +14,7 @@ const at = args.indexOf("--out");
 if (at >= 0 && !args[at + 1]) throw new Error("--out needs a folder");
 const out = at >= 0 ? resolve(process.cwd(), args[at + 1]!) : join(root, "preview");
 
-const written = buildPages(root, out);
+const written = buildPages(root, out, undefined, { clean: at < 0 });
 const rel = relative(process.cwd(), out);
 const shown = rel === "" ? "." : rel.startsWith("..") ? out : rel;
 console.log(`Wrote ${written.length} files to ${shown}. Open ${join(shown, "index.html")}.`);

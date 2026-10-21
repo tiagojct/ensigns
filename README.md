@@ -42,7 +42,9 @@ Every family has exactly two modes, dark and light. A family may add a secondary
 ```bash
 npm ci
 npm test
+npm run test:coverage
 npm run typecheck
+npm audit --audit-level=high
 node scripts/report.ts
 npm run export
 npm run pages

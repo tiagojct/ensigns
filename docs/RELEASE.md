@@ -9,8 +9,9 @@ Use Node 24 or later. From the repository root:
 ```sh
 npm ci
 npm run typecheck
+npm audit --audit-level=high
 npx playwright install chromium
-npm test
+npm run test:coverage
 npm run build
 npm run preview
 ```
@@ -69,7 +70,7 @@ VS Code, Zed and Neovim are offered for the four authored editor families. Their
 
 Any static HTTP host can serve site/dist/. Preserve trailing-slash routes and return 404/index.html for missing pages. Old family routes redirect to the new names. The nginx configuration includes the production Content Security Policy and allows only same-origin scripts, styles, fonts, requests and specimen frames.
 
-The VPS runs the site as a container behind Caddy, with the same files and the same order as the other apps on it. site/deploy/README.md gives the steps, the check after each step and the undo for each step. DNS, the tunnel, Caddy, the Cloudflare redirect rule and the live rollout belong to the owner. The image is built from the repository root with Node 24:
+The VPS runs the site as a container behind Caddy, with the same files and the same order as the other apps on it. nginx runs as the unprivileged UID 101 on port 8080 inside the proxy network; the compose file makes the root filesystem read-only, drops capabilities and caps memory, CPU and log size. site/deploy/README.md gives the steps, the check after each step and the undo for each step. DNS, the tunnel, Caddy, the Cloudflare redirect rule and the live rollout belong to the owner. The image is built from the repository root with Node 24:
 
 ```sh
 docker build -f site/deploy/Dockerfile -t ensigns --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .

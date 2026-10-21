@@ -6,6 +6,9 @@ All notable changes to Ensigns are recorded here. The format follows Keep a Chan
 
 ### Added
 
+- A dependency audit at high severity in CI, and Dependabot updates for npm and Docker. npm minor and patch updates arrive as one grouped pull request.
+- Coverage thresholds for lib/ in CI: 94% statements, 85% branches, 97% functions and 97% lines, measured at 95.8/87.8/98.7/98.6 when set.
+- A hardened site container: nginx runs as unprivileged UID 101 on port 8080, the root filesystem is read-only with tmpfs for cache, pid and temp files, capabilities are dropped, and memory, CPU, pid and log size are capped.
 - A footer on every page that names the collection version, each family's version and, in the deployed image, the commit and its date.
 - favicon.ico and an iOS touch icon, both drawn from the site's mark.
 - The Carpenter accepts the old family ids glauca, try-works and ambergris in a link, and the site redirects the old pages to the new names.
@@ -17,11 +20,18 @@ All notable changes to Ensigns are recorded here. The format follows Keep a Chan
 
 ### Changed
 
+- The generated catalogue stylesheet is hashed by Vite with the browser assets, so /assets/ caches it for a year. The unhashed /catalogue.css is gone.
+- Both Docker base images are pinned by digest.
+- markdown-it 15.0.3 replaces 15.0.2, which carried two high-severity parsing advisories.
 - The site is redesigned around the ensigns: a signal flag drawn from each family's own colours, the crew of the host ship, family pages that open in the family's own ground, headings in a subset of Literata, and sample cards that print the measured contrast of their text, link, button label and focus ring. The copy is rewritten, and a test reads every page for the markers of generated prose.
 - The R package has the title Ten Colour Families Named After Ships in Moby-Dick, an examples section in its help page, and its licence texts under inst/, so that R CMD check --as-cran passes.
 
 ### Fixed
 
+- The schema validator caches one compiled Ajv validator per schema object, not one per process, so a second schema is not silently validated against the first.
+- Sample-card contrast flattens a translucent role over its background before measuring it.
+- A surface may be drawn over any colour address, including a block resolved after the surface block, instead of failing with a misleading missing-address error.
+- `npm run pages` clears the default preview folder before writing, so a removed family or candidate leaves no page.
 - The small text of a sample label had an opacity of .8, which took its contrast below 4.5 to 1 in several families. The label keeps its declared colour.
 - Sample cards no longer use a heading element, so no page skips a heading level. The link to the home page has the visible text as its name.
 - The Carpenter no longer pushes the checker down by up to 759 px when its catalogue arrives.

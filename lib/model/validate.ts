@@ -17,15 +17,18 @@ export interface Issue {
   message: string;
 }
 
-let compiled: ReturnType<Ajv2020["compile"]> | undefined;
+type Validator = ReturnType<Ajv2020["compile"]>;
+const compiled = new WeakMap<object, Validator>();
 
 export function validateSchema(file: unknown, schema: object): Issue[] {
-  if (!compiled) {
+  let validate = compiled.get(schema);
+  if (!validate) {
     const ajv = new Ajv2020({ allErrors: true, strict: true, strictRequired: false, allowUnionTypes: true });
-    compiled = ajv.compile(schema);
+    validate = ajv.compile(schema);
+    compiled.set(schema, validate);
   }
-  if (compiled(file)) return [];
-  return (compiled.errors ?? []).map((e) => ({
+  if (validate(file)) return [];
+  return (validate.errors ?? []).map((e) => ({
     level: "error" as const,
     code: "schema",
     where: e.instancePath || "/",

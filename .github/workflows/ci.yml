@@ -29,9 +29,11 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
       - run: npm run typecheck
       - run: npx playwright install --with-deps chromium
-      - run: npm test
+      - run: npm run test:coverage
       - run: npm run build
       # The site's nginx configuration, run by the nginx image on the site that was just built.
       - name: Check the nginx configuration

@@ -35,11 +35,11 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
    docker ps --filter name=ensigns
    ```
 
-   The status must say healthy after about 30 seconds.
+   The status must say healthy after about 30 seconds. The container runs as nginx's unprivileged UID 101, listens on 8080 inside the proxy network, and has a read-only root filesystem with tmpfs for its cache, pid and temp files.
 7. Test the container from the Caddy container.
 
    ```sh
-   docker exec caddy wget -qO- http://ensigns:80/ | head -n 5
+   docker exec caddy wget -qO- http://ensigns:8080/ | head -n 5
    ```
 
 8. Save the Caddyfile, append Caddyfile.snippet to it, check it and reload Caddy.
@@ -98,6 +98,16 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
     (cd /opt/vps/apps/gam && docker compose down)
     ```
 
+## Updating the live container
+
+The container listens on 8080 inside the proxy network. Earlier images listened on 80, so an existing deployment needs its Caddy upstream changed with the image. Watchtower pulls `:latest` within five minutes of the build-deploy workflow, so do not push the image and leave Caddy on 80.
+
+1. Change `reverse_proxy ensigns:80` to `reverse_proxy ensigns:8080` in /opt/vps/caddy/Caddyfile, check it and reload Caddy.
+2. Start the build-deploy workflow, or pull and start the image on the VPS: `(cd /opt/vps/apps/ensigns && docker compose pull && docker compose up -d)`.
+3. Check that `docker ps` says healthy and that `curl -sI https://ensigns.tiagojacinto.eu/` shows 200.
+
+Requests between steps 1 and 2 return 502. To avoid the gap, run both ports for one release: add `listen 80;` to nginx.conf and `cap_add: [NET_BIND_SERVICE]` to compose, update Caddy to 8080, then remove the port-80 listener and the capability.
+
 ## Undo
 
 - Step 14: start the old container again, and wait until it is healthy, before you undo steps 12 and 13. Without it, the restored Caddy block points at a container that does not exist, and the old host returns an error instead of the old site. The old image stays in the registry until you delete the package.
@@ -120,10 +130,10 @@ Do the steps in this order. The next section gives an undo for each step. Steps 
 
   ```sh
   docker build -f site/deploy/Dockerfile -t ensigns:test --build-arg COMMIT_SHA=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git show -s --format=%cs HEAD) .
-  docker run --rm -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginx:alpine nginx -t
+  docker run --rm -v "$PWD/site/deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginxinc/nginx-unprivileged:alpine nginx -t
   ```
 
   The build stage was run without Docker, on a copy of the tracked files with no .git folder and no legacy folder. npm ci and npm run build both passed.
 - The origin certificate setting of the tunnel (step 9) was not read from the VPS.
 - Strict-Transport-Security is not set, and Cloudflare Always Use HTTPS is off for the zone. Decide both before the old host goes away.
-- The base images are not pinned to a digest. Watchtower follows our own image only.
+- Both base images are pinned to a digest. Dependabot's docker ecosystem proposes updates; review them like any other dependency change.

@@ -50,6 +50,12 @@ describe('complete export catalogue',()=>{
       const studio=JSON.parse(text('tokens-studio',f));expect(studio.$metadata.tokenSetOrder).toEqual(['palette',...MODES]);
     }
   });
+  it('reports a data format unavailable when an authored data colour is translucent',()=>{
+    const f=structuredClone(families.find(f=>f.meta.id==='enderby')!);
+    const entry=[...f.modes.light.colours].find(([a,c])=>a.startsWith('data.categorical.') && c.alpha===undefined)!;
+    f.modes.light.colours.set(entry[0],{...entry[1],alpha:0.5});
+    for(const id of ['ggplot2','matplotlib','observable'])expect(gen(id).unavailable(f)).toContain('translucent');
+  });
   it('parses all WezTerm tables independently as Lua 5.1',()=>{
     for(const f of families)if(!gen('wezterm').unavailable(f))for(const file of gen('wezterm').generate(f))expect(parseLua(file.content,{luaVersion:'5.1'}).body.at(-1).type).toBe('ReturnStatement');
   });

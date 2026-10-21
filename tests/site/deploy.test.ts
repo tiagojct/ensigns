@@ -18,9 +18,14 @@ describe("nginx.conf", () => {
   const nginx = code("site/deploy/nginx.conf");
 
   it("sets each security header once, at the server level", () => {
-    for (const name of ["Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "X-Frame-Options"]) {
+    for (const name of ["Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "X-Frame-Options", "Cross-Origin-Opener-Policy", "Cross-Origin-Resource-Policy"]) {
       expect(nginx.match(new RegExp(`add_header ${name} `, "g")), name).toHaveLength(1);
     }
+  });
+
+  it("hides the nginx version and listens on the unprivileged port", () => {
+    expect(nginx).toContain("server_tokens off;");
+    expect(nginx).toContain("listen 8080;");
   });
 
   it("sets no add_header inside a location, because that drops the server-level headers", () => {
@@ -58,6 +63,18 @@ describe("nginx.conf and TrueType fonts", () => {
 describe("the nginx check", () => {
   const script = read("site/deploy/check-nginx.sh");
 
+  it("checks the hashed stylesheet under /assets/, where it is cached for a year", () => {
+    expect(script).toContain('href="/assets/');
+    expect(script).toContain("max-age=31536000");
+    expect(script).toContain('"$BASE/catalogue.css"');
+  });
+
+  it("starts the unprivileged image on 8080 and checks the new headers", () => {
+    expect(script).toContain("nginxinc/nginx-unprivileged");
+    expect(script).toContain('"$PORT:8080"');
+    for (const header of ["cross-origin-opener-policy", "cross-origin-resource-policy"]) expect(script, header).toContain(header);
+  });
+
   it("runs in CI after the site is built", () => {
     const ci = read(".github/workflows/ci.yml");
     expect(ci).toContain("run: sh site/deploy/check-nginx.sh");
@@ -89,7 +106,7 @@ describe("Caddy files", () => {
     expect(ensigns).toMatch(/http:\/\/ensigns\.tiagojacinto\.eu \{\s+import route_ensigns\s+\}/);
     expect(ensigns).toMatch(/https:\/\/ensigns\.tiagojacinto\.eu \{\s+tls [^\n]+\s+import route_ensigns\s+\}/);
     expect(ensigns).toContain(tls);
-    expect(ensigns).toContain("reverse_proxy ensigns:80");
+    expect(ensigns).toContain("reverse_proxy ensigns:8080");
     expect(ensigns).not.toContain("gam");
   });
 
@@ -114,8 +131,24 @@ describe("compose and tunnel files", () => {
   });
 
   it("use the same health check as the Dockerfile", () => {
-    expect(read("site/deploy/Dockerfile")).toContain("wget -qO- http://127.0.0.1:80/");
-    expect(compose).toContain(`"wget", "-qO-", "http://127.0.0.1:80/"`);
+    expect(read("site/deploy/Dockerfile")).toContain("wget -qO- http://127.0.0.1:8080/");
+    expect(compose).toContain(`"wget", "-qO-", "http://127.0.0.1:8080/"`);
+  });
+
+  it("runs read-only, without capabilities, with no new privileges and with resource limits", () => {
+    for (const line of ["read_only: true", "cap_drop:", "- ALL", "no-new-privileges:true", "mem_limit:", "pids_limit:", "max-size:"]) {
+      expect(compose, line).toContain(line);
+    }
+  });
+
+  it("uses the unprivileged nginx image, pinned by digest, and never runs as root", () => {
+    const froms = [...code("site/deploy/Dockerfile").matchAll(/^FROM (.+)$/gm)].map((m) => m[1]!);
+    expect(froms[0]).toMatch(/^node:24-alpine@sha256:[0-9a-f]{64} AS build$/);
+    expect(froms.at(-1)).toMatch(/^nginxinc\/nginx-unprivileged:alpine@sha256:[0-9a-f]{64}$/);
+    const docker = code("site/deploy/Dockerfile");
+    expect(docker).toContain("EXPOSE 8080");
+    expect(docker).toContain("USER 101");
+    expect(docker).not.toMatch(/^USER root$/m);
   });
 
   it("send the new hostname through the tunnel to the self-signed listener", () => {
@@ -214,5 +247,18 @@ describe("the runbook", () => {
   it("keeps the step that stops the old container where RETIREMENT.md says it is", () => {
     const n = read("docs/RETIREMENT.md").match(/stops at step (\d+) of site\/deploy\/README\.md/)![1];
     expect(readme).toMatch(new RegExp(`^${n}\\. When the new host has run without problems, stop the old container`, "m"));
+  });
+
+  it("uses the unprivileged port and no longer leaves the base images unpinned", () => {
+    expect(readme).toContain("http://ensigns:8080/");
+    expect(readme).toContain("nginxinc/nginx-unprivileged");
+    expect(readme).not.toContain("The base images are not pinned");
+  });
+
+  it("tells the owner to move the Caddy upstream before the new image reaches an existing deployment", () => {
+    const update = readme.slice(readme.indexOf("## Updating the live container"));
+    expect(update).toContain("reverse_proxy ensigns:80");
+    expect(update).toContain("reverse_proxy ensigns:8080");
+    expect(update).toContain("502");
   });
 });

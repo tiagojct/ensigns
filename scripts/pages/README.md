@@ -36,6 +36,6 @@ A family's specimen is families/`<id>`/specimen/specimen.html, an HTML fragment 
 ## What it does not do
 
 - It bundles no fonts. A typeface shows only where it is installed; otherwise the system fallback stands in.
-- It deletes nothing. After renaming or removing a family or a candidate, remove preview/ by hand and build again.
+- The default preview/ is cleared before it is rewritten, so a removed family or candidate leaves no page. With --out, existing files stay; use an empty folder for a clean build.
 - The forced-colors profile shows as external. It runs in tests/environments/forced-colors.test.ts, not on the tokens.
 - Nothing here is published or deployed.

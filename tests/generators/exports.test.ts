@@ -37,6 +37,14 @@ describe("current token exports", () => {
     });
   }
 
+  it("states the number of formats that the generator list has", () => {
+    const count = String(GENERATORS.length);
+    for (const path of ["README.md", "docs/RELEASE.md"]) {
+      expect(readFileSync(join(repoRoot(), path), "utf8"), path).toMatch(new RegExp(`\\b${count} (?:export )?formats\\b`));
+    }
+    expect(readFileSync(join(repoRoot(), "docs/RELEASE.md"), "utf8")).toContain(`${count} generators`);
+  });
+
   it("retains every resolved colour, opacity, origin, style and status cue in JSON", () => {
     for (const family of families) {
       const output = JSON.parse(generator("json").generate(family)[0]!.content as string);

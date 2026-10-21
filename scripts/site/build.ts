@@ -42,6 +42,9 @@ export function prepareSite(root=repoRoot()) {
   const {families,entries,reports}=catalogueEntries(root);
   const publicDir=join(root,'site/public'),generated=join(root,'site/.generated');
   rmSync(generated,{recursive:true,force:true});
+  // catalogue.css is generated into the Vite root, so Vite gives it a content hash and the
+  // production /assets/ rule can cache it for a year. An older copy in public/ would win.
+  rmSync(join(publicDir,'catalogue.css'),{force:true});
   // These folders are build output. Clear them, so that a retired report, export, specimen or
   // archive does not reach site/dist. site/public/fonts is source and stays.
   for(const dir of ['reports','exports','review','releases'])rmSync(join(publicDir,dir),{recursive:true,force:true});
@@ -58,7 +61,7 @@ export function prepareSite(root=repoRoot()) {
     for(const mode of ['light','dark'] as const)css+=block(`${root}[data-mode="${mode}"]`,mode);
   }
   for(const f of families)for(const [a,c] of f.palette)if(c.alpha===undefined)css+=`.palette-${f.meta.id}-${a.replaceAll('.','-')} { background: ${c.hex}; }\n`;
-  write(join(publicDir,'catalogue.css'),css);
+  write(join(generated,'catalogue.css'),css);
   buildExports(root,join(publicDir,'exports'));
   // The review pages link to the token file, README and changelog of each family. The site does not serve them, so they point at the repository.
   buildPages(root,join(publicDir,'review'),`${REPO}/blob/main`);
