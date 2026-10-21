@@ -25,7 +25,7 @@ const make = (id: string, label: string, group: Kind, writer: Writer): Generator
       if (group === 'data' && ![...f.modes[m].colours.keys()].some(a => a.startsWith('data.'))) {
         return `No authored chart scales in ${m} mode. Derived data palettes are not supplied.`;
       }
-      if (group === 'data' && [...f.modes[m].colours].some(([a, c]) => c.alpha !== undefined && (group === 'data' ? a.startsWith('data.') : a.startsWith('roles.') && !a.startsWith('roles.extra')))) {
+      if (group === 'data' && [...f.modes[m].colours].some(([a, c]) => c.alpha !== undefined && a.startsWith('data.'))) {
         return `${m} contains translucent colours unsupported by this format.`;
       }
     }
