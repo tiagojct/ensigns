@@ -63,6 +63,11 @@ describe("the ci workflow", () => {
     expect(audit, "audit step").toBeGreaterThan(install);
     expect(audit, "audit runs before typecheck").toBeLessThan(text.indexOf("run: npm run typecheck"));
   });
+
+  it("runs the suite with the coverage thresholds", () => {
+    expect(text).toContain("run: npm run test:coverage");
+    expect(text).not.toMatch(/^\s+- run: npm test$/m);
+  });
 });
 
 describe("dependabot", () => {

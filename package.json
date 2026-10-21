@@ -17,6 +17,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "pages": "node scripts/pages/build.ts",
     "export": "node scripts/export/build.ts",
@@ -35,6 +36,7 @@
     "@types/culori": "^4.0.1",
     "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^5.0.5",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "apca-w3": "^0.1.9",

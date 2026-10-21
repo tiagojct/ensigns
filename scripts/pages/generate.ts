@@ -1,7 +1,7 @@
 // Build the local family pages: read every family and candidate, validate them,
 // run the environment harness, and write a static site. Build time only (file
 // system, Ajv, and APCA through the harness).
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildReport, loadContext } from "../../lib/harness/index.ts";
@@ -71,11 +71,12 @@ const bookOrder = (m: Meta): number => (m.host ? 0 : Array.isArray(m.chapter) ? 
 
 /**
  * Write the pages for the families under root into out and return the files written, relative
- * to out. Nothing in out is deleted, so a page of a removed family or candidate stays until
- * out is cleared by hand. Links to repository files are relative to out (../families/...), as in a checkout,
+ * to out. With options.clean, out is cleared first, so a removed family or candidate leaves no
+ * page behind. Without it, existing files stay, as in a checkout.
+ * Links to repository files are relative to out (../families/...), as in a checkout,
  * unless repoUrl gives the address that holds the repository files.
  */
-export function buildPages(root: string, out: string, repoUrl?: string): string[] {
+export function buildPages(root: string, out: string, repoUrl?: string, options: { clean?: boolean } = {}): string[] {
   const schema = loadSchema(root);
   const thresholds = readJson(join(root, "tests/environments.json")) as Thresholds;
   const ctx = loadContext(root);
@@ -117,6 +118,9 @@ export function buildPages(root: string, out: string, repoUrl?: string): string[
   groups.sort((a, b) => bookOrder(a.main.family.meta) - bookOrder(b.main.family.meta) || a.id.localeCompare(b.id, "en"));
 
   const site: Site = { groups, thresholds, views: simulationViews(thresholds), ...(repoUrl === undefined ? {} : { repoUrl }) };
+  // A clean build removes pages of families or candidates that no longer exist. It runs only
+  // after every input has validated, so a bad token file leaves the previous pages intact.
+  if (options.clean) rmSync(out, { recursive: true, force: true });
   const written: string[] = [];
   const write = (rel: string, content: string | Uint8Array) => {
     const path = join(out, rel);

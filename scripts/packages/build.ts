@@ -7,7 +7,7 @@ import { build as bundleLibrary } from 'vite';
 import { strToU8, zipSync } from 'fflate';
 import { loadFamilies, repoRoot } from '../../lib/model/load.ts';
 import { resolveFamily } from '../../lib/model/resolve.ts';
-import { generateAll } from '../../lib/generators/index.ts';
+import { GENERATORS, generateAll } from '../../lib/generators/index.ts';
 import { INSTALL } from '../../lib/generators/install.ts';
 import { json, provenance } from '../../lib/generators/common.ts';
 import { buildExports } from '../export/generate.ts';
@@ -56,7 +56,7 @@ export async function buildPackages(root=repoRoot(),out=join(root,'dist')){
   await bundleLibrary({configFile:false,root,logLevel:'warn',build:{outDir:npm,emptyOutDir:false,target:'es2022',lib:{entry:join(root,'lib/index.ts'),formats:['es'],fileName:()=> 'index.js'},rollupOptions:{external:['culori']}}});
   execFileSync(join(root,'node_modules/.bin/tsc'),['--ignoreConfig','--declaration','--emitDeclarationOnly','--noEmit','false','--target','ES2023','--module','ESNext','--moduleResolution','Bundler','--allowImportingTsExtensions','--skipLibCheck','--outDir',join(npm,'types'),join(root,'lib/index.ts')],{cwd:root,stdio:'pipe'});
   write(join(npm,'package.json'),json({name:'@tiagojct/ensigns',version,type:'module',description:'Ten colour families and browser-safe export generators.',license:'SEE LICENSE IN LICENSE-MIT.txt',author:'Tiago Jacinto',homepage:'https://ensigns.tiagojacinto.eu',repository:{type:'git',url:'https://github.com/tiagojct/ensigns'},exports:{'.':{types:'./types/index.d.ts',import:'./index.js'},'./tokens/*':'./tokens/*.json','./exports/*':'./exports/*'},files:['index.js','types','tokens','exports','README.md','LICENSE-MIT.txt','LICENSE-CC-BY-4.0.txt'],dependencies:{culori:'^4.0.2'}}));
-  write(join(npm,'README.md'),'# Ensigns\n\nTen colour families. Code MIT; tokens and generated colour values CC BY 4.0, Tiago Jacinto.\n\n```js\nimport { resolveFamily, generateAll } from "@tiagojct/ensigns";\nimport tokens from "@tiagojct/ensigns/tokens/pequod" with { type: "json" };\nconst files = generateAll(resolveFamily(tokens));\n```\n\nThe public API includes the pure model, colour calculations and 29 generators. File-system loading, schema validation and APCA are not included. Some families deliberately exclude formats.\n');
+  write(join(npm,'README.md'),'# Ensigns\n\nTen colour families. Code MIT; tokens and generated colour values CC BY 4.0, Tiago Jacinto.\n\n```js\nimport { resolveFamily, generateAll } from "@tiagojct/ensigns";\nimport tokens from "@tiagojct/ensigns/tokens/pequod" with { type: "json" };\nconst files = generateAll(resolveFamily(tokens));\n```\n\nThe public API includes the pure model, colour calculations and ' + GENERATORS.length + ' generators. File-system loading, schema validation and APCA are not included. Some families deliberately exclude formats.\n');
   for(const [n,v] of Object.entries(licences))write(join(npm,n),v);
   for(const f of families)write(join(npm,'tokens',`${f.meta.id}.json`),json(f.source));
   cpSync(join(out,'exports'),join(npm,'exports'),{recursive:true});

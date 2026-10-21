@@ -133,6 +133,7 @@ describe('finished static catalogue',()=>{
   });
   it('ships all families, licensed fonts, bundles and valid source-hash manifests',()=>{
     const model=JSON.parse(readFileSync(join(out,'catalogue.json'),'utf8'));expect(model.families).toHaveLength(10);
+    expect(readFileSync(join(root,'dist/packages/npm/README.md'),'utf8')).toContain(`${GENERATORS.length} generators`);
     const manifest=JSON.parse(readFileSync(join(out,'exports/manifest.json'),'utf8'));expect(manifest.families).toHaveLength(10);
     const family=unzipSync(readFileSync(join(out,'releases/rosebud-0.5.0.zip')));
     expect(strFromU8(family['LICENSE-CC-BY-4.0.txt']!)).toContain('Section 1');expect(family['exports/vscode/package.json']).toBeDefined();

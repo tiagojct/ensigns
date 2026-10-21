@@ -61,6 +61,14 @@ function scopeBlocks(): Map<string, string[]> {
 const varsUsed = (css: string): string[] => [...new Set([...css.matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]!))];
 
 describe("the family pages", () => {
+  it("can start from an empty folder, so a removed family leaves no page", () => {
+    const clean = join(work, "clean");
+    mkdirSync(clean, { recursive: true });
+    writeFileSync(join(clean, "stale.html"), "stale");
+    buildPages(root, clean, undefined, { clean: true });
+    expect(existsSync(join(clean, "stale.html"))).toBe(false);
+  });
+
   it("write the index, a page per family and candidate, and the stylesheets", () => {
     expect(families.length).toBeGreaterThan(3);
     for (const f of ["index.html", "assets/tokens.css", "assets/pages.css", "assets/standalone.css"]) expect(written).toContain(f);
