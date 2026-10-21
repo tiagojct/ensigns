@@ -113,4 +113,14 @@ describe("the validator catches what it claims to", () => {
     const issues = validateSemantics(f);
     expect(issues.some((i) => i.code === "pair")).toBe(true);
   });
+
+  it("compiles a different schema for each schema object", () => {
+    const first = { type: "object", properties: { only: { type: "boolean" } }, required: ["only"], additionalProperties: false };
+    const second = { type: "object", properties: { other: { type: "boolean" } }, required: ["other"], additionalProperties: false };
+    // Make sure the cache already holds the repository schema, as it does in a normal build.
+    validateSchema({}, schema);
+    expect(validateSchema({ only: true }, first)).toEqual([]);
+    expect(validateSchema({ other: true }, second)).toEqual([]);
+    expect(validateSchema({ other: true }, first).length).toBeGreaterThan(0);
+  });
 });
