@@ -1,7 +1,7 @@
 // What a sample card says about a family: the contrast of the roles a reader meets first.
 // Pure, so the build and the comparison panels print the same numbers.
 import { contrastRatio } from '../../lib/colour/wcag.ts';
-import { at } from '../../lib/model/resolve.ts';
+import { at, flattenOver } from '../../lib/model/resolve.ts';
 import type { ResolvedFamily } from '../../lib/model/types.ts';
 
 export interface Measure { label: string; ratio: string; grade: string }
@@ -25,8 +25,10 @@ export function grade(ratio: number, kind: 'text' | 'component'): string {
 
 export function sampleMeasures(f: ResolvedFamily, mode: 'light' | 'dark'): Measure[] {
   const m = f.modes[mode];
+  const page = at(m, 'roles.bg').hex;
   const row = (label: string, fg: string, bg: string, kind: 'text' | 'component'): Measure => {
-    const value = contrastRatio(at(m, fg).hex, at(m, bg).hex);
+    const background = flattenOver(at(m, bg), page);
+    const value = contrastRatio(flattenOver(at(m, fg), background), background);
     return { label, ratio: `${value.toFixed(2)}:1`, grade: grade(value, kind) };
   };
   return [
