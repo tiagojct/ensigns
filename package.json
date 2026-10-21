@@ -39,7 +39,7 @@
     "ajv-formats": "^3.0.1",
     "apca-w3": "^0.1.9",
     "luaparse": "^0.3.1",
-    "markdown-it": "^15.0.2",
+    "markdown-it": "^15.0.3",
     "playwright": "^1.63.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
